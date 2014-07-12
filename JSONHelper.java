@@ -135,38 +135,6 @@ public class JSONHelper {
      * @param obj 待序列化对象
      */
     private static void serializeObject(JSONStringer js, Object obj) {
-        /*
-        try {
-            js.object();
-            Class<?> objClazz = obj.getClass();
-            Method[] methods = objClazz.getDeclaredMethods();
-            Field[] fields = objClazz.getDeclaredFields();
-            for (Field field : fields) {
-                try {
-                    String fieldType = field.getType().getSimpleName();
-                    String fieldGetName = parseMethodName(field.getName(), "get");
-                    if (!haveMethod(methods, fieldGetName)) {
-                        continue;
-                    }
-                    Method fieldGetMet = objClazz.getMethod(fieldGetName, new Class[]{});
-                    Object fieldVal = fieldGetMet.invoke(obj);
-
-                    if ("Date".equals(fieldType)) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-                        fieldVal = sdf.format((Date) fieldVal);
-                    }
-
-                    js.key(field.getName());
-                    serialize(js, fieldVal);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            js.endObject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        */
         try {
             js.object();
             Class<?> objClazz = obj.getClass();
