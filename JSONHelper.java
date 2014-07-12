@@ -1,3 +1,4 @@
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +32,7 @@ public class JSONHelper {
      * @param obj 类的实例
      * @return json类型字符串
      */
-    public static String toJSON(Object obj) {
+    public static <O> String toJSON(O obj) {
         JSONStringer js = new JSONStringer();
         serialize(js, obj);
         return js.toString();
@@ -43,33 +44,29 @@ public class JSONHelper {
      * @param js json对象
      * @param o  待需序列化的对象
      */
-    private static void serialize(JSONStringer js, Object o) {
-        if (isNull(o)) {
-            try {
+    private static <O> void serialize(JSONStringer js, O o) {
+        try {
+            if (isNull(o)) {
                 js.value(null);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                return;
             }
-            return;
-        }
 
-        Class<?> clazz = o.getClass();
-        if (isObject(clazz)) { // 对象
-            serializeObject(js, o);
-        } else if (isArray(clazz)) { // 数组
-            serializeArray(js, o);
-        } else if (isCollection(clazz)) { // 集合
-            Collection<?> collection = (Collection<?>) o;
-            serializeCollect(js, collection);
-        } else if (isMap(clazz)) { // 集合
-            HashMap<?, ?> collection = (HashMap<?, ?>) o;
-            serializeMap(js, collection);
-        } else { // 单个值
-            try {
+            Class<?> clazz = o.getClass();
+            if (isSingle(clazz)) {
                 js.value(o);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else if (isArray(clazz)) { // 数组
+                serializeArray(js, o);
+            } else if (isCollection(clazz)) { // 集合
+                Collection<O> collection = (Collection<O>) o;
+                serializeCollect(js, collection);
+            } else if (isMap(clazz)) { // 集合
+                HashMap<?, ?> collection = (HashMap<?, ?>) o;
+                serializeMap(js, collection);
+            } else { // 对象
+                serializeObject(js, o);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -138,6 +135,7 @@ public class JSONHelper {
      * @param obj 待序列化对象
      */
     private static void serializeObject(JSONStringer js, Object obj) {
+        /*
         try {
             js.object();
             Class<?> objClazz = obj.getClass();
@@ -147,9 +145,40 @@ public class JSONHelper {
                 try {
                     String fieldType = field.getType().getSimpleName();
                     String fieldGetName = parseMethodName(field.getName(), "get");
-                    //if (!haveMethod(methods, fieldGetName)) {
-                    //    continue;
-                    //}
+                    if (!haveMethod(methods, fieldGetName)) {
+                        continue;
+                    }
+                    Method fieldGetMet = objClazz.getMethod(fieldGetName, new Class[]{});
+                    Object fieldVal = fieldGetMet.invoke(obj);
+
+                    if ("Date".equals(fieldType)) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                        fieldVal = sdf.format((Date) fieldVal);
+                    }
+
+                    js.key(field.getName());
+                    serialize(js, fieldVal);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            js.endObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
+        try {
+            js.object();
+            Class<?> objClazz = obj.getClass();
+            Method[] methods = objClazz.getDeclaredMethods();
+            Field[] fields = objClazz.getDeclaredFields();
+            for (Field field : fields) {
+                try {
+                    String fieldType = field.getType().getSimpleName();
+                    String fieldGetName = parseMethodName(field.getName(), "get");
+                    if (!haveMethod(methods, fieldGetName)) {
+                        continue;
+                    }
                     Method fieldGetMet = objClazz.getMethod(fieldGetName, new Class[]{});
                     Object fieldVal = fieldGetMet.invoke(obj);
 
@@ -343,7 +372,7 @@ public class JSONHelper {
      * @param jo    json对象
      * @param clazz 实体类类型
      * @return 反序列化后的实例
-     * @throws JSONException
+     * @throws org.json.JSONException
      */
     public static <T> T parseObject(JSONObject jo, Class<T> clazz) throws JSONException {
         if (clazz == null || isNull(jo)) {
@@ -382,7 +411,7 @@ public class JSONHelper {
      * @param jsonStr json字符串
      * @param clazz   实体类类型
      * @return 反序列化后的实例
-     * @throws JSONException
+     * @throws org.json.JSONException
      */
     public static <T> T parseObject(String jsonStr, Class<T> clazz) throws JSONException {
         if (clazz == null || jsonStr == null || jsonStr.length() == 0) {
@@ -459,7 +488,7 @@ public class JSONHelper {
      * @param collectionClazz 集合类型
      * @param genericType     实体类类型
      * @return 指定集合
-     * @throws JSONException
+     * @throws org.json.JSONException
      */
     public static <T> Collection<T> parseCollection(JSONArray ja, Class<?> collectionClazz,
                                                     Class<T> genericType) throws JSONException {
@@ -490,7 +519,7 @@ public class JSONHelper {
      * @param collectionClazz 集合类型
      * @param genericType     实体类类型
      * @return 反序列化后的数组
-     * @throws JSONException
+     * @throws org.json.JSONException
      */
     public static <T> Collection<T> parseCollection(String jsonStr, Class<?> collectionClazz,
                                                     Class<T> genericType) throws JSONException {
@@ -532,7 +561,7 @@ public class JSONHelper {
      *
      * @param clazz 待创建实例的类型
      * @return 实例对象
-     * @throws JSONException
+     * @throws org.json.JSONException
      */
     private static <T> T newInstance(Class<T> clazz) throws JSONException {
         if (clazz == null)
