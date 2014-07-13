@@ -1,3 +1,4 @@
+
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -43,16 +44,16 @@ public class LogService extends Service {
 
     private static final int MEMORY_LOG_FILE_MAX_SIZE = 10 * 1024 * 1024; // 内存中日志文件最大值，10M
     private static final int MEMORY_LOG_FILE_MONITOR_INTERVAL = 10 * 60 * 1000; // 内存中的日志文件大小监控时间间隔，10分钟
-    private static final int SDCARD_LOG_FILE_SAVE_DAYS = 7; // sd卡中日志文件的最多保存天数
+    private static final int SD_CARD_LOG_FILE_SAVE_DAYS = 7; // sd卡中日志文件的最多保存天数
 
     private String LOG_PATH_MEMORY_DIR; // 日志文件在内存中的路径(日志文件在安装目录中的路径)
     private String LOG_PATH_SD_CARD_DIR; // 日志文件在sdcard中的路径
     @SuppressWarnings("unused")
     private String LOG_SERVICE_LOG_PATH; // 本服务产生的日志，记录日志服务开启失败信息
 
-    private final int SDCARD_TYPE = 0; // 当前的日志记录类型为存储在SD卡下面
+    private final int SD_CARD_TYPE = 0; // 当前的日志记录类型为存储在SD卡下面
     private final int MEMORY_TYPE = 1; // 当前的日志记录类型为存储在内存中
-    private int CURR_LOG_TYPE = SDCARD_TYPE; // 当前的日志记录类型
+    private int CURR_LOG_TYPE = SD_CARD_TYPE; // 当前的日志记录类型
 
     private String CURR_INSTALL_LOG_NAME; // 如果当前的日志写在内存中，记录当前的日志文件名称
 
@@ -133,7 +134,7 @@ public class LogService extends Service {
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return MEMORY_TYPE;
         } else {
-            return SDCARD_TYPE;
+            return SD_CARD_TYPE;
         }
     }
 
@@ -156,8 +157,11 @@ public class LogService extends Service {
     }
 
     /**
-     * 日志收集 1.清除日志缓存 2.杀死应用程序已开启的Logcat进程防止多个进程写入一个日志文件 3.开启日志收集进程 4.处理日志文件 移动
-     * OR 删除
+     * 日志收集
+     * 1.清除日志缓存
+     * 2.杀死应用程序已开启的Logcat进程防止多个进程写入一个日志文件
+     * 3.开启日志收集进程
+     * 4.处理日志文件 移动 OR 删除
      */
     class LogCollectorThread extends Thread {
 
@@ -543,7 +547,7 @@ public class LogService extends Service {
     public boolean canDeleteSDLog(String createDateStr) {
         boolean canDel = false;
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -1 * SDCARD_LOG_FILE_SAVE_DAYS);// 删除7天之前日志
+        calendar.add(Calendar.DAY_OF_MONTH, -1 * SD_CARD_LOG_FILE_SAVE_DAYS);// 删除7天之前日志
         Date expiredDate = calendar.getTime();
         try {
             Date createDate = sdf.parse(createDateStr);
@@ -702,7 +706,7 @@ public class LogService extends Service {
         public void onReceive(Context context, Intent intent) {
 
             if (Intent.ACTION_MEDIA_UNMOUNTED.equals(intent.getAction())) { // 存储卡被卸载
-                if (CURR_LOG_TYPE == SDCARD_TYPE) {
+                if (CURR_LOG_TYPE == SD_CARD_TYPE) {
                     //LogUtils.d("SDcar is UNMOUNTED");
                     CURR_LOG_TYPE = MEMORY_TYPE;
                     new LogCollectorThread().start();
@@ -710,7 +714,7 @@ public class LogService extends Service {
             } else { // 存储卡被挂载
                 if (CURR_LOG_TYPE == MEMORY_TYPE) {
                     //LogUtils.d("SDcar is MOUNTED");
-                    CURR_LOG_TYPE = SDCARD_TYPE;
+                    CURR_LOG_TYPE = SD_CARD_TYPE;
                     new LogCollectorThread().start();
 
                 }
