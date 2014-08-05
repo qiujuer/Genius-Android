@@ -3,8 +3,6 @@ Android-Utils
 
 Android Utils 是集合了自己的所有常用安卓操纵类。
 
+有时间好好弄弄目录，现在就按文件夹分类了。
 
-JSONHelper.java
-
-
-LogService.java
+LOG中有一个别人分享的log service代码，自己有很多收获就贴上来了，改了其中部分代码，具体哪些也忘记了；改天把自己建立的日子系统也弄上了。
