@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ProcessModel {
     private static final String TAG = "ProcessModel";
+    private static final int MAX_READ_ERROR = 10;
     //换行符
     private static final String BREAK_LINE;
     //错误缓冲
@@ -21,9 +22,9 @@ public class ProcessModel {
     //缓冲区大小
     private static final int BUFFER_LENGTH;
     //创建进程时需要互斥进行
-    private static final Lock lock = new ReentrantLock();
+    private static final Lock LOCK = new ReentrantLock();
     //ProcessBuilder
-    private static final ProcessBuilder prc;
+    private static final ProcessBuilder PRC;
 
     final private Process process;
     final private InputStream in;
@@ -34,6 +35,8 @@ public class ProcessModel {
     private BufferedReader bInReader = null;
     private InputStreamReader isInReader = null;
     private boolean isDone;
+    private boolean isDestroy;
+    private int errorCount;
 
 
     /**
@@ -44,7 +47,9 @@ public class ProcessModel {
         BUFFER_LENGTH = 128;
         BUFFER = new byte[BUFFER_LENGTH];
 
-        prc = new ProcessBuilder();
+        LOCK.lock();
+        PRC = new ProcessBuilder();
+        LOCK.unlock();
     }
 
 
@@ -81,8 +86,8 @@ public class ProcessModel {
     public static ProcessModel create(String... params) {
         Process process = null;
         try {
-            lock.lock();
-            process = prc.command(params)
+            LOCK.lock();
+            process = PRC.command(params)
                     .redirectErrorStream(true)
                     .start();
         } catch (IOException e) {
@@ -90,7 +95,7 @@ public class ProcessModel {
         } finally {
             //sleep 100
             StaticFunction.sleepIgnoreInterrupt(100);
-            lock.unlock();
+            LOCK.unlock();
         }
         if (process == null)
             return null;
@@ -145,8 +150,10 @@ public class ProcessModel {
                 sbReader.append(BREAK_LINE);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Logs.e(TAG, e.getMessage());
+            String err = e.getMessage();
+            if (err != null && err.length() > 0)
+                Logs.e(TAG, "Read Exception:" + err);
+            errorCount++;
         }
     }
 
@@ -166,6 +173,9 @@ public class ProcessModel {
                         break;
                     } catch (IllegalThreadStateException e) {
                         read();
+                        if (isDestroy && errorCount > MAX_READ_ERROR){
+                            break;
+                        }
                     }
                     StaticFunction.sleepIgnoreInterrupt(300);
                 }
@@ -175,11 +185,12 @@ public class ProcessModel {
                 if (in != null) {
                     try {
                         while ((len = in.read(BUFFER)) > 0) {
-                            Logs.d(TAG, String.valueOf(len));
+                            Logs.d(TAG, "Read End:" + len);
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
-                        Logs.e(TAG, e.getMessage());
+                        String err = e.getMessage();
+                        if (err != null && err.length() > 0)
+                            Logs.e(TAG, "Read Thread IOException:" + err);
                     }
                 }
 
@@ -206,9 +217,10 @@ public class ProcessModel {
         //waite process setValue
         try {
             process.waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Logs.e(TAG, e.getMessage());
+        } catch (InterruptedException e) {
+            String err = e.getMessage();
+            if (err != null && err.length() > 0)
+                Logs.e(TAG, "GetResult WaitFor InterruptedException:" + err);
         }
 
         //until startRead en
@@ -276,8 +288,9 @@ public class ProcessModel {
         //process
         try {
             process.destroy();
-        } catch (Exception ex) {
+        } catch (Exception e) {
             kill(process);
         }
+        isDestroy = true;
     }
 }
