@@ -23,8 +23,9 @@ public class ProcessModel {
     private static final int BUFFER_LENGTH;
     //创建进程时需要互斥进行
     private static final Lock LOCK = new ReentrantLock();
+    private static int ErrorCount;
     //ProcessBuilder
-    private static final ProcessBuilder PRC;
+    private static ProcessBuilder PRC;
 
     final private Process process;
     final private InputStream in;
@@ -75,7 +76,14 @@ public class ProcessModel {
         sbReader = new StringBuilder();
 
         //start read thread
-        readThread();
+        Thread processThread = new Thread("DroidTestAgent.Test.TestModel.ProcessModel:ReadThread") {
+            @Override
+            public void run() {
+                startRead();
+            }
+        };
+        processThread.setDaemon(true);
+        processThread.start();
     }
 
     /**
@@ -84,12 +92,19 @@ public class ProcessModel {
      * @param params 命令参数 eg: "/system/bin/ping", "-c", "4", "-s", "100","www.qiujuer.net"
      */
     public static ProcessModel create(String... params) {
-        Process process = null;
+        if (ErrorCount > MAX_READ_ERROR) {
+            LOCK.lock();
+            PRC = new ProcessBuilder();
+            LOCK.unlock();
+            ErrorCount = 0;
+        }
+        ProcessModel processModel = null;
         try {
             LOCK.lock();
-            process = PRC.command(params)
+            Process process = PRC.command(params)
                     .redirectErrorStream(true)
                     .start();
+            processModel = new ProcessModel(process);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -97,9 +112,7 @@ public class ProcessModel {
             StaticFunction.sleepIgnoreInterrupt(100);
             LOCK.unlock();
         }
-        if (process == null)
-            return null;
-        return new ProcessModel(process);
+        return processModel;
     }
 
     /**
@@ -151,60 +164,53 @@ public class ProcessModel {
             }
         } catch (Exception e) {
             String err = e.getMessage();
-            if (err != null && err.length() > 0)
+            if (err != null && err.length() > 0) {
                 Logs.e(TAG, "Read Exception:" + err);
-            errorCount++;
+                errorCount++;
+            }
         }
     }
 
     /**
      * 启动线程进行异步读取结果
      */
-    private void readThread() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //while to end
-                while (true) {
-                    try {
-                        process.exitValue();
-                        //read last
-                        read();
-                        break;
-                    } catch (IllegalThreadStateException e) {
-                        read();
-                        if (isDestroy && errorCount > MAX_READ_ERROR){
-                            break;
-                        }
-                    }
-                    StaticFunction.sleepIgnoreInterrupt(300);
+    private void startRead() {
+        //while to end
+        while (true) {
+            try {
+                process.exitValue();
+                //read last
+                read();
+                break;
+            } catch (IllegalThreadStateException e) {
+                read();
+                if (isDestroy && errorCount > MAX_READ_ERROR) {
+                    ErrorCount++;
+                    break;
                 }
-
-                //read end
-                int len;
-                if (in != null) {
-                    try {
-                        while ((len = in.read(BUFFER)) > 0) {
-                            Logs.d(TAG, "Read End:" + len);
-                        }
-                    } catch (IOException e) {
-                        String err = e.getMessage();
-                        if (err != null && err.length() > 0)
-                            Logs.e(TAG, "Read Thread IOException:" + err);
-                    }
-                }
-
-                //close
-                close();
-
-                //done
-                isDone = true;
             }
-        });
+            StaticFunction.sleepIgnoreInterrupt(50);
+        }
 
-        thread.setName("DroidTestAgent.Test.TestModel.ProcessModel:ReadThread");
-        thread.setDaemon(true);
-        thread.start();
+        //read end
+        int len;
+        if (in != null) {
+            try {
+                while ((len = in.read(BUFFER)) > 0) {
+                    Logs.d(TAG, "Read End:" + len);
+                }
+            } catch (IOException e) {
+                String err = e.getMessage();
+                if (err != null && err.length() > 0)
+                    Logs.e(TAG, "Read Thread IOException:" + err);
+            }
+        }
+
+        //close
+        close();
+
+        //done
+        isDone = true;
 
     }
 
@@ -214,19 +220,8 @@ public class ProcessModel {
      * @return 结果
      */
     public String getResult() {
-        //waite process setValue
-        try {
-            process.waitFor();
-        } catch (InterruptedException e) {
-            String err = e.getMessage();
-            if (err != null && err.length() > 0)
-                Logs.e(TAG, "GetResult WaitFor InterruptedException:" + err);
-        }
-
         //until startRead en
-        while (true) {
-            if (isDone)
-                break;
+        while (!isDone) {
             StaticFunction.sleepIgnoreInterrupt(100);
         }
 
