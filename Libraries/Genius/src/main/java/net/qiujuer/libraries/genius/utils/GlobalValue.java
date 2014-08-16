@@ -1,19 +1,19 @@
-package net.qiujuer.libraries.genius.methods;
+package net.qiujuer.libraries.genius.utils;
 
 import android.content.Context;
 
 /**
  * Created by Genius on 2014/8/13.
- * 静态值类
+ * 全局静态值类
  */
-public class StaticValues {
+public class GlobalValue {
     private static Context CONTEXT;
-
-    public static void setContext(Context context) {
-        CONTEXT = context;
-    }
 
     public static Context getContext() {
         return CONTEXT;
+    }
+
+    public static void setContext(Context context) {
+        CONTEXT = context;
     }
 }

@@ -5,15 +5,10 @@ import java.util.Date;
 import java.util.Formatter;
 
 /**
- * Created by Genius on 2014/8/13.
- * 日志格式化类
+ * Created by Genius on 2014/8/16.
+ * 日志信息格式化存储
  */
-public class LogsData {
-    public final static int VerBose = 5;
-    public final static int EnumDebug = 4;
-    public final static int EnumInfo = 3;
-    public final static int EnumWarn = 2;
-    public final static int EnumError = 1;
+public class LogData {
     private static final SimpleDateFormat Formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final SimpleDateFormat FormatterSimple = new SimpleDateFormat("HH:mm:ss");
     private String FormatterStr = null;
@@ -23,12 +18,11 @@ public class LogsData {
     private String Tag;
     private String Msg;
 
-
-    public LogsData(int level, String tag, String msg) {
+    public LogData(int level, String tag, String msg) {
         this(new Date(), level, tag, msg);
     }
 
-    public LogsData(Date date, int level, String tag, String msg) {
+    public LogData(Date date, int level, String tag, String msg) {
         Date = date;
         Level = level;
         Tag = tag;
@@ -45,12 +39,6 @@ public class LogsData {
         if (FormatterSimpleStr == null)
             FormatterSimpleStr = (new Formatter().format("[%s][%s] %s:%s \r\n", FormatterSimple.format(Date), Level, Tag, Msg)).toString();
         return FormatterSimpleStr;
-    }
-
-    public int getLength() {
-        if (FormatterStr == null)
-            return toString().length();
-        return FormatterStr.length();
     }
 
     public String getDate() {

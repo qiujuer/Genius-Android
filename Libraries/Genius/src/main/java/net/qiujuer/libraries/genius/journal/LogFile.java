@@ -24,26 +24,26 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Genius on 2014/8/13.
+ * Created by Genius on 2014/8/16.
  * 日志写入文件类
  * 默认写入到内存中，插入SD卡时拷贝到SD卡中
  */
-class LogsFile extends Thread {
-    //每个日志文件：2M
-    private final static long FileSize = 2 * 1024 * 1024;
-    //最多存储10个
-    private final static int FileCount = 10;
+class LogFile extends Thread {
     //日志文件列表最低达到5条时才批量写入文件一次，减少文件操作
     private final static int MIN_LOG_SIZE = 5;
-    //外部存储路径
-    private final static String EXTERNAL_STORAGE_PATH = "Genius" + File.separator + "Logs";
+    //每个日志文件：2M
+    private static long FileSize = 2 * 1024 * 1024;
+    //最多存储10个
+    private static int FileCount = 10;
     //锁
     private final Lock WriteLock = new ReentrantLock();
     private final Lock ListLock = new ReentrantLock();
     //锁通讯
     private final Condition ListNotify = ListLock.newCondition();
-    //文件存储地址
+    //日志存储地址
     private String filePath = null;
+    //外部存储路径，用于拷贝日志到指定文件夹
+    private String externalStoragePath = "Genius" + File.separator + "Logs";
     //日志文件名
     private String logName = null;
     //日志地址与文件名（全路径）
@@ -51,7 +51,7 @@ class LogsFile extends Thread {
     //时间格式化使用，用于生成文件名
     private SimpleDateFormat sdf = null;
     //等待写入文件的日志列表
-    private List<LogsData> logsDataList = null;
+    private List<LogData> logDataList = null;
     //文件操作类
     private FileWriter fileWriter = null;
     //是否结束写入线程
@@ -70,24 +70,32 @@ class LogsFile extends Thread {
     };
 
     /**
-     * 实例化LogsFile
+     * 实例化 LogFile
      *
-     * @param context   初始化路径使用
-     * @param isWriteSD 是否开启写入到SD卡（开启后，插入SD卡时将拷贝日志到SD卡中）默认为false
+     * @param count 日志数量
+     * @param size  日志大小
+     * @param path  日志存储路径
      */
-    protected LogsFile(Context context, boolean isWriteSD) {
-        logsDataList = new ArrayList<LogsData>();
+    protected LogFile(int count, float size, String path) {
+        logDataList = new ArrayList<LogData>();
         sdf = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
 
-        init(context);
+        FileSize = (long) size * 1024 * 1024;
+        FileCount = count;
+        filePath = path;
 
-        //是否开启监听SD卡广播
-        if (isWriteSD)
-            registerBroadCast(context);
+        init();
 
-        this.setName(LogsFile.class.getName());
+        this.setName(LogFile.class.getName());
         this.setDaemon(true);
         this.start();
+    }
+
+    /**
+     * 退出线程标志
+     */
+    public void done() {
+        isDone = true;
     }
 
     /**
@@ -107,10 +115,10 @@ class LogsFile extends Thread {
      *
      * @return 是否初始化成功
      */
-    private boolean init(Context context) {
+    private boolean init() {
         boolean bFlag = false;
 
-        if (initFilePath(context) && initLogNameSize()) {
+        if (initFilePath() && initLogNameSize()) {
             deleteOldLogFile();
             bFlag = true;
         }
@@ -123,11 +131,9 @@ class LogsFile extends Thread {
      *
      * @return 是否成功
      */
-    private boolean initFilePath(Context context) {
+    private boolean initFilePath() {
         boolean bFlag;
         try {
-            //系统文件路径
-            filePath = context.getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "Logs";
             File file = new File(filePath);
             bFlag = file.isDirectory() || file.mkdirs();
         } catch (Exception e) {
@@ -241,11 +247,11 @@ class LogsFile extends Thread {
      *
      * @param data 日志
      */
-    protected void addLog(LogsData data) {
+    protected void addLog(LogData data) {
         ListLock.lock();
-        logsDataList.add(data);
+        logDataList.add(data);
         //最低3条写入一次
-        if (logsDataList.size() > MIN_LOG_SIZE) {
+        if (logDataList.size() > MIN_LOG_SIZE) {
             try {
                 ListNotify.signalAll();
             } catch (IllegalMonitorStateException e) {
@@ -260,7 +266,7 @@ class LogsFile extends Thread {
      *
      * @param data 日志
      */
-    private void appendLogs(LogsData data) {
+    private void appendLogs(LogData data) {
         if (fileWriter != null) {
             try {
                 WriteLock.lock();
@@ -287,10 +293,10 @@ class LogsFile extends Thread {
     public void run() {
         while (!isDone) {
             ListLock.lock();
-            for (LogsData data : logsDataList) {
+            for (LogData data : logDataList) {
                 appendLogs(data);
             }
-            logsDataList.clear();
+            logDataList.clear();
             try {
                 ListNotify.await();
             } catch (InterruptedException e) {
@@ -304,20 +310,20 @@ class LogsFile extends Thread {
     /**
      * 注册SD卡变化广播
      */
-    protected boolean registerBroadCast(Context context) {
-        if (context != null) {
-            try {
-                IntentFilter iFilter = new IntentFilter();
-                //iFilter.addAction(Intent.ACTION_MEDIA_EJECT);
-                iFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-                //iFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-                iFilter.addDataScheme("file");
-                iFilter.setPriority(1000);
-                context.registerReceiver(mUsbBroadCastReceiver, iFilter);
-                return true;
-            } catch (ReceiverCallNotAllowedException e) {
-                e.printStackTrace();
-            }
+    protected boolean registerBroadCast(Context context, String path) {
+        if (path != null && path.length() > 0)
+            externalStoragePath = path;
+        try {
+            IntentFilter iFilter = new IntentFilter();
+            //iFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+            iFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+            //iFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+            iFilter.addDataScheme("file");
+            iFilter.setPriority(1000);
+            context.registerReceiver(mUsbBroadCastReceiver, iFilter);
+            return true;
+        } catch (ReceiverCallNotAllowedException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -326,12 +332,10 @@ class LogsFile extends Thread {
      * 卸载SD卡广播
      */
     protected void unRegisterBroadCast(Context context) {
-        if (context != null) {
-            try {
-                context.unregisterReceiver(mUsbBroadCastReceiver);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            context.unregisterReceiver(mUsbBroadCastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -359,7 +363,7 @@ class LogsFile extends Thread {
             return;
         }
 
-        String sdFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + EXTERNAL_STORAGE_PATH;
+        String sdFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + externalStoragePath;
         File file = new File(sdFilePath);
         if (!file.isDirectory()) {
             if (!file.mkdirs()) {

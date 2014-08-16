@@ -1,9 +1,10 @@
-package net.qiujuer.libraries.genius.methods;
+package net.qiujuer.libraries.genius.utils;
 
 /**
  * Created by Genius on 2014/8/13.
+ * 常用工具方法
  */
-public class Utils {
+public class ToolUtil {
     public static void sleepIgnoreInterrupt(long time) {
         try {
             Thread.sleep(time);
