@@ -1,9 +1,10 @@
-##Android-Utils是什么?
-一个在Android中能经常使用的库集合
+##GeniusLibrary是什么?
+GeniusLibrary是一个包含Android、CSharp的类库；
+Android库提供一个在Android中能经常使用的库集合。
 
 在这里向我参考过的开源库作者致敬！
 
-##Android-Utils有哪些功能？
+##GeniusLibrary Android库有哪些功能？
 
 * 方便的`日志`功能
     *  使用方式与系统日志Log类一样
