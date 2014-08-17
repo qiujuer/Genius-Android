@@ -1,1 +1,1 @@
-include ':app', ':Genius'
+include ':sample', 'genius'
