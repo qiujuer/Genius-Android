@@ -6,7 +6,7 @@ import android.widget.Toast;
 import net.qiujuer.libraries.genius.command.CommandModel;
 import net.qiujuer.libraries.genius.journal.LogCallbackListener;
 import net.qiujuer.libraries.genius.journal.LogData;
-import net.qiujuer.libraries.genius.journal.LogUtil;
+import net.qiujuer.libraries.genius.journal.LogUtils;
 import net.qiujuer.libraries.genius.utils.GlobalValue;
 
 /**
@@ -32,7 +32,7 @@ public class Test {
                         "www.baidu.com");
                 String res = CommandModel.command(processModel);
 
-                LogUtil.i(Test.class.getName(), "Ping 测试结果：" + res);
+                LogUtils.i(Test.class.getName(), "Ping 测试结果：" + res);
             }
         };
         thread.start();
@@ -43,18 +43,18 @@ public class Test {
      */
     public void testLogs() {
         //是否调用Android Log类
-        LogUtil.setCallLog(true);
+        LogUtils.setCallLog(true);
 
         //是否开启写入文件
-        LogUtil.setSaveLog(GlobalValue.getContext(), true, 10, 1, null);
+        LogUtils.setSaveLog(GlobalValue.getContext(), true, 10, 1, null);
 
         //设置是否监听外部存储插入操作
         //开启时插入外部设备（SD）时将拷贝存储的日志文件到外部存储设备
         //此操作依赖于是否开启写入文件功能，未开启则此方法无效
-        LogUtil.setCopyExternalStorage(GlobalValue.getContext(), true, "Test/Logs");
+        LogUtils.setCopyExternalStorage(GlobalValue.getContext(), true, "Test/Logs");
 
         //添加回调
-        LogUtil.addLogCallbackListener(new LogCallbackListener() {
+        LogUtils.addLogCallbackListener(new LogCallbackListener() {
             @Override
             public void OnLogArrived(LogData data) {
                 //有日志写来了
@@ -73,20 +73,20 @@ public class Test {
 
         //设置日志等级
         //VERBOSE为5到ERROR为1依次递减
-        LogUtil.setLevel(LogUtil.ALL);
+        LogUtils.setLevel(LogUtils.ALL);
 
 
-        LogUtil.v(Test.class.getName(), "测试日志 VERBOSE 级别。");
-        LogUtil.d(Test.class.getName(), "测试日志 DEBUG 级别。");
-        LogUtil.i(Test.class.getName(), "测试日志 INFO 级别。");
-        LogUtil.w(Test.class.getName(), "测试日志 WARN 级别。");
-        LogUtil.e(Test.class.getName(), "测试日志 ERROR 级别。");
+        LogUtils.v(Test.class.getName(), "测试日志 VERBOSE 级别。");
+        LogUtils.d(Test.class.getName(), "测试日志 DEBUG 级别。");
+        LogUtils.i(Test.class.getName(), "测试日志 INFO 级别。");
+        LogUtils.w(Test.class.getName(), "测试日志 WARN 级别。");
+        LogUtils.e(Test.class.getName(), "测试日志 ERROR 级别。");
 
-        LogUtil.setLevel(LogUtil.WARN);
-        LogUtil.v(Test.class.getName(), "二次测试日志 VERBOSE 级别。");
-        LogUtil.d(Test.class.getName(), "二次测试日志 DEBUG 级别。");
-        LogUtil.i(Test.class.getName(), "二次测试日志 INFO 级别。");
-        LogUtil.w(Test.class.getName(), "二次测试日志 WARN 级别。");
-        LogUtil.e(Test.class.getName(), "二次测试日志 ERROR 级别。");
+        LogUtils.setLevel(LogUtils.WARN);
+        LogUtils.v(Test.class.getName(), "二次测试日志 VERBOSE 级别。");
+        LogUtils.d(Test.class.getName(), "二次测试日志 DEBUG 级别。");
+        LogUtils.i(Test.class.getName(), "二次测试日志 INFO 级别。");
+        LogUtils.w(Test.class.getName(), "二次测试日志 WARN 级别。");
+        LogUtils.e(Test.class.getName(), "二次测试日志 ERROR 级别。");
     }
 }

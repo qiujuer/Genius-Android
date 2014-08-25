@@ -15,8 +15,8 @@
         <service
             android:name=".command.CommandService"
             android:enabled="true"
-            android:exported="true"
-            android:process=".command.CommandService"></service>
+            android:exported="false"
+            android:process=".command.CommandService"/>
     </application>
 
 </manifest>

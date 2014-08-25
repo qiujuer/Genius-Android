@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import net.qiujuer.libraries.genius.journal.LogUtil;
+import net.qiujuer.libraries.genius.journal.LogUtils;
 import net.qiujuer.libraries.genius.utils.GlobalValue;
 
 import java.util.concurrent.locks.Condition;
@@ -36,13 +36,13 @@ public class CommandModel {
             } else
                 bindService();
             iLock.unlock();
-            LogUtil.i(TAG, "onServiceConnected");
+            LogUtils.i(TAG, "onServiceConnected");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             iService = null;
-            LogUtil.i(TAG, "onServiceDisconnected");
+            LogUtils.i(TAG, "onServiceDisconnected");
         }
     };
     //锁

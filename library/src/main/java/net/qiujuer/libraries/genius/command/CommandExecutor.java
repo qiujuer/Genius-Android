@@ -1,7 +1,7 @@
 package net.qiujuer.libraries.genius.command;
 
-import net.qiujuer.libraries.genius.journal.LogUtil;
-import net.qiujuer.libraries.genius.utils.ToolUtil;
+import net.qiujuer.libraries.genius.journal.LogUtils;
+import net.qiujuer.libraries.genius.utils.ToolUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -106,7 +106,7 @@ class CommandExecutor {
             e.printStackTrace();
         } finally {
             //sleep 100
-            ToolUtil.sleepIgnoreInterrupt(100);
+            ToolUtils.sleepIgnoreInterrupt(100);
             LOCK.unlock();
         }
         return processModel;
@@ -134,7 +134,7 @@ class CommandExecutor {
         } catch (Exception e) {
             String err = e.getMessage();
             if (err != null && err.length() > 0) {
-                LogUtil.e(TAG, "Read Exception:" + err);
+                LogUtils.e(TAG, "Read Exception:" + err);
             }
         }
     }
@@ -153,7 +153,7 @@ class CommandExecutor {
             } catch (IllegalThreadStateException e) {
                 read();
             }
-            ToolUtil.sleepIgnoreInterrupt(50);
+            ToolUtils.sleepIgnoreInterrupt(50);
         }
 
         //read end
@@ -161,12 +161,12 @@ class CommandExecutor {
         if (in != null) {
             try {
                 while ((len = in.read(BUFFER)) > 0) {
-                    LogUtil.d(TAG, "Read End:" + len);
+                    LogUtils.d(TAG, "Read End:" + len);
                 }
             } catch (IOException e) {
                 String err = e.getMessage();
                 if (err != null && err.length() > 0)
-                    LogUtil.e(TAG, "Read Thread IOException:" + err);
+                    LogUtils.e(TAG, "Read Thread IOException:" + err);
             }
         }
 
@@ -187,7 +187,7 @@ class CommandExecutor {
     protected String getResult() {
         //until startRead en
         while (!isDone) {
-            ToolUtil.sleepIgnoreInterrupt(200);
+            ToolUtils.sleepIgnoreInterrupt(200);
         }
 
         //return

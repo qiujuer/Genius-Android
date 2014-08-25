@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 可写入文件，默认写入到内存中，插入SD卡时拷贝到SD卡中
  * 可设置日志文件大小以及数量，可清空日志文件
  */
-public class LogUtil {
+public class LogUtils {
     /**
      * Priority constant for the println method ALL.
      */

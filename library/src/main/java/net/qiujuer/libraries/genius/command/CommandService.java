@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import net.qiujuer.libraries.genius.journal.LogUtil;
+import net.qiujuer.libraries.genius.journal.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +27,14 @@ public class CommandService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        LogUtil.i(TAG, "Binding CommandService");
+        LogUtils.i(TAG, "Binding CommandService");
         return mImpl;
     }
 
 
     @Override
     public void onDestroy() {
-        LogUtil.i(TAG, "Release CommandService");
+        LogUtils.i(TAG, "Release CommandService");
         if (mImpl != null) {
             mImpl.onDestroy();
             mImpl = null;
@@ -61,7 +61,7 @@ public class CommandService extends Service {
                     while (thread == this && !this.isInterrupted()) {
                         if (commandExecutors != null && commandExecutors.size() > 0) {
                             lock.lock();
-                            LogUtil.i(TAG, "Executors Size:" + commandExecutors.size());
+                            LogUtils.i(TAG, "Executors Size:" + commandExecutors.size());
                             for (CommandExecutor executor : commandExecutors) {
                                 if (executor.isTimeOut())
                                     try {
