@@ -1,13 +1,13 @@
-package net.qiujuer.libraries.sample;
+package net.qiujuer.sample;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import net.qiujuer.libraries.genius.command.CommandModel;
-import net.qiujuer.libraries.genius.journal.LogCallbackListener;
-import net.qiujuer.libraries.genius.journal.LogData;
-import net.qiujuer.libraries.genius.journal.LogUtils;
-import net.qiujuer.libraries.genius.utils.GlobalValue;
+import net.qiujuer.genius.command.CommandModel;
+import net.qiujuer.genius.journal.LogCallbackListener;
+import net.qiujuer.genius.journal.LogData;
+import net.qiujuer.genius.journal.LogUtils;
+import net.qiujuer.genius.utils.GlobalValue;
 
 /**
  * Created by Genius on 2014/8/13.

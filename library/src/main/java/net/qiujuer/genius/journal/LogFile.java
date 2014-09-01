@@ -1,4 +1,4 @@
-package net.qiujuer.libraries.genius.journal;
+package net.qiujuer.genius.journal;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,5 +1,5 @@
 // ICommandInterface.aidl
-package net.qiujuer.libraries.genius.command;
+package net.qiujuer.genius.command;
 
 // Declare any non-default types here with import statements
 

@@ -1,4 +1,4 @@
-package net.qiujuer.libraries.genius.utils;
+package net.qiujuer.genius.utils;
 
 import android.content.Context;
 

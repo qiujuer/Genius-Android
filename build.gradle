@@ -2,18 +2,34 @@
 
 buildscript {
     repositories {
-        jcenter()
+        //jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.2'
+        classpath 'com.android.tools.build:gradle:0.12.+'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 
+def isReleaseBuild() {
+    return version.contains("SNAPSHOT") == false
+}
+
 allprojects {
+    version = VERSION_NAME
+    group = GROUP
+
     repositories {
-        jcenter()
+        //jcenter()
+        mavenCentral()
     }
 }
+
+ext {
+    compileSdkVersion = 19
+    buildToolsVersion = "19.1.0"
+}
+
+apply plugin: 'android-reporting'

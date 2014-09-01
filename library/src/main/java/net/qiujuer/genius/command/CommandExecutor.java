@@ -1,7 +1,7 @@
-package net.qiujuer.libraries.genius.command;
+package net.qiujuer.genius.command;
 
-import net.qiujuer.libraries.genius.journal.LogUtils;
-import net.qiujuer.libraries.genius.utils.ToolUtils;
+import net.qiujuer.genius.journal.LogUtils;
+import net.qiujuer.genius.utils.ToolUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

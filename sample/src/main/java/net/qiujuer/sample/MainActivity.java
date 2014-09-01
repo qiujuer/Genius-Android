@@ -1,4 +1,4 @@
-package net.qiujuer.libraries.sample;
+package net.qiujuer.sample;
 
 import android.app.Activity;
 import android.os.Bundle;

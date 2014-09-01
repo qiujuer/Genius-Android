@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.qiujuer.libraries.genius">
+    package="net.qiujuer.genius">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,7 +16,7 @@
             android:name=".command.CommandService"
             android:enabled="true"
             android:exported="false"
-            android:process=".command.CommandService"/>
+            android:process=".command.CommandService" />
     </application>
 
 </manifest>

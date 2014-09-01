@@ -1,11 +1,11 @@
-package net.qiujuer.libraries.genius.command;
+package net.qiujuer.genius.command;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import net.qiujuer.libraries.genius.journal.LogUtils;
+import net.qiujuer.genius.journal.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;

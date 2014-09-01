@@ -1,9 +1,9 @@
-package net.qiujuer.libraries.genius.journal;
+package net.qiujuer.genius.journal;
 
 import android.content.Context;
 import android.util.Log;
 
-import net.qiujuer.libraries.genius.utils.GlobalValue;
+import net.qiujuer.genius.utils.GlobalValue;
 
 import java.io.File;
 import java.util.ArrayList;

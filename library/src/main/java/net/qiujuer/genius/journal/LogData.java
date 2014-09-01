@@ -1,4 +1,4 @@
-package net.qiujuer.libraries.genius.journal;
+package net.qiujuer.genius.journal;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

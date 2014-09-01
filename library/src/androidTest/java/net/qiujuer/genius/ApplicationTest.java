@@ -1,4 +1,4 @@
-package net.qiujuer.libraries.genius;
+package net.qiujuer.genius;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

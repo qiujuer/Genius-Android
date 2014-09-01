@@ -1,4 +1,4 @@
-package net.qiujuer.libraries.genius.command;
+package net.qiujuer.genius.command;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import net.qiujuer.libraries.genius.journal.LogUtils;
-import net.qiujuer.libraries.genius.utils.GlobalValue;
+import net.qiujuer.genius.journal.LogUtils;
+import net.qiujuer.genius.utils.GlobalValue;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
