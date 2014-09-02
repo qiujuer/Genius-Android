@@ -1,7 +1,7 @@
 package net.qiujuer.genius.command;
 
-import net.qiujuer.genius.journal.LogUtils;
-import net.qiujuer.genius.utils.ToolUtils;
+import net.qiujuer.genius.util.GLog;
+import net.qiujuer.genius.util.ToolUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -134,7 +134,7 @@ class CommandExecutor {
         } catch (Exception e) {
             String err = e.getMessage();
             if (err != null && err.length() > 0) {
-                LogUtils.e(TAG, "Read Exception:" + err);
+                GLog.e(TAG, "Read Exception:" + err);
             }
         }
     }
@@ -161,12 +161,12 @@ class CommandExecutor {
         if (in != null) {
             try {
                 while ((len = in.read(BUFFER)) > 0) {
-                    LogUtils.d(TAG, "Read End:" + len);
+                    GLog.d(TAG, "Read End:" + len);
                 }
             } catch (IOException e) {
                 String err = e.getMessage();
                 if (err != null && err.length() > 0)
-                    LogUtils.e(TAG, "Read Thread IOException:" + err);
+                    GLog.e(TAG, "Read Thread IOException:" + err);
             }
         }
 

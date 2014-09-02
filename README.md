@@ -3,6 +3,7 @@ Genius-Android是Genius库系列中的Android版本；
 Android库提供一个在Android中能经常使用的库集合。
 
 在这里向我参考过的开源库作者致敬！
+eg:`FlatUI`
 
 ##Genius-Android库有哪些功能？
 
@@ -30,6 +31,10 @@ Android库提供一个在Android中能经常使用的库集合。
 
 
 ##使用方式
+下载`publish`文件夹中的`*.jar`或者`*.aar`文件导入到自己项目中即可。
+
+
+##开发者
 在Android Studio中打开本项目即可，Android Studio版本：>0.8.2
 
 里边含有一个库以及一个测试项目，可将库导入到自己的项目中使用即可。
@@ -38,9 +43,9 @@ Android库提供一个在Android中能经常使用的库集合。
 ##有问题反馈
 在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
-* 邮件(qiujuer#live.cn, 把#换成@)
-* QQ: 756069544
-* weibo: [@qiujuer](http://weibo.com/qiujuer)
+* 邮件：qiujuer@live.cn
+* QQ： 756069544
+* Weibo： [@qiujuer](http://weibo.com/qiujuer)
 
 
 ##捐助开发者

@@ -1,4 +1,4 @@
-package net.qiujuer.genius.utils;
+package net.qiujuer.genius.util;
 
 import android.content.Context;
 
@@ -14,6 +14,6 @@ public class GlobalValue {
     }
 
     public static void setContext(Context context) {
-        CONTEXT = context;
+        CONTEXT = context.getApplicationContext();
     }
 }

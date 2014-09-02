@@ -1,4 +1,4 @@
-package net.qiujuer.genius.journal;
+package net.qiujuer.genius.util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,11 +24,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Genius on 2014/8/16.
+ * Created by Genius on 2014/9/2.
  * 日志写入文件类
  * 默认写入到内存中，插入SD卡时拷贝到SD卡中
  */
-class LogFile extends Thread {
+class GLogWriter extends Thread {
     //日志文件列表最低达到5条时才批量写入文件一次，减少文件操作
     private final static int MIN_LOG_SIZE = 5;
     //每个日志文件：2M
@@ -51,7 +51,7 @@ class LogFile extends Thread {
     //时间格式化使用，用于生成文件名
     private SimpleDateFormat sdf = null;
     //等待写入文件的日志列表
-    private List<LogData> logDataList = null;
+    private List<GLog> logList = null;
     //文件操作类
     private FileWriter fileWriter = null;
     //是否结束写入线程
@@ -76,8 +76,8 @@ class LogFile extends Thread {
      * @param size  日志大小
      * @param path  日志存储路径
      */
-    protected LogFile(int count, float size, String path) {
-        logDataList = new ArrayList<LogData>();
+    protected GLogWriter(int count, float size, String path) {
+        logList = new ArrayList<GLog>();
         sdf = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
 
         FileSize = (long) size * 1024 * 1024;
@@ -86,7 +86,7 @@ class LogFile extends Thread {
 
         init();
 
-        this.setName(LogFile.class.getName());
+        this.setName(GLogWriter.class.getName());
         this.setDaemon(true);
         this.start();
     }
@@ -247,11 +247,11 @@ class LogFile extends Thread {
      *
      * @param data 日志
      */
-    protected void addLog(LogData data) {
+    protected void addLog(GLog data) {
         ListLock.lock();
-        logDataList.add(data);
+        logList.add(data);
         //最低3条写入一次
-        if (logDataList.size() > MIN_LOG_SIZE) {
+        if (logList.size() > MIN_LOG_SIZE) {
             try {
                 ListNotify.signalAll();
             } catch (IllegalMonitorStateException e) {
@@ -266,7 +266,7 @@ class LogFile extends Thread {
      *
      * @param data 日志
      */
-    private void appendLogs(LogData data) {
+    private void appendLogs(GLog data) {
         if (fileWriter != null) {
             try {
                 WriteLock.lock();
@@ -293,10 +293,10 @@ class LogFile extends Thread {
     public void run() {
         while (!isDone) {
             ListLock.lock();
-            for (LogData data : logDataList) {
+            for (GLog data : logList) {
                 appendLogs(data);
             }
-            logDataList.clear();
+            logList.clear();
             try {
                 ListNotify.await();
             } catch (InterruptedException e) {

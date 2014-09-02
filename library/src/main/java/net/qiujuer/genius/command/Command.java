@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import net.qiujuer.genius.journal.LogUtils;
-import net.qiujuer.genius.utils.GlobalValue;
+import net.qiujuer.genius.ICommandInterface;
+import net.qiujuer.genius.util.GLog;
+import net.qiujuer.genius.util.GlobalValue;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -17,8 +18,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by Genius on 2014/8/13.
  * 命令执行Model
  */
-public class CommandModel {
-    private static final String TAG = CommandModel.class.getName();
+public class Command {
+    private static final String TAG = Command.class.getName();
     //调用服务接口
     private static ICommandInterface iService = null;
     //服务链接类，用于实例化服务接口
@@ -36,13 +37,13 @@ public class CommandModel {
             } else
                 bindService();
             iLock.unlock();
-            LogUtils.i(TAG, "onServiceConnected");
+            GLog.i(TAG, "onServiceConnected");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             iService = null;
-            LogUtils.i(TAG, "onServiceDisconnected");
+            GLog.i(TAG, "onServiceDisconnected");
         }
     };
     //锁
@@ -60,7 +61,7 @@ public class CommandModel {
      *
      * @param params @param params 命令参数 eg: "/system/bin/ping", "-c", "4", "-s", "100","www.qiujuer.net"
      */
-    public CommandModel(String... params) {
+    public Command(String... params) {
         //check params
         if (params == null)
             throw new NullPointerException();
@@ -79,7 +80,7 @@ public class CommandModel {
      * @param model ProcessModel
      * @return 结果
      */
-    public static String command(CommandModel model) {
+    public static String command(Command model) {
         //检测是否取消测试
         if (model.isCancel)
             return null;

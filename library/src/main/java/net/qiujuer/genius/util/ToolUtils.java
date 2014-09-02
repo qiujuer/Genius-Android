@@ -1,4 +1,4 @@
-package net.qiujuer.genius.utils;
+package net.qiujuer.genius.util;
 
 /**
  * Created by Genius on 2014/8/13.

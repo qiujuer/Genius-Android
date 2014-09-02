@@ -1,12 +1,12 @@
-package net.qiujuer.genius.journal;
+package net.qiujuer.genius.util;
 
 import android.content.Context;
 import android.util.Log;
 
-import net.qiujuer.genius.utils.GlobalValue;
-
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 可写入文件，默认写入到内存中，插入SD卡时拷贝到SD卡中
  * 可设置日志文件大小以及数量，可清空日志文件
  */
-public class LogUtils {
+public class GLog {
     /**
      * Priority constant for the println method ALL.
      */
@@ -59,6 +59,16 @@ public class LogUtils {
      */
     public static final int NOTHING = 8;
 
+    /**
+     * 格式化输出
+     */
+    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * 格式化输出
+     */
+    private static final SimpleDateFormat FORMATTER_SIMPLE = new SimpleDateFormat("HH:mm:ss");
+
     //内存中存储数量
     private static int MemorySize = 20;
     //是否调用Log
@@ -67,20 +77,21 @@ public class LogUtils {
     private static boolean IsSaveLog = false;
     //日志级别
     private static int Level = 1;
-    //写入文件类
-    private static LogFile logFile;
-    //接口列表
-    private static List<LogCallbackListener> logCallbackListeners;
-    //内存日志列表
-    private static List<LogData> logDataList;
     //操作内存日志列表锁
-    private static Lock LogsDataListLock = new ReentrantLock();
+    private static Lock LogListLock = new ReentrantLock();
+    //写入文件类
+    private static GLogWriter GLogWriter;
+    //内存日志列表
+    private static List<GLog> logList;
+    //接口列表
+    private static List<OnLogCallbackListener> callbackListeners;
+
 
     //初始化静态变量
     static {
-        logCallbackListeners = new ArrayList<LogCallbackListener>();
-        logDataList = new ArrayList<LogData>(MemorySize);
-        logFile = null;
+        callbackListeners = new ArrayList<OnLogCallbackListener>();
+        logList = new ArrayList<GLog>(MemorySize);
+        GLogWriter = null;
     }
 
     /**
@@ -128,13 +139,13 @@ public class LogUtils {
             return;
 
         if (IsSaveLog) {
-            if (logFile == null)
-                logFile = new LogFile(fileCount, fileSize,
+            if (GLogWriter == null)
+                GLogWriter = new GLogWriter(fileCount, fileSize,
                         context.getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + (filePath == null ? "Logs" : filePath));
-        } else if (logFile != null) {
-            logFile.unRegisterBroadCast(context);
-            logFile.done();
-            logFile = null;
+        } else if (GLogWriter != null) {
+            GLogWriter.unRegisterBroadCast(context);
+            GLogWriter.done();
+            GLogWriter = null;
         }
     }
 
@@ -152,17 +163,17 @@ public class LogUtils {
             return;
 
         if (isCopy)
-            logFile.registerBroadCast(context, filePath);
+            GLogWriter.registerBroadCast(context, filePath);
         else
-            logFile.unRegisterBroadCast(context);
+            GLogWriter.unRegisterBroadCast(context);
     }
 
     /**
      * 清空日志文件
      */
     public static void clearLogFile() {
-        if (logFile != null)
-            logFile.clearLogFile();
+        if (GLogWriter != null)
+            GLogWriter.clearLogFile();
     }
 
     /**
@@ -170,8 +181,8 @@ public class LogUtils {
      *
      * @param listener LogsInterface
      */
-    public static void addLogCallbackListener(LogCallbackListener listener) {
-        logCallbackListeners.add(listener);
+    public static void addLogCallbackListener(OnLogCallbackListener listener) {
+        callbackListeners.add(listener);
         onListenerAdded(listener);
     }
 
@@ -180,8 +191,8 @@ public class LogUtils {
      *
      * @param listener LogsInterface
      */
-    public static void removeLogsInterface(LogCallbackListener listener) {
-        logCallbackListeners.remove(listener);
+    public static void removeLogsInterface(OnLogCallbackListener listener) {
+        callbackListeners.remove(listener);
     }
 
 
@@ -210,11 +221,11 @@ public class LogUtils {
             if (tr != null)
                 msg = msg + '\n' + Log.getStackTraceString(tr);
 
-            LogData data = new LogData(VERBOSE, tag, msg);
-            saveMemory(data);
-            saveFile(data);
-            onLogArrived(data);
-            return callLog(data);
+            GLog log = new GLog(VERBOSE, tag, msg);
+            saveMemory(log);
+            saveFile(log);
+            onLogArrived(log);
+            return callLog(log);
 
         }
         return 0;
@@ -245,11 +256,11 @@ public class LogUtils {
             if (tr != null)
                 msg = msg + '\n' + Log.getStackTraceString(tr);
 
-            LogData data = new LogData(DEBUG, tag, msg);
-            saveMemory(data);
-            saveFile(data);
-            onLogArrived(data);
-            return callLog(data);
+            GLog log = new GLog(DEBUG, tag, msg);
+            saveMemory(log);
+            saveFile(log);
+            onLogArrived(log);
+            return callLog(log);
 
         }
         return 0;
@@ -280,11 +291,11 @@ public class LogUtils {
             if (tr != null)
                 msg = msg + '\n' + Log.getStackTraceString(tr);
 
-            LogData data = new LogData(INFO, tag, msg);
-            saveMemory(data);
-            saveFile(data);
-            onLogArrived(data);
-            return callLog(data);
+            GLog log = new GLog(INFO, tag, msg);
+            saveMemory(log);
+            saveFile(log);
+            onLogArrived(log);
+            return callLog(log);
 
         }
         return 0;
@@ -315,11 +326,11 @@ public class LogUtils {
             if (tr != null)
                 msg = msg + '\n' + Log.getStackTraceString(tr);
 
-            LogData data = new LogData(WARN, tag, msg);
-            saveMemory(data);
-            saveFile(data);
-            onLogArrived(data);
-            return callLog(data);
+            GLog log = new GLog(WARN, tag, msg);
+            saveMemory(log);
+            saveFile(log);
+            onLogArrived(log);
+            return callLog(log);
 
         }
         return 0;
@@ -350,11 +361,11 @@ public class LogUtils {
             if (tr != null)
                 msg = msg + '\n' + Log.getStackTraceString(tr);
 
-            LogData data = new LogData(ERROR, tag, msg);
-            saveMemory(data);
-            saveFile(data);
-            onLogArrived(data);
-            return callLog(data);
+            GLog log = new GLog(ERROR, tag, msg);
+            saveMemory(log);
+            saveFile(log);
+            onLogArrived(log);
+            return callLog(log);
 
         }
         return 0;
@@ -362,40 +373,40 @@ public class LogUtils {
 
 
     //写入文件
-    private static void saveFile(LogData data) {
+    private static void saveFile(GLog log) {
         if (!IsSaveLog)
             return;
 
-        if (logFile != null) try {
-            logFile.addLog(data);
+        if (GLogWriter != null) try {
+            GLogWriter.addLog(log);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //保存到内存
-    private static void saveMemory(LogData data) {
-        LogsDataListLock.lock();
-        if (logDataList.size() >= MemorySize) {
-            logDataList.remove(0);
+    private static void saveMemory(GLog log) {
+        LogListLock.lock();
+        if (logList.size() >= MemorySize) {
+            logList.remove(0);
         }
-        logDataList.add(data);
-        LogsDataListLock.unlock();
+        logList.add(log);
+        LogListLock.unlock();
     }
 
     //调用Android Log
-    private static int callLog(LogData data) {
+    private static int callLog(GLog log) {
         if (IsCallLog)
-            return Log.println(data.getLevel(), data.getTag(), data.getMsg());
+            return Log.println(log.getLevel(), log.getTag(), log.getMsg());
         else
             return 0;
     }
 
     //回调onLogArrived
-    private static void onLogArrived(LogData data) {
-        for (LogCallbackListener i : logCallbackListeners) {
+    private static void onLogArrived(GLog log) {
+        for (OnLogCallbackListener i : callbackListeners) {
             try {
-                i.OnLogArrived(data);
+                i.onLogArrived(log);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -403,23 +414,145 @@ public class LogUtils {
     }
 
     //回调onListenerAdded
-    private static void onListenerAdded(final LogCallbackListener listener) {
+    private static void onListenerAdded(final OnLogCallbackListener listener) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    LogData[] dataArray = new LogData[logDataList.size()];
-                    LogsDataListLock.lock();
-                    logDataList.toArray(dataArray);
-                    listener.OnListenerAdded(dataArray);
+                    GLog[] logArray = new GLog[logList.size()];
+                    LogListLock.lock();
+                    logList.toArray(logArray);
+                    listener.onListenerAdded(logArray);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    LogsDataListLock.unlock();
+                    LogListLock.unlock();
                 }
             }
         });
         thread.setDaemon(true);
         thread.start();
     }
+
+    //toString
+    private String mFormatterStr = null;
+    //toString SimpleStr
+    private String mFormatterSimpleStr = null;
+    //时间
+    private java.util.Date mDate;
+    //级别
+    private int mLevel;
+    //Tag
+    private String mTag;
+    //内容
+    private String mMsg;
+
+    /**
+     * 实例化GLog，自动获取时间
+     *
+     * @param level 等级
+     * @param tag   Tag
+     * @param msg   Msg
+     */
+    public GLog(int level, String tag, String msg) {
+        this(new java.util.Date(), level, tag, msg);
+    }
+
+    /**
+     * 实例化GLog
+     *
+     * @param date  时间
+     * @param level 等级
+     * @param tag   Tag
+     * @param msg   Msg
+     */
+    public GLog(Date date, int level, String tag, String msg) {
+        mDate = date;
+        mLevel = level;
+        mTag = tag;
+        mMsg = msg;
+    }
+
+    /**
+     * [2014-09-02 11:42:21][2] Tag:Message
+     *
+     * @return [2014-09-02 11:42:21][2] Tag:Message
+     */
+    public String toString() {
+        if (mFormatterStr == null)
+            mFormatterStr = (new java.util.Formatter().format("[%s][%s] %s:%s \r\n", FORMATTER.format(mDate), Level, mTag, mMsg)).toString();
+        return mFormatterStr;
+    }
+
+    /**
+     * [11:42:21][2] Tag:Message
+     *
+     * @return [11:42:21][2] Tag:Message
+     */
+    public String toStringSimple() {
+        if (mFormatterSimpleStr == null)
+            mFormatterSimpleStr = (new java.util.Formatter().format("[%s][%s] %s:%s \r\n", FORMATTER_SIMPLE.format(mDate), mLevel, mTag, mMsg)).toString();
+        return mFormatterSimpleStr;
+    }
+
+    /**
+     * 获取时间
+     *
+     * @return 时间
+     */
+    public Date getDate() {
+        return mDate;
+    }
+
+    /**
+     * 获取等级
+     *
+     * @return 等级
+     */
+    public int getLevel() {
+        return mLevel;
+    }
+
+    /**
+     * 获取Tag
+     *
+     * @return Tag
+     */
+    public String getTag() {
+        return mTag;
+    }
+
+    /**
+     * 获取主体
+     *
+     * @return Message
+     */
+    public String getMsg() {
+        return mMsg;
+    }
+
+    /**
+     * Created by Genius on 2014/9/2.
+     * 程序界面接口
+     * 实现日志的界面显示
+     * 当有日志来临时显示日志信息
+     */
+    public interface OnLogCallbackListener {
+        /**
+         * 日志到达时触发
+         *
+         * @param log GLog
+         */
+        public void onLogArrived(GLog log);
+
+        /**
+         * 添加一个Listener后触发
+         *
+         * @param logArray GLog Array
+         */
+        public void onListenerAdded(GLog[] logArray);
+    }
 }
+
+
+

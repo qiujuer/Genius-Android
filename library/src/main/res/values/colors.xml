@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- sand -->
+    <color name="sand_darker">#ad843d</color>
+    <color name="sand_dark">#d4a14a</color>
+    <color name="sand_primary">#fbbf58</color>
+    <color name="sand_light">#fae8c8</color>
+    <integer-array name="sand">
+        <item>@color/sand_darker</item>
+        <item>@color/sand_dark</item>
+        <item>@color/sand_primary</item>
+        <item>@color/sand_light</item>
+    </integer-array>
+
+    <!-- orange -->
+    <color name="orange_darker">#994628</color>
+    <color name="orange_dark">#cc5d35</color>
+    <color name="orange_primary">#ff7342</color>
+    <color name="orange_light">#ffbfa8</color>
+    <integer-array name="orange">
+        <item>@color/orange_darker</item>
+        <item>@color/orange_dark</item>
+        <item>@color/orange_primary</item>
+        <item>@color/orange_light</item>
+    </integer-array>
+
+    <!-- candy -->
+    <color name="candy_darker">#80363c</color>
+    <color name="candy_dark">#bf505a</color>
+    <color name="candy_primary">#f56773</color>
+    <color name="candy_light">#f5c4c8</color>
+    <integer-array name="candy">
+        <item>@color/candy_darker</item>
+        <item>@color/candy_dark</item>
+        <item>@color/candy_primary</item>
+        <item>@color/candy_light</item>
+    </integer-array>
+
+    <!-- blossom -->
+    <color name="blossom_darker">#8f5e76</color>
+    <color name="blossom_dark">#b57795</color>
+    <color name="blossom_primary">#e898bf</color>
+    <color name="blossom_light">#e8d1dc</color>
+    <integer-array name="blossom">
+        <item>@color/blossom_darker</item>
+        <item>@color/blossom_dark</item>
+        <item>@color/blossom_primary</item>
+        <item>@color/blossom_light</item>
+    </integer-array>
+
+    <!-- grape -->
+    <color name="grape_darker">#362f4a</color>
+    <color name="grape_dark">#4f456b</color>
+    <color name="grape_primary">#695b8e</color>
+    <color name="grape_light">#b1a2db</color>
+    <integer-array name="grape">
+        <item>@color/grape_darker</item>
+        <item>@color/grape_dark</item>
+        <item>@color/grape_primary</item>
+        <item>@color/grape_light</item>
+    </integer-array>
+
+    <!-- deep -->
+    <color name="deep_darker">#232b35</color>
+    <color name="deep_dark">#2d3845</color>
+    <color name="deep_primary">#2d3845</color>
+    <color name="deep_light">#c7dbf4</color>
+    <integer-array name="deep">
+        <item>@color/deep_darker</item>
+        <item>@color/deep_dark</item>
+        <item>@color/deep_primary</item>
+        <item>@color/deep_light</item>
+    </integer-array>
+
+    <!-- sky -->
+    <color name="sky_darker">#0b6978</color>
+    <color name="sky_dark">#0e8b9e</color>
+    <color name="sky_primary">#13b7d2</color>
+    <color name="sky_light">#b9e4eb</color>
+    <integer-array name="sky">
+        <item>@color/sky_darker</item>
+        <item>@color/sky_dark</item>
+        <item>@color/sky_primary</item>
+        <item>@color/sky_light</item>
+    </integer-array>
+
+    <!-- grass -->
+    <color name="grass_darker">#124c38</color>
+    <color name="grass_dark">#1e7d5b</color>
+    <color name="grass_primary">#2ab081</color>
+    <color name="grass_light">#a8e3ce</color>
+    <integer-array name="grass">
+        <item>@color/grass_darker</item>
+        <item>@color/grass_dark</item>
+        <item>@color/grass_primary</item>
+        <item>@color/grass_light</item>
+    </integer-array>
+
+    <!-- dark -->
+    <color name="dark_darker">#050505</color>
+    <color name="dark_dark">#202020</color>
+    <color name="dark_primary">#454545</color>
+    <color name="dark_light">#a3a3a3</color>
+    <integer-array name="dark">
+        <item>@color/dark_darker</item>
+        <item>@color/dark_dark</item>
+        <item>@color/dark_primary</item>
+        <item>@color/dark_light</item>
+    </integer-array>
+
+    <!-- snow -->
+    <color name="snow_darker">#c8c8c8</color>
+    <color name="snow_dark">#dddddd</color>
+    <color name="snow_primary">#e8e8e8</color>
+    <color name="snow_light">#fafafa</color>
+    <integer-array name="snow">
+        <item>@color/snow_darker</item>
+        <item>@color/snow_dark</item>
+        <item>@color/snow_primary</item>
+        <item>@color/snow_light</item>
+    </integer-array>
+
+    <!-- sea -->
+    <color name="sea_darker">#1a3b6c</color>
+    <color name="sea_dark">#1c52a2</color>
+    <color name="sea_primary">#2d72d9</color>
+    <color name="sea_light">#d5e3f7</color>
+    <integer-array name="sea">
+        <item>@color/sea_darker</item>
+        <item>@color/sea_dark</item>
+        <item>@color/sea_primary</item>
+        <item>@color/sea_light</item>
+    </integer-array>
+
+    <!-- blood -->
+    <color name="blood_darker">#732219</color>
+    <color name="blood_dark">#a63124</color>
+    <color name="blood_primary">#d94130</color>
+    <color name="blood_light">#f2b6ae</color>
+    <integer-array name="blood">
+        <item>@color/blood_darker</item>
+        <item>@color/blood_dark</item>
+        <item>@color/blood_primary</item>
+        <item>@color/blood_light</item>
+    </integer-array>
+
+
+</resources>

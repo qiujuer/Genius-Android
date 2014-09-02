@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="fl_theme" format="reference" />
+
+    <attr name="fl_fontFamily" format="string" />
+    <attr name="fl_fontWeight" format="string" />
+    <attr name="fl_fontExtension" format="string" />
+    <attr name="fl_textAppearance" format="integer">
+        <enum name="none" value="0" />
+        <enum name="dark" value="1" />
+        <enum name="light" value="2" />
+    </attr>
+
+    <attr name="fl_cornerRadius" format="dimension" />
+    <attr name="fl_borderWidth" format="dimension" />
+    <attr name="fl_size" format="dimension" />
+
+    <attr name="fl_dotMargin" format="dimension" />
+
+    <!-- FlatButton -->
+    <declare-styleable name="fl_FlatButton">
+        <attr name="fl_theme" />
+        <attr name="fl_fontFamily" />
+        <attr name="fl_fontWeight" />
+        <attr name="fl_fontExtension" />
+        <attr name="fl_textAppearance" />
+        <attr name="fl_cornerRadius" />
+
+        <!-- Defines the height of the border bottom of the button -->
+        <attr name="fl_blockButtonEffectHeight" format="dimension" />
+    </declare-styleable>
+
+    <!-- Flat Check Box -->
+    <declare-styleable name="fl_FlatCheckBox">
+        <attr name="fl_theme" />
+        <attr name="fl_fontFamily" />
+        <attr name="fl_fontWeight" />
+        <attr name="fl_fontExtension" />
+        <attr name="fl_cornerRadius" />
+        <attr name="fl_size" />
+        <attr name="fl_dotMargin" />
+    </declare-styleable>
+
+    <!-- Flat Edit Text -->
+    <declare-styleable name="fl_FlatEditText">
+        <attr name="fl_theme" />
+        <attr name="fl_fontFamily" />
+        <attr name="fl_fontWeight" />
+        <attr name="fl_fontExtension" />
+        <attr name="fl_textAppearance" />
+        <attr name="fl_cornerRadius" />
+        <attr name="fl_borderWidth" />
+        <attr name="fl_fieldStyle" format="integer">
+            <enum name="flat" value="0" />
+            <enum name="box" value="1" />
+            <enum name="transparent" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!-- Flat Radio Button -->
+    <declare-styleable name="fl_FlatRadioButton">
+        <attr name="fl_theme" />
+        <attr name="fl_fontFamily" />
+        <attr name="fl_fontWeight" />
+        <attr name="fl_fontExtension" />
+        <attr name="fl_borderWidth" />
+        <attr name="fl_size" />
+        <attr name="fl_dotMargin" />
+    </declare-styleable>
+
+    <!-- Flat Seek Bar -->
+    <declare-styleable name="fl_FlatSeekBar">
+        <attr name="fl_theme" />
+        <attr name="fl_size" />
+    </declare-styleable>
+
+    <!-- Flat Text View -->
+    <declare-styleable name="fl_FlatTextView">
+        <attr name="fl_theme" />
+        <attr name="fl_fontFamily" />
+        <attr name="fl_fontWeight" />
+        <attr name="fl_fontExtension" />
+        <attr name="fl_cornerRadius" />
+        <attr name="fl_borderWidth" />
+        <attr name="fl_textColor" format="integer">
+            <enum name="darker" value="0" />
+            <enum name="dark" value="1" />
+            <enum name="main" value="2" />
+            <enum name="light" value="3" />
+        </attr>
+        <attr name="fl_backgroundColor" format="integer">
+            <enum name="fl_darker" value="0" />
+            <enum name="fl_dark" value="1" />
+            <enum name="fl_main" value="2" />
+            <enum name="fl_light" value="3" />
+        </attr>
+        <attr name="fl_customBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <!-- Flat Toggle Button -->
+    <declare-styleable name="fl_FlatToggleButton">
+        <attr name="fl_theme" />
+        <attr name="fl_cornerRadius" />
+        <attr name="fl_space" format="dimension" />
+    </declare-styleable>
+
+</resources>

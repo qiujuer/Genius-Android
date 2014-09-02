@@ -1,15 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "net.qiujuer.genius"
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionCode 10
-        versionName "1.0.0"
+        versionName "1.0"
     }
     buildTypes {
         release {
@@ -17,38 +17,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main {
-            java {
-                srcDir 'src/main/java'
-            }
-            resources {
-                srcDir 'src/../lib'
-            }
-        }
-    }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
-
-task clearJar(type: Delete) {
-    delete 'build/libs/' + POM_ARTIFACT_ID + '_' + VERSION_NAME + '.jar'
-}
-
-task makeJar(type: Copy) {
-    from('build/intermediates/bundles/release/')
-    into('release/')
-    include('classes.jar')
-    rename('classes.jar', POM_ARTIFACT_ID + '_' + VERSION_NAME + '.jar')
-}
-
-makeJar.dependsOn(clearJar, build)
-
-
-apply from: '../maven_push.gradle'
