@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ReceiverCallNotAllowedException;
 import android.os.Environment;
 
 import java.io.File;
@@ -322,7 +321,7 @@ class GLogWriter extends Thread {
             iFilter.setPriority(1000);
             context.registerReceiver(mUsbBroadCastReceiver, iFilter);
             return true;
-        } catch (ReceiverCallNotAllowedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

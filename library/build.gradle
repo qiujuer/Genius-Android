@@ -8,8 +8,8 @@ android {
         applicationId "net.qiujuer.genius"
         minSdkVersion 15
         targetSdkVersion 20
-        versionCode 10
-        versionName "1.0"
+        versionCode 15
+        versionName "1.1"
     }
     buildTypes {
         release {

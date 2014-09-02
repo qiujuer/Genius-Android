@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import net.qiujuer.genius.ICommandInterface;
 import net.qiujuer.genius.util.GLog;
 
 import java.util.ArrayList;

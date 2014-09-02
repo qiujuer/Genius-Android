@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
 
-import net.qiujuer.genius.ICommandInterface;
 import net.qiujuer.genius.util.GLog;
 import net.qiujuer.genius.util.GlobalValue;
 
@@ -32,7 +32,7 @@ public class Command {
                 try {
                     iCondition.signalAll();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             } else
                 bindService();
@@ -90,7 +90,7 @@ public class Command {
             try {
                 iCondition.await();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             iLock.unlock();
         }
@@ -99,7 +99,7 @@ public class Command {
         try {
             result = iService.command(model.parameter);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             bindService();
             result = command(model);
         }
@@ -110,10 +110,29 @@ public class Command {
      * 启动并绑定服务
      */
     private static void bindService() {
+        destroy();
         Context context = GlobalValue.getContext();
         Intent intent = new Intent(context, CommandService.class);
         context.startService(intent);
         context.bindService(intent, conn, Context.BIND_AUTO_CREATE);
+    }
+
+    /**
+     * 销毁，取消服务绑定
+     */
+    public static void destroy() {
+        try {
+            GlobalValue.getContext().unbindService(conn);
+        } catch (IllegalArgumentException e) {
+            //e.printStackTrace();
+        }
+        if (iService != null) {
+            try {
+                iService.killSelf();
+            } catch (RemoteException e) {
+                //e.printStackTrace();
+            }
+        }
     }
 
     /**

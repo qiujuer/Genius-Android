@@ -1,0 +1,5 @@
+*2014/9/2 修改GLog方法"addLogCallbackListener()"为："addCallbackListener()"。
+*2014/9/2 解决GLog回调时出现："java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()" Bug。
+*2014/9/2 修复因为日志消息传输问题导致的服务调用日志类出现的程序死掉问题。
+*2014/9/2 GLog与Command类添加"destroy()"方法用于释放资源。
+*2014/9/2 Publish Version-1.1.

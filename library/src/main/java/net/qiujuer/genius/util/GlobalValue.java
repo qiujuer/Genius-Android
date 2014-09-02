@@ -14,6 +14,6 @@ public class GlobalValue {
     }
 
     public static void setContext(Context context) {
-        CONTEXT = context.getApplicationContext();
+        CONTEXT = context;
     }
 }

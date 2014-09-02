@@ -54,7 +54,7 @@ public class TestCase {
         GLog.setCopyExternalStorage(GlobalValue.getContext(), true, "Test/Logs");
 
         //添加回调
-        GLog.addLogCallbackListener(new GLog.OnLogCallbackListener() {
+        GLog.addCallbackListener(new GLog.OnLogCallbackListener() {
             @Override
             public void onLogArrived(GLog data) {
                 //有日志写来了
@@ -82,7 +82,7 @@ public class TestCase {
         GLog.w(TAG, "测试日志 WARN 级别。");
         GLog.e(TAG, "测试日志 ERROR 级别。");
 
-        GLog.setLevel(GLog.WARN);
+        GLog.setLevel(GLog.INFO);
         GLog.v(TAG, "二次测试日志 VERBOSE 级别。");
         GLog.d(TAG, "二次测试日志 DEBUG 级别。");
         GLog.i(TAG, "二次测试日志 INFO 级别。");

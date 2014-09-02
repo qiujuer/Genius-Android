@@ -1,6 +1,9 @@
 package net.qiujuer.genius.util;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.File;
@@ -85,13 +88,70 @@ public class GLog {
     private static List<GLog> logList;
     //接口列表
     private static List<OnLogCallbackListener> callbackListeners;
-
+    //用于消息循环的线程
+    private static Thread thread = null;
+    private static Handler handler = null;
 
     //初始化静态变量
     static {
         callbackListeners = new ArrayList<OnLogCallbackListener>();
         logList = new ArrayList<GLog>(MemorySize);
         GLogWriter = null;
+
+        initAsyncThread();
+    }
+
+    /**
+     * 初始化异步线程
+     */
+    private static void initAsyncThread() {
+        //线程初始化
+        thread = new Thread(GLog.class.getName()) {
+            @Override
+            public void run() {
+                Looper.prepare();
+
+                handler = new Handler() {
+                    public void handleMessage(Message msg) {
+                        switch (msg.what) {
+                            case 0x1:
+                                //回调onListenerAdded
+                                OnLogCallbackListener listener = (OnLogCallbackListener) msg.obj;
+                                if (listener != null) {
+                                    try {
+                                        GLog[] logArray = new GLog[logList.size()];
+                                        LogListLock.lock();
+                                        logList.toArray(logArray);
+                                        listener.onListenerAdded(logArray);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        LogListLock.unlock();
+                                    }
+                                }
+                                break;
+                            case 0x2:
+                                //回调onLogArrived
+                                GLog log = (GLog) msg.obj;
+                                if (log != null) {
+                                    for (OnLogCallbackListener i : callbackListeners) {
+                                        try {
+                                            i.onLogArrived(log);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                };
+
+                Looper.loop();
+            }
+        };
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
@@ -179,19 +239,22 @@ public class GLog {
     /**
      * 添加接口，当有日志时将通知
      *
-     * @param listener LogsInterface
+     * @param listener OnLogCallbackListener
      */
-    public static void addLogCallbackListener(OnLogCallbackListener listener) {
+    public static void addCallbackListener(OnLogCallbackListener listener) {
         callbackListeners.add(listener);
-        onListenerAdded(listener);
+
+        //回调onListenerAdded()
+        if (handler != null)
+            handler.sendMessage(handler.obtainMessage(0x1, listener));
     }
 
     /**
      * 删除指定的日子接口
      *
-     * @param listener LogsInterface
+     * @param listener OnLogCallbackListener
      */
-    public static void removeLogsInterface(OnLogCallbackListener listener) {
+    public static void removeCallbackListener(OnLogCallbackListener listener) {
         callbackListeners.remove(listener);
     }
 
@@ -224,7 +287,7 @@ public class GLog {
             GLog log = new GLog(VERBOSE, tag, msg);
             saveMemory(log);
             saveFile(log);
-            onLogArrived(log);
+            arriveLog(log);
             return callLog(log);
 
         }
@@ -259,7 +322,7 @@ public class GLog {
             GLog log = new GLog(DEBUG, tag, msg);
             saveMemory(log);
             saveFile(log);
-            onLogArrived(log);
+            arriveLog(log);
             return callLog(log);
 
         }
@@ -294,7 +357,7 @@ public class GLog {
             GLog log = new GLog(INFO, tag, msg);
             saveMemory(log);
             saveFile(log);
-            onLogArrived(log);
+            arriveLog(log);
             return callLog(log);
 
         }
@@ -329,7 +392,7 @@ public class GLog {
             GLog log = new GLog(WARN, tag, msg);
             saveMemory(log);
             saveFile(log);
-            onLogArrived(log);
+            arriveLog(log);
             return callLog(log);
 
         }
@@ -364,7 +427,7 @@ public class GLog {
             GLog log = new GLog(ERROR, tag, msg);
             saveMemory(log);
             saveFile(log);
-            onLogArrived(log);
+            arriveLog(log);
             return callLog(log);
 
         }
@@ -403,35 +466,25 @@ public class GLog {
     }
 
     //回调onLogArrived
-    private static void onLogArrived(GLog log) {
-        for (OnLogCallbackListener i : callbackListeners) {
-            try {
-                i.onLogArrived(log);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    private static void arriveLog(GLog log) {
+        if (handler != null)
+            handler.sendMessage(handler.obtainMessage(0x2, log));
     }
 
-    //回调onListenerAdded
-    private static void onListenerAdded(final OnLogCallbackListener listener) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    GLog[] logArray = new GLog[logList.size()];
-                    LogListLock.lock();
-                    logList.toArray(logArray);
-                    listener.onListenerAdded(logArray);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    LogListLock.unlock();
-                }
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
+    /**
+     * 日志销毁
+     * 清理内存，销毁文件访问绑定，取消广播绑定
+     */
+    public static void destroy() {
+        if (GLogWriter != null) {
+            GLogWriter.done();
+            GLogWriter.unRegisterBroadCast(GlobalValue.getContext());
+            GLogWriter = null;
+        }
+
+        logList.clear();
+
+        callbackListeners.clear();
     }
 
     //toString
