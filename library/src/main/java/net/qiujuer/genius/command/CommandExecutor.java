@@ -1,6 +1,5 @@
 package net.qiujuer.genius.command;
 
-import net.qiujuer.genius.util.GLog;
 import net.qiujuer.genius.util.ToolUtils;
 
 import java.io.BufferedReader;
@@ -132,10 +131,7 @@ class CommandExecutor {
                 sbReader.append(BREAK_LINE);
             }
         } catch (Exception e) {
-            String err = e.getMessage();
-            if (err != null && err.length() > 0) {
-                GLog.e(TAG, "Read Exception:" + err);
-            }
+            e.printStackTrace();
         }
     }
 
@@ -160,13 +156,13 @@ class CommandExecutor {
         int len;
         if (in != null) {
             try {
-                while ((len = in.read(BUFFER)) > 0) {
-                    GLog.d(TAG, "Read End:" + len);
+                while (true) {
+                    len = in.read(BUFFER);
+                    if (len <= 0)
+                        break;
                 }
             } catch (IOException e) {
-                String err = e.getMessage();
-                if (err != null && err.length() > 0)
-                    GLog.e(TAG, "Read Thread IOException:" + err);
+                e.printStackTrace();
             }
         }
 
@@ -244,7 +240,7 @@ class CommandExecutor {
     /**
      * 销毁
      */
-    private void destroy() {
+    public void destroy() {
         String str = process.toString();
         try {
             int i = str.indexOf("=") + 1;

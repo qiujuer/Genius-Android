@@ -7,13 +7,13 @@ import android.content.Context;
  * 全局静态值类
  */
 public class GlobalValue {
-    private static Context CONTEXT;
+    private static Context mApplicationContext;
 
-    public static Context getContext() {
-        return CONTEXT;
+    public static Context getApplicationContext() {
+        return mApplicationContext;
     }
 
-    public static void setContext(Context context) {
-        CONTEXT = context;
+    public static void setApplicationContext(Context context) {
+        mApplicationContext = context.getApplicationContext();
     }
 }

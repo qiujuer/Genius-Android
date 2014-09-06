@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import net.qiujuer.genius.util.GLog;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -17,26 +16,28 @@ import java.util.concurrent.locks.ReentrantLock;
  * 命令行执行服务
  */
 public class CommandService extends Service {
-    private static final String TAG = CommandService.class.getName();
     private CommandServiceImpl mImpl;
 
     public CommandService() {
         mImpl = new CommandServiceImpl();
     }
 
-
     @Override
     public IBinder onBind(Intent intent) {
-        GLog.i(TAG, "Binding CommandService");
+        if (mImpl == null)
+            mImpl = new CommandServiceImpl();
         return mImpl;
     }
 
 
     @Override
     public void onDestroy() {
-        GLog.i(TAG, "Release CommandService");
         if (mImpl != null) {
-            mImpl.onDestroy();
+            try {
+                mImpl.destroy();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             mImpl = null;
         }
         super.onDestroy();
@@ -47,7 +48,7 @@ public class CommandService extends Service {
      */
     private class CommandServiceImpl extends ICommandInterface.Stub {
         //数据队列锁
-        private List<CommandExecutor> commandExecutors = new ArrayList<CommandExecutor>();
+        private Map<String, CommandExecutor> commandExecutorMap = new HashMap<String, CommandExecutor>();
         // 锁
         private Lock lock = new ReentrantLock();
         //守护线程
@@ -59,13 +60,13 @@ public class CommandService extends Service {
                 @Override
                 public void run() {
                     while (thread == this && !this.isInterrupted()) {
-                        if (commandExecutors != null && commandExecutors.size() > 0) {
+                        if (commandExecutorMap != null && commandExecutorMap.size() > 0) {
                             lock.lock();
-                            GLog.i(TAG, "Executors Size:" + commandExecutors.size());
+                            Collection<CommandExecutor> commandExecutors = commandExecutorMap.values();
                             for (CommandExecutor executor : commandExecutors) {
                                 if (executor.isTimeOut())
                                     try {
-                                        killSelf();
+                                        killService();
                                     } catch (RemoteException e) {
                                         e.printStackTrace();
                                     }
@@ -87,22 +88,12 @@ public class CommandService extends Service {
         }
 
         /**
-         * 销毁操作
-         */
-        protected void onDestroy() {
-            if (thread != null) {
-                thread.interrupt();
-                thread = null;
-            }
-        }
-
-        /**
          * 杀掉自己
          *
          * @throws RemoteException
          */
         @Override
-        public void killSelf() throws RemoteException {
+        public void killService() throws RemoteException {
             android.os.Process.killProcess(android.os.Process.myPid());
         }
 
@@ -114,16 +105,43 @@ public class CommandService extends Service {
          * @throws RemoteException
          */
         @Override
-        public String command(String params) throws RemoteException {
+        public String command(String id, String params) throws RemoteException {
             CommandExecutor executor = CommandExecutor.create(params);
             lock.lock();
-            commandExecutors.add(executor);
+            commandExecutorMap.put(id, executor);
             lock.unlock();
             String result = executor.getResult();
             lock.lock();
-            commandExecutors.remove(executor);
+            commandExecutorMap.remove(id);
             lock.unlock();
             return result;
         }
+
+        /**
+         * 销毁操作
+         */
+        @Override
+        public void destroy() throws RemoteException {
+            lock.lock();
+            commandExecutorMap.clear();
+            lock.lock();
+            if (thread != null) {
+                thread.interrupt();
+                thread = null;
+            }
+            mImpl = null;
+        }
+
+        @Override
+        public void cancel(String id) throws RemoteException {
+            CommandExecutor executor = commandExecutorMap.get(id);
+            if (executor != null) {
+                lock.lock();
+                commandExecutorMap.remove(id);
+                lock.unlock();
+                executor.destroy();
+            }
+        }
+
     }
 }

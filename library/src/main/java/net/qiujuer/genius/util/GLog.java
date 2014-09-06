@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 可写入文件，默认写入到内存中，插入SD卡时拷贝到SD卡中
  * 可设置日志文件大小以及数量，可清空日志文件
  */
-public class GLog {
+public final class GLog {
     /**
      * Priority constant for the println method ALL.
      */
@@ -87,26 +87,25 @@ public class GLog {
     //内存日志列表
     private static List<GLog> logList;
     //接口列表
-    private static List<OnLogCallbackListener> callbackListeners;
-    //用于消息循环的线程
-    private static Thread thread = null;
+    private static List<LogCallbackListener> callbackListeners;
+    //用于消息回调
     private static Handler handler = null;
 
     //初始化静态变量
     static {
-        callbackListeners = new ArrayList<OnLogCallbackListener>();
+        callbackListeners = new ArrayList<LogCallbackListener>();
         logList = new ArrayList<GLog>(MemorySize);
         GLogWriter = null;
 
-        initAsyncThread();
+        initAsyncHandler();
     }
 
     /**
      * 初始化异步线程
      */
-    private static void initAsyncThread() {
+    private static void initAsyncHandler() {
         //线程初始化
-        thread = new Thread(GLog.class.getName()) {
+        Thread thread = new Thread(GLog.class.getName()) {
             @Override
             public void run() {
                 Looper.prepare();
@@ -115,26 +114,10 @@ public class GLog {
                     public void handleMessage(Message msg) {
                         switch (msg.what) {
                             case 0x1:
-                                //回调onListenerAdded
-                                OnLogCallbackListener listener = (OnLogCallbackListener) msg.obj;
-                                if (listener != null) {
-                                    try {
-                                        GLog[] logArray = new GLog[logList.size()];
-                                        LogListLock.lock();
-                                        logList.toArray(logArray);
-                                        listener.onListenerAdded(logArray);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    } finally {
-                                        LogListLock.unlock();
-                                    }
-                                }
-                                break;
-                            case 0x2:
                                 //回调onLogArrived
                                 GLog log = (GLog) msg.obj;
                                 if (log != null) {
-                                    for (OnLogCallbackListener i : callbackListeners) {
+                                    for (LogCallbackListener i : callbackListeners) {
                                         try {
                                             i.onLogArrived(log);
                                         } catch (Exception e) {
@@ -195,7 +178,7 @@ public class GLog {
     public static void setSaveLog(Context context, boolean isOpen, int fileCount, float fileSize, String filePath) {
         IsSaveLog = isOpen;
 
-        if (context == null && (context = GlobalValue.getContext()) == null)
+        if (context == null && (context = GlobalValue.getApplicationContext()) == null)
             return;
 
         if (IsSaveLog) {
@@ -219,7 +202,7 @@ public class GLog {
      * @param filePath 拷贝的存储文件夹,NULL采用默认,关闭时为NULL即可；默认：SD/Genius/Logs
      */
     public static void setCopyExternalStorage(Context context, boolean isCopy, String filePath) {
-        if ((context == null && (context = GlobalValue.getContext()) == null) || !IsSaveLog)
+        if ((context == null && (context = GlobalValue.getApplicationContext()) == null) || !IsSaveLog)
             return;
 
         if (isCopy)
@@ -237,24 +220,20 @@ public class GLog {
     }
 
     /**
-     * 添加接口，当有日志时将通知
+     * 添加接口
      *
      * @param listener OnLogCallbackListener
      */
-    public static void addCallbackListener(OnLogCallbackListener listener) {
+    public static void addCallbackListener(LogCallbackListener listener) {
         callbackListeners.add(listener);
-
-        //回调onListenerAdded()
-        if (handler != null)
-            handler.sendMessage(handler.obtainMessage(0x1, listener));
     }
 
     /**
-     * 删除指定的日子接口
+     * 删除接口
      *
      * @param listener OnLogCallbackListener
      */
-    public static void removeCallbackListener(OnLogCallbackListener listener) {
+    public static void removeCallbackListener(LogCallbackListener listener) {
         callbackListeners.remove(listener);
     }
 
@@ -468,7 +447,7 @@ public class GLog {
     //回调onLogArrived
     private static void arriveLog(GLog log) {
         if (handler != null)
-            handler.sendMessage(handler.obtainMessage(0x2, log));
+            handler.sendMessage(handler.obtainMessage(0x1, log));
     }
 
     /**
@@ -478,7 +457,7 @@ public class GLog {
     public static void destroy() {
         if (GLogWriter != null) {
             GLogWriter.done();
-            GLogWriter.unRegisterBroadCast(GlobalValue.getContext());
+            GLogWriter.unRegisterBroadCast(GlobalValue.getApplicationContext());
             GLogWriter = null;
         }
 
@@ -590,20 +569,13 @@ public class GLog {
      * 实现日志的界面显示
      * 当有日志来临时显示日志信息
      */
-    public interface OnLogCallbackListener {
+    public interface LogCallbackListener {
         /**
          * 日志到达时触发
          *
          * @param log GLog
          */
         public void onLogArrived(GLog log);
-
-        /**
-         * 添加一个Listener后触发
-         *
-         * @param logArray GLog Array
-         */
-        public void onListenerAdded(GLog[] logArray);
     }
 }
 

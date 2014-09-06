@@ -4,6 +4,8 @@ package net.qiujuer.genius.command;
 // Declare any non-default types here with import statements
 
 interface ICommandInterface {
-     void killSelf();
-     String command(String params);
+    String command(String id, String params);
+    void cancel(String id);
+    void killService();
+    void destroy();
 }

@@ -1,5 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="m_theme" format="reference" />
+
+    <attr name="m_fontFamily" format="string" />
+    <attr name="m_fontWeight" format="string" />
+    <attr name="m_fontExtension" format="string" />
+    <attr name="m_textAppearance" format="integer">
+        <enum name="none" value="0" />
+        <enum name="dark" value="1" />
+        <enum name="light" value="2" />
+    </attr>
+
+    <attr name="m_cornerRadius" format="dimension" />
+    <attr name="m_isMaterial" format="boolean" />
+
+    <declare-styleable name="MaterialButton">
+        <attr name="m_theme" />
+        <attr name="m_fontFamily" />
+        <attr name="m_fontWeight" />
+        <attr name="m_fontExtension" />
+        <attr name="m_textAppearance" />
+        <attr name="m_cornerRadius" />
+        <attr name="m_isMaterial" />
+
+        <!-- Defines the height of the border bottom of the button -->
+        <attr name="m_blockButtonEffectHeight" format="dimension" />
+    </declare-styleable>
+
+
 
     <attr name="fl_theme" format="reference" />
 
@@ -104,5 +131,4 @@
         <attr name="fl_cornerRadius" />
         <attr name="fl_space" format="dimension" />
     </declare-styleable>
-
 </resources>
