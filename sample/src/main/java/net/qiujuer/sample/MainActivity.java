@@ -6,8 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.TextView;
 
+import net.qiujuer.genius.Genius;
 import net.qiujuer.genius.command.Command;
-import net.qiujuer.genius.util.GLog;
+import net.qiujuer.genius.util.Log;
 
 
 public class MainActivity extends Activity {
@@ -30,9 +31,11 @@ public class MainActivity extends Activity {
 
         mText = (TextView) findViewById(R.id.text);
 
-        GLog.LogCallbackListener listener = new GLog.LogCallbackListener() {
+        Genius.initialize(getApplication());
+
+        Log.LogCallbackListener listener = new Log.LogCallbackListener() {
             @Override
-            public void onLogArrived(GLog data) {
+            public void onLogArrived(Log data) {
                 //有日志写来了
                 Message msg = mHandler.obtainMessage(0x1, data.getMsg());
                 mHandler.sendMessage(msg);
@@ -40,17 +43,16 @@ public class MainActivity extends Activity {
         };
 
         //添加回调
-        GLog.addCallbackListener(listener);
+        Log.addCallbackListener(listener);
 
-        TestCase test = new TestCase(this, mHandler);
+        TestCase test = new TestCase(mHandler);
         test.testGLog();
         test.testCommand();
     }
 
     @Override
     protected void onDestroy() {
-        Command.destroy();
-        GLog.destroy();
+        Genius.dispose();
         super.onDestroy();
     }
 }

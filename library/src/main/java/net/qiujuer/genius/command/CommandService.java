@@ -12,10 +12,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Genius on 2014/8/13.
- * 命令行执行服务
+ * Created by QiuJu
+ * on 2014/9/17.
  */
-public class CommandService extends Service {
+class CommandService extends Service {
     private CommandServiceImpl mImpl;
 
     public CommandService() {
@@ -43,19 +43,14 @@ public class CommandService extends Service {
         super.onDestroy();
     }
 
-    /**
-     * 继承自ICommandInterface接口的内部类
-     */
+
     private class CommandServiceImpl extends ICommandInterface.Stub {
-        //数据队列锁
         private Map<String, CommandExecutor> commandExecutorMap = new HashMap<String, CommandExecutor>();
-        // 锁
         private Lock lock = new ReentrantLock();
-        //守护线程
         private Thread thread;
 
         public CommandServiceImpl() {
-            //线程初始化
+            //init
             thread = new Thread(CommandServiceImpl.class.getName()) {
                 @Override
                 public void run() {
@@ -88,20 +83,21 @@ public class CommandService extends Service {
         }
 
         /**
-         * 杀掉自己
+         * kill Service
          *
          * @throws RemoteException
          */
         @Override
         public void killService() throws RemoteException {
+            stopSelf();
             android.os.Process.killProcess(android.os.Process.myPid());
         }
 
         /**
-         * 执行命令
+         * Run Command
          *
-         * @param params 命令
-         * @return 结果
+         * @param params params
+         * @return result
          * @throws RemoteException
          */
         @Override
@@ -118,7 +114,24 @@ public class CommandService extends Service {
         }
 
         /**
-         * 销毁操作
+         * cancel command
+         *
+         * @param id command.id
+         * @throws RemoteException
+         */
+        @Override
+        public void cancel(String id) throws RemoteException {
+            CommandExecutor executor = commandExecutorMap.get(id);
+            if (executor != null) {
+                lock.lock();
+                commandExecutorMap.remove(id);
+                lock.unlock();
+                executor.destroy();
+            }
+        }
+
+        /**
+         * destroy
          */
         @Override
         public void destroy() throws RemoteException {
@@ -132,16 +145,6 @@ public class CommandService extends Service {
             mImpl = null;
         }
 
-        @Override
-        public void cancel(String id) throws RemoteException {
-            CommandExecutor executor = commandExecutorMap.get(id);
-            if (executor != null) {
-                lock.lock();
-                commandExecutorMap.remove(id);
-                lock.unlock();
-                executor.destroy();
-            }
-        }
 
     }
 }

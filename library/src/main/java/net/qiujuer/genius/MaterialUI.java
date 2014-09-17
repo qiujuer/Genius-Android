@@ -11,7 +11,8 @@ import android.util.Log;
 import android.util.TypedValue;
 
 /**
- * Created by Genius on 2014/9/3.
+ * Created by QiuJu
+ * on 2014/9/3.
  */
 public class MaterialUI {
 

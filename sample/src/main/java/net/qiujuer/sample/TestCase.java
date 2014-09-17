@@ -1,11 +1,10 @@
 package net.qiujuer.sample;
 
-import android.content.Context;
 import android.os.Handler;
 
+import net.qiujuer.genius.Genius;
 import net.qiujuer.genius.command.Command;
-import net.qiujuer.genius.util.GLog;
-import net.qiujuer.genius.util.GlobalValue;
+import net.qiujuer.genius.util.Log;
 
 
 /**
@@ -16,9 +15,8 @@ public class TestCase {
     private static final String TAG = TestCase.class.getName();
     private Handler handler;
 
-    public TestCase(Context context, Handler handler) {
+    public TestCase(Handler handler) {
         //初始化全局Context
-        GlobalValue.setApplicationContext(context);
         this.handler = handler;
     }
 
@@ -35,7 +33,7 @@ public class TestCase {
                         "www.baidu.com");
                 //同步方式执行
                 String res = Command.command(command, null);
-                GLog.i(TAG, "Ping 测试结果：" + res);
+                Log.i(TAG, "Ping 测试结果：" + res);
             }
         };
         thread.start();
@@ -51,17 +49,17 @@ public class TestCase {
         Command.command(command, new Command.CommandListener() {
             @Override
             public void onCompleted(String str) {
-                GLog.i(TAG, "onCompleted：\n" + str);
+                Log.i(TAG, "onCompleted：\n" + str);
             }
 
             @Override
             public void onCancel() {
-                GLog.i(TAG, "onCancel");
+                Log.i(TAG, "onCancel");
             }
 
             @Override
             public void onError() {
-                GLog.i(TAG, "onError");
+                Log.i(TAG, "onError");
             }
         });
     }
@@ -71,33 +69,33 @@ public class TestCase {
      */
     public void testGLog() {
         //是否调用Android Log类
-        GLog.setCallLog(true);
+        Log.setCallLog(true);
 
         //是否开启写入文件
-        GLog.setSaveLog(GlobalValue.getApplicationContext(), true, 10, 1, null);
+        Log.setSaveLog(Genius.getApplication(), true, 10, 1, null);
 
         //设置是否监听外部存储插入操作
         //开启时插入外部设备（SD）时将拷贝存储的日志文件到外部存储设备
         //此操作依赖于是否开启写入文件功能，未开启则此方法无效
-        GLog.setCopyExternalStorage(GlobalValue.getApplicationContext(), true, "Test/Logs");
+        Log.setCopyExternalStorage(true, "Test/Logs");
 
         //设置日志等级
         //VERBOSE为5到ERROR为1依次递减
-        GLog.setLevel(GLog.ALL);
+        Log.setLevel(Log.ALL);
 
-        GLog.v(TAG, "测试日志 VERBOSE 级别。");
-        GLog.d(TAG, "测试日志 DEBUG 级别。");
-        GLog.i(TAG, "测试日志 INFO 级别。");
-        GLog.w(TAG, "测试日志 WARN 级别。");
-        GLog.e(TAG, "测试日志 ERROR 级别。");
+        Log.v(TAG, "测试日志 VERBOSE 级别。");
+        Log.d(TAG, "测试日志 DEBUG 级别。");
+        Log.i(TAG, "测试日志 INFO 级别。");
+        Log.w(TAG, "测试日志 WARN 级别。");
+        Log.e(TAG, "测试日志 ERROR 级别。");
 
-        GLog.setLevel(GLog.INFO);
-        GLog.v(TAG, "二次测试日志 VERBOSE 级别。");
-        GLog.d(TAG, "二次测试日志 DEBUG 级别。");
-        GLog.i(TAG, "二次测试日志 INFO 级别。");
-        GLog.w(TAG, "二次测试日志 WARN 级别。");
-        GLog.e(TAG, "二次测试日志 ERROR 级别。");
+        Log.setLevel(Log.INFO);
+        Log.v(TAG, "二次测试日志 VERBOSE 级别。");
+        Log.d(TAG, "二次测试日志 DEBUG 级别。");
+        Log.i(TAG, "二次测试日志 INFO 级别。");
+        Log.w(TAG, "二次测试日志 WARN 级别。");
+        Log.e(TAG, "二次测试日志 ERROR 级别。");
 
-        GLog.setLevel(GLog.ALL);
+        Log.setLevel(Log.ALL);
     }
 }

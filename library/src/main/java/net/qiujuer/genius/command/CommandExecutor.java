@@ -11,21 +11,19 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Genius on 2014/8/13.
- * 命令行执行命令
+ * Created by QiuJu
+ * on 2014/9/17.
  */
 class CommandExecutor {
     private static final String TAG = CommandExecutor.class.getName();
-    //换行符
+
     private static final String BREAK_LINE;
-    //错误缓冲
     private static final byte[] BUFFER;
-    //缓冲区大小
     private static final int BUFFER_LENGTH;
-    //创建进程时需要互斥进行
+
     private static final Lock LOCK = new ReentrantLock();
-    //不能超过1分钟
-    private static final long TIMEOUT = 60000;
+    //Time Out
+    private static final long TIMEOUT = 90000;
     //ProcessBuilder
     private static ProcessBuilder PRC;
 
@@ -41,7 +39,7 @@ class CommandExecutor {
     private long startTime;
 
     /**
-     * 静态变量初始化
+     * init
      */
     static {
         BREAK_LINE = "\n";
@@ -53,9 +51,13 @@ class CommandExecutor {
         LOCK.unlock();
     }
 
-
     /**
-     * 实例化一个CommandExecutor
+     * *********************************************************************************************
+     * private methods
+     * *********************************************************************************************
+     */
+    /**
+     * Get CommandExecutor
      *
      * @param process Process
      */
@@ -88,40 +90,8 @@ class CommandExecutor {
     }
 
     /**
-     * 执行命令
-     *
-     * @param param 命令参数 eg: "/system/bin/ping -c 4 -s 100 www.qiujuer.net"
+     * read
      */
-    protected static CommandExecutor create(String param) {
-        String[] params = param.split(" ");
-        CommandExecutor processModel = null;
-        try {
-            LOCK.lock();
-            Process process = PRC.command(params)
-                    .redirectErrorStream(true)
-                    .start();
-            processModel = new CommandExecutor(process);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            //sleep 100
-            ToolUtils.sleepIgnoreInterrupt(100);
-            LOCK.unlock();
-        }
-        return processModel;
-    }
-
-
-    /**
-     * 获取是否超时
-     *
-     * @return 是否超时
-     */
-    protected boolean isTimeOut() {
-        return ((System.currentTimeMillis() - startTime) >= TIMEOUT);
-    }
-
-    //读取结果
     private void read() {
         String str;
         //read In
@@ -136,7 +106,7 @@ class CommandExecutor {
     }
 
     /**
-     * 启动线程进行异步读取结果
+     * run thread
      */
     private void startRead() {
         //while to end
@@ -176,25 +146,7 @@ class CommandExecutor {
     }
 
     /**
-     * 获取执行结果
-     *
-     * @return 结果
-     */
-    protected String getResult() {
-        //until startRead en
-        while (!isDone) {
-            ToolUtils.sleepIgnoreInterrupt(200);
-        }
-
-        //return
-        if (sbReader.length() == 0)
-            return null;
-        else
-            return sbReader.toString();
-    }
-
-    /**
-     * 关闭所有流
+     * close
      */
     private void close() {
         //close out
@@ -237,10 +189,67 @@ class CommandExecutor {
         }
     }
 
+
     /**
-     * 销毁
+     * *********************************************************************************************
+     * protected methods
+     * *********************************************************************************************
      */
-    public void destroy() {
+    /**
+     * Run
+     *
+     * @param param param eg: "/system/bin/ping -c 4 -s 100 www.qiujuer.net"
+     */
+    protected static CommandExecutor create(String param) {
+        String[] params = param.split(" ");
+        CommandExecutor processModel = null;
+        try {
+            LOCK.lock();
+            Process process = PRC.command(params)
+                    .redirectErrorStream(true)
+                    .start();
+            processModel = new CommandExecutor(process);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //sleep 100
+            ToolUtils.sleepIgnoreInterrupt(100);
+            LOCK.unlock();
+        }
+        return processModel;
+    }
+
+    /**
+     * Get is Time Out
+     *
+     * @return Time Out
+     */
+    protected boolean isTimeOut() {
+        return ((System.currentTimeMillis() - startTime) >= TIMEOUT);
+    }
+
+    /**
+     * Get Result
+     *
+     * @return Result
+     */
+    protected String getResult() {
+        //until startRead en
+        while (!isDone) {
+            ToolUtils.sleepIgnoreInterrupt(200);
+        }
+
+        //return
+        if (sbReader.length() == 0)
+            return null;
+        else
+            return sbReader.toString();
+    }
+
+    /**
+     * destroy
+     */
+    protected void destroy() {
         String str = process.toString();
         try {
             int i = str.indexOf("=") + 1;

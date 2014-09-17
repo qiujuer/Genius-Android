@@ -27,7 +27,6 @@
     </declare-styleable>
 
 
-
     <attr name="fl_theme" format="reference" />
 
     <attr name="fl_fontFamily" format="string" />

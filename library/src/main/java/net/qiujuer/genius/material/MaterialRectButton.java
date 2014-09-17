@@ -168,21 +168,17 @@ public class MaterialRectButton extends Button implements Attributes.AttributeCh
     protected void onDraw(Canvas canvas) {
         canvas.save();
         //canvas.saveLayer(rect, mBackgroundPaint, Canvas.CLIP_TO_LAYER_SAVE_FLAG);
-        //重定向坐标
         canvas.translate(paintX, paintY);
         /*
-        //画圆角矩形
-        // 长方形 Left Top Right Bottom
+        // Left Top Right Bottom
         RectF rect = new RectF(left, top, right, bottom);
-        //半径
         float r = (bottom - top);
-        //矩形 x半径 y半径 颜色
+        //x y color
         canvas.drawRoundRect(rect, r / 3, r / 3, mBackgroundPaint);
-*/
+        */
         canvas.drawCircle(0, 0, left, mBackgroundPaint);
         canvas.restore();
 
-        //绘制父类
         super.onDraw(canvas);
     }
 
@@ -190,16 +186,13 @@ public class MaterialRectButton extends Button implements Attributes.AttributeCh
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //按下
                 paintX = event.getX();
                 paintY = event.getY();
                 animatePlus();
                 break;
             case MotionEvent.ACTION_MOVE:
-                //移动
                 break;
             case MotionEvent.ACTION_UP:
-                //抬起
                 break;
         }
 

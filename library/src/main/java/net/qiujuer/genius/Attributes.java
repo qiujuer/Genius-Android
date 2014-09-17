@@ -4,7 +4,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 
 /**
- * Created by QiuJu on 2014/9/3.
+ * Created by QiuJu
+ * on 2014/9/3.
  */
 public class Attributes {
 

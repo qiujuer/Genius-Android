@@ -161,12 +161,10 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
     @SuppressWarnings("NullableProblems")
     @Override
     protected void onDraw(Canvas canvas) {
-
         canvas.save();
         canvas.drawCircle(paintX, paintY, radius, backgroundPaint);
         canvas.restore();
 
-        //绘制父类
         super.onDraw(canvas);
     }
 
@@ -174,7 +172,6 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (attributes.isMaterial() && event.getAction() == MotionEvent.ACTION_DOWN) {
-            //按下
             paintX = event.getX();
             paintY = event.getY();
             startAnimator();
@@ -183,7 +180,7 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
     }
 
     /**
-     * 启动动画
+     * start Animator
      */
     private void startAnimator() {
         int start, end;
@@ -204,14 +201,12 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
                 ObjectAnimator.ofFloat(this, mRadiusProperty, startRadius, endRadius),
                 ObjectAnimator.ofObject(this, mBackgroundColorProperty, argbEvaluator, attributes.getColor(1), attributes.getColor(2))
         );
-        // 设置时间
+        // set Time
         set.setDuration((long) (1200 / end * endRadius));
-        // 逐渐缓慢
         set.setInterpolator(ANIMATION_INTERPOLATOR);
         set.start();
     }
 
-    //半径属性
     private Property<MaterialButton, Float> mRadiusProperty = new Property<MaterialButton, Float>(Float.class, "radius") {
         @Override
         public Float get(MaterialButton object) {
@@ -224,7 +219,7 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
             invalidate();
         }
     };
-    //颜色属性
+
     private Property<MaterialButton, Integer> mBackgroundColorProperty = new Property<MaterialButton, Integer>(Integer.class, "bg_color") {
         @Override
         public Integer get(MaterialButton object) {
