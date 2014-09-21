@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * on 2014/8/13.
  */
 public final class Command {
-    private static final String TAG = Command.class.getName();
+    private static final String TAG = Command.class.getSimpleName();
     //ICommandInterface
     private static ICommandInterface iService = null;
     //Service link class, used to instantiate the service interface
@@ -40,13 +40,13 @@ public final class Command {
                 bindService();
             }
             iLock.unlock();
-            Log.i(TAG, "onServiceConnected");
+            Log.i(TAG, "ServiceConnection:onServiceConnected");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             iService = null;
-            Log.i(TAG, "onServiceDisconnected");
+            Log.i(TAG, "ServiceConnection:onServiceDisconnected");
         }
     };
     //Lock
@@ -78,7 +78,6 @@ public final class Command {
      * *********************************************************************************************
      */
 
-
     /**
      * Command the test
      *
@@ -98,6 +97,7 @@ public final class Command {
             }
             iLock.unlock();
         }
+        //Get result
         int count = 10;
         while (count > 0) {
             if (command.isCancel) {
@@ -115,18 +115,21 @@ public final class Command {
                 ToolUtils.sleepIgnoreInterrupt(3000);
             }
         }
+        //Check is Error
         if (count <= 0) {
+            bindService();
             if (command.listener != null)
                 command.listener.onError();
-            bindService();
         }
         command.listener = null;
+        //Check is end
         try {
             if (iService.getTaskCount() <= 0)
                 dispose();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        //Return
         return command.result;
     }
 
