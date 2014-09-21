@@ -41,8 +41,8 @@ public class TestCase {
 
         thread = new Thread() {
             public void run() {
-                //60s后执行
-                ToolUtils.sleepIgnoreInterrupt(60000);
+                //30s后执行
+                ToolUtils.sleepIgnoreInterrupt(30000);
 
                 //执行命令，后台服务自动控制
                 //调用方式与ProcessBuilder传参方式一样
@@ -51,7 +51,7 @@ public class TestCase {
                         "www.baidu.com");
                 //同步方式执行
                 String res = Command.command(command);
-                Log.i(TAG, "Ping 测试结果：" + res);
+                Log.i(TAG, "延迟30s：Ping 测试结果：" + res);
             }
         };
         thread.start();

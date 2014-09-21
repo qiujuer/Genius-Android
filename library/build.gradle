@@ -10,8 +10,8 @@ android {
         applicationId "net.qiujuer.genius"
         minSdkVersion 15
         targetSdkVersion 20
-        versionCode 26
-        versionName "0.2.6"
+        versionCode 34
+        versionName "0.3.4"
     }
     buildTypes {
         release {
@@ -51,7 +51,7 @@ task makeJar(type: Copy) {
     rename ('classes.jar', POM_ARTIFACT_ID + '_' +  VERSION_NAME + '.jar')
 }
 
-makeJar.dependsOn(clearJar, build)
+//makeJar.dependsOn(clearJar, build)
 
 
 apply from: '../maven_push.gradle'
