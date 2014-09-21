@@ -15,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * on 2014/9/17.
  */
 class CommandExecutor {
-    private static final String TAG = CommandExecutor.class.getName();
+    private static final String TAG = CommandExecutor.class.getSimpleName();
 
     private static final String BREAK_LINE;
     private static final byte[] BUFFER;

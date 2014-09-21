@@ -7,7 +7,11 @@
             android:name="net.qiujuer.genius.command.CommandService"
             android:enabled="true"
             android:exported="false"
-            android:process="net.qiujuer.genius.command.CommandService" />
+            android:process="net.qiujuer.genius.command.CommandService">
+            <intent-filter>
+                <action android:name="net.qiujuer.genius.command.ICommandInterface" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

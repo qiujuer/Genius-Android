@@ -6,6 +6,6 @@ package net.qiujuer.genius.command;
 interface ICommandInterface {
     String command(String id, String params);
     void cancel(String id);
-    void killService();
-    void destroy();
+    void dispose();
+    int getTaskCount();
 }

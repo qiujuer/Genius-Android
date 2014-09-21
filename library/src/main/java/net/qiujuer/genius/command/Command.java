@@ -66,12 +66,36 @@ public final class Command {
     }
 
     /**
+     * start bind Service
+     */
+    private synchronized static void bindService() {
+        Context context = Genius.getApplication();
+        if (context == null) {
+            throw new NullPointerException("ApplicationContext is not null.Please setApplicationContext()");
+        } else {
+            dispose();
+            if (intent == null)
+                intent = new Intent(context, CommandService.class);
+            context.startService(intent);
+            context.bindService(intent, conn, Context.BIND_AUTO_CREATE);
+            isBindService = true;
+        }
+    }
+
+    /**
+     * *********************************************************************************************
+     * Static public
+     * *********************************************************************************************
+     */
+
+
+    /**
      * Command the test
      *
      * @param command Command
      * @return Results
      */
-    private static String command(Command command) {
+    public static String command(Command command) {
         //check Service
         if (iService == null) {
             iLock.lock();
@@ -105,53 +129,30 @@ public final class Command {
             bindService();
         }
         command.listener = null;
+        try {
+            if (iService.getTaskCount() <= 0)
+                dispose();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         return command.result;
     }
 
-
     /**
-     * start bind Service
-     */
-    private synchronized static void bindService() {
-        Context context = Genius.getApplication();
-        if (context == null) {
-            throw new NullPointerException("ApplicationContext is not null.Please setApplicationContext()");
-        } else {
-            if (isBindService)
-                dispose();
-            if (intent == null)
-                intent = new Intent(context, CommandService.class);
-            context.startService(intent);
-            context.bindService(intent, conn, Context.BIND_AUTO_CREATE);
-            isBindService = true;
-        }
-    }
-
-    /**
-     * *********************************************************************************************
-     * Static public
-     * *********************************************************************************************
-     * /**
      * Command the test
      *
      * @param command Command
-     * @return Results
      */
-    public static String command(final Command command, CommandListener listener) {
-        if (listener == null) {
-            return command(command);
-        } else {
-            command.listener = listener;
-            Thread thread = new Thread() {
-                @Override
-                public void run() {
-                    command(command);
-                }
-            };
-            thread.setDaemon(true);
-            thread.start();
-        }
-        return null;
+    public static void command(final Command command, CommandListener listener) {
+        command.listener = listener;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                command(command);
+            }
+        };
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
@@ -171,24 +172,26 @@ public final class Command {
      * dispose unbindService stopService
      */
     public static void dispose() {
-        if (iService != null) {
-            try {
-                iService.destroy();
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        if (isBindService) {
+            if (iService != null) {
+                try {
+                    iService.dispose();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                iService = null;
             }
-            iService = null;
-        }
-        Context context = Genius.getApplication();
-        if (context != null) {
-            try {
-                context.unbindService(conn);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
-            if (intent != null) {
-                context.stopService(intent);
-                intent = null;
+            Context context = Genius.getApplication();
+            if (context != null) {
+                try {
+                    context.unbindService(conn);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+                if (intent != null) {
+                    context.stopService(intent);
+                    intent = null;
+                }
             }
         }
         isBindService = false;

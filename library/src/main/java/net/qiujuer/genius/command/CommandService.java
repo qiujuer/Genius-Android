@@ -15,10 +15,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by QiuJu
  * on 2014/9/17.
  */
-class CommandService extends Service {
+public class CommandService extends Service {
     private CommandServiceImpl mImpl;
 
-    public CommandService() {
+    @Override
+    public void onCreate() {
+        super.onCreate();
         mImpl = new CommandServiceImpl();
     }
 
@@ -33,14 +35,11 @@ class CommandService extends Service {
     @Override
     public void onDestroy() {
         if (mImpl != null) {
-            try {
-                mImpl.destroy();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            mImpl.destroy();
             mImpl = null;
         }
         super.onDestroy();
+        android.util.Log.e("CommandService", "onDestroy");
     }
 
 
@@ -59,12 +58,9 @@ class CommandService extends Service {
                             lock.lock();
                             Collection<CommandExecutor> commandExecutors = commandExecutorMap.values();
                             for (CommandExecutor executor : commandExecutors) {
+                                //kill Service Process
                                 if (executor.isTimeOut())
-                                    try {
-                                        killService();
-                                    } catch (RemoteException e) {
-                                        e.printStackTrace();
-                                    }
+                                    android.os.Process.killProcess(android.os.Process.myPid());
                                 if (thread != this && this.isInterrupted())
                                     break;
                             }
@@ -83,15 +79,19 @@ class CommandService extends Service {
         }
 
         /**
-         * kill Service
-         *
-         * @throws RemoteException
+         * destroy
          */
-        @Override
-        public void killService() throws RemoteException {
-            stopSelf();
-            android.os.Process.killProcess(android.os.Process.myPid());
+        protected void destroy() {
+            if (thread != null) {
+                thread.interrupt();
+                thread = null;
+            }
+            lock.lock();
+            commandExecutorMap.clear();
+            commandExecutorMap = null;
+            lock.lock();
         }
+
 
         /**
          * Run Command
@@ -131,20 +131,24 @@ class CommandService extends Service {
         }
 
         /**
-         * destroy
+         * Dispose Service
          */
         @Override
-        public void destroy() throws RemoteException {
-            lock.lock();
-            commandExecutorMap.clear();
-            lock.lock();
-            if (thread != null) {
-                thread.interrupt();
-                thread = null;
-            }
-            mImpl = null;
+        public void dispose() {
+            stopSelf();
         }
 
-
+        /**
+         * Get Task Count
+         *
+         * @return Map Count
+         * @throws RemoteException
+         */
+        @Override
+        public int getTaskCount() throws RemoteException {
+            if (commandExecutorMap == null)
+                return 0;
+            return commandExecutorMap.size();
+        }
     }
 }

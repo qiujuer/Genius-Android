@@ -5,6 +5,7 @@ import android.os.Handler;
 import net.qiujuer.genius.Genius;
 import net.qiujuer.genius.command.Command;
 import net.qiujuer.genius.util.Log;
+import net.qiujuer.genius.util.ToolUtils;
 
 
 /**
@@ -32,7 +33,24 @@ public class TestCase {
                         "-c", "4", "-s", "100",
                         "www.baidu.com");
                 //同步方式执行
-                String res = Command.command(command, null);
+                String res = Command.command(command);
+                Log.i(TAG, "Ping 测试结果：" + res);
+            }
+        };
+        thread.start();
+
+        thread = new Thread() {
+            public void run() {
+                //60s后执行
+                ToolUtils.sleepIgnoreInterrupt(60000);
+
+                //执行命令，后台服务自动控制
+                //调用方式与ProcessBuilder传参方式一样
+                Command command = new Command("/system/bin/ping",
+                        "-c", "4", "-s", "100",
+                        "www.baidu.com");
+                //同步方式执行
+                String res = Command.command(command);
                 Log.i(TAG, "Ping 测试结果：" + res);
             }
         };
