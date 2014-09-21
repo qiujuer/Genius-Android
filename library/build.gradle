@@ -38,7 +38,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:20.0.0'
 }
 
 task clearJar(type: Delete) {

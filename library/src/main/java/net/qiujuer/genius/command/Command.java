@@ -24,60 +24,50 @@ public final class Command {
     private static final String TAG = Command.class.getName();
     //ICommandInterface
     private static ICommandInterface iService = null;
-    //Intent
-    private static Intent intent = null;
     //Service link class, used to instantiate the service interface
-    private static ServiceConnection conn = null;
+    private static ServiceConnection conn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            iLock.lock();
+            iService = ICommandInterface.Stub.asInterface(service);
+            if (iService != null) {
+                try {
+                    iCondition.signalAll();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                bindService();
+            }
+            iLock.unlock();
+            Log.i(TAG, "onServiceConnected");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            iService = null;
+            Log.i(TAG, "onServiceDisconnected");
+        }
+    };
     //Lock
     private static Lock iLock = new ReentrantLock();
     private static Condition iCondition = iLock.newCondition();
-
+    //Mark If Bind Service
     private static boolean isBindService = false;
+    //Context
+    private static Context mContext;
 
-    /**
-     * init
-     */
-    static {
-        conn = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                iLock.lock();
-                iService = ICommandInterface.Stub.asInterface(service);
-                if (iService != null) {
-                    try {
-                        iCondition.signalAll();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    bindService();
-                }
-                iLock.unlock();
-                Log.i(TAG, "onServiceConnected");
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                iService = null;
-                Log.i(TAG, "onServiceDisconnected");
-            }
-        };
-        bindService();
-    }
 
     /**
      * start bind Service
      */
     private synchronized static void bindService() {
-        Context context = Genius.getApplication();
-        if (context == null) {
+        dispose();
+        mContext = Genius.getApplication();
+        if (mContext == null) {
             throw new NullPointerException("ApplicationContext is not null.Please setApplicationContext()");
         } else {
-            dispose();
-            if (intent == null)
-                intent = new Intent(context, CommandService.class);
-            context.startService(intent);
-            context.bindService(intent, conn, Context.BIND_AUTO_CREATE);
+            mContext.bindService(new Intent(mContext, CommandService.class), conn, Context.BIND_AUTO_CREATE);
             isBindService = true;
         }
     }
@@ -97,6 +87,8 @@ public final class Command {
      */
     public static String command(Command command) {
         //check Service
+        if (!isBindService)
+            bindService();
         if (iService == null) {
             iLock.lock();
             try {
@@ -181,20 +173,10 @@ public final class Command {
                 }
                 iService = null;
             }
-            Context context = Genius.getApplication();
-            if (context != null) {
-                try {
-                    context.unbindService(conn);
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                }
-                if (intent != null) {
-                    context.stopService(intent);
-                    intent = null;
-                }
-            }
+            mContext.unbindService(conn);
+            mContext = null;
+            isBindService = false;
         }
-        isBindService = false;
     }
 
     /**

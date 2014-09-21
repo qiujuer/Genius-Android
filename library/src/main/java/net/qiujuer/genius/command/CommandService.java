@@ -39,7 +39,6 @@ public class CommandService extends Service {
             mImpl = null;
         }
         super.onDestroy();
-        android.util.Log.e("CommandService", "onDestroy");
     }
 
 
