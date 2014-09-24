@@ -127,7 +127,7 @@ public final class ToolUtils {
      * @param packageName App packageName
      * @return isAvailable
      */
-    private boolean isAvailablePackage(Context context, String packageName) {
+    public static boolean isAvailablePackage(Context context, String packageName) {
         final PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> infoList = packageManager.getInstalledPackages(0);
         for (PackageInfo info : infoList) {
