@@ -1,7 +1,6 @@
 package net.qiujuer.genius.nettool;
 
 import net.qiujuer.genius.command.Command;
-import net.qiujuer.genius.util.ToolUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,14 +91,14 @@ public class TraceRoute extends NetModel {
 
         for (int i = 0; i < ForCount; i++) {
             mLatch = new CountDownLatch(OnceCount);
-            for (int j = 1; j <= OnceCount; j++) {
-                //get ttl
-                final int ttl = i * OnceCount + j;
-                //thread run get tp ttl ping information
-                synchronized (traceLock) {
+            synchronized (traceLock) {
+                for (int j = 1; j <= OnceCount; j++) {
+                    //get ttl
+                    final int ttl = i * OnceCount + j;
+                    //thread run get tp ttl ping information
                     threads.add(new TraceThread(ip, ttl));
+
                 }
-                ToolUtils.sleepIgnoreInterrupt(100);
             }
             try {
                 mLatch.await(40, TimeUnit.SECONDS);

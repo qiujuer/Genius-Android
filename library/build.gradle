@@ -10,8 +10,8 @@ android {
         applicationId "net.qiujuer.genius"
         minSdkVersion 15
         targetSdkVersion 20
-        versionCode 38
-        versionName "0.3.8"
+        versionCode 39
+        versionName "0.3.9"
     }
     buildTypes {
         release {
@@ -46,7 +46,7 @@ task clearJar(type: Delete) {
 
 task makeJar(type: Copy) {
     from('build/intermediates/bundles/release/')
-    into('release/')
+    into('../release/')
     include('classes.jar')
     rename ('classes.jar', POM_ARTIFACT_ID + '_' +  VERSION_NAME + '.jar')
 }
