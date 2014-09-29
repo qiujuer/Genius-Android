@@ -53,7 +53,7 @@ public class TraceRoute extends NetModel {
         }
     }
 
-    private void endTrace(TraceThread trace, boolean isError, boolean isArrived, RouteContainer routeContainer) {
+    private void complete(TraceThread trace, boolean isError, boolean isArrived, RouteContainer routeContainer) {
         if (threads != null) {
             synchronized (traceLock) {
                 try {
@@ -97,7 +97,6 @@ public class TraceRoute extends NetModel {
                     final int ttl = i * OnceCount + j;
                     //thread run get tp ttl ping information
                     threads.add(new TraceThread(ip, ttl));
-
                 }
             }
             try {
@@ -249,28 +248,31 @@ public class TraceRoute extends NetModel {
          */
         private String parseIpFromRoute(String ping) {
             String ip = null;
-            if (ping.contains(PING_FROM)) {
-                // Get ip when ttl exceeded
-                int index = ping.indexOf(PING_FROM);
-                ip = ping.substring(index + 5);
-                if (ip.contains(PING_PAREN_THESE_OPEN)) {
-                    int indexOpen = ip.indexOf(PING_PAREN_THESE_OPEN);
-                    int indexClose = ip.indexOf(PING_PAREN_THESE_CLOSE);
-                    ip = ip.substring(indexOpen + 1, indexClose);
-                } else {
-                    // Get ip when after from
-                    ip = ip.substring(0, ip.indexOf("\n"));
-                    if (ip.contains(":")) {
-                        index = ip.indexOf(":");
+            try {
+                if (ping.contains(PING_FROM)) {
+                    // Get ip when ttl exceeded
+                    int index = ping.indexOf(PING_FROM);
+                    ip = ping.substring(index + 5);
+                    if (ip.contains(PING_PAREN_THESE_OPEN)) {
+                        int indexOpen = ip.indexOf(PING_PAREN_THESE_OPEN);
+                        int indexClose = ip.indexOf(PING_PAREN_THESE_CLOSE);
+                        ip = ip.substring(indexOpen + 1, indexClose);
                     } else {
-                        index = ip.indexOf(" ");
+                        // Get ip when after from
+                        ip = ip.substring(0, ip.indexOf("\n"));
+                        if (ip.contains(":"))
+                            index = ip.indexOf(":");
+                        else
+                            index = ip.indexOf(" ");
+                        ip = ip.substring(0, index);
                     }
-                    ip = ip.substring(0, index);
+                } else if (ping.contains(PING)) {
+                    int indexOpen = ping.indexOf(PING_PAREN_THESE_OPEN);
+                    int indexClose = ping.indexOf(PING_PAREN_THESE_CLOSE);
+                    ip = ping.substring(indexOpen + 1, indexClose);
                 }
-            } else if (ping.contains(PING)) {
-                int indexOpen = ping.indexOf(PING_PAREN_THESE_OPEN);
-                int indexClose = ping.indexOf(PING_PAREN_THESE_CLOSE);
-                ip = ping.substring(indexOpen + 1, indexClose);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             return ip;
         }
@@ -279,7 +281,7 @@ public class TraceRoute extends NetModel {
         public void run() {
             super.run();
             RouteContainer routeContainer = trace(ip, ttl);
-            endTrace(this, this.isError, this.isArrived, routeContainer);
+            complete(this, this.isError, this.isArrived, routeContainer);
         }
 
         /**
@@ -340,6 +342,6 @@ public class TraceRoute extends NetModel {
 
     @Override
     public String toString() {
-        return "Routes:" + routes;
+        return "Ip:" + ip + " Routes:" + routes;
     }
 }

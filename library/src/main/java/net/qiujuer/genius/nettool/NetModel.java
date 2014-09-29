@@ -68,14 +68,6 @@ public abstract class NetModel {
     @SuppressWarnings("StatementWithEmptyBody")
     protected static void closeInputStream(InputStream in) {
         if (in != null) {
-            /*
-            try {
-                byte[] buffer = new byte[32];
-                while (in.read(buffer) > 0) ;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            */
             try {
                 in.close();
             } catch (IOException e) {

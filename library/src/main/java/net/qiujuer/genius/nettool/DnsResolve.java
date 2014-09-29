@@ -181,6 +181,8 @@ public class DnsResolve extends NetModel {
                     addresses.add(add.getHostAddress());
             } catch (UnknownHostException e) {
                 error = UNKNOWN_HOST_ERROR;
+            } catch (Exception e) {
+                error = UNKNOWN_ERROR;
             }
         } else {
             try {

@@ -82,26 +82,26 @@ public class SpeedRoad extends NetModel {
             error = UNKNOWN_HOST_ERROR;
         } catch (IOException e) {
             error = TCP_LINK_ERROR;
+        } catch (Exception e) {
+            error = UNKNOWN_ERROR;
         }
         //run
         if (error == SUCCEED)
             download(httpUrlConn);
         //close
         if (httpUrlConn != null) {
-            close(httpUrlConn);
-            httpUrlConn = null;
+            close();
         }
     }
 
     @Override
     public void cancel() {
         if (httpUrlConn != null) {
-            close(httpUrlConn);
-            httpUrlConn = null;
+            close();
         }
     }
 
-    private void close(HttpURLConnection httpUrlConn) {
+    private void close() {
         try {
             OutputStream out = httpUrlConn.getOutputStream();
             if (out != null)
@@ -139,7 +139,7 @@ public class SpeedRoad extends NetModel {
         }
         if (code < 200 && code > 299)
             return;
-        //获取下载目标大小
+        //get size
         long fSize = httpConn.getContentLength();
         long dwRead, curSize = 0;
         InputStream cin;
@@ -152,7 +152,7 @@ public class SpeedRoad extends NetModel {
         //file down
         if (fSize > 0) {
             try {
-                byte[] buffer = new byte[64];
+                byte[] buffer = new byte[32];
                 while ((dwRead = cin.read(buffer)) != -1) {
                     curSize += dwRead;
                     if (curSize >= size || curSize >= fSize)
@@ -164,13 +164,10 @@ public class SpeedRoad extends NetModel {
                     }
                 }
             } catch (IOException e) {
-                closeInputStream(cin);
-                return;
-            }
-            if (curSize <= 0) {
-                closeInputStream(cin);
-                error = SERVICE_NOT_AVAILABLE;
-                return;
+                if (curSize <= 0) {
+                    error = SERVICE_NOT_AVAILABLE;
+                    return;
+                }
             }
             //get result
             totalSize = fSize;
@@ -182,27 +179,26 @@ public class SpeedRoad extends NetModel {
         } else {
             //page down
             try {
-                byte[] buffer = new byte[64];
-                while ((dwRead = cin.read(buffer)) != -1)
+                byte[] buffer = new byte[32];
+                while ((dwRead = cin.read(buffer)) != -1) {
                     curSize += dwRead;
+                    if (curSize > size)
+                        break;
+                }
             } catch (IOException e) {
-                error = DOWNLOAD_ERROR;
-                return;
+                if (curSize <= 0) {
+                    error = SERVICE_NOT_AVAILABLE;
+                    return;
+                }
             }
-            if (curSize <= 0) {
-                closeInputStream(cin);
-                error = SERVICE_NOT_AVAILABLE;
-                return;
-            }
+
             //get result
             totalSize = curSize;
-            //实际下载大小不能大于规定的最大下载大小
             downSize = size < curSize ? size : curSize;
             long time = (System.currentTimeMillis() - beginTime);
-            if (time <= 0)//保证分母不能为0
+            if (time <= 0)
                 time = 1;
             speed = ((float) curSize * 1000) / time;
-            //下载时间按照实际的下载大小进行等比运算
             if (downSize == curSize)
                 downTime = time;
             else
