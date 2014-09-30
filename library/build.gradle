@@ -22,6 +22,7 @@ android {
 
     sourceSets {
         main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
             java {
                 srcDir 'src/main/java'
             }
@@ -37,21 +38,16 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
 }
-
 task clearJar(type: Delete) {
     delete 'build/libs/' + POM_ARTIFACT_ID + '_' + VERSION_NAME + '.jar'
 }
-
 task makeJar(type: Copy) {
     from('build/intermediates/bundles/release/')
     into('../release/')
     include('classes.jar')
     rename ('classes.jar', POM_ARTIFACT_ID + '_' +  VERSION_NAME + '.jar')
 }
-
 //makeJar.dependsOn(clearJar, build)
-
 
 apply from: '../maven_push.gradle'
