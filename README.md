@@ -5,8 +5,8 @@ Android库提供一个在Android中能经常使用的库集合。
 在这里向我参考过的开源库作者致敬！
 eg:`FlatUI`
 
-##Genius-Android库有哪些功能？
 
+##Genius-Android库有哪些功能？
 * 方便的`日志`功能
     *  使用方式与系统日志Log类一样
     *  可设置是否调用系统Log类对应方法
@@ -51,7 +51,7 @@ eg:`FlatUI`
 ##获取库
 * `Star`或者`Fork`项目，然后下载。
 * `release`文件夹中的`*.jar`或者`*.aar`文件可以直接导入到自己项目中。
-    *  `*.jar`无法使用控件资源，如R.*.*。
+    *  `*.jar`无法使用控件资源，如R..。
     *  `*.aar`能使用所有的类和控件以及字体等。
     *  `*.aar`本地引入方法：
     ```javascript
@@ -73,6 +73,7 @@ dependencies {
     compile 'com.github.qiujuer:genius:0.4.0'
 }
 ```
+
 
 ##使用方式
 * 初始化与销毁：
@@ -199,19 +200,17 @@ Log.e(TAG, "二次测试日志 ERROR 级别。");
 Log.setLevel(Log.ALL);
 ```
 
-##给予权限
-* 使用网络功能：
-```javascript
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-```
-* 日志写入文件功能：
-```javascript
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-```
 
+##给予权限
+```javascript
+    <!--网络 权限-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--日志写文件 权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--getDeviceId 权限-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+```
 
 
 ##开发者

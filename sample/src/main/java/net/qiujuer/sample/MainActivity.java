@@ -7,7 +7,6 @@ import android.os.Message;
 import android.widget.TextView;
 
 import net.qiujuer.genius.Genius;
-import net.qiujuer.genius.command.Command;
 import net.qiujuer.genius.util.Log;
 
 
@@ -28,30 +27,35 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mText = (TextView) findViewById(R.id.text);
-
+        //初始化
         Genius.initialize(getApplication());
 
-        Log.LogCallbackListener listener = new Log.LogCallbackListener() {
+        //添加回调
+        Log.addCallbackListener(new Log.LogCallbackListener() {
             @Override
             public void onLogArrived(Log data) {
-                //有日志写来了
-                Message msg = mHandler.obtainMessage(0x1, data.getMsg());
-                mHandler.sendMessage(msg);
+                //显示到界面
+                if (mHandler != null) {
+                    Message msg = mHandler.obtainMessage(0x1, data.getMsg());
+                    mHandler.sendMessage(msg);
+                }
             }
-        };
+        });
 
-        //添加回调
-        Log.addCallbackListener(listener);
-
-        TestCase test = new TestCase(mHandler);
-        test.testGLog();
+        //开始测试
+        TestCase test = new TestCase();
+        test.testLog();
         test.testCommand();
+        test.testHashUtils();
+        test.testToolUtils();
+        test.testNetTool();
     }
 
     @Override
     protected void onDestroy() {
+        mHandler = null;
+        //销毁
         Genius.dispose();
         super.onDestroy();
     }
