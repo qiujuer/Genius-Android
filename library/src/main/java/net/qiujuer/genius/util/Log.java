@@ -1,6 +1,5 @@
 package net.qiujuer.genius.util;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -114,22 +113,21 @@ public final class Log {
      * Set whether to open the log storage;
      * open the log will be stored in the software directory
      *
-     * @param context   Context
      * @param isOpen    Open
      * @param fileCount File Count,Default 10 Size
      * @param fileSize  One File Size,Default 2Mb
      * @param filePath  Log storage folder, NULL using the default, closing to NULL;Default: software installation directory/Logs
      */
-    public static void setSaveLog(Context context, boolean isOpen, int fileCount, float fileSize, String filePath) {
+    public static void setSaveLog(boolean isOpen, int fileCount, float fileSize, String filePath) {
         IsSaveLog = isOpen;
 
-        if (context == null && (context = Genius.getApplication()) == null)
-            return;
+        if (Genius.getApplication() == null)
+            throw new NullPointerException("Application is not null.Please Genius.initialize(Application)");
 
         if (IsSaveLog) {
             if (LogWriter == null)
                 LogWriter = new LogWriter(fileCount, fileSize,
-                        context.getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + (filePath == null ? "Logs" : filePath));
+                        Genius.getApplication().getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + (filePath == null ? "Logs" : filePath));
         } else if (LogWriter != null) {
             LogWriter.unRegisterBroadCast();
             LogWriter.done();

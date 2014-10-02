@@ -31,7 +31,7 @@ public class TestCase {
         Log.clearLogFile();
 
         //是否开启写入文件，存储最大文件数量，单个文件大小（Mb），重定向地址（默认包名目录）
-        Log.setSaveLog(Genius.getApplication(), true, 10, 1, null);
+        Log.setSaveLog(true, 10, 1, null);
 
         //设置是否监听外部存储插入操作
         //开启时插入外部设备（SD）时将拷贝存储的日志文件到外部存储设备

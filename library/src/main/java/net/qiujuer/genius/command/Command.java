@@ -65,7 +65,7 @@ public final class Command {
         dispose();
         mContext = Genius.getApplication();
         if (mContext == null) {
-            throw new NullPointerException("ApplicationContext is not null.Please setApplicationContext()");
+            throw new NullPointerException("Application is not null.Please Genius.initialize(Application)");
         } else {
             mContext.bindService(new Intent(mContext, CommandService.class), conn, Context.BIND_AUTO_CREATE);
             isBindService = true;

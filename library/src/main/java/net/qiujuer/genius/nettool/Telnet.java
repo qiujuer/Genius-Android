@@ -68,6 +68,6 @@ public class Telnet extends NetModel {
     public String toString() {
         return "Port:" + port +
                 " Delay:" + delay +
-                " IsConnected" + isConnected;
+                " Connected:" + isConnected;
     }
 }

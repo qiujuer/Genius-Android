@@ -206,4 +206,13 @@ public class SpeedRoad extends NetModel {
         }
         closeInputStream(cin);
     }
+
+    @Override
+    public String toString() {
+        return "Speed:" + speed +
+                " DownSize:" + downSize +
+                " DownTime:" + downTime +
+                " TotalSize:" + totalSize +
+                " ConnectTime:" + connectTime;
+    }
 }

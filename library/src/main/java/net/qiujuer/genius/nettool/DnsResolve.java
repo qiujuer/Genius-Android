@@ -212,6 +212,6 @@ public class DnsResolve extends NetModel {
     @Override
     public String toString() {
         return "Delay:" + delay +
-                "IPs:" + addresses;
+                " IPs:" + addresses;
     }
 }

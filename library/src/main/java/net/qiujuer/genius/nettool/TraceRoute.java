@@ -342,6 +342,6 @@ public class TraceRoute extends NetModel {
 
     @Override
     public String toString() {
-        return "Ip:" + ip + " Routes:" + routes;
+        return "IP:" + ip + " Routes:" + routes;
     }
 }
