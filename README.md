@@ -61,7 +61,7 @@ eg:`FlatUI`
         }
     }
     dependencies {
-        compile(name:'genius-android_0.4.0', ext:'aar')
+        compile(name:'genius_0.4.0', ext:'aar')
     }
     ```
 * MavenCentral方式，无需下载，Android Studio软件中直接使用：
