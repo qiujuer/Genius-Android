@@ -1,17 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
-    //compileSdkVersion rootProject.ext.compileSdkVersion
-    //buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "net.qiujuer.genius"
         minSdkVersion 15
         targetSdkVersion 20
-        versionCode 40
-        versionName "0.4.0"
+        versionCode 51
+        versionName "0.5.1-SNAPSHOT"
     }
     buildTypes {
         release {
