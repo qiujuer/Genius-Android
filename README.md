@@ -185,6 +185,20 @@ Log.e(TAG, "二次测试日志 ERROR 级别。");
 Log.setLevel(Log.ALL);
 ```
 
+##给予权限
+* 使用网络功能：
+```javascript
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+```
+* 日志写入文件功能：
+```javascript
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+```
+
+
 
 ##开发者
 在Android Studio中下载并导入本项目即可，Android Studio版本：>0.8.0
