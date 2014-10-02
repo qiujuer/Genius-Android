@@ -86,10 +86,10 @@ public class TestCase {
      * 日志测试
      */
     public void testGLog() {
-        //是否调用Android Log类
+        //是否调用系统Android Log，可控制是否显示
         Log.setCallLog(true);
 
-        //是否开启写入文件
+        //是否开启写入文件，文件数量，单个文件大小（Mb），重定向地址
         Log.setSaveLog(Genius.getApplication(), true, 10, 1, null);
 
         //设置是否监听外部存储插入操作
