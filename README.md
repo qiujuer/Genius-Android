@@ -49,8 +49,22 @@ eg:`FlatUI`
 
 
 ##获取库
-* 下载`release`文件夹中的`*.jar`或者`*.aar`文件导入到自己项目中；`*.jar`无法使用控件资源。
-* MavenCentral方式，该方式能使用所有功能：
+* `Star`或者`Fork`项目，然后下载。
+* `release`文件夹中的`*.jar`或者`*.aar`文件可以直接导入到自己项目中。
+    *  `*.jar`无法使用控件资源，如R.*.*。
+    *  `*.aar`能使用所有的类和控件以及字体等。
+    *  `*.aar`本地引入方法：
+    ```javascript
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    dependencies {
+        compile(name:'genius-android_0.4.0', ext:'aar')
+    }
+    ```
+* MavenCentral方式，无需下载，Android Studio软件中直接使用：
 ```javascript
 dependencies {
     repositories {
