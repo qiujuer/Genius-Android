@@ -7,9 +7,13 @@ import net.qiujuer.genius.nettool.Ping;
 import net.qiujuer.genius.nettool.SpeedRoad;
 import net.qiujuer.genius.nettool.Telnet;
 import net.qiujuer.genius.nettool.TraceRoute;
+import net.qiujuer.genius.util.FixedSizeList;
 import net.qiujuer.genius.util.HashUtils;
 import net.qiujuer.genius.util.Log;
 import net.qiujuer.genius.util.ToolUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -155,5 +159,99 @@ public class TestCase {
         };
         thread.setDaemon(true);
         thread.start();
+    }
+
+    /**
+     * 测试固定长度队列
+     */
+    public void testFixedSizeList() {
+        //初始化最大长度为5
+        FixedSizeList<Integer> list = new FixedSizeList<Integer>(5);
+        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        //添加4个元素
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        //继续追加2个
+        list.add(5);
+        list.add(6);
+        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        //调整最大长度
+        list.setMaxSize(6);
+        list.add(7);
+        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        list.add(8);
+        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        //缩小长度，自动删除前面多余部分
+        list.setMaxSize(3);
+        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        list.add(9);
+        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        //添加一个列表进去，自动删除多余部分
+        List<Integer> addList = new ArrayList<Integer>();
+        addList.add(10);
+        addList.add(11);
+        addList.add(12);
+        addList.add(13);
+        list.addAll(addList);
+        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        String str = "";
+        for (int i : list) {
+            str += i + " ";
+        }
+        Log.i(TAG, "FixedSizeList:Values:" + str);
+        //采用poll方式弹出元素
+        Log.i(TAG, "FixedSizeList:Poll:" + list.poll() + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedSizeList:Poll:" + list.poll() + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedSizeList:Poll:" + list.poll() + " " + list.size() + " ," + list.getMaxSize());
+        //末尾插入元素与add一样
+        list.addLast(14);
+        list.addLast(15);
+        list.addLast(16);
+        list.addLast(17);
+        list.addLast(18);
+        Log.i(TAG, "FixedSizeList:AddLast:" + " " + list.size() + " ," + list.getMaxSize());
+        str = "";
+        for (int i : list) {
+            str += i + " ";
+        }
+        Log.i(TAG, "FixedSizeList:Values:" + str);
+        //从头部插入，默认删除尾部超出部分
+        list.addFirst(19);
+        list.addFirst(20);
+        Log.i(TAG, "FixedSizeList:AddLast:" + " " + list.size() + " ," + list.getMaxSize());
+        str = "";
+        for (int i : list) {
+            str += i + " ";
+        }
+        Log.i(TAG, "FixedSizeList:Values:" + str);
+        //Remove与poll类似不过不返回删除元素，只会删除一个
+        list.remove();
+        str = "";
+        for (int i : list) {
+            str += i + " ";
+        }
+        Log.i(TAG, "FixedSizeList:Remove:" + str + " " + list.size() + " ," + list.getMaxSize());
+        //清空操作
+        list.clear();
+        str = "";
+        for (int i : list) {
+            str += i + " ";
+        }
+        Log.i(TAG, "FixedSizeList:Clear:" + str + " " + list.size() + " ," + list.getMaxSize());
+
+        //使用List操作,最大长度2
+        List<Integer> list1 = new FixedSizeList<Integer>(2);
+        list1.add(1);
+        list1.add(2);
+        Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
+        list1.add(3);
+        Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
+        list1.add(4);
+        Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
+        list1.clear();
+        Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
     }
 }

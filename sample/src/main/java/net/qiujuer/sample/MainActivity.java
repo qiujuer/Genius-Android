@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
         test.testHashUtils();
         test.testToolUtils();
         test.testNetTool();
+        test.testFixedSizeList();
     }
 
     @Override
