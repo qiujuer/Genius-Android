@@ -2,25 +2,15 @@ package net.qiujuer.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.TextView;
 
 import net.qiujuer.genius.Genius;
+import net.qiujuer.genius.app.UiModel;
+import net.qiujuer.genius.app.UiTool;
 import net.qiujuer.genius.util.Log;
 
 
 public class MainActivity extends Activity {
-    Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0x1:
-                    if (mText != null)
-                        mText.setText(mText.getText() + "\n" + msg.obj.toString());
-                    break;
-            }
-        }
-    };
     TextView mText = null;
 
     @Override
@@ -34,12 +24,15 @@ public class MainActivity extends Activity {
         //添加回调
         Log.addCallbackListener(new Log.LogCallbackListener() {
             @Override
-            public void onLogArrived(Log data) {
+            public void onLogArrived(final Log data) {
                 //显示到界面
-                if (mHandler != null) {
-                    Message msg = mHandler.obtainMessage(0x1, data.getMsg());
-                    mHandler.sendMessage(msg);
-                }
+                UiTool.asyncRunOnUiThread(MainActivity.this, new UiModel() {
+                    @Override
+                    public void doUi() {
+                        if (mText != null)
+                            mText.append("\n" + data.getMsg());
+                    }
+                });
             }
         });
 
@@ -50,12 +43,12 @@ public class MainActivity extends Activity {
         test.testHashUtils();
         test.testToolUtils();
         test.testNetTool();
-        test.testFixedSizeList();
+        test.testFixedList();
     }
 
     @Override
     protected void onDestroy() {
-        mHandler = null;
+        mText = null;
         //销毁
         Genius.dispose();
         super.onDestroy();

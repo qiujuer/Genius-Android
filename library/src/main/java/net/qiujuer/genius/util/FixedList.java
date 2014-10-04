@@ -14,8 +14,14 @@ import java.util.NoSuchElementException;
 /**
  * Created by QiuJu
  * on 2014/10/3.
+ * The queue of fixed storage size
+ * Queue length is fixed
+ * The tail to add data beyond the specified size to delete header data
+ * Head to add data beyond the specified size to delete the tail data
+ * Use a method similar to LinkedList
+ * Queue operations can be performed, such as: add elements, elements of poll
  */
-public class FixedSizeList<E> extends java.util.AbstractSequentialList<E> implements java.util.List<E>, java.util.Deque<E>, java.util.Queue<E>, java.lang.Cloneable, java.io.Serializable {
+public class FixedList<E> extends java.util.AbstractSequentialList<E> implements java.util.List<E>, java.util.Deque<E>, java.util.Queue<E>, java.lang.Cloneable, java.io.Serializable {
     private static final long serialVersionUID = 876323262645176354L;
 
     transient int maxSize = Integer.MAX_VALUE;
@@ -38,11 +44,11 @@ public class FixedSizeList<E> extends java.util.AbstractSequentialList<E> implem
     private static final class LinkIterator<ET> implements ListIterator<ET> {
         int pos, expectedModCount;
 
-        final FixedSizeList<ET> list;
+        final FixedList<ET> list;
 
         Link<ET> link, lastLink;
 
-        LinkIterator(FixedSizeList<ET> object, int location) {
+        LinkIterator(FixedList<ET> object, int location) {
             list = object;
             expectedModCount = list.modCount;
             if (location >= 0 && location <= list.size) {
@@ -91,7 +97,7 @@ public class FixedSizeList<E> extends java.util.AbstractSequentialList<E> implem
 
         public ET next() {
             if (expectedModCount == list.modCount) {
-                FixedSizeList.Link<ET> next = link.next;
+                FixedList.Link<ET> next = link.next;
                 if (next != list.voidLink) {
                     lastLink = link = next;
                     pos++;
@@ -166,13 +172,13 @@ public class FixedSizeList<E> extends java.util.AbstractSequentialList<E> implem
     private class ReverseLinkIterator<ET> implements Iterator<ET> {
         private int expectedModCount;
 
-        private final FixedSizeList<ET> list;
+        private final FixedList<ET> list;
 
         private Link<ET> link;
 
         private boolean canRemove;
 
-        ReverseLinkIterator(FixedSizeList<ET> linkedList) {
+        ReverseLinkIterator(FixedList<ET> linkedList) {
             list = linkedList;
             expectedModCount = list.modCount;
             link = list.voidLink;
@@ -219,7 +225,7 @@ public class FixedSizeList<E> extends java.util.AbstractSequentialList<E> implem
     /**
      * Constructs a new empty instance of {@code FixedLenList}.
      */
-    public FixedSizeList(int maxSize) {
+    public FixedList(int maxSize) {
         this.maxSize = maxSize;
         voidLink = new Link<E>(null, null, null);
         voidLink.previous = voidLink;
@@ -234,7 +240,7 @@ public class FixedSizeList<E> extends java.util.AbstractSequentialList<E> implem
      *
      * @param collection the collection of elements to add.
      */
-    public FixedSizeList(Collection<? extends E> collection, int maxSize) {
+    public FixedList(Collection<? extends E> collection, int maxSize) {
         this(maxSize);
         addAll(collection);
     }
@@ -429,7 +435,7 @@ public class FixedSizeList<E> extends java.util.AbstractSequentialList<E> implem
     @Override
     public Object clone() {
         try {
-            FixedSizeList<E> l = (FixedSizeList<E>) super.clone();
+            FixedList<E> l = (FixedList<E>) super.clone();
             l.size = 0;
             l.voidLink = new Link<E>(null, null, null);
             l.voidLink.previous = l.voidLink;

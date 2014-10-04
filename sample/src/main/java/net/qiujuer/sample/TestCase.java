@@ -7,7 +7,7 @@ import net.qiujuer.genius.nettool.Ping;
 import net.qiujuer.genius.nettool.SpeedRoad;
 import net.qiujuer.genius.nettool.Telnet;
 import net.qiujuer.genius.nettool.TraceRoute;
-import net.qiujuer.genius.util.FixedSizeList;
+import net.qiujuer.genius.util.FixedList;
 import net.qiujuer.genius.util.HashUtils;
 import net.qiujuer.genius.util.Log;
 import net.qiujuer.genius.util.ToolUtils;
@@ -164,9 +164,9 @@ public class TestCase {
     /**
      * 测试固定长度队列
      */
-    public void testFixedSizeList() {
+    public void testFixedList() {
         //初始化最大长度为5
-        FixedSizeList<Integer> list = new FixedSizeList<Integer>(5);
+        FixedList<Integer> list = new FixedList<Integer>(5);
         Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
         //添加4个元素
         list.add(1);
@@ -196,54 +196,31 @@ public class TestCase {
         addList.add(12);
         addList.add(13);
         list.addAll(addList);
-        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
-        String str = "";
-        for (int i : list) {
-            str += i + " ";
-        }
-        Log.i(TAG, "FixedSizeList:Values:" + str);
+        Log.i(TAG, "FixedSizeList:AddList:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         //采用poll方式弹出元素
-        Log.i(TAG, "FixedSizeList:Poll:" + list.poll() + " " + list.size() + " ," + list.getMaxSize());
-        Log.i(TAG, "FixedSizeList:Poll:" + list.poll() + " " + list.size() + " ," + list.getMaxSize());
-        Log.i(TAG, "FixedSizeList:Poll:" + list.poll() + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedSizeList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedSizeList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedSizeList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
         //末尾插入元素与add一样
         list.addLast(14);
         list.addLast(15);
         list.addLast(16);
         list.addLast(17);
         list.addLast(18);
-        Log.i(TAG, "FixedSizeList:AddLast:" + " " + list.size() + " ," + list.getMaxSize());
-        str = "";
-        for (int i : list) {
-            str += i + " ";
-        }
-        Log.i(TAG, "FixedSizeList:Values:" + str);
+        Log.i(TAG, "FixedSizeList:AddLast:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         //从头部插入，默认删除尾部超出部分
         list.addFirst(19);
         list.addFirst(20);
-        Log.i(TAG, "FixedSizeList:AddLast:" + " " + list.size() + " ," + list.getMaxSize());
-        str = "";
-        for (int i : list) {
-            str += i + " ";
-        }
-        Log.i(TAG, "FixedSizeList:Values:" + str);
+        Log.i(TAG, "FixedSizeList:AddFirst:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         //Remove与poll类似不过不返回删除元素，只会删除一个
         list.remove();
-        str = "";
-        for (int i : list) {
-            str += i + " ";
-        }
-        Log.i(TAG, "FixedSizeList:Remove:" + str + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedSizeList:Remove:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         //清空操作
         list.clear();
-        str = "";
-        for (int i : list) {
-            str += i + " ";
-        }
-        Log.i(TAG, "FixedSizeList:Clear:" + str + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedSizeList:Clear:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
 
         //使用List操作,最大长度2
-        List<Integer> list1 = new FixedSizeList<Integer>(2);
+        List<Integer> list1 = new FixedList<Integer>(2);
         list1.add(1);
         list1.add(2);
         Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
