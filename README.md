@@ -1,9 +1,9 @@
 ##Genius-Android是什么?
 Genius-Android是一个我在日常使用中把经常使用的方法集合。
+
 Genius库现在提供了5个基本板块：`app`（界面常用方法），`command`（命令行执行），`material`（Android L中的Material控件），`net tool`（Ping，DNS...），`util`（常用方法或者类）。
 
-在这里向我参考过的开源库作者致敬！
-eg:`FlatUI`，`blurring`
+在这里向我参考过的开源库作者致敬！eg:`FlatUI`，`blurring`
 
 
 ##Genius-Android库有哪些功能？
@@ -54,9 +54,9 @@ eg:`FlatUI`，`blurring`
 
 ##获取库
 * `Star`或者`Fork`项目；下载。打开 `release`文件夹中的`*.jar`或者`*.aar`文件可以直接导入到自己项目中。
-  > *  `*.jar`无法使用控件资源，如R..。
-  > *  `*.aar`能使用所有的类和控件以及字体等。
-  > *  `*.aar`本地引入方法：
+  *  `*.jar`无法使用控件资源，如R..。
+  *  `*.aar`能使用所有的类和控件以及字体等。
+  *  `*.aar`本地引入方法：
     ```javascript
     repositories {
         flatDir {
