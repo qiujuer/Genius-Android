@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
         Log.addCallbackListener(new Log.LogCallbackListener() {
             @Override
             public void onLogArrived(final Log data) {
-                //显示到界面
+                //异步显示到界面
                 UiTool.asyncRunOnUiThread(MainActivity.this, new UiModel() {
                     @Override
                     public void doUi() {

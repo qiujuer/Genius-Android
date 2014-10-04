@@ -25,3 +25,6 @@
 *2014/10/2 简化Log设置文件存储的方法调用
 *2014/10/2 Log与Command抛出异常语句统一化
 *2014/10/2 修改NetTool中toString方法的Bug
+*2014/10/3 添加FixedList固定队列
+*2014/10/4 添加App相关UiTool与UiModel
+*2014/10/5 修复TraceRoute,Dns解析中解析失败时结果为null时触发异常
