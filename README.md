@@ -10,6 +10,10 @@ Genius库现在提供了5个基本板块：
 
 `FlatUI`，`blurring`
 
+## 截图
+
+![Animated gif][1]
+
 
 ## Genius-Android库有哪些功能？
 
@@ -359,3 +363,5 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
+
+ [1]: https://raw2.github.com/qiujuer/Genius-Android/master/sample-images/material.gif
