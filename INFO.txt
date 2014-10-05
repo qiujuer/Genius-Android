@@ -28,3 +28,5 @@
 *2014/10/3 添加FixedList固定队列
 *2014/10/4 添加App相关UiTool与UiModel
 *2014/10/5 修复TraceRoute,Dns解析中解析失败时结果为null时触发异常
+*2014/10/5 更新README，更新SAMPLE
+*2014/10/5 Publish Version-0.6.5.
