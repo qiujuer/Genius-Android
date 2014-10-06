@@ -69,20 +69,20 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MaterialButton, defStyle, 0);
 
             // getting common attributes
-            int customTheme = a.getResourceId(R.styleable.MaterialButton_m_theme, Attributes.DEFAULT_THEME);
+            int customTheme = a.getResourceId(R.styleable.MaterialButton_gm_theme, Attributes.DEFAULT_THEME);
             attributes.setThemeSilent(customTheme, getResources());
 
-            attributes.setFontFamily(a.getString(R.styleable.MaterialButton_m_fontFamily));
-            attributes.setFontWeight(a.getString(R.styleable.MaterialButton_m_fontWeight));
-            attributes.setFontExtension(a.getString(R.styleable.MaterialButton_m_fontExtension));
+            attributes.setFontFamily(a.getString(R.styleable.MaterialButton_gm_fontFamily));
+            attributes.setFontWeight(a.getString(R.styleable.MaterialButton_gm_fontWeight));
+            attributes.setFontExtension(a.getString(R.styleable.MaterialButton_gm_fontExtension));
 
-            attributes.setTextAppearance(a.getInt(R.styleable.MaterialButton_m_textAppearance, Attributes.DEFAULT_TEXT_APPEARANCE));
-            attributes.setRadius(a.getDimensionPixelSize(R.styleable.MaterialButton_m_cornerRadius, Attributes.DEFAULT_RADIUS_PX));
+            attributes.setTextAppearance(a.getInt(R.styleable.MaterialButton_gm_textAppearance, Attributes.DEFAULT_TEXT_APPEARANCE));
+            attributes.setRadius(a.getDimensionPixelSize(R.styleable.MaterialButton_gm_cornerRadius, Attributes.DEFAULT_RADIUS_PX));
 
-            attributes.setMaterial(a.getBoolean(R.styleable.MaterialButton_m_isMaterial, true));
+            attributes.setMaterial(a.getBoolean(R.styleable.MaterialButton_gm_isMaterial, true));
 
             // getting view specific attributes
-            bottom = a.getDimensionPixelSize(R.styleable.MaterialButton_m_blockButtonEffectHeight, bottom);
+            bottom = a.getDimensionPixelSize(R.styleable.MaterialButton_gm_blockButtonEffectHeight, bottom);
 
             a.recycle();
         }

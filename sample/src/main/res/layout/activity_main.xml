@@ -20,8 +20,9 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:text="MaterialButton"
-            material:m_theme="@array/grass" />
+            android:text="MaterialButton light"
+            material:gm_textAppearance="light"
+            material:gm_theme="@array/grass" />
 
         <net.qiujuer.genius.material.MaterialButton
             android:layout_width="match_parent"
@@ -29,8 +30,10 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:text="MaterialButton"
-            material:m_theme="@array/sky" />
+            android:text="MaterialButton bold"
+            material:gm_fontFamily="opensans"
+            material:gm_fontWeight="bold"
+            material:gm_theme="@array/sky" />
 
         <net.qiujuer.genius.material.MaterialButton
             android:layout_width="match_parent"
@@ -38,8 +41,10 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:text="MaterialButton"
-            material:m_theme="@array/dark" />
+            android:text="MaterialButton roboto"
+            material:gm_fontFamily="roboto"
+            material:gm_fontWeight="bold"
+            material:gm_theme="@array/dark" />
 
         <net.qiujuer.genius.material.MaterialButton
             android:layout_width="match_parent"
@@ -47,9 +52,12 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:text="MaterialButton"
-            material:m_theme="@array/blood"
-            material:m_isMaterial="false"/>
+            android:text="MaterialButton dark false"
+            material:gm_fontFamily="roboto"
+            material:gm_fontWeight="light"
+            material:gm_isMaterial="false"
+            material:gm_textAppearance="dark"
+            material:gm_theme="@array/blood" />
 
         <TextView
             android:id="@+id/text"

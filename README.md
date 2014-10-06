@@ -4,15 +4,19 @@ Genius-Android是一个我在日常使用中把经常使用的方法集合。
 
 Genius库现在提供了5个基本板块：
 
-`app`（Ui），`command`（命令行），`material`（Material控件），`net tool`（Ping，DNS...），`util`（常用方法或者类）。
+`app`（Ui），`material`（Material控件），`command`（命令行），`net tool`（Ping，DNS...），`util`（常用方法或者类）。
 
 在这里向我参考过的开源库作者致敬
 
 `FlatUI`，`blurring`
 
-## 截图
+## Screenshots
 
+##### MaterialButton
 ![Animated gif][1]
+
+##### Themes
+![Themes][2]
 
 
 ## Genius-Android库有哪些功能？
@@ -20,6 +24,13 @@ Genius库现在提供了5个基本板块：
 * `app`
   > *  可在子线程`同步`切换到主线程
   > *  可在子线程`异步`切换到主线程
+
+* `material`
+  > *  内置字体 `opensans` `roboto`
+  > *  字体颜色 `none` `dark` `light`
+  > *  含有五种字体粗细样式切换
+  > *  含有十四种主题颜色搭配
+  > *  `MaterialButton` 点击动画特效
 
 * `command`
   > *  独立服务进程控制进程创建销毁
@@ -31,9 +42,6 @@ Genius库现在提供了5个基本板块：
   > *  保证语句正常执行不疏漏
   > *  一键化的启动与取消操作，自由控制
   > *  可同步与异步方式执行，异步事件通知
-
-* `material`
-  > *  `MaterialButton` 即将完成
 
 * `net tool`
   > *  一键Ping操作，无需命令行，无需Root
@@ -116,6 +124,38 @@ UiTool.syncRunOnUiThread(Activity activity, UiModel ui);
 
 // 异步进入 ‘Activity‘ 主线程
 UiTool.syncRunOnUiThread(Activity activity, UiModel ui);
+
+```
+
+
+##### `material` 模块
+
+```javascript
+// 首先需要在根容器中指定：
+<LinearLayout
+    ...
+    xmlns:material="http://schemas.android.com/apk/res-auto"/>
+
+// 提供14种主题样式，见截图
+// 提供2种字体：`opensans` `roboto`
+// 字体粗细：`bold` `extrabold` `extralight` `light` `regular`
+
+// ==================MaterialButton==================
+<net.qiujuer.genius.material.MaterialButton
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:text="MaterialButton"
+    material:gm_textAppearance="light"
+    material:gm_fontFamily="opensans"
+    material:gm_fontWeight="bold"
+    material:gm_isMaterial="true"
+    material:gm_theme="@array/grass" />
+
+// `gm_textAppearance`: 指定字体颜色，默认为 `none`
+// `gm_fontFamily`: 指定两种字体中的一种字体
+// `gm_fontWeight`: 指定字体粗细
+// `gm_isMaterial`: 是否打开 Material 动画，默认 `true`
+// `gm_theme`: 指定主题样式，14种任意选
 
 ```
 
@@ -365,3 +405,4 @@ License
 
 
  [1]: https://raw2.github.com/qiujuer/Genius-Android/master/sample-images/material.gif
+ [2]: https://raw2.github.com/qiujuer/Genius-Android/master/sample-images/themes.png
