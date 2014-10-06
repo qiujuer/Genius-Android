@@ -81,7 +81,7 @@ Genius库现在提供了5个基本板块：
       }
   }
   dependencies {
-      compile(name:'genius_0.6.5', ext:'aar')
+      compile(name:'genius_0.6.8', ext:'aar')
   }
   
   ```
@@ -93,7 +93,7 @@ dependencies {
     repositories {
         mavenCentral()
     }
-    compile 'com.github.qiujuer:genius:0.6.5'
+    compile 'com.github.qiujuer:genius:0.6.8'
 }
 
 ```

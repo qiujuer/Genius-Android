@@ -30,3 +30,9 @@
 *2014/10/5 修复TraceRoute,Dns解析中解析失败时结果为null时触发异常
 *2014/10/5 更新README，更新SAMPLE
 *2014/10/5 Publish Version-0.6.5.
+
+*2014/10/5 调整属性样式
+*2014/10/5 公布Material Button
+*2014/10/5 添加截图等工作
+*2014/10/5 更新README，更新SAMPLE
+*2014/10/5 Publish Version-0.6.8.
