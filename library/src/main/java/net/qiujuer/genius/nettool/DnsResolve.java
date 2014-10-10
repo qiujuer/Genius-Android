@@ -17,7 +17,7 @@ public class DnsResolve extends NetModel {
     private static final byte[] ID = new byte[]{(byte) 2, (byte) 6};
     private static final String POINT = ".";
     private String host;
-    private String server;
+    private InetAddress server;
     private List<String> addresses;
     private long delay;
 
@@ -36,12 +36,12 @@ public class DnsResolve extends NetModel {
      * @param host   Domain name address
      * @param server Specify the domain name server
      */
-    public DnsResolve(String host, String server) {
+    public DnsResolve(String host, InetAddress server) {
         this.host = host;
         this.server = server;
     }
 
-    private ArrayList<String> resolve(String domain, String dnsServer) {
+    private ArrayList<String> resolve(String domain, InetAddress dnsServer) {
         //pointer
         int pos;
         /**
@@ -91,9 +91,8 @@ public class DnsResolve extends NetModel {
         byte[] receiveBuffer = null;
         try {
             ds = new DatagramSocket();
-            ds.setSoTimeout(2000);
-            DatagramPacket dp = new DatagramPacket(sendBuffer, pos,
-                    InetAddress.getByName(dnsServer), 53);
+            ds.setSoTimeout(8000);
+            DatagramPacket dp = new DatagramPacket(sendBuffer, pos, dnsServer, 53);
             ds.send(dp);
             dp = new DatagramPacket(new byte[1024], 1024);
             ds.receive(dp);
