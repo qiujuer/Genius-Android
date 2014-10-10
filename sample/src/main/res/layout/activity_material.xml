@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -28,6 +29,17 @@
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:text="Light"
+            material:gm_isAutoMove="false"
+            material:gm_textAppearance="light"
+            material:gm_theme="@array/grass" />
+
+        <net.qiujuer.genius.material.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:text="Light Auto"
             material:gm_textAppearance="light"
             material:gm_theme="@array/grass" />
 
@@ -40,6 +52,7 @@
             android:text="Bold"
             material:gm_fontFamily="opensans"
             material:gm_fontWeight="bold"
+            material:gm_isAutoMove="false"
             material:gm_theme="@array/sky" />
 
         <net.qiujuer.genius.material.MaterialButton
@@ -48,10 +61,39 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:text="Roboto"
-            material:gm_fontFamily="roboto"
+            android:text="Bold Auto"
+            material:gm_fontFamily="opensans"
             material:gm_fontWeight="bold"
-            material:gm_theme="@array/dark" />
+            material:gm_theme="@array/sky" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <net.qiujuer.genius.material.MaterialButton
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:text="Roboto"
+                material:gm_fontFamily="roboto"
+                material:gm_fontWeight="light"
+                material:gm_isAutoMove="false"
+                material:gm_theme="@array/dark" />
+
+            <net.qiujuer.genius.material.MaterialButton
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:text="Auto"
+                material:gm_fontFamily="roboto"
+                material:gm_fontWeight="light"
+                material:gm_theme="@array/dark" />
+        </LinearLayout>
 
         <net.qiujuer.genius.material.MaterialButton
             android:layout_width="match_parent"
@@ -59,7 +101,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:text="Dark False"
+            android:text="Material Is False"
             material:gm_fontFamily="roboto"
             material:gm_fontWeight="light"
             material:gm_isMaterial="false"

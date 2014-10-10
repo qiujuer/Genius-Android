@@ -12,6 +12,7 @@
 
     <attr name="gm_cornerRadius" format="dimension" />
     <attr name="gm_isMaterial" format="boolean" />
+    <attr name="gm_isAutoMove" format="boolean" />
 
     <declare-styleable name="MaterialButton">
         <attr name="gm_theme" />
@@ -21,6 +22,7 @@
         <attr name="gm_textAppearance" />
         <attr name="gm_cornerRadius" />
         <attr name="gm_isMaterial" />
+        <attr name="gm_isAutoMove" />
 
         <!-- Defines the height of the border bottom of the button -->
         <attr name="gm_blockButtonEffectHeight" format="dimension" />

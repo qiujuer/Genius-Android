@@ -48,7 +48,7 @@ public class Attributes {
     private int borderWidth = DEFAULT_BORDER_WIDTH_PX;
 
     private boolean isMaterial = true;
-    private boolean isRightAngle = true;
+    private boolean isAutoMove = true;
 
     /**
      * Attribute change listener. Used to redraw the view when attributes are changed.
@@ -122,10 +122,7 @@ public class Attributes {
     }
 
     public float[] getOuterRadius() {
-        if (isRightAngle)
-            return new float[8];
-        else
-            return new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
+        return new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
     }
 
     public void setRadius(int radius) {
@@ -164,12 +161,12 @@ public class Attributes {
         this.isMaterial = isMaterial;
     }
 
-    public boolean isRightAngle() {
-        return isRightAngle;
+    public void setAutoMove(boolean isAutoMove) {
+        this.isAutoMove = isAutoMove;
     }
 
-    public void setRightAngle(boolean isRightAngle) {
-        this.isRightAngle = isRightAngle;
+    public boolean isAutoMove() {
+        return isAutoMove;
     }
 
     public interface AttributeChangeListener {

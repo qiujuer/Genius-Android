@@ -31,6 +31,7 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class MaterialButton extends Button implements Attributes.AttributeChangeListener {
     private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
+    private static final long ANIMATION_TIME = 600;
 
     private Paint backgroundPaint;
     private static ArgbEvaluator argbEvaluator = new ArgbEvaluator();
@@ -77,9 +78,10 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
             attributes.setFontExtension(a.getString(R.styleable.MaterialButton_gm_fontExtension));
 
             attributes.setTextAppearance(a.getInt(R.styleable.MaterialButton_gm_textAppearance, Attributes.DEFAULT_TEXT_APPEARANCE));
-            attributes.setRadius(a.getDimensionPixelSize(R.styleable.MaterialButton_gm_cornerRadius, Attributes.DEFAULT_RADIUS_PX));
+            attributes.setRadius(a.getDimensionPixelSize(R.styleable.MaterialButton_gm_cornerRadius, 0));
 
             attributes.setMaterial(a.getBoolean(R.styleable.MaterialButton_gm_isMaterial, true));
+            attributes.setAutoMove(a.getBoolean(R.styleable.MaterialButton_gm_isAutoMove, true));
 
             // getting view specific attributes
             bottom = a.getDimensionPixelSize(R.styleable.MaterialButton_gm_blockButtonEffectHeight, bottom);
@@ -174,27 +176,49 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
         if (attributes.isMaterial() && event.getAction() == MotionEvent.ACTION_DOWN) {
             paintX = event.getX();
             paintY = event.getY();
-            startAnimator();
+            if (attributes.isAutoMove())
+                startMoveRoundAnimator();
+            else
+                startRoundAnimator();
         }
         return super.onTouchEvent(event);
     }
 
     /**
-     * start Animator
+     * =============================================================================================
+     * The Animator methods
+     * =============================================================================================
      */
-    private void startAnimator() {
-        int start, end;
 
-        if (getHeight() < getWidth()) {
-            start = getHeight();
-            end = getWidth();
+    /**
+     * Start Round Animator
+     */
+    private void startRoundAnimator() {
+        float start, end, height, width;
+        long time = (long) (ANIMATION_TIME * 1.85);
+
+        //Height Width
+        height = getHeight();
+        width = getWidth();
+
+        //Start End
+        if (height < width) {
+            start = height;
+            end = width;
         } else {
-            start = getWidth();
-            end = getHeight();
+            start = width;
+            end = height;
         }
 
         float startRadius = (start / 2 > paintY ? start - paintY : paintY) * 1.15f;
         float endRadius = (end / 2 > paintX ? end - paintX : paintX) * 0.85f;
+
+        //If The approximate square approximate square
+        if (startRadius > endRadius) {
+            startRadius = endRadius * 0.6f;
+            endRadius = endRadius / 0.8f;
+            time = (long) (time * 0.5);
+        }
 
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
@@ -202,10 +226,91 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
                 ObjectAnimator.ofObject(this, mBackgroundColorProperty, argbEvaluator, attributes.getColor(1), attributes.getColor(2))
         );
         // set Time
-        set.setDuration((long) (1200 / end * endRadius));
+        set.setDuration((long) (time / end * endRadius));
         set.setInterpolator(ANIMATION_INTERPOLATOR);
         set.start();
     }
+
+    /**
+     * Start Move Round Animator
+     */
+    private void startMoveRoundAnimator() {
+        float start, end, height, width, speed = 0.3f;
+        long time = ANIMATION_TIME;
+
+        //Height Width
+        height = getHeight();
+        width = getWidth();
+
+        //Start End
+        if (height < width) {
+            start = height;
+            end = width;
+        } else {
+            start = width;
+            end = height;
+        }
+        start = start / 2 > paintY ? start - paintY : paintY;
+        end = end * 0.8f / 2f;
+
+        //If The approximate square approximate square
+        if (start > end) {
+            start = end * 0.6f;
+            end = end / 0.8f;
+            time = (long) (time * 0.65);
+            speed = 1f;
+        }
+
+        //PaintX
+        ObjectAnimator aPaintX = ObjectAnimator.ofFloat(this, mPaintXProperty, paintX, width / 2);
+        aPaintX.setDuration(time);
+        //PaintY
+        ObjectAnimator aPaintY = ObjectAnimator.ofFloat(this, mPaintYProperty, paintY, height / 2);
+        aPaintY.setDuration((long) (time * speed));
+        //Radius
+        ObjectAnimator aRadius = ObjectAnimator.ofFloat(this, mRadiusProperty, start, end);
+        aRadius.setDuration(time);
+        //Background
+        ObjectAnimator aBackground = ObjectAnimator.ofObject(this, mBackgroundColorProperty, argbEvaluator, attributes.getColor(1), attributes.getColor(2));
+        aBackground.setDuration(time);
+
+        //AnimatorSet
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(aPaintX, aPaintY, aRadius, aBackground);
+        set.setInterpolator(ANIMATION_INTERPOLATOR);
+        set.start();
+    }
+
+
+    /**
+     * =============================================================================================
+     * The custom properties
+     * =============================================================================================
+     */
+
+    private Property<MaterialButton, Float> mPaintXProperty = new Property<MaterialButton, Float>(Float.class, "paintX") {
+        @Override
+        public Float get(MaterialButton object) {
+            return object.paintX;
+        }
+
+        @Override
+        public void set(MaterialButton object, Float value) {
+            object.paintX = value;
+        }
+    };
+
+    private Property<MaterialButton, Float> mPaintYProperty = new Property<MaterialButton, Float>(Float.class, "paintY") {
+        @Override
+        public Float get(MaterialButton object) {
+            return object.paintY;
+        }
+
+        @Override
+        public void set(MaterialButton object, Float value) {
+            object.paintY = value;
+        }
+    };
 
     private Property<MaterialButton, Float> mRadiusProperty = new Property<MaterialButton, Float>(Float.class, "radius") {
         @Override
