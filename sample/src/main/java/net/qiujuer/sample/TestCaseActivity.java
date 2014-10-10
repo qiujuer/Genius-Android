@@ -1,6 +1,12 @@
 package net.qiujuer.sample;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
 import net.qiujuer.genius.Genius;
+import net.qiujuer.genius.app.UiModel;
+import net.qiujuer.genius.app.UiTool;
 import net.qiujuer.genius.command.Command;
 import net.qiujuer.genius.nettool.DnsResolve;
 import net.qiujuer.genius.nettool.Ping;
@@ -16,13 +22,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by QiuJu
- * on 2014/10/2.
- * 测试单元
- */
-public class TestCase {
-    private static final String TAG = TestCase.class.getSimpleName();
+public class TestCaseActivity extends Activity {
+    private static final String TAG = TestCaseActivity.class.getSimpleName();
+    TextView mText = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_case);
+
+        mText = (TextView) findViewById(R.id.text);
+
+        //添加回调
+        Log.addCallbackListener(new Log.LogCallbackListener() {
+            @Override
+            public void onLogArrived(final Log data) {
+                //异步显示到界面
+                UiTool.asyncRunOnUiThread(TestCaseActivity.this, new UiModel() {
+                    @Override
+                    public void doUi() {
+                        if (mText != null)
+                            mText.append("\n" + data.getMsg());
+                    }
+                });
+            }
+        });
+
+        //开始测试
+        testLog();
+        testHashUtils();
+        testToolUtils();
+        testFixedList();
+        testNetTool();
+        testCommand();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mText = null;
+        super.onDestroy();
+    }
 
     /**
      * 日志测试
@@ -64,101 +103,21 @@ public class TestCase {
     }
 
     /**
-     * 测试命令行执行
-     */
-    public void testCommand() {
-        //同步
-        Thread thread = new Thread() {
-            public void run() {
-                //调用方式与ProcessBuilder传参方式一样
-                Command command = new Command("/system/bin/ping",
-                        "-c", "4", "-s", "100",
-                        "www.baidu.com");
-                //同步方式执行
-                String res = Command.command(command);
-                Log.i(TAG, "Command 同步：" + res);
-            }
-        };
-        thread.setDaemon(true);
-        thread.start();
-
-        //异步
-        Command command = new Command("/system/bin/ping",
-                "-c", "4", "-s", "100",
-                "www.baidu.com");
-
-        //异步方式执行
-        //采用回调方式，无需自己建立线程
-        //传入回调后自动采用此种方式
-        Command.command(command, new Command.CommandListener() {
-            @Override
-            public void onCompleted(String str) {
-                Log.i(TAG, "Command onCompleted：\n" + str);
-            }
-
-            @Override
-            public void onCancel() {
-                Log.i(TAG, "Command onCancel");
-            }
-
-            @Override
-            public void onError() {
-                Log.i(TAG, "Command onError");
-            }
-        });
-    }
-
-    /**
      * 测试MD5
      */
     public void testHashUtils() {
-        Log.i(TAG, "QIUJUER的MD5值为：" + HashUtils.getStringMd5("QIUJUER"));
+        Log.i(TAG, "HashUtils：QIUJUER的MD5值为：" + HashUtils.getStringMd5("QIUJUER"));
         //文件MD5不做演示，传入file类即可
     }
 
     /**
-     * 测试MD5
+     * 测试工具类
      */
     public void testToolUtils() {
-        Log.i(TAG, "getAndroidId：" + ToolUtils.getAndroidId(Genius.getApplication()));
-        Log.i(TAG, "getDeviceId：" + ToolUtils.getDeviceId(Genius.getApplication()));
-        Log.i(TAG, "getSerialNumber：" + ToolUtils.getSerialNumber());
-        Log.i(TAG, "安装（net.qiujuer.sample）：" + ToolUtils.isAvailablePackage(Genius.getApplication(), "net.qiujuer.sample"));
-    }
-
-    /**
-     * 基本网络功能测试
-     */
-    public void testNetTool() {
-        //所有目标都可为IP地址
-        Thread thread = new Thread() {
-            public void run() {
-                //包数，包大小，目标，是否解析IP
-                Ping ping = new Ping(4, 32, "www.baidu.com", true);
-                ping.start();
-                Log.i(TAG, "Ping：" + ping.toString());
-                //目标，可指定解析服务器
-                DnsResolve dns = new DnsResolve("www.baidu.com");
-                dns.start();
-                Log.i(TAG, "DnsResolve：" + dns.toString());
-                //目标，端口
-                Telnet telnet = new Telnet("www.baidu.com", 80);
-                telnet.start();
-                Log.i(TAG, "Telnet：" + telnet.toString());
-                //目标
-                TraceRoute traceRoute = new TraceRoute("www.baidu.com");
-                traceRoute.start();
-                Log.i(TAG, "TraceRoute：" + traceRoute.toString());
-
-                //测速
-                //下载目标，下载大小
-                SpeedRoad speedRoad = new SpeedRoad("http://down.360safe.com/se/360se_setup.exe", 1024 * 32);
-                speedRoad.start();
-                Log.i(TAG, "SpeedRoad：" + speedRoad.getSpeed());
-            }
-        };
-        thread.setDaemon(true);
-        thread.start();
+        Log.i(TAG, "ToolUtils：getAndroidId：" + ToolUtils.getAndroidId(Genius.getApplication()));
+        Log.i(TAG, "ToolUtils：getDeviceId：" + ToolUtils.getDeviceId(Genius.getApplication()));
+        Log.i(TAG, "ToolUtils：getSerialNumber：" + ToolUtils.getSerialNumber());
+        Log.i(TAG, "ToolUtils：isAvailablePackage(net.qiujuer.sample)：" + ToolUtils.isAvailablePackage(Genius.getApplication(), "net.qiujuer.sample"));
     }
 
     /**
@@ -230,5 +189,85 @@ public class TestCase {
         Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
         list1.clear();
         Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
+    }
+
+    /**
+     * 测试命令行执行
+     */
+    public void testCommand() {
+        //同步
+        Thread thread = new Thread() {
+            public void run() {
+                //调用方式与ProcessBuilder传参方式一样
+                Command command = new Command("/system/bin/ping",
+                        "-c", "4", "-s", "100",
+                        "www.baidu.com");
+                //同步方式执行
+                String res = Command.command(command);
+                Log.i(TAG, "\n\nCommand 同步：" + res);
+            }
+        };
+        thread.setDaemon(true);
+        thread.start();
+
+        //异步
+        Command command = new Command("/system/bin/ping",
+                "-c", "4", "-s", "100",
+                "www.baidu.com");
+
+        //异步方式执行
+        //采用回调方式，无需自己建立线程
+        //传入回调后自动采用此种方式
+        Command.command(command, new Command.CommandListener() {
+            @Override
+            public void onCompleted(String str) {
+                Log.i(TAG, "\n\nCommand 异步 onCompleted：\n" + str);
+            }
+
+            @Override
+            public void onCancel() {
+                Log.i(TAG, "\n\nCommand 异步 onCancel");
+            }
+
+            @Override
+            public void onError() {
+                Log.i(TAG, "\n\nCommand 异步 onError");
+            }
+        });
+    }
+
+
+    /**
+     * 基本网络功能测试
+     */
+    public void testNetTool() {
+        //所有目标都可为IP地址
+        Thread thread = new Thread() {
+            public void run() {
+                //包数，包大小，目标，是否解析IP
+                Ping ping = new Ping(4, 32, "www.baidu.com", true);
+                ping.start();
+                Log.i(TAG, "Ping：" + ping.toString());
+                //目标，可指定解析服务器
+                DnsResolve dns = new DnsResolve("www.baidu.com");
+                dns.start();
+                Log.i(TAG, "DnsResolve：" + dns.toString());
+                //目标，端口
+                Telnet telnet = new Telnet("www.baidu.com", 80);
+                telnet.start();
+                Log.i(TAG, "Telnet：" + telnet.toString());
+                //目标
+                TraceRoute traceRoute = new TraceRoute("www.baidu.com");
+                traceRoute.start();
+                Log.i(TAG, "\n\nTraceRoute：" + traceRoute.toString());
+                //测速
+                //下载目标，下载大小
+                SpeedRoad speedRoad = new SpeedRoad("http://down.360safe.com/se/360se_setup.exe", 1024 * 32);
+                speedRoad.start();
+                Log.i(TAG, "SpeedRoad：" + speedRoad.getSpeed());
+            }
+        };
+        thread.setDaemon(true);
+        thread.start();
     }
 }

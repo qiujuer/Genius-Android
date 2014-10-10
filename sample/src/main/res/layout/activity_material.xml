@@ -1,0 +1,69 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:material="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="net.qiujuer.sample.MaterialActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MaterialButton"
+            android:textSize="18sp" />
+
+        <net.qiujuer.genius.material.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:text="Light"
+            material:gm_textAppearance="light"
+            material:gm_theme="@array/grass" />
+
+        <net.qiujuer.genius.material.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:text="Bold"
+            material:gm_fontFamily="opensans"
+            material:gm_fontWeight="bold"
+            material:gm_theme="@array/sky" />
+
+        <net.qiujuer.genius.material.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:text="Roboto"
+            material:gm_fontFamily="roboto"
+            material:gm_fontWeight="bold"
+            material:gm_theme="@array/dark" />
+
+        <net.qiujuer.genius.material.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:text="Dark False"
+            material:gm_fontFamily="roboto"
+            material:gm_fontWeight="light"
+            material:gm_isMaterial="false"
+            material:gm_textAppearance="dark"
+            material:gm_theme="@array/blood" />
+    </LinearLayout>
+</ScrollView>
