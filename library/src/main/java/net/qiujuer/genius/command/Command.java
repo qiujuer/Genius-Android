@@ -8,7 +8,6 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 import net.qiujuer.genius.Genius;
-import net.qiujuer.genius.util.Log;
 import net.qiujuer.genius.util.ToolUtils;
 
 import java.util.UUID;
@@ -40,13 +39,11 @@ public final class Command {
                 bindService();
             }
             iLock.unlock();
-            Log.i(TAG, "ServiceConnection:onServiceConnected");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             iService = null;
-            Log.i(TAG, "ServiceConnection:onServiceDisconnected");
         }
     };
     //Lock
