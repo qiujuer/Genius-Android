@@ -1,14 +1,13 @@
 ## Genius-Android是什么?
 
-Genius-Android是一个我在日常使用中把经常使用的方法集合。
+Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个基本板块：
 
-Genius库现在提供了5个基本板块：
+`app`（Ui） `material`（控件） `command`（命令行） `net tool`（Ping、Dns...） `util`（常用方法或类）
 
-`app`（Ui），`material`（Material控件），`command`（命令行），`net tool`（Ping，DNS...），`util`（常用方法或者类）。
-
-在这里向我参考过的开源库作者致敬
+向我参考过的开源库作者致敬：
 
 `FlatUI`，`blurring`
+
 
 ## Screenshots
 
@@ -19,17 +18,17 @@ Genius库现在提供了5个基本板块：
 ![Themes][2]
 
 
-## Genius-Android库有哪些功能？
+## Genius-Android 库有哪些功能？
 
 * `app`
-  > *  可在子线程`同步`切换到主线程
-  > *  可在子线程`异步`切换到主线程
+  > *  可在子线程`同步`切换到主线程操作
+  > *  可在子线程`异步`切换到主线程操作
 
 * `material`
   > *  内置字体 `opensans` `roboto`
   > *  字体颜色 `none` `dark` `light`
   > *  含有五种字体粗细样式切换
-  > *  含有十四种主题颜色搭配
+  > *  含有十二种主题颜色搭配
   > *  `MaterialButton` 点击动画特效
 
 * `command`
@@ -69,31 +68,27 @@ Genius库现在提供了5个基本板块：
 
 ## 获取库
 
-* `Star`或者`Fork`项目；下载。打开 `release`文件夹中的`*.jar`或者`*.aar`文件可以直接导入到自己项目中。
-  *  `*.jar`无法使用控件资源，如R..。
-  *  `*.aar`能使用所有的类和控件以及字体等。
-  *  `*.aar`本地引入方法：
+* `Star` 和 `Fork` 本项目；这样方便获取以后更新内容。
+* `release` 文件夹中的 `*.jar` 或者 `*.aar` 文件可以直接导入到自己项目中。
+  *  `*.jar` 无法使用控件资源，如字体和 `R..`。
+  *  `*.aar` 能使用所有的类和控件以及字体等。
+  *  `*.aar` 本地引入方法：
 
   ```javascript
   repositories {
-      flatDir {
-          dirs 'libs'
-      }
+      flatDir { dirs 'libs' }
   }
   dependencies {
-      compile(name:'genius_0.6.8', ext:'aar')
+      compile(name:'genius_0.7.5', ext:'aar')
   }
   
   ```
 
-* MavenCentral方式，无需下载，Android Studio软件中直接使用：
+* `MavenCentral`(Android Studio) 方式，在项目 `build.gradle` 中添加：
 
 ```javascript
 dependencies {
-    repositories {
-        mavenCentral()
-    }
-    compile 'com.github.qiujuer:genius:0.6.8'
+    compile 'com.github.qiujuer:genius:0.7.5'
 }
 
 ```
@@ -136,26 +131,27 @@ UiTool.syncRunOnUiThread(Activity activity, UiModel ui);
     ...
     xmlns:material="http://schemas.android.com/apk/res-auto"/>
 
-// 提供14种主题样式，见截图
+// 提供12种主题样式，见截图
 // 提供2种字体：`opensans` `roboto`
 // 字体粗细：`bold` `extrabold` `extralight` `light` `regular`
 
 // ==================MaterialButton==================
 <net.qiujuer.genius.material.MaterialButton
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:text="MaterialButton"
+    ...
     material:gm_textAppearance="light"
     material:gm_fontFamily="opensans"
     material:gm_fontWeight="bold"
     material:gm_isMaterial="true"
+    material:gm_isAutoMove="true"
     material:gm_theme="@array/grass" />
 
 // `gm_textAppearance`: 指定字体颜色，默认为 `none`
 // `gm_fontFamily`: 指定两种字体中的一种字体
 // `gm_fontWeight`: 指定字体粗细
 // `gm_isMaterial`: 是否打开 Material 动画，默认 `true`
-// `gm_theme`: 指定主题样式，14种任意选
+// `gm_isAutoMove`: 动画是否自动移动到中心，默认 `true`
+// 开启后动画将不会原地扩散，点击处 `XY` 坐标将向中心靠拢
+// `gm_theme`: 指定主题样式，12种任意选
 
 ```
 
@@ -193,6 +189,9 @@ Command.command(command, new Command.CommandListener() {
     }
 });
 
+//取消一个命令任务
+Command.cancel(Command command);
+
 // 销毁
 // 可调用 ‘Genius.dispose()’ 方法统一销毁
 Command.dispose();
@@ -212,7 +211,7 @@ ping.start();
 if (ping.getError() != NetModel.SUCCEED) {
     Log.i("异常");
 } else {
-    Log.i(TAG,ping.getDelay() + "ms");
+    Log.i(TAG,ping.toString());
 }
 
 // DNS
@@ -224,7 +223,7 @@ dnsResolve.start();
 if (dnsResolve.getError() != NetModel.SUCCEED) {
     Log.i("异常");
 } else {
-    Log.i(TAG,"Size:" + dnsResolve.getAddresses().size() + ", Delay:" + dnsResolve.getDelay() + "ms");
+    Log.i(TAG,dnsResolve.toString());
 }
 ...
 其他的类似
@@ -354,11 +353,13 @@ ToolUtils.isAvailablePackage(Context context, String packageName);
 ```
 
 
-## 开发者
+## 你是开发者
 
-在Android Studio中下载并导入本项目即可，Android Studio > 0.8.2
+下载本项目,项目可导入到 `Android Studio`，Android Studio > 0.8.2
 
-里边含有一个库以及一个测试项目，可将库导入到自己的项目中使用。
+项目里边含有一个库以及一个测试项目，可将库导入到自己的项目中使用。
+
+'Eclipse' 中无法直接导入项目，请先建立一个项目按照对应目录替换到自己项目中。
 
 
 ## 反馈
@@ -368,12 +369,13 @@ ToolUtils.isAvailablePackage(Context context, String packageName);
 * 邮件：qiujuer@live.cn
 * QQ： 756069544
 * Weibo： [@qiujuer](http://weibo.com/qiujuer)
+* 网站：[www.qiujuer.net](http://www.qiujuer.net)
 
 
 ## 捐助开发者
 
 在兴趣的驱动下,写一个`免费`的东西，有欣喜，也还有汗水，希望你喜欢我的作品，同时也能支持一下。
-当然，有钱捧个钱场（支付宝:qiujuer@live.cn）；没钱捧个人场，谢谢各位。
+当然，有钱捧个钱场（支付宝: `qiujuer@live.cn` ）；没钱捧个人场，谢谢各位。
 
 
 ## 关于我

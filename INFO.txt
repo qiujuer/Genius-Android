@@ -44,3 +44,5 @@
 *2014/10/11 MaterialButton 调整速度参数
 *2014/10/11 MaterialButton 支持近似正方形情况
 *2014/10/11 MaterialButton 添加新属性AutoMove，自动移动到中间
+*2014/10/11 更新项目截图
+*2014/10/5 Publish Version-0.7.5.
