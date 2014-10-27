@@ -79,16 +79,16 @@ Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个
       flatDir { dirs 'libs' }
   }
   dependencies {
-      compile(name:'genius_0.7.5', ext:'aar')
+      compile(name:'genius_0.7.6', ext:'aar')
   }
   
   ```
 
-* `MavenCentral`(Android Studio) 方式，在项目 `build.gradle` 中添加：
+* `MavenCentral` 方式，在项目 `build.gradle` 中添加：
 
 ```javascript
 dependencies {
-    compile 'com.github.qiujuer:genius:0.7.5'
+    compile 'com.github.qiujuer:genius:0.7.6'
 }
 
 ```
@@ -339,7 +339,9 @@ ToolUtils.isAvailablePackage(Context context, String packageName);
 ```
 
 
-## 给予权限
+## 配置
+
+##### 权限
 
 ```javascript
     <!-- 网络 权限 -->
@@ -350,6 +352,25 @@ ToolUtils.isAvailablePackage(Context context, String packageName);
     <!-- getDeviceId 权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     
+```
+
+##### Jar包配置
+引用 Jar 包方式：如需要使用 `Command` 与 `net tool` 模块，
+还需要在 `AndroidManifest.xml` 文件的 `application` 节点中添加服务注册。
+
+```javascript
+    <application android:allowBackup="true">
+        <service
+            android:name="net.qiujuer.genius.command.CommandService"
+            android:enabled="true"
+            android:exported="false"
+            android:process="net.qiujuer.genius.command.CommandService">
+            <intent-filter>
+                <action android:name="net.qiujuer.genius.command.ICommandInterface" />
+            </intent-filter>
+        </service>
+    </application>
+
 ```
 
 

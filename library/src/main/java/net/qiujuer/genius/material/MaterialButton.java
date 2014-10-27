@@ -194,7 +194,7 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
      * Start Round Animator
      */
     private void startRoundAnimator() {
-        float start, end, height, width;
+        float start, end, height, width, pStart, pEnd;
         long time = (long) (ANIMATION_TIME * 1.85);
 
         //Height Width
@@ -205,13 +205,17 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
         if (height < width) {
             start = height;
             end = width;
+            pStart = paintY;
+            pEnd = paintX;
         } else {
             start = width;
             end = height;
+            pStart = paintX;
+            pEnd = paintY;
         }
 
-        float startRadius = (start / 2 > paintY ? start - paintY : paintY) * 1.15f;
-        float endRadius = (end / 2 > paintX ? end - paintX : paintX) * 0.85f;
+        float startRadius = (start / 2 > pStart ? start - pStart : pStart) * 1.15f;
+        float endRadius = (end / 2 > pEnd ? end - pEnd : pEnd) * 0.85f;
 
         //If The approximate square approximate square
         if (startRadius > endRadius) {
@@ -235,7 +239,7 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
      * Start Move Round Animator
      */
     private void startMoveRoundAnimator() {
-        float start, end, height, width, speed = 0.3f;
+        float start, end, height, width, pStart, speed = 0.3f;
         long time = ANIMATION_TIME;
 
         //Height Width
@@ -246,11 +250,13 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
         if (height < width) {
             start = height;
             end = width;
+            pStart = paintY;
         } else {
             start = width;
             end = height;
+            pStart = paintX;
         }
-        start = start / 2 > paintY ? start - paintY : paintY;
+        start = start / 2 > pStart ? start - pStart : pStart;
         end = end * 0.8f / 2f;
 
         //If The approximate square approximate square
@@ -263,10 +269,18 @@ public class MaterialButton extends Button implements Attributes.AttributeChange
 
         //PaintX
         ObjectAnimator aPaintX = ObjectAnimator.ofFloat(this, mPaintXProperty, paintX, width / 2);
-        aPaintX.setDuration(time);
         //PaintY
         ObjectAnimator aPaintY = ObjectAnimator.ofFloat(this, mPaintYProperty, paintY, height / 2);
-        aPaintY.setDuration((long) (time * speed));
+
+        //Set Time
+        if (height < width) {
+            aPaintX.setDuration(time);
+            aPaintY.setDuration((long) (time * speed));
+        } else {
+            aPaintX.setDuration((long) (time * speed));
+            aPaintY.setDuration(time);
+        }
+
         //Radius
         ObjectAnimator aRadius = ObjectAnimator.ofFloat(this, mRadiusProperty, start, end);
         aRadius.setDuration(time);
