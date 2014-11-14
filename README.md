@@ -12,10 +12,10 @@ Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个
 ## Screenshots
 
 ##### MaterialButton
-![Animated gif][1]
+<img src="sample-images/material.gif" width="502" height="720"/>
 
 ##### Themes
-![Themes][2]
+<img src="sample-images/themes.png" width="720" height="597"/>
 
 
 ## Genius-Android 库有哪些功能？
@@ -426,6 +426,3 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
-
- [1]: https://raw2.github.com/qiujuer/Genius-Android/master/sample-images/material.gif
- [2]: https://raw2.github.com/qiujuer/Genius-Android/master/sample-images/themes.png
