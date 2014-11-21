@@ -6,7 +6,6 @@ import android.os.Message;
 
 import net.qiujuer.genius.Genius;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,9 +32,8 @@ public final class Log {
     private static final SimpleDateFormat FORMATTER_SIMPLE = new SimpleDateFormat("HH:mm:ss");
 
     private static boolean IsCallLog = false;
-    private static boolean IsSaveLog = false;
     private static int Level = ALL;
-    private static LogWriter LogWriter;
+    private static LogWriter Writer;
     private static List<LogCallbackListener> callbackListeners;
     private static Handler handler = null;
 
@@ -46,7 +44,7 @@ public final class Log {
      */
     static {
         callbackListeners = new ArrayList<LogCallbackListener>();
-        LogWriter = null;
+        Writer = null;
 
         initAsyncHandler();
     }
@@ -116,22 +114,19 @@ public final class Log {
      * @param isOpen    Open
      * @param fileCount File Count,Default 10 Size
      * @param fileSize  One File Size,Default 2Mb
-     * @param filePath  Log storage folder, NULL using the default, closing to NULL;Default: software installation directory/Logs
      */
-    public static void setSaveLog(boolean isOpen, int fileCount, float fileSize, String filePath) {
-        IsSaveLog = isOpen;
-
+    public static void setSaveLog(boolean isOpen, int fileCount, float fileSize) {
         if (Genius.getApplication() == null)
             throw new NullPointerException("Application is not null.Please Genius.initialize(Application)");
 
-        if (IsSaveLog) {
-            if (LogWriter == null)
-                LogWriter = new LogWriter(fileCount, fileSize,
-                        Genius.getApplication().getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + (filePath == null ? "Logs" : filePath));
-        } else if (LogWriter != null) {
-            LogWriter.unRegisterBroadCast();
-            LogWriter.done();
-            LogWriter = null;
+        if (isOpen) {
+            if (Writer == null)
+                Writer = new LogWriter(fileCount, fileSize, LogWriter.getDefaultLogPath());
+
+        } else if (Writer != null) {
+            Writer.unRegisterBroadCast();
+            Writer.done();
+            Writer = null;
         }
     }
 
@@ -144,11 +139,11 @@ public final class Log {
      * @param filePath Copy of the storage folder, NULL using the default, closing to NULL;Default: SD/Genius/Logs
      */
     public static void setCopyExternalStorage(boolean isCopy, String filePath) {
-        if (IsSaveLog) {
+        if (Writer != null) {
             if (isCopy)
-                LogWriter.registerBroadCast(filePath);
+                Writer.registerBroadCast(filePath);
             else
-                LogWriter.unRegisterBroadCast();
+                Writer.unRegisterBroadCast();
         }
     }
 
@@ -156,10 +151,10 @@ public final class Log {
      * dispose
      */
     public static void dispose() {
-        if (LogWriter != null) {
-            LogWriter.unRegisterBroadCast();
-            LogWriter.done();
-            LogWriter = null;
+        if (Writer != null) {
+            Writer.unRegisterBroadCast();
+            Writer.done();
+            Writer = null;
         }
         callbackListeners.clear();
     }
@@ -169,12 +164,25 @@ public final class Log {
      * Public methods
      * *********************************************************************************************
      */
+
+    /**
+     * Copy log to ExternalStorage
+     * This method depends on whether to open the log storage
+     * The address can be integrated setCopyExternalStorage() method of the parameters on filePath is Null
+     *
+     * @param filePath Copy of the storage folder, NULL using the default, closing to NULL;Default: SD/Genius/Logs
+     */
+    public static void copyToExternalStorage(String filePath) {
+        if (Writer != null)
+            Writer.copyLogFile(filePath);
+    }
+
     /**
      * Clear Log File
      */
     public static void clearLogFile() {
-        if (LogWriter != null)
-            LogWriter.clearLogFile();
+        if (Writer != null)
+            Writer.clearLogFile();
     }
 
     /**
@@ -392,11 +400,8 @@ public final class Log {
      * @param log Log
      */
     private static void saveFile(Log log) {
-        if (!IsSaveLog)
-            return;
-
-        if (LogWriter != null) try {
-            LogWriter.addLog(log);
+        if (Writer != null) try {
+            Writer.addLog(log);
         } catch (Exception e) {
             e.printStackTrace();
         }

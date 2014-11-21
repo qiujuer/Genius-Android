@@ -52,7 +52,7 @@ class LogWriter extends Thread {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
-                copyLogFile();
+                copyLogFile(externalStoragePath);
             }
         }
     };
@@ -243,33 +243,6 @@ class LogWriter extends Thread {
         }
     }
 
-    /**
-     * copyLogFile
-     */
-    private void copyLogFile() {
-        if (Environment.getExternalStorageState() == null || !Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return;
-        }
-
-        String sdFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + externalStoragePath;
-        File file = new File(sdFilePath);
-        if (!file.isDirectory()) {
-            if (!file.mkdirs()) {
-                return;
-            }
-        }
-
-        file = new File(filePath);
-        if (file.isDirectory()) {
-            File[] allFiles = file.listFiles();
-            for (File logFile : allFiles) {
-                String fileName = logFile.getName();
-                WriteLock.lock();
-                ToolUtils.copyFile(logFile, new File(sdFilePath + File.separator + fileName));
-                WriteLock.unlock();
-            }
-        }
-    }
 
     /**
      * *********************************************************************************************
@@ -334,6 +307,41 @@ class LogWriter extends Thread {
             }
         }
         return bFlag;
+    }
+
+    /**
+     * get log file path
+     */
+    protected static String getDefaultLogPath() {
+        return Genius.getApplication().getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "Genius" + File.separator + "Logs";
+    }
+
+    /**
+     * Copy log to ExternalStorage
+     */
+    protected void copyLogFile(String path) {
+        if (Environment.getExternalStorageState() == null || !Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            return;
+        }
+
+        String sdFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + (path == null ? externalStoragePath : path);
+        File file = new File(sdFilePath);
+        if (!file.isDirectory()) {
+            if (!file.mkdirs()) {
+                return;
+            }
+        }
+
+        file = new File(filePath);
+        if (file.isDirectory()) {
+            File[] allFiles = file.listFiles();
+            for (File logFile : allFiles) {
+                String fileName = logFile.getName();
+                WriteLock.lock();
+                ToolUtils.copyFile(logFile, new File(sdFilePath + File.separator + fileName));
+                WriteLock.unlock();
+            }
+        }
     }
 
     /**

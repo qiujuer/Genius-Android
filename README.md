@@ -189,7 +189,7 @@ Command.command(command, new Command.CommandListener() {
     }
 });
 
-//取消一个命令任务
+// 取消一个命令任务
 Command.cancel(Command command);
 
 // 销毁
@@ -299,12 +299,17 @@ Log.addCallbackListener(listener);
 
 // 是否调用系统Android Log，可控制是否显示
 Log.setCallLog(true);
-// 是否开启写入文件，文件数量，单个文件大小（Mb），重定向地址
-Log.setSaveLog(Genius.getApplication(), true, 10, 1, null);
+// 是否开启写入文件，文件数量，单个文件大小（Mb）
+// 默认存储在程序目录/Genius/Logs
+Log.setSaveLog(true, 10, 1);
 // 设置是否监听外部存储插入操作
-// 开启时插入外部设备（SD）时将拷贝存储的日志文件到外部存储设备
+// 开启：插入外部设备（SD）时，将拷贝日志文件到外部存储
 // 此操作依赖于是否开启写入文件功能，未开启则此方法无效
 Log.setCopyExternalStorage(true, "Test/Logs");
+
+// 拷贝内部存储的日志文件到外部存储（SD）
+// 此操作依赖于是否开启写入文件功能，未开启则此方法无效
+Log.copyToExternalStorage("Test/Logs");
 
 // 设置日志等级
 // ALL(全部显示)，VERBOSE到ERROR依次递减
