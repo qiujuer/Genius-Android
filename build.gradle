@@ -5,13 +5,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.+'
+        classpath 'com.android.tools.build:gradle:0.14.4'
     }
 }
 
 allprojects {
     version = VERSION_NAME
-    group = GROUP
+    group = POM_GROUP_ID
 
     repositories {
         mavenCentral()
@@ -21,4 +21,5 @@ ext {
     compileSdkVersion = 20
     buildToolsVersion = "20.0.0"
 }
+
 apply plugin: 'android-reporting'

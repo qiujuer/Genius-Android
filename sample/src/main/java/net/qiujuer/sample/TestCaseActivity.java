@@ -73,8 +73,8 @@ public class TestCaseActivity extends Activity {
         //清理存储的文件
         Log.clearLogFile();
 
-        //是否开启写入文件，存储最大文件数量，单个文件大小（Mb），重定向地址（默认包名目录）
-        Log.setSaveLog(true, 10, 1, null);
+        //是否开启写入文件，存储最大文件数量，单个文件大小（Mb）
+        Log.setSaveLog(true, 10, 1);
 
         //设置是否监听外部存储插入操作
         //开启时插入外部设备（SD）时将拷贝存储的日志文件到外部存储设备

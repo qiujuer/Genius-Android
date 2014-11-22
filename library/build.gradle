@@ -1,16 +1,17 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion ANDROID_BUILD_TARGET_SDK_VERSION as int
+    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "net.qiujuer.genius"
-        minSdkVersion 15
-        targetSdkVersion 20
-        versionCode 76
-        versionName "0.7.6-SNAPSHOT"
+        minSdkVersion ANDROID_BUILD_MIN_SDK_VERSION as int
+        targetSdkVersion ANDROID_BUILD_TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -18,15 +19,16 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
-            java {
-                srcDir 'src/main/java'
-            }
-            resources {
-                srcDir 'src/../lib'
-            }
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
         }
     }
 
@@ -37,15 +39,17 @@ android {
 
 dependencies {
 }
+
 task clearJar(type: Delete) {
     delete 'build/libs/' + POM_ARTIFACT_ID + '_' + VERSION_NAME + '.jar'
 }
+
 task makeJar(type: Copy) {
     from('build/intermediates/bundles/release/')
     into('../release/')
     include('classes.jar')
     rename('classes.jar', POM_ARTIFACT_ID + '_' + VERSION_NAME + '.jar')
 }
-//makeJar.dependsOn(clearJar, build)
+makeJar.dependsOn(clearJar, build)
 
 apply from: '../maven_push.gradle'
