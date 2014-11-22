@@ -79,7 +79,7 @@ Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个
       flatDir { dirs 'libs' }
   }
   dependencies {
-      compile(name:'genius_0.7.6', ext:'aar')
+      compile(name:'genius_0.7.9', ext:'aar')
   }
   
   ```
@@ -88,7 +88,7 @@ Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个
 
 ```javascript
 dependencies {
-    compile 'com.github.qiujuer:genius:0.7.6'
+    compile 'com.github.qiujuer:genius:0.7.9'
 }
 
 ```
@@ -381,7 +381,7 @@ ToolUtils.isAvailablePackage(Context context, String packageName);
 
 ## 你是开发者
 
-下载本项目,项目可导入到 `Android Studio`，Android Studio > 0.8.2
+下载本项目,项目可导入到 `Android Studio`，Android Studio >= 1.0 RC 1
 
 项目里边含有一个库以及一个测试项目，可将库导入到自己的项目中使用。
 
