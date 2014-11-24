@@ -1,12 +1,11 @@
-package net.qiujuer.sample;
+﻿package net.qiujuer.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import net.qiujuer.genius.Genius;
-import net.qiujuer.genius.app.UiModel;
-import net.qiujuer.genius.app.UiTool;
+import net.qiujuer.genius.app.ToolKit;
 import net.qiujuer.genius.command.Command;
 import net.qiujuer.genius.nettool.DnsResolve;
 import net.qiujuer.genius.nettool.Ping;
@@ -37,12 +36,13 @@ public class TestCaseActivity extends Activity {
         Log.addCallbackListener(new Log.LogCallbackListener() {
             @Override
             public void onLogArrived(final Log data) {
+                if (mText == null)
+                    return;
                 //异步显示到界面
-                UiTool.asyncRunOnUiThread(TestCaseActivity.this, new UiModel() {
+                ToolKit.runOnMainThreadAsync(new Runnable() {
                     @Override
-                    public void doUi() {
-                        if (mText != null)
-                            mText.append("\n" + data.getMsg());
+                    public void run() {
+                        mText.append("\n" + data.getMsg());
                     }
                 });
             }
@@ -50,6 +50,7 @@ public class TestCaseActivity extends Activity {
 
         //开始测试
         testLog();
+        testToolKit();
         testHashUtils();
         testToolUtils();
         testFixedList();
@@ -61,6 +62,47 @@ public class TestCaseActivity extends Activity {
     protected void onDestroy() {
         mText = null;
         super.onDestroy();
+    }
+
+    /**
+     * 测试 App 工具包
+     */
+    void testToolKit() {
+        // 同步模式一般用于更新界面同时等待界面更新完成后才能继续往下走的情况
+        // 异步模式一般用于线程操作完成后统一更新主界面的情况
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 测试运行在主线程中的情况，所以建立子线程进行调用
+                // 方法中的操作将会切换到主线程中执行
+                String msg = "ToolKit:";
+                long start = System.currentTimeMillis();
+                // 测试同步模式，在该模式下
+                // 子线程将会等待其执行完成
+                // 在主线程中调用该方法后才能继续往下走
+                // 该方法首先会将要执行的命令放到队列中，等待主线程执行
+                ToolKit.runOnMainThreadSync(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToolUtils.sleepIgnoreInterrupt(20);
+                    }
+                });
+                msg += "同步时间:" + (System.currentTimeMillis() - start) + ", ";
+
+                start = System.currentTimeMillis();
+                // 测试异步模式，在该模式下
+                // 子线程调用该方法后既可继续往下走，并不会阻塞
+                ToolKit.runOnMainThreadAsync(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToolUtils.sleepIgnoreInterrupt(20);
+                    }
+                });
+                msg += "异步时间:" + (System.currentTimeMillis() - start) + " ";
+                Log.v(TAG, msg);
+            }
+        });
+        thread.start();
     }
 
     /**

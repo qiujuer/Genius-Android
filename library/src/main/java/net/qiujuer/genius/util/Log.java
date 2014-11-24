@@ -427,7 +427,7 @@ public final class Log {
      */
     private static void arriveLog(Log log) {
         if (handler != null)
-            handler.sendMessage(handler.obtainMessage(0x1, log));
+            handler.obtainMessage(0x1, log).sendToTarget();
     }
 
     /**
