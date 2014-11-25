@@ -1,4 +1,4 @@
-﻿package net.qiujuer.sample;
+package net.qiujuer.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,7 +20,12 @@ import net.qiujuer.genius.util.ToolUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Created by QiuJu
+ * on 2014/11/25.
+ *
+ * 测试用例界面
+ */
 public class TestCaseActivity extends Activity {
     private static final String TAG = TestCaseActivity.class.getSimpleName();
     TextView mText = null;
