@@ -1,8 +1,10 @@
+# ReadMe
+
 ## Genius-Android是什么?
 
-Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个基本板块：
+**Genius-Android** 包含了 **Android** 中一些常用的的方法集合, **Genius** 库现提供5个基本板块：
 
-`app`（Ui） `material`（控件） `command`（命令行） `net tool`（Ping、Dns...） `util`（常用方法或类）
+`app`（**Ui**） `material`（**控件**） `command`（**命令行**） `net tool`（**Ping、Dns...**） `util`（**常用方法,类**）
 
 向我参考过的开源库作者致敬：
 
@@ -12,24 +14,29 @@ Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个
 ## Screenshots
 
 ##### MaterialButton
-<img src="sample-images/material.gif" width="502" height="720"/>
+<img src="art/material.gif" />
 
 ##### Themes
-<img src="sample-images/themes.png" width="720" height="597"/>
+<img src="art/themes.png" />
+
+##### BlurKit
+<img src="art/blur.png" />
 
 
 ## Genius-Android 库有哪些功能？
 
 * `app`
-  > *  可在子线程`同步`切换到主线程操作
-  > *  可在子线程`异步`切换到主线程操作
+  > *  `ToolKit` 可在子线程`同步`切换到主线程操作
+  > *  `ToolKit` 可在子线程`异步`切换到主线程操作
+  > *  `BlurKit` 可在`Java`端使用`FastBlur`算法模糊图片
+  > *  `BlurKit` 可在`Jni`端使用`FastBlur`算法模糊图片
 
 * `material`
   > *  内置字体 `opensans` `roboto`
   > *  字体颜色 `none` `dark` `light`
   > *  含有五种字体粗细样式切换
   > *  含有十二种主题颜色搭配
-  > *  `MaterialButton` 点击动画特效
+  > *  `MaterialButton` 按钮
 
 * `command`
   > *  独立服务进程控制进程创建销毁
@@ -55,8 +62,7 @@ Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个
   > *  全局AppContext属性获取
   > *  方便的MD5运算，包括字符串与文件
   > *  线程休眠无需多加try catch模块
-  > *  获取设备标识`ID`，`SN`，`DeviceId`
-  > *  可检测是否安装指定软件（包名）
+  > *  获取设备标识`ID`，`SN`
   > *  `Log`：使用方式与Android日志Log一样
   > *  `Log`：一键设置是否调用系统Log类
   > *  `Log`：可一键设置日志级别，解决发布的烦恼
@@ -73,33 +79,40 @@ Genius-Android 包含了一些常用的的方法集合；Genius 库现提供5个
   *  `*.jar` 无法使用控件资源，如字体和 `R..`。
   *  `*.aar` 能使用所有的类和控件以及字体等。
   *  `*.aar` 本地引入方法：
-
-  ```javascript
-  repositories {
-      flatDir { dirs 'libs' }
+* `Eclipse` [完全导入使用方法详解](docs/EclipseImport.md)
+* `Android Studio` :
+  *  `*.aar` 本地导入方法：
+  
+  ```gradle
+  // 需先拷贝 "genius_0.9.0.aar" 到 "libs" 目录
+  android {
+      repositories {
+          flatDir { dirs 'libs' }
+      }
   }
   dependencies {
-      compile(name:'genius_0.7.9', ext:'aar')
+      compile (name:'genius_0.9.0', ext:'aar')
   }
-  
+
   ```
 
-* `MavenCentral` 方式，在项目 `build.gradle` 中添加：
+  *  `*.aar` `MavenCentral`远程导入：
+  
+  ```gradle
+  // 在项目 "build.gradle" 中添加
+  // 无需拷贝任何文件，等待联网更新完成即可使用
+  dependencies {
+      compile 'com.github.qiujuer:genius:0.9.0'
+  }
 
-```javascript
-dependencies {
-    compile 'com.github.qiujuer:genius:0.7.9'
-}
-
-```
-
+  ```
 
 
 ## 使用方法
 
 ##### 初始化与销毁
 
-```javascript
+```java
 // Command 使用模块必须初始化
 // Log 类如进行存储则需要初始化
 // 只使用控件与 net tool 模块可不初始化
@@ -111,21 +124,31 @@ Genius.dispose();
 
 ##### `app` 模块
 
-```javascript
-// ‘UiModel‘ 类实现其中 ‘doUi()’ 方法
-// ‘doUi()’ 运行在主线程中，可在其中进行控件操作
-// 同步进入 ‘Activity‘ 主线程
-UiTool.syncRunOnUiThread(Activity activity, UiModel ui);
+```java
+// "Runnable" 类实现其中 "run()" 方法
+// "run()" 运行在主线程中，可在其中进行界面操作
+// 同步进入主线程,等待主线程处理完成后继续执行子线程
+ToolKit.runOnMainThreadSync(Runnable runnable);
+// 异步进入主线程,无需等待
+ToolKit.runOnMainThreadAsync(Runnable runnable);
 
-// 异步进入 ‘Activity‘ 主线程
-UiTool.syncRunOnUiThread(Activity activity, UiModel ui);
+// "bitmap" 待处理的图片
+// "radius" 图片模糊半径
+// "canReuseInBitmap" 是否在 "bitmap" 中进行模糊,
+// "false" 情况下将拷贝"bitmap"的副本进行模糊
+// 在"Java"中实现图片模糊
+BlurKit.fastBlurInJava(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+// 在"Jni"中实现图片模糊,传给"Jni"的是图片像素集合"Array"
+BlurKit.fastBlurInJniArray(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+// 在"Jni"中实现图片模糊,传给"Jni"的是图片类"Bitmap"
+BlurKit.fastBlurInJniBitmap(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 
 ```
 
 
 ##### `material` 模块
 
-```javascript
+```xml
 // 首先需要在根容器中指定：
 <LinearLayout
     ...
@@ -158,7 +181,7 @@ UiTool.syncRunOnUiThread(Activity activity, UiModel ui);
 
 ##### `command` 模块
 
-```javascript
+```java
 // 执行命令，后台服务自动控制
 // 调用方式与ProcessBuilder传参方式一样
 // 同步方式
@@ -201,7 +224,7 @@ Command.dispose();
 
 ##### `net tool` 模块
 
-```javascript
+```java
 // Ping
 // 传入域名或者IP
 // 结果：是否执行成功、延时、丢包
@@ -233,7 +256,7 @@ if (dnsResolve.getError() != NetModel.SUCCEED) {
 
 ##### `util` 模块
 
-```javascript
+```java
 // ===================FixedList===================
 // 固定长度队列
 // 可指定长度，使用方法与普通队列类似
@@ -242,7 +265,9 @@ if (dnsResolve.getError() != NetModel.SUCCEED) {
 
 // 初始化最大长度为5
 FixedList<Integer> list = new FixedList<Integer>(5);
-// 添加元素
+// 使用Queue方法添加元素
+list.offer(0);
+// 使用List方法添加元素,两种方式操作是一样
 list.add(1);
 // 末尾插入元素与add一样
 list.addLast(1);
@@ -288,7 +313,7 @@ String hash = HashUtils.getFileMd5(File file);
 
 // 添加回调
 // 回调类
-Log.LogCallbackListener listener = new Log.LogCallbackListener() {
+Log.LogCallbackListener listener = new LogCallbackListener() {
     @Override
     public void onLogArrived(Log data) {
         //日志来了
@@ -336,19 +361,13 @@ ToolUtils.copyFile(File source, File target);
 ToolUtils.getAndroidId(Context context);
 // SN编号
 ToolUtils.getSerialNumber();
-// DeviceId
-ToolUtils.getDeviceId(Context context);
-// 判断包是否安装
-ToolUtils.isAvailablePackage(Context context, String packageName);
 
 ```
 
 
-## 配置
+## 配置权限
 
-##### 权限
-
-```javascript
+```xml
     <!-- 网络 权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 日志写文件 权限 -->
@@ -357,25 +376,6 @@ ToolUtils.isAvailablePackage(Context context, String packageName);
     <!-- getDeviceId 权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     
-```
-
-##### Jar包配置
-引用 Jar 包方式：如需要使用 `Command` 与 `net tool` 模块，
-还需要在 `AndroidManifest.xml` 文件的 `application` 节点中添加服务注册。
-
-```javascript
-    <application android:allowBackup="true">
-        <service
-            android:name="net.qiujuer.genius.command.CommandService"
-            android:enabled="true"
-            android:exported="false"
-            android:process="net.qiujuer.genius.command.CommandService">
-            <intent-filter>
-                <action android:name="net.qiujuer.genius.command.ICommandInterface" />
-            </intent-filter>
-        </service>
-    </application>
-
 ```
 
 
@@ -392,7 +392,8 @@ ToolUtils.isAvailablePackage(Context context, String packageName);
 
 在使用中有任何问题，欢迎能及时反馈给我，可以用以下联系方式跟我交流
 
-* 邮件：qiujuer@live.cn
+* 项目：[提交Bug或想法](https://github.com/qiujuer/Genius-Android/issues)
+* 邮件：[qiujuer@live.cn](mailto:qiujuer@live.cn)
 * QQ： 756069544
 * Weibo： [@qiujuer](http://weibo.com/qiujuer)
 * 网站：[www.qiujuer.net](http://www.qiujuer.net)
