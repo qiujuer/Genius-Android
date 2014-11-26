@@ -1,0 +1,30 @@
+<resources>
+    <attr name="gm_theme" format="reference" />
+
+    <attr name="gm_fontFamily" format="string" />
+    <attr name="gm_fontWeight" format="string" />
+    <attr name="gm_fontExtension" format="string" />
+    <attr name="gm_textAppearance" format="integer">
+        <enum name="none" value="0" />
+        <enum name="dark" value="1" />
+        <enum name="light" value="2" />
+    </attr>
+
+    <attr name="gm_cornerRadius" format="dimension" />
+    <attr name="gm_isMaterial" format="boolean" />
+    <attr name="gm_isAutoMove" format="boolean" />
+
+    <declare-styleable name="MaterialButton">
+        <attr name="gm_theme" />
+        <attr name="gm_fontFamily" />
+        <attr name="gm_fontWeight" />
+        <attr name="gm_fontExtension" />
+        <attr name="gm_textAppearance" />
+        <attr name="gm_cornerRadius" />
+        <attr name="gm_isMaterial" />
+        <attr name="gm_isAutoMove" />
+
+        <!-- Defines the height of the border bottom of the button -->
+        <attr name="gm_blockButtonEffectHeight" format="dimension" />
+    </declare-styleable>
+</resources>
