@@ -28,7 +28,9 @@ public class MainActivity extends Activity {
     public void onClick(View view) {
         if (view.getId() == R.id.MaterialButton)
             startActivity(new Intent(this, MaterialActivity.class));
-        else
+        else if (view.getId() == R.id.Other)
             startActivity(new Intent(this, TestCaseActivity.class));
+        else if (view.getId() == R.id.Blur)
+            startActivity(new Intent(this, BlurActivity.class));
     }
 }

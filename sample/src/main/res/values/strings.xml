@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="hello_world">Hello world!</string>
     <string name="app_name">Genius</string>
     <string name="title_activity_main">Genius</string>
     <string name="title_activity_material">MaterialActivity</string>
     <string name="title_activity_test_case">TestCaseActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_blur">BlurActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="action_scale">压缩背景后模糊</string>
 
 </resources>

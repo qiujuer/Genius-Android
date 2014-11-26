@@ -41,6 +41,19 @@
             material:gm_textAppearance="light"
             material:gm_theme="@array/sky" />
 
+        <net.qiujuer.genius.material.MaterialButton
+            android:id="@+id/Blur"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:onClick="onClick"
+            android:text="Blur Image"
+            material:gm_isMaterial="false"
+            material:gm_textAppearance="light"
+            material:gm_theme="@array/candy" />
+
     </LinearLayout>
 </RelativeLayout>
 
