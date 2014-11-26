@@ -1,15 +1,16 @@
 package net.qiujuer.genius.util;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
 import net.qiujuer.genius.Genius;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by QiuJu
@@ -35,7 +36,7 @@ public final class Log {
     private static int Level = ALL;
     private static LogWriter Writer;
     private static List<LogCallbackListener> callbackListeners;
-    private static Handler handler = null;
+    private static CallBackManager callBackManager;
 
     /**
      * *********************************************************************************************
@@ -43,38 +44,9 @@ public final class Log {
      * *********************************************************************************************
      */
     static {
-        callbackListeners = new ArrayList<LogCallbackListener>();
+        callbackListeners = new ArrayList<>();
         Writer = null;
-
-        initAsyncHandler();
     }
-
-    private static void initAsyncHandler() {
-        Thread thread = new Thread(Log.class.getName()) {
-            @Override
-            public void run() {
-                Looper.prepare();
-                handler = new Handler() {
-                    public void handleMessage(Message msg) {
-                        Log log = (Log) msg.obj;
-                        if (log != null) {
-                            for (LogCallbackListener i : callbackListeners) {
-                                try {
-                                    i.onLogArrived(log);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                };
-                Looper.loop();
-            }
-        };
-        thread.setDaemon(true);
-        thread.start();
-    }
-
 
     /**
      * *********************************************************************************************
@@ -156,7 +128,7 @@ public final class Log {
             Writer.done();
             Writer = null;
         }
-        callbackListeners.clear();
+        removeCallbackListener(null);
     }
 
     /**
@@ -192,6 +164,8 @@ public final class Log {
      */
     public static void addCallbackListener(LogCallbackListener listener) {
         callbackListeners.add(listener);
+        if (callBackManager == null)
+            callBackManager = new CallBackManager();
     }
 
     /**
@@ -200,7 +174,15 @@ public final class Log {
      * @param listener OnLogCallbackListener
      */
     public static void removeCallbackListener(LogCallbackListener listener) {
-        callbackListeners.remove(listener);
+        if (listener == null)
+            callbackListeners.clear();
+        else
+            callbackListeners.remove(listener);
+        if (callbackListeners.size() <= 0 && callBackManager != null) {
+            CallBackManager manager = callBackManager;
+            callBackManager = null;
+            manager.dispose();
+        }
     }
 
 
@@ -426,8 +408,8 @@ public final class Log {
      * @param log Log
      */
     private static void arriveLog(Log log) {
-        if (handler != null)
-            handler.obtainMessage(0x1, log).sendToTarget();
+        if (callBackManager != null)
+            callBackManager.notifyLog(log);
     }
 
     /**
@@ -521,13 +503,96 @@ public final class Log {
     /**
      * Interface
      */
-    public interface LogCallbackListener {
+    public static interface LogCallbackListener {
         /**
          * On Log Arrived
          *
          * @param log GLog
          */
         public void onLogArrived(Log log);
+    }
+
+    /**
+     * CallBack Manager class
+     */
+    static class CallBackManager extends Thread {
+        private Queue<Log> logQueue;
+        private final Lock queueLock;
+        private final Condition queueNotify;
+        private boolean isActive;
+
+        public CallBackManager() {
+            logQueue = new LinkedList<>();
+            queueLock = new ReentrantLock();
+            queueNotify = queueLock.newCondition();
+
+            this.setDaemon(true);
+            this.start();
+        }
+
+        public void notifyLog(Log log) {
+            if (logQueue == null)
+                return;
+            try {
+                queueLock.lock();
+                logQueue.offer(log);
+                if (!isActive) {
+                    isActive = true;
+                    queueNotify.signalAll();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                queueLock.unlock();
+            }
+        }
+
+        public void dispose() {
+            try {
+                queueLock.lock();
+                if (logQueue != null) {
+                    logQueue.clear();
+                    logQueue = null;
+                }
+                queueNotify.signalAll();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                queueLock.unlock();
+            }
+        }
+
+        @Override
+        public void run() {
+            while (logQueue != null) {
+                Log log = logQueue.poll();
+                if (log == null) {
+                    try {
+                        queueLock.lock();
+                        log = logQueue.poll();
+                        if (log == null) {
+                            isActive = false;
+                            queueNotify.await();
+                            continue;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        queueLock.unlock();
+                    }
+                }
+
+                // notify
+                for (LogCallbackListener i : callbackListeners) {
+                    try {
+                        i.onLogArrived(log);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }
     }
 }
 

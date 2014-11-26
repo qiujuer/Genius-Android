@@ -283,14 +283,15 @@ class LogWriter extends Thread {
      * @param data Log
      */
     protected void addLog(Log data) {
-        ListLock.lock();
-        logList.add(data);
         try {
+            ListLock.lock();
+            logList.add(data);
             ListNotify.signalAll();
-        } catch (IllegalMonitorStateException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            ListLock.unlock();
         }
-        ListLock.unlock();
     }
 
     /**
@@ -338,7 +339,7 @@ class LogWriter extends Thread {
             for (File logFile : allFiles) {
                 String fileName = logFile.getName();
                 WriteLock.lock();
-                ToolUtils.copyFile(logFile, new File(sdFilePath + File.separator + fileName));
+                Tools.copyFile(logFile, new File(sdFilePath + File.separator + fileName));
                 WriteLock.unlock();
             }
         }
@@ -357,17 +358,19 @@ class LogWriter extends Thread {
     @Override
     public void run() {
         while (!isDone) {
-            ListLock.lock();
-            for (Log data : logList) {
-                appendLogs(data);
-            }
-            logList.clear();
             try {
+                ListLock.lock();
+                for (Log data : logList) {
+                    appendLogs(data);
+                }
+                logList.clear();
                 ListNotify.await();
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                ListLock.unlock();
             }
-            ListLock.unlock();
+
         }
     }
 

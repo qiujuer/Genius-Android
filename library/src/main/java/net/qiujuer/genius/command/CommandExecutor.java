@@ -1,6 +1,6 @@
 package net.qiujuer.genius.command;
 
-import net.qiujuer.genius.util.ToolUtils;
+import net.qiujuer.genius.util.Tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -119,7 +119,7 @@ class CommandExecutor {
             } catch (IllegalThreadStateException e) {
                 read();
             }
-            ToolUtils.sleepIgnoreInterrupt(50);
+            Tools.sleepIgnoreInterrupt(50);
         }
 
         //read end
@@ -213,7 +213,7 @@ class CommandExecutor {
             e.printStackTrace();
         } finally {
             //sleep 100
-            ToolUtils.sleepIgnoreInterrupt(100);
+            Tools.sleepIgnoreInterrupt(100);
             LOCK.unlock();
         }
         return processModel;
@@ -236,7 +236,7 @@ class CommandExecutor {
     protected String getResult() {
         //until startRead en
         while (!isDone) {
-            ToolUtils.sleepIgnoreInterrupt(200);
+            Tools.sleepIgnoreInterrupt(200);
         }
 
         //return

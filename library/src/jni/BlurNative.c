@@ -7,7 +7,6 @@ Description:Realize image blurred images blurred
 #include <BlurNative.h>
 #include <malloc.h>
 #include <jni.h>
-#include <android/log.h>
 #include <android/bitmap.h>
 
 #define ABS(a) ((a)<(0)?(-a):(a))

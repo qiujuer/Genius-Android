@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 import net.qiujuer.genius.Genius;
-import net.qiujuer.genius.util.ToolUtils;
+import net.qiujuer.genius.util.Tools;
 
 import java.util.UUID;
 import java.util.concurrent.locks.Condition;
@@ -109,7 +109,7 @@ public final class Command {
                 break;
             } catch (Exception e) {
                 count--;
-                ToolUtils.sleepIgnoreInterrupt(3000);
+                Tools.sleepIgnoreInterrupt(3000);
             }
         }
         //Check is Error

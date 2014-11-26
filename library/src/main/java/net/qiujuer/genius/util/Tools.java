@@ -15,8 +15,9 @@ import java.util.List;
 /**
  * Created by QiuJu
  * on 2014/8/13.
+ * This is a util tools kit
  */
-public final class ToolUtils {
+public final class Tools {
     /**
      * Sleep time
      * Don't throw an InterruptedException exception
@@ -107,33 +108,5 @@ public final class ToolUtils {
             }
         }
         return serialNumber;
-    }
-
-    /**
-     * Get TelephonyManager DeviceId
-     * This Need READ_PHONE_STATE permission
-     *
-     * @param context Context
-     * @return DeviceId
-     */
-    public static String getDeviceId(Context context) {
-        return ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-    }
-
-    /**
-     * The system contains specified App packageName
-     *
-     * @param context     Context
-     * @param packageName App packageName
-     * @return isAvailable
-     */
-    public static boolean isAvailablePackage(Context context, String packageName) {
-        final PackageManager packageManager = context.getPackageManager();
-        List<PackageInfo> infoList = packageManager.getInstalledPackages(0);
-        for (PackageInfo info : infoList) {
-            if (info.packageName.equalsIgnoreCase(packageName))
-                return true;
-        }
-        return false;
     }
 }

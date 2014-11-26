@@ -48,19 +48,25 @@ public class BlurActivity extends Activity {
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final StringBuilder sb = new StringBuilder();
-                        sb.append("耗时：");
-                        for (int i = 1; i < 4; i++) {
-                            Bitmap bmp = linearLayout.getDrawingCache();
-                            sb.append(blur(bmp, i)).append(" ");
-                        }
 
-                        ToolKit.runOnMainThreadAsync(new Runnable() {
-                            @Override
-                            public void run() {
-                                status.setText(sb.toString());
+                        try {
+                            final StringBuilder sb = new StringBuilder();
+                            sb.append("耗时：");
+                            for (int i = 1; i < 4; i++) {
+                                Bitmap bmp = linearLayout.getDrawingCache();
+                                sb.append(blur(bmp, i)).append(" ");
                             }
-                        });
+
+                            ToolKit.runOnMainThreadAsync(new Runnable() {
+                                @Override
+                                public void run() {
+                                    status.setText(sb.toString());
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
                 thread.setDaemon(true);

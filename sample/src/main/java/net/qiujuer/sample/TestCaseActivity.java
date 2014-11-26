@@ -15,7 +15,8 @@ import net.qiujuer.genius.nettool.TraceRoute;
 import net.qiujuer.genius.util.FixedList;
 import net.qiujuer.genius.util.HashUtils;
 import net.qiujuer.genius.util.Log;
-import net.qiujuer.genius.util.ToolUtils;
+import net.qiujuer.genius.util.Log.LogCallbackListener;
+import net.qiujuer.genius.util.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +39,15 @@ public class TestCaseActivity extends Activity {
         mText = (TextView) findViewById(R.id.text);
 
         //添加回调
-        Log.addCallbackListener(new Log.LogCallbackListener() {
+        Log.addCallbackListener(new LogCallbackListener() {
             @Override
             public void onLogArrived(final Log data) {
-                if (mText == null)
-                    return;
                 //异步显示到界面
                 ToolKit.runOnMainThreadAsync(new Runnable() {
                     @Override
                     public void run() {
-                        mText.append("\n" + data.getMsg());
+                        if (mText != null)
+                            mText.append("\n" + data.getMsg());
                     }
                 });
             }
@@ -57,7 +57,7 @@ public class TestCaseActivity extends Activity {
         testLog();
         testToolKit();
         testHashUtils();
-        testToolUtils();
+        testTools();
         testFixedList();
         testNetTool();
         testCommand();
@@ -89,7 +89,7 @@ public class TestCaseActivity extends Activity {
                 ToolKit.runOnMainThreadSync(new Runnable() {
                     @Override
                     public void run() {
-                        ToolUtils.sleepIgnoreInterrupt(20);
+                        Tools.sleepIgnoreInterrupt(20);
                     }
                 });
                 msg += "同步时间:" + (System.currentTimeMillis() - start) + ", ";
@@ -100,7 +100,7 @@ public class TestCaseActivity extends Activity {
                 ToolKit.runOnMainThreadAsync(new Runnable() {
                     @Override
                     public void run() {
-                        ToolUtils.sleepIgnoreInterrupt(20);
+                        Tools.sleepIgnoreInterrupt(20);
                     }
                 });
                 msg += "异步时间:" + (System.currentTimeMillis() - start) + " ";
@@ -160,11 +160,9 @@ public class TestCaseActivity extends Activity {
     /**
      * 测试工具类
      */
-    public void testToolUtils() {
-        Log.i(TAG, "ToolUtils：getAndroidId：" + ToolUtils.getAndroidId(Genius.getApplication()));
-        Log.i(TAG, "ToolUtils：getDeviceId：" + ToolUtils.getDeviceId(Genius.getApplication()));
-        Log.i(TAG, "ToolUtils：getSerialNumber：" + ToolUtils.getSerialNumber());
-        Log.i(TAG, "ToolUtils：isAvailablePackage(net.qiujuer.sample)：" + ToolUtils.isAvailablePackage(Genius.getApplication(), "net.qiujuer.sample"));
+    public void testTools() {
+        Log.i(TAG, "Tools：getAndroidId：" + Tools.getAndroidId(Genius.getApplication()));
+        Log.i(TAG, "Tools：getSerialNumber：" + Tools.getSerialNumber());
     }
 
     /**
@@ -173,28 +171,28 @@ public class TestCaseActivity extends Activity {
     public void testFixedList() {
         //初始化最大长度为5
         FixedList<Integer> list = new FixedList<Integer>(5);
-        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         //添加4个元素
         list.add(1);
         list.add(2);
         list.add(3);
         list.add(4);
-        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         //继续追加2个
         list.add(5);
         list.add(6);
-        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         //调整最大长度
         list.setMaxSize(6);
         list.add(7);
-        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         list.add(8);
-        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         //缩小长度，自动删除前面多余部分
         list.setMaxSize(3);
-        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         list.add(9);
-        Log.i(TAG, "FixedSizeList:" + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         //添加一个列表进去，自动删除多余部分
         List<Integer> addList = new ArrayList<Integer>();
         addList.add(10);
@@ -202,40 +200,40 @@ public class TestCaseActivity extends Activity {
         addList.add(12);
         addList.add(13);
         list.addAll(addList);
-        Log.i(TAG, "FixedSizeList:AddList:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:AddList:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         //采用poll方式弹出元素
-        Log.i(TAG, "FixedSizeList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
-        Log.i(TAG, "FixedSizeList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
-        Log.i(TAG, "FixedSizeList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
         //末尾插入元素与add一样
         list.addLast(14);
         list.addLast(15);
         list.addLast(16);
         list.addLast(17);
         list.addLast(18);
-        Log.i(TAG, "FixedSizeList:AddLast:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:AddLast:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         //从头部插入，默认删除尾部超出部分
         list.addFirst(19);
         list.addFirst(20);
-        Log.i(TAG, "FixedSizeList:AddFirst:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:AddFirst:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         //Remove与poll类似不过不返回删除元素，只会删除一个
         list.remove();
-        Log.i(TAG, "FixedSizeList:Remove:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:Remove:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         //清空操作
         list.clear();
-        Log.i(TAG, "FixedSizeList:Clear:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
+        Log.i(TAG, "FixedList:Clear:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
 
         //使用List操作,最大长度2
         List<Integer> list1 = new FixedList<Integer>(2);
         list1.add(1);
         list1.add(2);
-        Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
+        Log.i(TAG, "FixedList:List:" + " " + list1.size() + " ," + list1.toString());
         list1.add(3);
-        Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
+        Log.i(TAG, "FixedList:List:" + " " + list1.size() + " ," + list1.toString());
         list1.add(4);
-        Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
+        Log.i(TAG, "FixedList:List:" + " " + list1.size() + " ," + list1.toString());
         list1.clear();
-        Log.i(TAG, "FixedSizeList:List:" + " " + list1.size() + " ," + list1.toString());
+        Log.i(TAG, "FixedList:List:" + " " + list1.size() + " ," + list1.toString());
     }
 
     /**
