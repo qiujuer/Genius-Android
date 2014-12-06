@@ -7,21 +7,21 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     net_qiujuer_genius_app_BlurNative
- * Method:    fastBlurArray
- * Signature: ([IIII)V
- */
-JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_fastBlurArray
-  (JNIEnv *, jclass, jintArray, jint, jint, jint);
+	/*
+	 * Class:     net_qiujuer_genius_app_BlurNative
+	 * Method:    blurPixels
+	 * Signature: ([IIII)V
+	 */
+	JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_blurPixels
+		(JNIEnv *, jclass, jintArray, jint, jint, jint);
 
-/*
- * Class:     net_qiujuer_genius_app_BlurNative
- * Method:    fastBlurBitmap
- * Signature: (Landroid/graphics/Bitmap;I)V
- */
-JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_fastBlurBitmap
-  (JNIEnv *, jclass, jobject, jint);
+	/*
+	 * Class:     net_qiujuer_genius_app_BlurNative
+	 * Method:    blurBitmap
+	 * Signature: (Landroid/graphics/Bitmap;I)V
+	 */
+	JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_blurBitmap
+		(JNIEnv *, jclass, jobject, jint);
 
 #ifdef __cplusplus
 }

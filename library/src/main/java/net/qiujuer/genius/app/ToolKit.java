@@ -6,7 +6,7 @@ import android.os.Looper;
  * Created by QiuJu
  * on 2014/11/24.
  */
-public class ToolKit {
+final public class ToolKit {
     private static HandlerPoster mainPoster = null;
 
     private static HandlerPoster getMainPoster() {

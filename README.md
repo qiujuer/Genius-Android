@@ -141,14 +141,14 @@ ToolKit.runOnMainThreadAsync(Runnable runnable);
 
 // "bitmap" 待处理的图片
 // "radius" 图片模糊半径
-// "canReuseInBitmap" 是否在 "bitmap" 中进行模糊,
-// "false" 情况下将拷贝"bitmap"的副本进行模糊
+// "canReuseInBitmap" 是否直接使用 "bitmap" 中进行模糊,
+// "false" 情况下将拷贝 "bitmap" 的副本进行模糊
 // 在"Java"中实现图片模糊
-BlurKit.fastBlurInJava(Bitmap bitmap, int radius, boolean canReuseInBitmap);
-// 在"Jni"中实现图片模糊,传给"Jni"的是图片像素集合"Array"
-BlurKit.fastBlurInJniArray(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+BlurKit.blur(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 // 在"Jni"中实现图片模糊,传给"Jni"的是图片类"Bitmap"
-BlurKit.fastBlurInJniBitmap(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+BlurKit.blurNatively(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+// 在"Jni"中实现图片模糊,传给"Jni"的是图片 "像素集合"
+BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 
 ```
 

@@ -35,7 +35,7 @@ int* stackBlur(int* pix, int w, int h, int radius) {
 	int *b = (int *)malloc(wh * sizeof(int));
 	int rsum, gsum, bsum, x, y, i, p, yp, yi, yw;
 
-	int *vmin = (int *)malloc(MAX(w,h) * sizeof(int));
+	int *vmin = (int *)malloc(MAX(w, h) * sizeof(int));
 
 	int divsum = (div + 1) >> 1;
 	divsum *= divsum;
@@ -222,7 +222,7 @@ int* stackBlur(int* pix, int w, int h, int radius) {
 }
 
 
-JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_fastBlurArray
+JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_blurPixels
 (JNIEnv *env, jclass obj, jintArray arrIn, jint w, jint h, jint r)
 {
 	jint *pix;
@@ -245,7 +245,7 @@ JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_fastBlurArray
 	// return result;
 }
 
-JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_fastBlurBitmap
+JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_blurBitmap
 (JNIEnv *env, jclass obj, jobject bitmapIn, jint r)
 {
 	AndroidBitmapInfo infoIn;
@@ -253,14 +253,15 @@ JNIEXPORT void JNICALL Java_net_qiujuer_genius_app_BlurNative_fastBlurBitmap
 	int ret;
 
 	// Get image info
-	if ((ret = AndroidBitmap_getInfo(env, bitmapIn, &infoIn)) < 0)
+	if ((ret = AndroidBitmap_getInfo(env, bitmapIn, &infoIn)) != 0)
 		return;
 	// Check image
 	if (infoIn.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
 		return;
 	// Lock all images
-	if ((ret = AndroidBitmap_lockPixels(env, bitmapIn, &pixelsIn)) < 0) {
+	if ((ret = AndroidBitmap_lockPixels(env, bitmapIn, &pixelsIn)) != 0) {
 		//AndroidBitmap_lockPixels failed!
+		return;
 	}
 	// height width
 	int h = infoIn.height;

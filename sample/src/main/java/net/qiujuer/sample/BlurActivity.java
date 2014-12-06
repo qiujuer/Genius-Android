@@ -107,12 +107,15 @@ public class BlurActivity extends Activity {
         canvas.drawBitmap(bkg, 0, 0, paint);
 
         //模糊
+        // Java 直接模糊
         if (i == 1)
-            overlay = BlurKit.fastBlurInJava(overlay, (int) radius, true);
+            overlay = BlurKit.blur(overlay, (int) radius, true);
+        // 传递 Bitmap 到 JNI 模糊
         else if (i == 2)
-            overlay = BlurKit.fastBlurInJniArray(overlay, (int) radius, true);
+            overlay = BlurKit.blurNatively(overlay, (int) radius, true);
+        // 传递 图片的像素点集合到 JNI 模糊
         else if (i == 3)
-            overlay = BlurKit.fastBlurInJniBitmap(overlay, (int) radius, true);
+            overlay = BlurKit.blurNativelyPixels(overlay, (int) radius, true);
 
         setDrawable(view, overlay);
 

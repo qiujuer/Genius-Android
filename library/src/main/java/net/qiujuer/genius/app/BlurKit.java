@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
  * <p/>
  * This is blur image class
  */
-public class BlurKit {
+final public class BlurKit {
 
     private static Bitmap buildBitmap(Bitmap bitmap, boolean canReuseInBitmap) {
         // If can reuse in bitmap return this or copy
@@ -22,63 +22,64 @@ public class BlurKit {
     }
 
     /**
-     * FastBlur By Jni Bit Array
+     * StackBlur By Jni Bitmap
      *
-     * @param bitmap           Image
+     * @param original         Original Image
      * @param radius           Blur radius
-     * @param canReuseInBitmap Can reuse InBitmap
-     * @return Image
+     * @param canReuseInBitmap Can reuse In original Bitmap
+     * @return Image Bitmap
      */
-    public static Bitmap fastBlurInJniArray(Bitmap bitmap, int radius, boolean canReuseInBitmap) {
+    public static Bitmap blurNatively(Bitmap original, int radius, boolean canReuseInBitmap) {
         if (radius < 1) {
             return null;
         }
 
-        Bitmap rBitmap = buildBitmap(bitmap, canReuseInBitmap);
+        Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
 
-        int w = rBitmap.getWidth();
-        int h = rBitmap.getHeight();
+        //Jni BitMap Blur
+        BlurNative.blurBitmap(bitmap, radius);
+
+        return (bitmap);
+    }
+
+    /**
+     * StackBlur By Jni Pixels
+     *
+     * @param original         Original Image
+     * @param radius           Blur radius
+     * @param canReuseInBitmap Can reuse In original Bitmap
+     * @return Image Bitmap
+     */
+    public static Bitmap blurNativelyPixels(Bitmap original, int radius, boolean canReuseInBitmap) {
+        if (radius < 1) {
+            return null;
+        }
+
+        Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
+
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
 
         int[] pix = new int[w * h];
-        rBitmap.getPixels(pix, 0, w, 0, 0, w, h);
+        bitmap.getPixels(pix, 0, w, 0, 0, w, h);
 
-        // By Jni Array Blur
-        BlurNative.fastBlurArray(pix, w, h, radius);
+        // Jni Pixels Blur
+        BlurNative.blurPixels(pix, w, h, radius);
 
-        rBitmap.setPixels(pix, 0, w, 0, 0, w, h);
-        return (rBitmap);
+        bitmap.setPixels(pix, 0, w, 0, 0, w, h);
+
+        return (bitmap);
     }
 
     /**
-     * FastBlur By Jni Bitmap
+     * StackBlur By Java Bitmap
      *
-     * @param bitmap           Image
+     * @param original         Original Image
      * @param radius           Blur radius
-     * @param canReuseInBitmap Can reuse InBitmap
-     * @return Image
+     * @param canReuseInBitmap Can reuse In original Bitmap
+     * @return Image Bitmap
      */
-    public static Bitmap fastBlurInJniBitmap(Bitmap bitmap, int radius, boolean canReuseInBitmap) {
-        if (radius < 1) {
-            return null;
-        }
-
-        Bitmap runBitmap = buildBitmap(bitmap, canReuseInBitmap);
-
-        //Jni BitMap
-        BlurNative.fastBlurBitmap(runBitmap, radius);
-
-        return (runBitmap);
-    }
-
-    /**
-     * FastBlur By Java Bitmap
-     *
-     * @param bitmap           Image
-     * @param radius           Blur radius
-     * @param canReuseInBitmap Can reuse InBitmap
-     * @return Image
-     */
-    public static Bitmap fastBlurInJava(Bitmap bitmap, int radius, boolean canReuseInBitmap) {
+    public static Bitmap blur(Bitmap original, int radius, boolean canReuseInBitmap) {
         // Stack Blur v1.0 from
         // http://www.quasimondo.com/StackBlurForCanvas/StackBlurDemo.html
         //
@@ -106,19 +107,20 @@ public class BlurKit {
         // the following line:
         //
         // Stack Blur Algorithm by Mario Klingemann <mario@quasimondo.com>
-
         if (radius < 1) {
             return (null);
         }
 
-        Bitmap rBitmap = buildBitmap(bitmap, canReuseInBitmap);
+        Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
 
-        int w = rBitmap.getWidth();
-        int h = rBitmap.getHeight();
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
 
         int[] pix = new int[w * h];
-        rBitmap.getPixels(pix, 0, w, 0, 0, w, h);
+        // get array
+        bitmap.getPixels(pix, 0, w, 0, 0, w, h);
 
+        // run Blur
         int wm = w - 1;
         int hm = h - 1;
         int wh = w * h;
@@ -302,8 +304,9 @@ public class BlurKit {
             }
         }
 
-        rBitmap.setPixels(pix, 0, w, 0, 0, w, h);
+        // set Bitmap
+        bitmap.setPixels(pix, 0, w, 0, 0, w, h);
 
-        return (rBitmap);
+        return (bitmap);
     }
 }
