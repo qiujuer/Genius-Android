@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import net.qiujuer.genius.util.Tools;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +33,12 @@ public class CommandService extends Service {
         return mImpl;
     }
 
+    @Override
+    public boolean onUnbind(Intent intent) {
+        super.onUnbind(intent);
+        stopSelf();
+        return true;
+    }
 
     @Override
     public void onDestroy() {
@@ -39,6 +47,8 @@ public class CommandService extends Service {
             mImpl = null;
         }
         super.onDestroy();
+        //kill process
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
 
@@ -54,22 +64,21 @@ public class CommandService extends Service {
                 public void run() {
                     while (thread == this && !this.isInterrupted()) {
                         if (commandExecutorMap != null && commandExecutorMap.size() > 0) {
-                            lock.lock();
-                            Collection<CommandExecutor> commandExecutors = commandExecutorMap.values();
-                            for (CommandExecutor executor : commandExecutors) {
-                                //kill Service Process
-                                if (executor.isTimeOut())
-                                    android.os.Process.killProcess(android.os.Process.myPid());
-                                if (thread != this && this.isInterrupted())
-                                    break;
+                            try {
+                                lock.lock();
+                                Collection<CommandExecutor> commandExecutors = commandExecutorMap.values();
+                                for (CommandExecutor executor : commandExecutors) {
+                                    //kill Service Process
+                                    if (executor.isTimeOut())
+                                        android.os.Process.killProcess(android.os.Process.myPid());
+                                    if (thread != this && this.isInterrupted())
+                                        break;
+                                }
+                            } finally {
+                                lock.unlock();
                             }
-                            lock.unlock();
                         }
-                        try {
-                            Thread.sleep(10000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        Tools.sleepIgnoreInterrupt(10000);
                     }
                 }
             };
@@ -85,10 +94,15 @@ public class CommandService extends Service {
                 thread.interrupt();
                 thread = null;
             }
-            lock.lock();
-            commandExecutorMap.clear();
-            commandExecutorMap = null;
-            lock.lock();
+            try {
+                lock.lock();
+                commandExecutorMap.clear();
+                commandExecutorMap = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
         }
 
 
@@ -100,15 +114,30 @@ public class CommandService extends Service {
          * @throws RemoteException
          */
         @Override
-        public String command(String id, String params) throws RemoteException {
-            CommandExecutor executor = CommandExecutor.create(params);
-            lock.lock();
-            commandExecutorMap.put(id, executor);
-            lock.unlock();
+        public String command(String id, int timeout, String params) throws RemoteException {
+            CommandExecutor executor = commandExecutorMap.get(id);
+            if (executor == null) {
+                try {
+                    lock.lock();
+                    executor = commandExecutorMap.get(id);
+                    if (executor == null) {
+                        executor = CommandExecutor.create(timeout, params);
+                        commandExecutorMap.put(id, executor);
+                    }
+                } finally {
+                    lock.unlock();
+                }
+            }
+
+            // Get Result
             String result = executor.getResult();
-            lock.lock();
-            commandExecutorMap.remove(id);
-            lock.unlock();
+
+            try {
+                lock.lock();
+                commandExecutorMap.remove(id);
+            } finally {
+                lock.unlock();
+            }
             return result;
         }
 
@@ -122,19 +151,14 @@ public class CommandService extends Service {
         public void cancel(String id) throws RemoteException {
             CommandExecutor executor = commandExecutorMap.get(id);
             if (executor != null) {
-                lock.lock();
-                commandExecutorMap.remove(id);
-                lock.unlock();
+                try {
+                    lock.lock();
+                    commandExecutorMap.remove(id);
+                } finally {
+                    lock.unlock();
+                }
                 executor.destroy();
             }
-        }
-
-        /**
-         * Dispose Service
-         */
-        @Override
-        public void dispose() {
-            stopSelf();
         }
 
         /**

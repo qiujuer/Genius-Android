@@ -244,7 +244,7 @@ public class TestCaseActivity extends Activity {
         Thread thread = new Thread() {
             public void run() {
                 //调用方式与ProcessBuilder传参方式一样
-                Command command = new Command("/system/bin/ping",
+                Command command = new Command(Command.TIMEOUT, "/system/bin/ping",
                         "-c", "4", "-s", "100",
                         "www.baidu.com");
                 //同步方式执行
@@ -275,8 +275,8 @@ public class TestCaseActivity extends Activity {
             }
 
             @Override
-            public void onError() {
-                Log.i(TAG, "\n\nCommand 异步 onError");
+            public void onError(Exception e) {
+                Log.i(TAG, "\n\nCommand 异步 onError:" + (e != null ? e.toString() : "null"));
             }
         });
     }

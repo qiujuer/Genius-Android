@@ -15,15 +15,14 @@ import java.util.concurrent.locks.ReentrantLock;
  * on 2014/9/17.
  */
 class CommandExecutor {
+    //TAG
     private static final String TAG = CommandExecutor.class.getSimpleName();
 
     private static final String BREAK_LINE;
     private static final byte[] BUFFER;
     private static final int BUFFER_LENGTH;
-
     private static final Lock LOCK = new ReentrantLock();
-    //Time Out
-    private static final long TIMEOUT = 90000;
+
     //ProcessBuilder
     private static ProcessBuilder PRC;
 
@@ -32,6 +31,7 @@ class CommandExecutor {
     final private InputStream err;
     final private OutputStream out;
     final private StringBuilder sbReader;
+    final private int timeout;
 
     private BufferedReader bInReader = null;
     private InputStreamReader isInReader = null;
@@ -46,9 +46,12 @@ class CommandExecutor {
         BUFFER_LENGTH = 128;
         BUFFER = new byte[BUFFER_LENGTH];
 
-        LOCK.lock();
-        PRC = new ProcessBuilder();
-        LOCK.unlock();
+        try {
+            LOCK.lock();
+            PRC = new ProcessBuilder();
+        } finally {
+            LOCK.unlock();
+        }
     }
 
     /**
@@ -61,8 +64,9 @@ class CommandExecutor {
      *
      * @param process Process
      */
-    private CommandExecutor(Process process) {
+    private CommandExecutor(Process process, int timeout) {
         //init
+        this.timeout = timeout;
         this.startTime = System.currentTimeMillis();
         this.process = process;
         //get
@@ -200,7 +204,7 @@ class CommandExecutor {
      *
      * @param param param eg: "/system/bin/ping -c 4 -s 100 www.qiujuer.net"
      */
-    protected static CommandExecutor create(String param) {
+    protected static CommandExecutor create(int timeout, String param) {
         String[] params = param.split(" ");
         CommandExecutor processModel = null;
         try {
@@ -208,12 +212,12 @@ class CommandExecutor {
             Process process = PRC.command(params)
                     .redirectErrorStream(true)
                     .start();
-            processModel = new CommandExecutor(process);
+            processModel = new CommandExecutor(process, timeout);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            //sleep 100
-            Tools.sleepIgnoreInterrupt(100);
+            //sleep 10
+            Tools.sleepIgnoreInterrupt(10);
             LOCK.unlock();
         }
         return processModel;
@@ -225,7 +229,7 @@ class CommandExecutor {
      * @return Time Out
      */
     protected boolean isTimeOut() {
-        return ((System.currentTimeMillis() - startTime) >= TIMEOUT);
+        return ((System.currentTimeMillis() - startTime) >= timeout);
     }
 
     /**
@@ -236,7 +240,7 @@ class CommandExecutor {
     protected String getResult() {
         //until startRead en
         while (!isDone) {
-            Tools.sleepIgnoreInterrupt(200);
+            Tools.sleepIgnoreInterrupt(500);
         }
 
         //return

@@ -189,39 +189,37 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 ```java
 // 执行命令，后台服务自动控制
 // 调用方式与ProcessBuilder传参方式一样
+// timeout：任务超时值,可选参数
+// params：执行参数，如："/system/bin/ping","-c", "4", "-s", "100","www.baidu.com"
+Command command = new Command(int timeout, String... params);
+
 // 同步方式
 // 完成后结果直接返回
-Command command = new Command("/system/bin/ping",
-        "-c", "4", "-s", "100",
-        "www.baidu.com");
-String res = Command.command(command);
-Log.i(TAG, "Ping 测试结果：" + res);
+String result = Command.command(new Command(Command.TIMEOUT, "..."));
 
 // 异步方式
 // 结果以事件回调方式返回
-Command command = new Command("/system/bin/ping",
-        "-c", "4", "-s", "100",
-        "www.baidu.com");
+Command command = new Command("...");
 Command.command(command, new Command.CommandListener() {
     @Override
     public void onCompleted(String str) {
-        Log.i(TAG, "onCompleted：\n" + str);
     }
     @Override
     public void onCancel() {
-        Log.i(TAG, "onCancel");
     }
     @Override
-    public void onError() {
-        Log.i(TAG, "onError");
+    public void onError(Exception e) {
     }
 });
 
 // 取消一个命令任务
 Command.cancel(Command command);
 
+// 重启 Command 服务
+Command.restart();
+
 // 销毁
-// 可调用 ‘Genius.dispose()’ 方法统一销毁
+// 调用 ‘Genius.dispose()’ 方法时默认调用
 Command.dispose();
 
 ```
@@ -236,10 +234,11 @@ Command.dispose();
 Ping ping = new Ping("www.baidu.com");
 // 开始
 ping.start();
-if (ping.getError() != NetModel.SUCCEED) {
-    Log.i("异常");
+// 返回
+if (ping.getError() == NetModel.SUCCEED) {
+    ...
 } else {
-    Log.i(TAG,ping.toString());
+    ...
 }
 
 // DNS
@@ -249,9 +248,9 @@ DnsResolve dnsResolve = new DnsResolve("www.baidu.com");
 // 开始
 dnsResolve.start();
 if (dnsResolve.getError() != NetModel.SUCCEED) {
-    Log.i("异常");
+    ...
 } else {
-    Log.i(TAG,dnsResolve.toString());
+    ...
 }
 ...
 其他的类似
@@ -321,7 +320,7 @@ String hash = HashUtils.getFileMd5(File file);
 Log.LogCallbackListener listener = new LogCallbackListener() {
     @Override
     public void onLogArrived(Log data) {
-        //日志来了
+        ...
     }
 };
 // 添加
