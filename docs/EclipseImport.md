@@ -115,7 +115,7 @@
 
 ## Picture
 
-<img src="../art/eclipse.png"/>
+![Picture](../art/eclipse.png)
 
 
 ## 关于我

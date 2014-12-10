@@ -1,5 +1,3 @@
-# ReadMe
-
 ## Genius-Android是什么?
 
 **Genius-Android** 包含了 **Android** 中一些常用的的方法集合, **Genius** 库现提供5个基本板块：
@@ -14,13 +12,13 @@
 ## Screenshots
 
 ##### MaterialButton
-<img src="art/material.gif" />
+![MaterialButton](art/material.gif)
 
 ##### Themes
-<img src="art/themes.png" />
+![Themes](art/themes.png)
 
 ##### BlurKit
-<img src="art/blur.png" />
+![BlurKit](art/blur.png)
 
 
 ## Genius-Android 库有哪些功能？
