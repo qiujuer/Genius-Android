@@ -53,6 +53,27 @@ final public class ToolKit {
         poster.waitRun();
     }
 
+    /**
+     * Synchronously
+     * The child thread relative thread synchronization operation,
+     * blocking the child thread,
+     * thread for the main thread to complete
+     * But the child thread just wait for the waitTime long.
+     *
+     * @param runnable Runnable Interface
+     * @param waitTime wait for the main thread run Time
+     * @param cancel   on the child thread cancel the runnable task
+     */
+    public static void runOnMainThreadSync(Runnable runnable, int waitTime, boolean cancel) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            runnable.run();
+            return;
+        }
+        SyncPost poster = new SyncPost(runnable);
+        getMainPoster().sync(poster);
+        poster.waitRun(waitTime, cancel);
+    }
+
     public static void dispose() {
         if (mainPoster != null) {
             mainPoster.dispose();

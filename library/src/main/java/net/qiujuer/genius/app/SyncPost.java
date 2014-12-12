@@ -13,13 +13,17 @@ final class SyncPost {
     }
 
     public void run() {
-        synchronized (this) {
-            runnable.run();
-            end = true;
-            try {
-                this.notifyAll();
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (!end) {
+            synchronized (this) {
+                if (!end) {
+                    runnable.run();
+                    end = true;
+                    try {
+                        this.notifyAll();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -32,6 +36,23 @@ final class SyncPost {
                         this.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    public void waitRun(int time, boolean cancel) {
+        if (!end) {
+            synchronized (this) {
+                if (!end) {
+                    try {
+                        this.wait(time);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (!end && cancel)
+                            end = true;
                     }
                 }
             }
