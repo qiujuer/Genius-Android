@@ -1,12 +1,10 @@
-## Genius-Android是什么?
+[`中文`](README-ZH.md) [`English`](README.md)
 
-**Genius-Android** 包含了 **Android** 中一些常用的的方法集合, **Genius** 库现提供5个基本板块：
+##What is Genius-Android?
 
-`app`（**Ui**） `material`（**控件**） `command`（**命令行**） `net tool`（**Ping、Dns...**） `util`（**常用方法,类**）
+**Genius-Android** is Some of the commonly used method in **Android** collection, **Genius** library provide five basic plate :
 
-向我参考过的开源库作者致敬：
-
-`FlatUI`，`blurring`
+`app`（**Ui**） `material`（**widget**） `command`（**command line**） `net tool`（**Ping、Dns...**） `util`（**common method,class**）
 
 
 ## Screenshots
@@ -21,68 +19,52 @@
 ![BlurKit](art/blur.png)
 
 
-## Genius-Android 库有哪些功能？
+## Function modules
 
 * `app`
-  > *  `ToolKit` 可在子线程`同步`切换到主线程操作
-  > *  `ToolKit` 可在子线程`异步`切换到主线程操作
-  > *  `BlurKit` 可在`Java`端使用`FastBlur`算法模糊图片
-  > *  `BlurKit` 可在`Jni`端使用`FastBlur`算法模糊图片
+  > *  `ToolKit` support the child thread `synchronization` `asynchronous` switching to the main thread
+  > *  `BlurKit` support `Java` `Jni` use the `StackBlur` algorithm fuzzy images
 
 * `material`
-  > *  内置字体 `opensans` `roboto`
-  > *  字体颜色 `none` `dark` `light`
-  > *  含有五种字体粗细样式切换
-  > *  含有十二种主题颜色搭配
-  > *  `MaterialButton` 按钮
+  > *  Fonts `opensans` `roboto`
+  > *  Colors `none` `dark` `light`
+  > *  Controls `MaterialButton`
 
 * `command`
-  > *  独立服务进程控制进程创建销毁
-  > *  智能的进程管理服务
-  > *  超高的并发效率，不担心缓冲区问题
-  > *  简单的操作，与ProcessBuilder操作类似
-  > *  智能的监听与自杀方式，保证进程不阻塞
-  > *  子进程失败后自动重新调用执行，重复10次
-  > *  保证语句正常执行不疏漏
-  > *  一键化的启动与取消操作，自由控制
-  > *  可同步与异步方式执行，异步事件通知
+  > *  Independent service command-line work process execution
+  > *  Similar to the `ProcessBuilder` operation
+  > *  Intelligent correct operation, solve the operation problem
+  > *  One key start and cancel the operation, control of freedom
+  > *  Can be synchronous and asynchronous execution, the callback event
 
 * `net tool`
-  > *  一键Ping操作，无需命令行，无需Root
-  > *  一键DNS域名解析，可指定解析服务器
-  > *  一键TelNet功能，对指定IP Port测试
-  > *  一键TraceRoute，记录每一跳丢包与延时
-  > *  一键的测速工具，对指定文件下载测试
-  > *  控制随心，取消随心；不用关心细节问题
-  > *  高并发的路由测试，可在40s左右测试完成
+  > *  One key `Ping` `DNS` `TelNet` `TraceRoute`
+  > *  Can be controlled, can be cancelled;Don't need to care about the details
+  > *  Concurrent routing tasks, can be in around 40 s testing is completed
 
 * `util`
-  > *  全局AppContext属性获取
-  > *  方便的MD5运算，包括字符串与文件
-  > *  线程休眠无需多加try catch模块
-  > *  获取设备标识`ID`，`SN`
-  > *  `Log`：使用方式与Android日志Log一样
-  > *  `Log`：一键设置是否调用系统Log类
-  > *  `Log`：可一键设置日志级别，解决发布的烦恼
-  > *  `Log`：可实现将日志写入文件中保存以便查看分析
-  > *  `Log`：可实现将日志一键拷贝到外部存储设备中
-  > *  `Log`：可添加事件监听，方便界面显示日志信息
-  > *  `FixedList`：定长队列，自动弹出，保持队列数量
+  > *  `AppContext` Global variables, access convenient and quick
+  > *  `HashUtils` String with the file `MD5`
+  > *  `ID` `SN` Determine the device unique identifier
+  > *  `Log` Such as system Log as simple to use, one key switch
+  > *  `Log` Can store the log to a file, convenient analysis errors
+  > *  `Log` You can add event listeners, convenient interface display log information
+  > *  `FixedList` Fixed-length queue, automatic pop-up, keep the queue number
 
 
-## 获取库
+## Get library
 
-* `Star` 和 `Fork` 本项目；这样方便获取以后更新内容。
-* `release` 文件夹中的 `*.jar` 或者 `*.aar` 文件可以直接导入到自己项目中。
-  *  `*.jar` 无法使用控件资源，如字体和 `R..`。
-  *  `*.aar` 能使用所有的类和控件以及字体等。
-  *  `*.aar` 本地引入方法：
-* `Eclipse` [完全导入使用方法详解](docs/EclipseImport.md)
+* `Star` and `Fork` this project.
+* `release` folder with `*.jar` or `*.aar` files can be imported in your project
+  *  `*.jar` unable to use a control resources, Such as font and `R..`
+  *  `*.aar` can use all of the classes and controls as well as the font, etc
+  *  `*.aar` locally introduction methods:
+* `Eclipse` [EclipseImport](docs/EclipseImport.md)
 * `Android Studio` :
-  *  `*.aar` 本地导入方法：
+  *  `*.aar` The local import:
   
   ```gradle
-  // 需先拷贝 "genius_0.9.0.aar" 到 "libs" 目录
+  // needing copy "genius_0.9.0.aar" to "libs" contents
   android {
       repositories {
           flatDir { dirs 'libs' }
@@ -94,11 +76,11 @@
 
   ```
 
-  *  `*.aar` `MavenCentral`远程导入：
+  *  `*.aar` `MavenCentral` remote import:
   
   ```gradle
-  // 在项目 "build.gradle" 中添加
-  // 无需拷贝任何文件，等待联网更新完成即可使用
+  // Adding to the project named "build.gradle"
+  // Don't need to copy any file, waiting for networking updates finish can be used
   dependencies {
       compile 'com.github.qiujuer:genius:0.9.0'
   }
@@ -106,62 +88,59 @@
   ```
 
 
-## 更新日志
+## Update Log 
 
-* 版本：0.9.0
-* 日期：2014-11-26 22:40
-* 日志：[更新日志](docs/NOTES.md)
+* Version：0.9.0
+* Date：2014-11-26 22:40
+* Log：[Notes](docs/NOTES.md)
 
 
-## 使用方法
+## Method of application
 
-##### 初始化与销毁
+##### Initialization and destruction
 
 ```java
-// Command 使用模块必须初始化
-// Log 类如进行存储则需要初始化
-// 只使用控件与 net tool 模块可不初始化
 Genius.initialize(Application application);
 Genius.dispose();
 
 ```
 
 
-##### `app` 模块
+##### `app`  module
 
 ```java
-// "Runnable" 类实现其中 "run()" 方法
-// "run()" 运行在主线程中，可在其中进行界面操作
-// 同步进入主线程,等待主线程处理完成后继续执行子线程
+// "Runnable" implementation method "run()"
+// "run()" run in the main thread, the can interface
+// Synchronization to enter the main thread, waiting for the main thread processing to continue after the completion of the subprocess
 ToolKit.runOnMainThreadSync(Runnable runnable);
-// 异步进入主线程,无需等待
+// Asynchronous into the main thread, without waiting for
 ToolKit.runOnMainThreadAsync(Runnable runnable);
 
-// "bitmap" 待处理的图片
-// "radius" 图片模糊半径
-// "canReuseInBitmap" 是否直接使用 "bitmap" 中进行模糊,
-// "false" 情况下将拷贝 "bitmap" 的副本进行模糊
-// 在"Java"中实现图片模糊
+// "bitmap" is to be processed images
+// "radius" is picture is fuzzy radius
+// "canReuseInBitmap" Whether directly using the "bitmap" fuzzy,
+// "false" will copy the "bitmap" to doing fuzzy
+// Java blur
 BlurKit.blur(Bitmap bitmap, int radius, boolean canReuseInBitmap);
-// 在"Jni"中实现图片模糊,传给"Jni"的是图片类"Bitmap"
+// Jni blur, To the Jni is a kind of Bitmap images
 BlurKit.blurNatively(Bitmap bitmap, int radius, boolean canReuseInBitmap);
-// 在"Jni"中实现图片模糊,传给"Jni"的是图片 "像素集合"
+// Jni blur, To the Jni is image collection "pixel"
 BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 
 ```
 
 
-##### `material` 模块
+##### `material` module
 
 ```xml
-// 首先需要在根容器中指定：
+// First of all specified in the root container:
 <LinearLayout
     ...
     xmlns:material="http://schemas.android.com/apk/res-auto"/>
 
-// 提供12种主题样式，见截图
-// 提供2种字体：`opensans` `roboto`
-// 字体粗细：`bold` `extrabold` `extralight` `light` `regular`
+// The theme style: see screenshot
+// Provide the font: `opensans` `roboto`
+// The font size: `bold` `extrabold` `extralight` `light` `regular`
 
 // ==================MaterialButton==================
 <net.qiujuer.genius.material.MaterialButton
@@ -173,32 +152,32 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
     material:gm_isAutoMove="true"
     material:gm_theme="@array/grass" />
 
-// `gm_textAppearance`: 指定字体颜色，默认为 `none`
-// `gm_fontFamily`: 指定两种字体中的一种字体
-// `gm_fontWeight`: 指定字体粗细
-// `gm_isMaterial`: 是否打开 Material 动画，默认 `true`
-// `gm_isAutoMove`: 动画是否自动移动到中心，默认 `true`
-// 开启后动画将不会原地扩散，点击处 `XY` 坐标将向中心靠拢
-// `gm_theme`: 指定主题样式，12种任意选
+// `gm_textAppearance`: Specify the font color, the default for ` none `
+// `gm_fontFamily`: Specify a font of two kinds of fonts
+// `gm_fontWeight`: The specified font weight
+// `gm_isMaterial`: Whether to open the Material animation, the default ` true `
+// `gm_isAutoMove`: Animation is automatically moved to the center, the default ` true `
+// After open the animation will not place spread, click ` XY ` coordinates will be closer to the center
+// ` gm_theme ` : specify the subject style, 12 kinds of arbitrary choice
 
 ```
 
 
-##### `command` 模块
+##### `command` module
 
 ```java
-// 执行命令，后台服务自动控制
-// 调用方式与ProcessBuilder传参方式一样
-// timeout：任务超时值,可选参数
-// params：执行参数，如："/system/bin/ping","-c", "4", "-s", "100","www.baidu.com"
+// Execute the command, the background service automatic control
+// The same way call way and the ProcessBuilder mass participation
+// timeout: Task timeout, optional parameters
+// params: executing params,such as: "/system/bin/ping","-c", "4", "-s", "100","www.baidu.com"
 Command command = new Command(int timeout, String... params);
 
-// 同步方式
-// 完成后结果直接返回
+// synchronization method
+// After the completion of the results returned directly
 String result = Command.command(new Command(Command.TIMEOUT, "..."));
 
-// 异步方式
-// 结果以事件回调方式返回
+// asynchronous mode
+// Results to event callback method returns
 Command command = new Command("...");
 Command.command(command, new Command.CommandListener() {
     @Override
@@ -212,204 +191,193 @@ Command.command(command, new Command.CommandListener() {
     }
 });
 
-// 取消一个命令任务
+// To cancel a task command
 Command.cancel(Command command);
 
-// 重启 Command 服务
+// Restart the Command service
 Command.restart();
 
-// 销毁
-// 调用 ‘Genius.dispose()’ 方法时默认调用
+// destroy
+// using 'Genius.dispose()' method is run this destroy
 Command.dispose();
 
 ```
 
 
-##### `net tool` 模块
+##### `net tool` module
 
 ```java
 // Ping
-// 传入域名或者IP
-// 结果：是否执行成功、延时、丢包
+// Introduced to the domain name or IP
+// result: Whether successful, delay, packet loss
 Ping ping = new Ping("www.baidu.com");
-// 开始
+// start
 ping.start();
-// 返回
+// return
 if (ping.getError() == NetModel.SUCCEED) {
     ...
 } else {
     ...
 }
-
-// DNS
-// 传入域名 + 服务器地址
-// 结果：是否执行成功、延时、Ip地址集合
-DnsResolve dnsResolve = new DnsResolve("www.baidu.com");
-// 开始
-dnsResolve.start();
-if (dnsResolve.getError() != NetModel.SUCCEED) {
-    ...
-} else {
-    ...
-}
 ...
-其他的类似
+Others similarly
 ...
 
 ```
 
-##### `util` 模块
+##### `util` module
 
 ```java
 // ===================FixedList===================
-// 固定长度队列
-// 可指定长度，使用方法与普通队列类似
-// 当加入元素数量达到指定数量时将弹出元素
-// 头部插入尾部弹出，尾部插入头部弹出
+// Fixed length queue
+// Can specify length, using methods similar to ordinary queue
+// When join the element number to a specified number elements will pop up
+// Insert the tail pop-up head, tail insertion head pops up
 
-// 初始化最大长度为5
+// Initialize the maximum length of 5
 FixedList<Integer> list = new FixedList<Integer>(5);
-// 使用Queue方法添加元素
+// The Queue method is used to add elements
 list.offer(0);
-// 使用List方法添加元素,两种方式操作是一样
+// The List method is used to add elements, two ways of operation is the same
 list.add(1);
-// 末尾插入元素与add一样
+// At the end of the insert element and add the same
 list.addLast(1);
-// 从头部插入，默认删除尾部超出元素
+// From the head insert, delete the tail beyond element by default
 list.addFirst(19);
-// 添加一个列表
+// Add a list
 list.addAll(new ArrayList<Integer>());
 
-// 获取最大容量
+// To obtain the maximum capacity
 list.getMaxSize();
-// 调整最大长度；缩小长度时将自动删除头部多余元素
+// Adjust the maximum length; Narrow length will be automatically deleted when the head redundant elements
 list.setMaxSize(3);
 
-// 采用poll方式弹出元素
+// Using poll pop-up elements
 int i = list.poll();
-// remove 与 poll 类似，不过不返回删除元素，仅删除一个元素
+// Remove a similar poll, but don't return to remove elements, only delete an element
 list.remove();
-// 清空操作
+// clear
 list.clear();
 
-// 可使用List操作
+// using List to operation
 List<Integer> list1 = new FixedList<Integer>(2);
 list1.add(1);
 list1.clear();
 
 
 // ====================HashUtils==================
-// 哈希计算（Md5）
-// 可计算字符串与文件Md5值
+// Hash to calculate（Md5）
+// String with the file can be calculated Md5 value
 
-// 获取字符串MD5
+// Get the MD5
 String hash = HashUtils.getStringMd5(String str);
-// 获取文件MD5
+// Access to the file MD5
 String hash = HashUtils.getFileMd5(File file);
 
 
 // ======================Log======================
-// 日志类
-// 调用方法与使用Android默认方法一样
-// 可设置其是否存储日志信息
-// 可拷贝日志信息到SD卡
-// 可在主界面添加事件回调，界面实时显示日志
+// Log class
+// Calls the method with using Android as the default method
+// Can be set if the store log information
+// Can copy the log information to SD card
+// Can add the event callback in the main interface, the interface, real-time display the log
 
-// 添加回调
-// 回调类
+// Add a callback
+// The callback class
 Log.LogCallbackListener listener = new LogCallbackListener() {
     @Override
     public void onLogArrived(Log data) {
         ...
     }
 };
-// 添加
+// adding
 Log.addCallbackListener(listener);
 
-// 是否调用系统Android Log，可控制是否显示
+// Whether Android call system Log, can control whether to display
 Log.setCallLog(true);
-// 是否开启写入文件，文件数量，单个文件大小（Mb）
-// 默认存储在程序目录/Genius/Logs
+// Is open to a file, the file number, a single file size (Mb)
+// The default is stored in the application directory is /Genius/Logs
 Log.setSaveLog(true, 10, 1);
-// 设置是否监听外部存储插入操作
-// 开启：插入外部设备（SD）时，将拷贝日志文件到外部存储
-// 此操作依赖于是否开启写入文件功能，未开启则此方法无效
+// Set whether to monitor external storage inserts
+// Open: insert an external device (SD), will copy the log files to external storage
+// This operation depends on whether written to the file open function, not open, this method is invalid
 Log.setCopyExternalStorage(true, "Test/Logs");
 
-// 拷贝内部存储的日志文件到外部存储（SD）
-// 此操作依赖于是否开启写入文件功能，未开启则此方法无效
+// Copies of internal storage log files to external storage（SD）
+// This operation depends on whether written to the file open function, not open, this method is invalid
 Log.copyToExternalStorage("Test/Logs");
 
-// 设置日志等级
-// ALL(全部显示)，VERBOSE到ERROR依次递减
+// Set the log level
+// ALL(show all)，VERBOSE to ERROR decreasing
 Log.setLevel(Log.ALL);
 Log.setLevel(Log.INFO);
 
-// 添加日志
-Log.v(TAG, "日志 VERBOSE ");
-Log.d(TAG, "日志 DEBUG ");
-Log.i(TAG, "日志 INFO ");
-Log.w(TAG, "日志 WARN ");
-Log.e(TAG, "日志 ERROR ");
+// add log
+Log.v(TAG, "log VERBOSE ");
+Log.d(TAG, "log DEBUG ");
+Log.i(TAG, "log INFO ");
+Log.w(TAG, "log WARN ");
+Log.e(TAG, "log ERROR ");
 
 
 // ====================ToolUtils====================
-// 常用工具包
-// 全部为静态方法，以后会持续添加完善
+// Commonly used toolkit
+// Are all static methods, later will continue to add
 
-// 休眠
+// dormant
 ToolUtils.sleepIgnoreInterrupt(long time);
-// 拷贝文件
+// copy the files
 ToolUtils.copyFile(File source, File target);
 // AndroidId
 ToolUtils.getAndroidId(Context context);
-// SN编号
+// SN Id
 ToolUtils.getSerialNumber();
 
 ```
 
 
-## 配置权限
+## Permission 
+
 
 ```xml
-    <!-- 网络 权限 -->
+    <!-- Internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 日志写文件 权限 -->
+    <!-- Log file permission -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- getDeviceId 权限 -->
+    <!-- getDeviceId permission -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     
 ```
 
 
-## 你是开发者
+## Developer
 
-下载本项目,项目可导入到 `Android Studio`，Android Studio >= 1.0 RC 1
+Download the project, the project can be imported into `Android Studio`, Android Studio >= 1.0
 
-项目里边含有一个库以及一个测试项目，可将库导入到自己的项目中使用。
+Project which contains a library and a test project, the library can be imported into your own project use.
 
-'Eclipse' 中无法直接导入项目，请先建立一个项目按照对应目录替换到自己项目中。
-
-
-## 反馈
-
-在使用中有任何问题，欢迎能及时反馈给我，可以用以下联系方式跟我交流
-
-* 项目：[提交Bug或想法](https://github.com/qiujuer/Genius-Android/issues)
-* 邮件：[qiujuer@live.cn](mailto:qiujuer@live.cn)
-* QQ： 756069544
-* Weibo： [@qiujuer](http://weibo.com/qiujuer)
-* 网站：[www.qiujuer.net](http://www.qiujuer.net)
+'Eclipse' Cannot import directly in the program, please create a project in accordance with the corresponding category replacement to their projects.
 
 
-## 捐助开发者
+## Feedback
 
-在兴趣的驱动下,写一个`免费`的东西，有欣喜，也还有汗水，希望你喜欢我的作品，同时也能支持一下。
-当然，有钱捧个钱场（支付宝: `qiujuer@live.cn` ）；没钱捧个人场，谢谢各位。
+You in use if you have any question, please timely feedback to me, you can use the following contact information to communicate with me
+
+* Project: [submit Bug or idea](https://github.com/qiujuer/Genius-Android/issues)
+* Email: [qiujuer@live.cn](mailto:qiujuer@live.cn)
+* QQ: 756069544
+* WeiBo: [@qiujuer](http://weibo.com/qiujuer)
+* WebSit:[www.qiujuer.net](http://www.qiujuer.net)
 
 
-## 关于我
+## Giving developers
+
+Are interested in and write a `free`, have joy, also there is sweat, I hope you like my work, but also can support it.
+Of course, rich holds a money (AliPay: ` qiujuer@live.cn `); No money holds personal field, thank you.
+
+
+## About me
 
 ```javascript
   var info = {
