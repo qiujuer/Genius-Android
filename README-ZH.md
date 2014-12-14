@@ -59,7 +59,7 @@
   *  `*.jar` 无法使用控件资源，如字体和 `R..`。
   *  `*.aar` 能使用所有的类和控件以及字体等。
   *  `*.aar` 本地引入方法：
-* `Eclipse` [完全导入使用方法详解](docs/EclipseImport.md)
+* `Eclipse` [`Eclipse导入详解`](docs/EclipseImport.md)
 * `Android Studio` :
   *  `*.aar` 本地导入方法：
   
@@ -90,9 +90,9 @@
 
 ## 更新日志
 
-* 版本：0.9.0
-* 日期：2014-11-26 22:40
-* 日志：[更新日志](docs/NOTES.md)
+* 版本：`0.9.0`
+* 日期：`2014-11-26 22:40`
+* 日志：[`更新日志`](docs/NOTES.md)
 
 
 ## 使用方法
@@ -115,6 +115,11 @@ Genius.dispose();
 ToolKit.runOnMainThreadSync(Runnable runnable);
 // 异步进入主线程,无需等待
 ToolKit.runOnMainThreadAsync(Runnable runnable);
+// 同步但是子线程只等待指定时间
+// @param runnable Runnable 接口
+// @param waitTime 子线程等待时长
+// @param cancel   等待时间到时是否取消主线程执行该任务
+ToolKit.runOnMainThreadSync(Runnable runnable, int waitTime, boolean cancel)
 
 // "bitmap" 待处理的图片
 // "radius" 图片模糊半径
@@ -354,18 +359,18 @@ ToolUtils.getSerialNumber();
 
 项目中含有一个库以及一个测试项目，可将库导入到自己的项目中使用。
 
-'Eclipse' 中无法直接导入项目，请先建立一个项目按照对应目录拷贝到项目中。
+`Eclipse` 中无法直接导入项目，请先建立一个项目按照对应目录拷贝到项目中。
 
 
 ## 反馈
 
 在使用中有任何问题，欢迎能及时反馈给我，可以用以下联系方式跟我交流
 
-* 项目：[提交Bug或想法](https://github.com/qiujuer/Genius-Android/issues)
-* 邮件：[qiujuer@live.cn](mailto:qiujuer@live.cn)
-* QQ： 756069544
-* Weibo： [@qiujuer](http://weibo.com/qiujuer)
-* 网站：[www.qiujuer.net](http://www.qiujuer.net)
+* 项目：[`提交Bug或想法`](https://github.com/qiujuer/Genius-Android/issues)
+* 邮件：[`qiujuer@live.cn`](mailto:qiujuer@live.cn)
+* QQ： `756069544`
+* Weibo： [`@qiujuer`](http://weibo.com/qiujuer)
+* 网站：[`www.qiujuer.net`](http://www.qiujuer.net)
 
 
 ## 捐助开发者

@@ -2,7 +2,7 @@
 
 ##What is Genius-Android?
 
-**Genius-Android** is Some of the commonly used method in **Android** collection, **Genius** library provide five basic plate :
+**Genius-Android** is some of the commonly used method in **Android** collection, **Genius** library provide five basic plate :
 
 `app`（**Ui**） `material`（**widget**） `command`（**command line**） `net tool`（**Ping、Dns...**） `util`（**common method,class**）
 
@@ -59,7 +59,7 @@
   *  `*.jar` unable to use a control resources, Such as font and `R..`
   *  `*.aar` can use all of the classes and controls as well as the font, etc
   *  `*.aar` locally introduction methods:
-* `Eclipse` [EclipseImport](docs/EclipseImport.md)
+* `Eclipse` [Eclipse Import](docs/EclipseImport.md)
 * `Android Studio` :
   *  `*.aar` The local import:
   
@@ -90,9 +90,9 @@
 
 ## Update Log 
 
-* Version：0.9.0
-* Date：2014-11-26 22:40
-* Log：[Notes](docs/NOTES.md)
+* Version: `0.9.0`
+* Date: `2014-11-26 22:40`
+* Log: [`Notes`](docs/NOTES.md)
 
 
 ## Method of application
@@ -115,6 +115,11 @@ Genius.dispose();
 ToolKit.runOnMainThreadSync(Runnable runnable);
 // Asynchronous into the main thread, without waiting for
 ToolKit.runOnMainThreadAsync(Runnable runnable);
+// Synchronously But the child thread just wait for the waitTime long
+// @param runnable Runnable Interface
+// @param waitTime wait for the main thread run Time
+// @param cancel   on the child thread cancel the runnable task
+ToolKit.runOnMainThreadSync(Runnable runnable, int waitTime, boolean cancel)
 
 // "bitmap" is to be processed images
 // "radius" is picture is fuzzy radius
@@ -168,15 +173,15 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 ```java
 // Execute the command, the background service automatic control
 // The same way call way and the ProcessBuilder mass participation
-// timeout: Task timeout, optional parameters
-// params: executing params,such as: "/system/bin/ping","-c", "4", "-s", "100","www.baidu.com"
+// Timeout: Task timeout, optional parameters
+// Params: executing params,such as: "/system/bin/ping","-c", "4", "-s", "100","www.baidu.com"
 Command command = new Command(int timeout, String... params);
 
-// synchronization method
+// Synchronous
 // After the completion of the results returned directly
 String result = Command.command(new Command(Command.TIMEOUT, "..."));
 
-// asynchronous mode
+// Asynchronous
 // Results to event callback method returns
 Command command = new Command("...");
 Command.command(command, new Command.CommandListener() {
@@ -197,8 +202,8 @@ Command.cancel(Command command);
 // Restart the Command service
 Command.restart();
 
-// destroy
-// using 'Genius.dispose()' method is run this destroy
+// Destroy
+// Using 'Genius.dispose()' method is run this destroy
 Command.dispose();
 
 ```
@@ -209,11 +214,11 @@ Command.dispose();
 ```java
 // Ping
 // Introduced to the domain name or IP
-// result: Whether successful, delay, packet loss
+// Result: delay, packet loss
 Ping ping = new Ping("www.baidu.com");
-// start
+// Start
 ping.start();
-// return
+// Return
 if (ping.getError() == NetModel.SUCCEED) {
     ...
 } else {
@@ -256,10 +261,10 @@ list.setMaxSize(3);
 int i = list.poll();
 // Remove a similar poll, but don't return to remove elements, only delete an element
 list.remove();
-// clear
+// Clear
 list.clear();
 
-// using List to operation
+// Using List to operation
 List<Integer> list1 = new FixedList<Integer>(2);
 list1.add(1);
 list1.clear();
@@ -290,7 +295,7 @@ Log.LogCallbackListener listener = new LogCallbackListener() {
         ...
     }
 };
-// adding
+// Adding
 Log.addCallbackListener(listener);
 
 // Whether Android call system Log, can control whether to display
@@ -312,7 +317,7 @@ Log.copyToExternalStorage("Test/Logs");
 Log.setLevel(Log.ALL);
 Log.setLevel(Log.INFO);
 
-// add log
+// Add log
 Log.v(TAG, "log VERBOSE ");
 Log.d(TAG, "log DEBUG ");
 Log.i(TAG, "log INFO ");
@@ -324,9 +329,9 @@ Log.e(TAG, "log ERROR ");
 // Commonly used toolkit
 // Are all static methods, later will continue to add
 
-// dormant
+// Thread sleep
 ToolUtils.sleepIgnoreInterrupt(long time);
-// copy the files
+// Copy the files
 ToolUtils.copyFile(File source, File target);
 // AndroidId
 ToolUtils.getAndroidId(Context context);
@@ -357,24 +362,24 @@ Download the project, the project can be imported into `Android Studio`, Android
 
 Project which contains a library and a test project, the library can be imported into your own project use.
 
-'Eclipse' Cannot import directly in the program, please create a project in accordance with the corresponding category replacement to their projects.
+`Eclipse` Cannot import directly in the program, please create a project in accordance with the corresponding category replacement to their projects.
 
 
 ## Feedback
 
 You in use if you have any question, please timely feedback to me, you can use the following contact information to communicate with me
 
-* Project: [submit Bug or idea](https://github.com/qiujuer/Genius-Android/issues)
-* Email: [qiujuer@live.cn](mailto:qiujuer@live.cn)
-* QQ: 756069544
-* WeiBo: [@qiujuer](http://weibo.com/qiujuer)
-* WebSit:[www.qiujuer.net](http://www.qiujuer.net)
+* Project: [`Submit Bug or Idea`](https://github.com/qiujuer/Genius-Android/issues)
+* Email: [`qiujuer@live.cn`](mailto:qiujuer@live.cn)
+* QQ: `756069544`
+* WeiBo: [`@qiujuer`](http://weibo.com/qiujuer)
+* WebSit:[`www.qiujuer.net`](http://www.qiujuer.net)
 
 
 ## Giving developers
 
 Are interested in and write a `free`, have joy, also there is sweat, I hope you like my work, but also can support it.
-Of course, rich holds a money (AliPay: ` qiujuer@live.cn `); No money holds personal field, thank you.
+Of course, rich holds a money (AliPay: `qiujuer@live.cn`); No money holds personal field, thank you.
 
 
 ## About me
