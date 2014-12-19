@@ -9,6 +9,13 @@ android {
         targetSdkVersion ANDROID_BUILD_TARGET_SDK_VERSION as int
         versionCode VERSION_CODE as int
         versionName VERSION_NAME
+
+        ndk {
+            moduleName "genius"
+            cFlags "-DANDROID_NDK -D_RELEASE"
+            ldLibs "m", "log", "jnigraphics"
+            abiFilters "all"
+        }
     }
 
     buildTypes {
@@ -28,7 +35,6 @@ android {
             manifest.srcFile 'src/main/AndroidManifest.xml'
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/main/res']
-            jniLibs.srcDirs = ['libs']
         }
     }
 

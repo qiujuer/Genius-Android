@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.qiujuer.genius"
-    android:versionCode="88"
-    android:versionName="0.9.0" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="net.qiujuer.genius"
+    android:versionCode="88" android:versionName="0.9.0">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="20" />
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="20" />
 
-    <application android:allowBackup="true" >
-        <service
-            android:name="net.qiujuer.genius.command.CommandService"
-            android:enabled="true"
-            android:exported="false"
-            android:process="net.qiujuer.genius.command.CommandService" >
+    <application android:allowBackup="true">
+        <service android:name="net.qiujuer.genius.command.CommandService" android:enabled="true"
+            android:exported="false" android:process="net.qiujuer.genius.command.CommandService">
             <intent-filter>
                 <action android:name="net.qiujuer.genius.command.ICommandInterface" />
             </intent-filter>

@@ -110,10 +110,10 @@ public class BlurActivity extends Activity {
         // Java 直接模糊
         if (i == 1)
             overlay = BlurKit.blur(overlay, (int) radius, true);
-        // 传递 Bitmap 到 JNI 模糊
+            // 传递 Bitmap 到 JNI 模糊
         else if (i == 2)
             overlay = BlurKit.blurNatively(overlay, (int) radius, true);
-        // 传递 图片的像素点集合到 JNI 模糊
+            // 传递 图片的像素点集合到 JNI 模糊
         else if (i == 3)
             overlay = BlurKit.blurNativelyPixels(overlay, (int) radius, true);
 
