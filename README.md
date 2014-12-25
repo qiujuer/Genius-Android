@@ -64,14 +64,14 @@
   *  `*.aar` The local import:
   
   ```gradle
-  // needing copy "genius_0.9.0.aar" to "libs" contents
+  // needing copy "genius_1.0.0.aar" to "libs" contents
   android {
       repositories {
           flatDir { dirs 'libs' }
       }
   }
   dependencies {
-      compile (name:'genius_0.9.0', ext:'aar')
+      compile (name:'genius_1.0.0', ext:'aar')
   }
 
   ```
@@ -82,7 +82,7 @@
   // Adding to the project named "build.gradle"
   // Don't need to copy any file, waiting for networking updates finish can be used
   dependencies {
-      compile 'com.github.qiujuer:genius:0.9.0'
+      compile 'com.github.qiujuer:genius:1.0.0'
   }
 
   ```
@@ -90,8 +90,8 @@
 
 ## Update Log 
 
-* Version: `0.9.0`
-* Date: `2014-11-26 22:40`
+* Version: `1.0.0`
+* Date: `2014-12-26 00:20`
 * Log: [`Notes`](docs/NOTES.md)
 
 

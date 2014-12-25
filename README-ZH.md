@@ -64,14 +64,14 @@
   *  `*.aar` 本地导入方法：
   
   ```gradle
-  // 需拷贝 "genius_0.9.0.aar" 到 "libs" 目录
+  // 需拷贝 "genius_1.0.0.aar" 到 "libs" 目录
   android {
       repositories {
           flatDir { dirs 'libs' }
       }
   }
   dependencies {
-      compile (name:'genius_0.9.0', ext:'aar')
+      compile (name:'genius_1.0.0', ext:'aar')
   }
 
   ```
@@ -82,7 +82,7 @@
   // 在项目 "build.gradle" 中添加
   // 无需拷贝任何文件，等待联网更新完成即可使用
   dependencies {
-      compile 'com.github.qiujuer:genius:0.9.0'
+      compile 'com.github.qiujuer:genius:1.0.0'
   }
 
   ```
@@ -90,8 +90,8 @@
 
 ## 更新日志
 
-* 版本：`0.9.0`
-* 日期：`2014-11-26 22:40`
+* 版本：`1.0.0`
+* 日期：`2014-12-26 00:20`
 * 日志：[`更新日志`](docs/NOTES.md)
 
 

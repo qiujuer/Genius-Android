@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="net.qiujuer.genius"
-    android:versionCode="88" android:versionName="0.9.0">
-
-    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="20" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="net.qiujuer.genius">
 
     <application android:allowBackup="true">
         <service android:name="net.qiujuer.genius.command.CommandService" android:enabled="true"
