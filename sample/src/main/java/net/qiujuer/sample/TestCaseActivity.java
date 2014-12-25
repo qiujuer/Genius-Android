@@ -9,7 +9,6 @@ import net.qiujuer.genius.app.ToolKit;
 import net.qiujuer.genius.command.Command;
 import net.qiujuer.genius.nettool.DnsResolve;
 import net.qiujuer.genius.nettool.Ping;
-import net.qiujuer.genius.nettool.SpeedRoad;
 import net.qiujuer.genius.nettool.Telnet;
 import net.qiujuer.genius.nettool.TraceRoute;
 import net.qiujuer.genius.util.FixedList;
@@ -305,11 +304,6 @@ public class TestCaseActivity extends Activity {
                 TraceRoute traceRoute = new TraceRoute("www.baidu.com");
                 traceRoute.start();
                 Log.i(TAG, "\n\nTraceRoute：" + traceRoute.toString());
-                //测速
-                //下载目标，下载大小
-                SpeedRoad speedRoad = new SpeedRoad("http://down.360safe.com/se/360se_setup.exe", 1024 * 32);
-                speedRoad.start();
-                Log.i(TAG, "SpeedRoad：" + speedRoad.getSpeed());
             }
         };
         thread.setDaemon(true);
