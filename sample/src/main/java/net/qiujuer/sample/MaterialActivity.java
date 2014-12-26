@@ -1,10 +1,10 @@
 package net.qiujuer.sample;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 
-public class MaterialActivity extends Activity {
+public class MaterialActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,7 @@
 package net.qiujuer.sample;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.TextView;
 
 import net.qiujuer.genius.Genius;
@@ -26,7 +26,7 @@ import java.util.List;
  * <p/>
  * 测试用例界面
  */
-public class TestCaseActivity extends Activity {
+public class TestCaseActivity extends ActionBarActivity {
     private static final String TAG = TestCaseActivity.class.getSimpleName();
     TextView mText = null;
 

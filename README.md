@@ -2,6 +2,8 @@
 
 ##What is Genius-Android?
 
+![icon](art/launcher.png)
+
 **Genius-Android** is some of the commonly used method in **Android** collection, **Genius** library provide five basic plate :
 
 `app`（**Ui**） `material`（**widget**） `command`（**command line**） `net tool`（**Ping、Dns...**） `util`（**common method,class**）

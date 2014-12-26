@@ -1,13 +1,13 @@
 package net.qiujuer.sample;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +19,7 @@ import net.qiujuer.genius.app.BlurKit;
 import net.qiujuer.genius.app.ToolKit;
 
 
-public class BlurActivity extends Activity {
+public class BlurActivity extends ActionBarActivity {
     private LinearLayout linearLayout;
     private boolean scale;
     private TextView status;

@@ -114,5 +114,14 @@
             material:gm_isMaterial="false"
             material:gm_textAppearance="dark"
             material:gm_theme="@array/blood" />
+
+        <net.qiujuer.genius.material.FlatCheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#0000"
+            android:text="unchecked"
+            android:layout_margin="5dip"
+            material:gm_size="20dip" />
     </LinearLayout>
 </ScrollView>

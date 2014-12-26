@@ -14,6 +14,9 @@
     <attr name="gm_isMaterial" format="boolean" />
     <attr name="gm_isAutoMove" format="boolean" />
 
+    <attr name="gm_size" format="dimension" />
+    <attr name="gm_dotMargin" format="dimension" />
+
     <declare-styleable name="MaterialButton">
         <attr name="gm_theme" />
         <attr name="gm_fontFamily" />
@@ -26,5 +29,16 @@
 
         <!-- Defines the height of the border bottom of the button -->
         <attr name="gm_blockButtonEffectHeight" format="dimension" />
+    </declare-styleable>
+
+    <!-- Flat Check Box -->
+    <declare-styleable name="gm_FlatCheckBox">
+        <attr name="gm_theme" />
+        <attr name="gm_fontFamily" />
+        <attr name="gm_fontWeight" />
+        <attr name="gm_fontExtension" />
+        <attr name="gm_cornerRadius" />
+        <attr name="gm_size" />
+        <attr name="gm_dotMargin" />
     </declare-styleable>
 </resources>

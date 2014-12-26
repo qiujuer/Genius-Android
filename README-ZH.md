@@ -2,6 +2,8 @@
 
 ## Genius-Android是什么?
 
+![icon](art/launcher.png)
+
 **Genius-Android** 是 **Android** 中一些常用的的方法集合, **Genius** 提供5个基本板块：
 
 `app`（**Ui**） `material`（**控件**） `command`（**命令行**） `net tool`（**Ping、Dns...**） `util`（**常用方法,类**）
