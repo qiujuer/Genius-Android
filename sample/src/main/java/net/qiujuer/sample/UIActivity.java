@@ -3,8 +3,6 @@ package net.qiujuer.sample;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import net.qiujuer.genius.widget.GeniusCheckBox;
-
 
 public class UIActivity extends ActionBarActivity {
 

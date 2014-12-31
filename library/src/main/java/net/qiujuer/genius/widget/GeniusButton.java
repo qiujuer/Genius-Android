@@ -227,16 +227,17 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
     @Override
     public boolean performClick() {
         if (isMaterial) {
+            if (isAutoMove)
+                startMoveRoundAnimator();
+            else
+                startRoundAnimator();
+            /*
             // To Animator
             if (isAttachedToWindow() && isLaidOut()) {
-                if (isAutoMove)
-                    startMoveRoundAnimator();
-                else
-                    startRoundAnimator();
             } else {
                 // Immediately move the thumb to the new position.
                 cancelPositionAnimator();
-            }
+            }*/
         }
         return super.performClick();
     }

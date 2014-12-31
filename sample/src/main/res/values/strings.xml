@@ -8,6 +8,6 @@
     <string name="title_activity_test_case">TestCaseActivity</string>
     <string name="title_activity_blur">BlurActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="action_scale">压缩背景后模糊</string>
+    <string name="action_scale">压缩后模糊</string>
 
 </resources>

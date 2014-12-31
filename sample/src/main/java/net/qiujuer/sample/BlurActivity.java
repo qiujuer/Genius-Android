@@ -1,18 +1,13 @@
 package net.qiujuer.sample;
 
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.qiujuer.genius.app.BlurKit;
@@ -20,122 +15,120 @@ import net.qiujuer.genius.app.ToolKit;
 
 
 public class BlurActivity extends ActionBarActivity {
-    private LinearLayout linearLayout;
+    private static final int SCALE_FACTOR = 6;
     private boolean scale;
-    private TextView status;
-
+    private TextView mStatus;
+    private Bitmap mBitmap, mCompressBitmap;
+    private ImageView mImageJava, mImageJniPixels, mImageJniBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blur);
-        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-        status = (TextView) findViewById(R.id.text_status);
+        mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_blur);
+        mImageJava = (ImageView) findViewById(R.id.image_blur_java);
+        mImageJniPixels = (ImageView) findViewById(R.id.image_blur_jni_pixels);
+        mImageJniBitmap = (ImageView) findViewById(R.id.image_blur_jni_bitmap);
+        mStatus = (TextView) findViewById(R.id.text_status);
+
+        ImageView self = ((ImageView) findViewById(R.id.image_blur_self));
+        self.setImageBitmap(mBitmap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        compress();
         applyBlur();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void applyBlur() {
-        // 清理子控件背景，消除干扰
-        clearDrawable();
-        //添加监听
-        linearLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                linearLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-                linearLayout.buildDrawingCache();
-
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        try {
-                            final StringBuilder sb = new StringBuilder();
-                            sb.append("耗时：");
-                            for (int i = 1; i < 4; i++) {
-                                Bitmap bmp = linearLayout.getDrawingCache();
-                                sb.append(blur(bmp, i)).append(" ");
-                            }
-
-                            ToolKit.runOnMainThreadAsync(new Runnable() {
-                                @Override
-                                public void run() {
-                                    status.setText(sb.toString());
-                                }
-                            });
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                thread.setDaemon(true);
-                thread.start();
-                return true;
-            }
-        });
+    private void compress() {
+        // 进行压缩，并保存压缩后的Bitmap
+        Matrix matrix = new Matrix();
+        matrix.postScale(1.0f / SCALE_FACTOR, 1.0f / SCALE_FACTOR);
+        // new bitmap
+        mCompressBitmap = Bitmap.createBitmap(mBitmap, 0, 0,
+                mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
     }
 
 
-    private long blur(Bitmap bkg, int i) {
-        View view = null;
+    private void applyBlur() {
+        // 清理子控件背景，消除干扰
+        clearDrawable();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final StringBuilder sb = new StringBuilder();
+                    sb.append("耗时：");
+                    for (int i = 1; i < 4; i++) {
+                        sb.append(blur(i)).append(" ");
+                    }
+
+                    ToolKit.runOnMainThreadAsync(new Runnable() {
+                        @Override
+                        public void run() {
+                            mStatus.setText(sb.toString());
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+
+    private long blur(int i) {
+        ImageView view = null;
         if (i == 1)
-            view = findViewById(R.id.text1);
+            view = mImageJava;
         else if (i == 2)
-            view = findViewById(R.id.text2);
+            view = mImageJniPixels;
         else if (i == 3)
-            view = findViewById(R.id.text3);
+            view = mImageJniBitmap;
 
         long startMs = System.currentTimeMillis();
 
-        //设置参数：是否压缩 模糊半径
-        float scaleFactor = 1;
+        //是否压缩 模糊半径
         float radius = 20;
+        Bitmap overlay = mBitmap;
         if (scale) {
-            scaleFactor = 8;
-            radius = 2;
+            radius = 3;
+            overlay = mCompressBitmap;
         }
 
-        // 剪切 背景
-        Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth() / scaleFactor),
-                (int) (view.getMeasuredHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bkg, 0, 0, paint);
-
-        //模糊
         // Java 直接模糊
         if (i == 1)
-            overlay = BlurKit.blur(overlay, (int) radius, true);
+            overlay = BlurKit.blur(overlay, (int) radius, false);
             // 传递 Bitmap 到 JNI 模糊
         else if (i == 2)
-            overlay = BlurKit.blurNatively(overlay, (int) radius, true);
+            overlay = BlurKit.blurNatively(overlay, (int) radius, false);
             // 传递 图片的像素点集合到 JNI 模糊
         else if (i == 3)
-            overlay = BlurKit.blurNativelyPixels(overlay, (int) radius, true);
+            overlay = BlurKit.blurNativelyPixels(overlay, (int) radius, false);
 
+        // 显示
         setDrawable(view, overlay);
 
         return System.currentTimeMillis() - startMs;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void clearDrawable() {
-        findViewById(R.id.text1).setBackground(null);
-        findViewById(R.id.text2).setBackground(null);
-        findViewById(R.id.text3).setBackground(null);
+        mImageJava.setImageBitmap(null);
+        mImageJniPixels.setImageBitmap(null);
+        mImageJniBitmap.setImageBitmap(null);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void setDrawable(final View view, final Bitmap overlay) {
+    private void setDrawable(final ImageView view, final Bitmap overlay) {
         ToolKit.runOnMainThreadSync(new Runnable() {
             @Override
             public void run() {
-                //Api Build.VERSION_CODES.JELLY_BEAN 以上支持直接setBackground
-                view.setBackground(new BitmapDrawable(getResources(), overlay));
+                view.setImageBitmap(overlay);
             }
         });
     }
@@ -156,9 +149,9 @@ public class BlurActivity extends ActionBarActivity {
             applyBlur();
 
             if (scale)
-                item.setTitle("直接模糊背景");
+                item.setTitle("直接背景");
             else
-                item.setTitle("压缩背景后模糊");
+                item.setTitle("压缩后模糊");
             return true;
         }
 
