@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fffdfdfd"
+    android:background="#e8e8e8"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -131,6 +131,20 @@
 
             </LinearLayout>
         </LinearLayout>
+
+
+        <!-- Button -->
+        <net.qiujuer.genius.widget.GeniusTextView
+            android:id="@+id/title_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="Button"
+            android:textSize="20dip"
+            genius:g_textColor="main" />
 
         <net.qiujuer.genius.widget.GeniusButton
             android:layout_width="match_parent"

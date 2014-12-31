@@ -61,7 +61,7 @@ public class BlurActivity extends ActionBarActivity {
             public void run() {
                 try {
                     final StringBuilder sb = new StringBuilder();
-                    sb.append("耗时：");
+                    sb.append("Time：");
                     for (int i = 1; i < 4; i++) {
                         sb.append(blur(i)).append(" ");
                     }

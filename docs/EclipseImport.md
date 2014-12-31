@@ -119,7 +119,7 @@
 
 ## Picture
 
-![Picture](../art/eclipse.png)
+![Picture](guides/art/eclipse.png)
 
 
 ## 关于我
