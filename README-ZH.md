@@ -1,4 +1,4 @@
-## Version 1.+.+ Guide
+﻿## Version 1.+.+ Guide
 
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/guide.md)
 
@@ -13,11 +13,11 @@
 
 ## 截图
 
-##### GeniusUI
-![GeniusUI](art/genius_ui.gif)
-
 ##### ThemeColors
 ![ThemeColors](art/theme_colors.png)
+
+##### GeniusUI
+![GeniusUI](art/genius_ui.png)
 
 ##### BlurKit
 ![BlurKit](art/blur_kit.png)
