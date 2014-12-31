@@ -26,8 +26,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.qiujuer.sample.MaterialActivity"
-            android:label="@string/title_activity_material" />
+            android:name=".UIActivity"
+            android:label="@string/title_activity_ui" />
         <activity
             android:name="net.qiujuer.sample.TestCaseActivity"
             android:label="@string/title_activity_test_case" />

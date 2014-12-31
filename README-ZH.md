@@ -6,7 +6,7 @@
 
 **Genius-Android** 是 **Android** 中一些常用的的方法集合, **Genius** 提供5个基本板块：
 
-`app`（**Ui**） `material`（**控件**） `command`（**命令行**） `net tool`（**Ping、Dns...**） `util`（**常用方法,类**）
+`app`（**Ui**） `widget`（**Material控件**） `command`（**命令行**） `net tool`（**Ping、Dns...**） `util`（**常用方法,类**）
 
 
 ## 截图
@@ -154,18 +154,18 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
     ...
     material:gm_textAppearance="light"
     material:gm_fontFamily="opensans"
-    material:gm_fontWeight="bold"
-    material:gm_isMaterial="true"
-    material:gm_isAutoMove="true"
-    material:gm_theme="@array/grass" />
+    material:g_fontWeight="bold"
+    material:g_isMaterial="true"
+    material:g_isAutoMove="true"
+    material:g_theme="@array/grass" />
 
-// `gm_textAppearance`: 指定字体颜色，默认为 `none`
-// `gm_fontFamily`: 指定两种字体中的一种字体
-// `gm_fontWeight`: 指定字体粗细
-// `gm_isMaterial`: 是否打开 Material 动画，默认 `true`
-// `gm_isAutoMove`: 动画是否自动移动到中心，默认 `true`
+// `g_textAppearance`: 指定字体颜色，默认为 `none`
+// `g_fontFamily`: 指定两种字体中的一种字体
+// `g_fontWeight`: 指定字体粗细
+// `g_isMaterial`: 是否打开 Material 动画，默认 `true`
+// `g_isAutoMove`: 动画是否自动移动到中心，默认 `true`
 // 开启后动画将不会原地扩散，点击处 `XY` 坐标将向中心靠拢
-// `gm_theme`: 指定主题样式，12种任意选
+// `g_theme`: 指定主题样式，12种任意选
 
 ```
 

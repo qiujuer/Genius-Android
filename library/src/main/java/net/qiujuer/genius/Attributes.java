@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 9/3/2014
+ * Changed 12/30/2014
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,29 +27,37 @@ import android.graphics.Color;
  * on 2014/9/3.
  */
 public class Attributes {
+    public static final int INVALID = -1;
 
-    public static int INVALID = -1;
-
-    public static int DEFAULT_THEME = R.array.blood;
+    public static int DEFAULT_THEME = R.array.StrawberryIce;
+    public static final int DEFAULT_TOUCH_EFFECT = 0;
+    public static final int EASE_TOUCH_EFFECT = 1;
+    public static final int RIPPLE_TOUCH_EFFECT = 2;
 
     public static final String DEFAULT_FONT_FAMILY = "roboto";
     public static final String DEFAULT_FONT_WEIGHT = "light";
     public static final String DEFAULT_FONT_EXTENSION = "ttf";
     public static final int DEFAULT_TEXT_APPEARANCE = 0;
 
-    public static int DEFAULT_RADIUS_DP = 4;
-    public static int DEFAULT_BORDER_WIDTH_DP = 2;
-    public static int DEFAULT_SIZE_DP = 10;
+    public static final int DEFAULT_RADIUS_DP = 4;
+    public static final int DEFAULT_BORDER_WIDTH_DP = 2;
+    public static final int DEFAULT_SIZE_DP = 10;
 
-    public static int DEFAULT_RADIUS_PX = 10;
+    public static int DEFAULT_RADIUS_PX = 8;
     public static int DEFAULT_BORDER_WIDTH_PX = 4;
     public static int DEFAULT_SIZE_PX = 20;
+
+    public static final int[] DEFAULT_COLORS = new int[]{
+            Color.parseColor("#ffc26165"), Color.parseColor("#ffdb6e77"),
+            Color.parseColor("#ffef7e8b"), Color.parseColor("#fff7c2c8"),
+            Color.parseColor("#ffc2cbcb"), Color.parseColor("#ffe2e7e7")};
 
     /**
      * Color related fields
      */
     private int[] colors;
-    private int theme = -1;
+    private int theme = INVALID;
+    private int touchEffect = DEFAULT_TOUCH_EFFECT;
 
     /**
      * Font related fields
@@ -65,9 +73,6 @@ public class Attributes {
     private int radius = DEFAULT_RADIUS_PX;
     private int size = DEFAULT_SIZE_PX;
     private int borderWidth = DEFAULT_BORDER_WIDTH_PX;
-
-    private boolean isMaterial = true;
-    private boolean isAutoMove = true;
 
     /**
      * Attribute change listener. Used to redraw the view when attributes are changed.
@@ -93,10 +98,8 @@ public class Attributes {
             this.theme = theme;
             colors = resources.getIntArray(theme);
         } catch (Resources.NotFoundException e) {
-
             // setting theme blood if exception occurs (especially used for preview rendering by IDE)
-            colors = new int[]{Color.parseColor("#732219"), Color.parseColor("#a63124"),
-                    Color.parseColor("#d94130"), Color.parseColor("#f2b6ae")};
+            colors = DEFAULT_COLORS;
         }
     }
 
@@ -136,16 +139,16 @@ public class Attributes {
             this.fontExtension = fontExtension;
     }
 
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
     public int getRadius() {
         return radius;
     }
 
     public float[] getOuterRadius() {
         return new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
-    }
-
-    public void setRadius(int radius) {
-        this.radius = radius;
     }
 
     public int getSize() {
@@ -172,24 +175,21 @@ public class Attributes {
         this.textAppearance = textAppearance;
     }
 
-    public boolean isMaterial() {
-        return isMaterial;
+    public int getTouchEffect() {
+        return touchEffect;
     }
 
-    public void setMaterial(boolean isMaterial) {
-        this.isMaterial = isMaterial;
+    public void setTouchEffect(int touchEffect) {
+        this.touchEffect = touchEffect;
     }
 
-    public void setAutoMove(boolean isAutoMove) {
-        this.isAutoMove = isAutoMove;
-    }
-
-    public boolean isAutoMove() {
-        return isAutoMove;
+    public boolean hasTouchEffect() {
+        return this.touchEffect != Attributes.DEFAULT_TOUCH_EFFECT;
     }
 
     public interface AttributeChangeListener {
         public void onThemeChange();
-    }
 
+        public Attributes getAttributes();
+    }
 }

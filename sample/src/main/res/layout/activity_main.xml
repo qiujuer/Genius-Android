@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:orientation="vertical">
 
-        <net.qiujuer.genius.material.MaterialButton
+        <net.qiujuer.genius.widget.GeniusButton
             android:id="@+id/MaterialButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -23,12 +23,12 @@
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:onClick="onClick"
-            android:text="MaterialButton"
-            material:gm_isMaterial="false"
-            material:gm_textAppearance="light"
-            material:gm_theme="@array/grass" />
+            android:text="Genius UI"
+            material:g_isMaterial="false"
+            material:g_textAppearance="light"
+            material:g_theme="@array/LuciteGreen" />
 
-        <net.qiujuer.genius.material.MaterialButton
+        <net.qiujuer.genius.widget.GeniusButton
             android:id="@+id/Other"
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -37,11 +37,11 @@
             android:layout_margin="5dp"
             android:onClick="onClick"
             android:text="Other Test"
-            material:gm_isMaterial="false"
-            material:gm_textAppearance="light"
-            material:gm_theme="@array/sky" />
+            material:g_isMaterial="false"
+            material:g_textAppearance="light"
+            material:g_theme="@array/ScubaBlue" />
 
-        <net.qiujuer.genius.material.MaterialButton
+        <net.qiujuer.genius.widget.GeniusButton
             android:id="@+id/Blur"
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -50,9 +50,9 @@
             android:layout_margin="5dp"
             android:onClick="onClick"
             android:text="Blur Image"
-            material:gm_isMaterial="false"
-            material:gm_textAppearance="light"
-            material:gm_theme="@array/candy" />
+            material:g_isMaterial="false"
+            material:g_textAppearance="light"
+            material:g_theme="@array/StrawberryIce" />
 
     </LinearLayout>
 </RelativeLayout>

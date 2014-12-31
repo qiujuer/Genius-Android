@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -584,7 +585,12 @@ public final class Log {
         @Override
         public void run() {
             while (logQueue != null) {
-                Log log = logQueue.poll();
+                Log log;
+                try {
+                    log = logQueue.poll();
+                } catch (NoSuchElementException e) {
+                    log = null;
+                }
                 if (log == null) {
                     try {
                         queueLock.lock();

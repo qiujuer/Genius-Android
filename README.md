@@ -6,7 +6,7 @@
 
 **Genius-Android** is some of the commonly used method in **Android** collection, **Genius** library provide five basic plate :
 
-`app`（**Ui**） `material`（**widget**） `command`（**command line**） `net tool`（**Ping、Dns...**） `util`（**common method,class**）
+`app`（**Ui**） `widget`（**Material Widget**） `command`（**Command Line**） `net tool`（**Ping、Dns...**） `util`（**Common Method,Class**）
 
 
 ## Screenshots
@@ -152,20 +152,20 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 // ==================MaterialButton==================
 <net.qiujuer.genius.material.MaterialButton
     ...
-    material:gm_textAppearance="light"
-    material:gm_fontFamily="opensans"
-    material:gm_fontWeight="bold"
-    material:gm_isMaterial="true"
-    material:gm_isAutoMove="true"
-    material:gm_theme="@array/grass" />
+    material:g_textAppearance="light"
+    material:g_fontFamily="opensans"
+    material:g_fontWeight="bold"
+    material:g_isMaterial="true"
+    material:g_isAutoMove="true"
+    material:g_theme="@array/grass" />
 
-// `gm_textAppearance`: Specify the font color, the default for ` none `
-// `gm_fontFamily`: Specify a font of two kinds of fonts
-// `gm_fontWeight`: The specified font weight
-// `gm_isMaterial`: Whether to open the Material animation, the default ` true `
-// `gm_isAutoMove`: Animation is automatically moved to the center, the default ` true `
+// `g_textAppearance`: Specify the font color, the default for ` none `
+// `g_fontFamily`: Specify a font of two kinds of fonts
+// `g_fontWeight`: The specified font weight
+// `g_isMaterial`: Whether to open the Material animation, the default ` true `
+// `g_isAutoMove`: Animation is automatically moved to the center, the default ` true `
 // After open the animation will not place spread, click ` XY ` coordinates will be closer to the center
-// ` gm_theme ` : specify the subject style, 12 kinds of arbitrary choice
+// ` g_theme ` : specify the subject style, 12 kinds of arbitrary choice
 
 ```
 

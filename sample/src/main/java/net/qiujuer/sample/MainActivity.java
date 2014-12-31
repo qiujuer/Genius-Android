@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void onClick(View view) {
         if (view.getId() == R.id.MaterialButton)
-            startActivity(new Intent(this, MaterialActivity.class));
+            startActivity(new Intent(this, UIActivity.class));
         else if (view.getId() == R.id.Other)
             startActivity(new Intent(this, TestCaseActivity.class));
         else if (view.getId() == R.id.Blur)
