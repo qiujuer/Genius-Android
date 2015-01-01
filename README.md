@@ -1,6 +1,6 @@
 ﻿## Version 1.+.+ Guide
 
-[`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/guide.md)
+[`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/Guide.md)
 
 ##What is Genius-Android?
 
@@ -29,10 +29,10 @@
   > *  `ToolKit` support the child thread `synchronization` `asynchronous` switching to the main thread
   > *  `BlurKit` support `Java` `Jni` use the `StackBlur` algorithm fuzzy images
 
-* `material`
+* `widget`
   > *  Fonts `opensans` `roboto`
   > *  Colors `none` `dark` `light`
-  > *  Controls `MaterialButton`
+  > *  Controls `GeniusButton` `GeniusCheckBox` `GeniusTextView`
 
 * `command`
   > *  Independent service command-line work process execution
@@ -139,27 +139,27 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 ```
 
 
-##### `material` module
+##### `widget` module
 
 ```xml
 // First of all specified in the root container:
 <LinearLayout
     ...
-    xmlns:material="http://schemas.android.com/apk/res-auto"/>
+    xmlns:genius="http://schemas.android.com/apk/res-auto"/>
 
 // The theme style: see screenshot
 // Provide the font: `opensans` `roboto`
 // The font size: `bold` `extrabold` `extralight` `light` `regular`
 
-// ==================MaterialButton==================
-<net.qiujuer.genius.material.MaterialButton
+// ==================GeniusButton==================
+<net.qiujuer.genius.widget.GeniusButton
     ...
-    material:g_textAppearance="light"
-    material:g_fontFamily="opensans"
-    material:g_fontWeight="bold"
-    material:g_isMaterial="true"
-    material:g_isAutoMove="true"
-    material:g_theme="@array/grass" />
+    genius:g_textAppearance="light"
+    genius:g_fontFamily="opensans"
+    genius:g_fontWeight="bold"
+    genius:g_isMaterial="true"
+    genius:g_isAutoMove="true"
+    genius:g_theme="@array/grass" />
 
 // `g_textAppearance`: Specify the font color, the default for ` none `
 // `g_fontFamily`: Specify a font of two kinds of fonts
@@ -167,7 +167,7 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 // `g_isMaterial`: Whether to open the Material animation, the default ` true `
 // `g_isAutoMove`: Animation is automatically moved to the center, the default ` true `
 // After open the animation will not place spread, click ` XY ` coordinates will be closer to the center
-// ` g_theme ` : specify the subject style, 12 kinds of arbitrary choice
+// ` g_theme` : specify the subject style, 12 kinds of arbitrary choice
 
 ```
 
@@ -245,33 +245,14 @@ Others similarly
 
 // Initialize the maximum length of 5
 FixedList<Integer> list = new FixedList<Integer>(5);
-// The Queue method is used to add elements
-list.offer(0);
-// The List method is used to add elements, two ways of operation is the same
-list.add(1);
-// At the end of the insert element and add the same
-list.addLast(1);
-// From the head insert, delete the tail beyond element by default
-list.addFirst(19);
-// Add a list
-list.addAll(new ArrayList<Integer>());
 
 // To obtain the maximum capacity
 list.getMaxSize();
 // Adjust the maximum length; Narrow length will be automatically deleted when the head redundant elements
 list.setMaxSize(3);
 
-// Using poll pop-up elements
-int i = list.poll();
-// Remove a similar poll, but don't return to remove elements, only delete an element
-list.remove();
-// Clear
-list.clear();
-
 // Using List to operation
 List<Integer> list1 = new FixedList<Integer>(2);
-list1.add(1);
-list1.clear();
 
 
 // ====================HashUtils==================
@@ -319,14 +300,9 @@ Log.copyToExternalStorage("Test/Logs");
 // Set the log level
 // ALL(show all)，VERBOSE to ERROR decreasing
 Log.setLevel(Log.ALL);
-Log.setLevel(Log.INFO);
 
 // Add log
-Log.v(TAG, "log VERBOSE ");
-Log.d(TAG, "log DEBUG ");
-Log.i(TAG, "log INFO ");
-Log.w(TAG, "log WARN ");
-Log.e(TAG, "log ERROR ");
+Log.d(TAG, "DEBUG ");
 
 
 // ====================ToolUtils====================

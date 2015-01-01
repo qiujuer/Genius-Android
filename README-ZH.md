@@ -1,6 +1,6 @@
 ﻿## Version 1.+.+ Guide
 
-[`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/guide.md)
+[`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/Guide.md)
 
 ## Genius-Android是什么?
 
@@ -29,10 +29,10 @@
   > *  `ToolKit` 支持子线程`同步`、`异步`切换到主线程操作
   > *  `BlurKit` 支持`Java`、`Jni`使用`StackBlur`算法模糊图片
 
-* `material`
+* `widget`
   > *  字体 `opensans` `roboto`
   > *  颜色 `none` `dark` `light`
-  > *  控件 `MaterialButton`
+  > *  控件 `GeniusButton` `GeniusCheckBox` `GeniusTextView`
 
 * `command`
   > *  独立服务进程执行命令行工作
@@ -139,27 +139,27 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 ```
 
 
-##### `material` 模块
+##### `widget` 模块
 
 ```xml
 // 首先在根容器中指定：
 <LinearLayout
     ...
-    xmlns:material="http://schemas.android.com/apk/res-auto"/>
+    xmlns:genius="http://schemas.android.com/apk/res-auto"/>
 
 // 主题样式：见截图Theme
 // 提供字体：`opensans` `roboto`
 // 字体粗细：`bold` `extrabold` `extralight` `light` `regular`
 
-// ==================MaterialButton==================
-<net.qiujuer.genius.material.MaterialButton
+// ==================GeniusButton==================
+<net.qiujuer.genius.widget.GeniusButton
     ...
-    material:gm_textAppearance="light"
-    material:gm_fontFamily="opensans"
-    material:g_fontWeight="bold"
-    material:g_isMaterial="true"
-    material:g_isAutoMove="true"
-    material:g_theme="@array/grass" />
+    genius:g_textAppearance="light"
+    genius:g_fontFamily="opensans"
+    genius:g_fontWeight="bold"
+    genius:g_isMaterial="true"
+    genius:g_isAutoMove="true"
+    genius:g_theme="@array/grass" />
 
 // `g_textAppearance`: 指定字体颜色，默认为 `none`
 // `g_fontFamily`: 指定两种字体中的一种字体
@@ -245,28 +245,11 @@ if (ping.getError() == NetModel.SUCCEED) {
 
 // 初始化最大长度为5
 FixedList<Integer> list = new FixedList<Integer>(5);
-// 使用Queue方法添加元素
-list.offer(0);
-// 使用List方法添加元素
-list.add(1);
-// 末尾插入元素与add一样
-list.addLast(1);
-// 从头部插入，删除尾部超出元素
-list.addFirst(19);
-// 添加一个列表
-list.addAll(new ArrayList<Integer>());
 
 // 获取最大容量
 list.getMaxSize();
 // 调整最大长度；缩小长度时将自动删除头部多余元素
 list.setMaxSize(3);
-
-// 采用poll方式弹出元素
-int i = list.poll();
-// remove 与 poll 类似，不过不返回删除元素，仅删除一个元素
-list.remove();
-// 清空操作
-list.clear();
 
 // 可使用List操作
 List<Integer> list = new FixedList<Integer>(2);
@@ -317,14 +300,9 @@ Log.copyToExternalStorage("Test/Logs");
 // 设置日志等级
 // ALL(全部显示)，VERBOSE到ERROR依次递减
 Log.setLevel(Log.ALL);
-Log.setLevel(Log.INFO);
 
 // 添加日志
-Log.v(TAG, "日志 VERBOSE ");
-Log.d(TAG, "日志 DEBUG ");
-Log.i(TAG, "日志 INFO ");
-Log.w(TAG, "日志 WARN ");
-Log.e(TAG, "日志 ERROR ");
+Log.d(TAG, "DEBUG ");
 
 
 // ====================ToolUtils====================

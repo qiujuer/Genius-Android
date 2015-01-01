@@ -2,8 +2,8 @@
 
 
 * `Version 1.0.0`
-  > *  [`English`](V1.0.0_README.md)
-  > *  [`中文`](V1.0.0_README-ZH.md)
+  > *  [`English`](README_V1.0.0.md)
+  > *  [`中文`](README-ZH_V1.0.0.md)
 
 * `Version 1.+.+`
   > *  [`English`](/README.md)

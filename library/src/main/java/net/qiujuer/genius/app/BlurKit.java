@@ -55,6 +55,11 @@ final public class BlurKit {
 
         Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
 
+        // Return this none blur
+        if (radius == 1) {
+            return bitmap;
+        }
+
         //Jni BitMap Blur
         BlurNative.blurBitmap(bitmap, radius);
 
@@ -75,6 +80,11 @@ final public class BlurKit {
         }
 
         Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
+
+        // Return this none blur
+        if (radius == 1) {
+            return bitmap;
+        }
 
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
@@ -131,6 +141,11 @@ final public class BlurKit {
         }
 
         Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
+
+        // Return this none blur
+        if (radius == 1) {
+            return bitmap;
+        }
 
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
