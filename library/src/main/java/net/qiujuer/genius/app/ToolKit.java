@@ -26,13 +26,13 @@ import android.os.Looper;
  * on 2014/11/24.
  */
 final public class ToolKit {
-    private static HandlerPoster mainPoster = null;
+    private static ToolKitHandlerPoster mainPoster = null;
 
-    private static HandlerPoster getMainPoster() {
+    private static ToolKitHandlerPoster getMainPoster() {
         if (mainPoster == null) {
             synchronized (ToolKit.class) {
                 if (mainPoster == null) {
-                    mainPoster = new HandlerPoster(Looper.getMainLooper(), 20);
+                    mainPoster = new ToolKitHandlerPoster(Looper.getMainLooper(), 20);
                 }
             }
         }
@@ -67,7 +67,7 @@ final public class ToolKit {
             runnable.run();
             return;
         }
-        SyncPost poster = new SyncPost(runnable);
+        ToolKitSyncPost poster = new ToolKitSyncPost(runnable);
         getMainPoster().sync(poster);
         poster.waitRun();
     }
@@ -88,7 +88,7 @@ final public class ToolKit {
             runnable.run();
             return;
         }
-        SyncPost poster = new SyncPost(runnable);
+        ToolKitSyncPost poster = new ToolKitSyncPost(runnable);
         getMainPoster().sync(poster);
         poster.waitRun(waitTime, cancel);
     }

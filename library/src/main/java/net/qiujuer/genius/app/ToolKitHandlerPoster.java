@@ -33,16 +33,16 @@ import java.util.Queue;
  * Created by QiuJu
  * on 2014/11/24.
  */
-final class HandlerPoster extends Handler {
+final class ToolKitHandlerPoster extends Handler {
     private final int ASYNC = 0x1;
     private final int SYNC = 0x2;
     private final Queue<Runnable> asyncPool;
-    private final Queue<SyncPost> syncPool;
+    private final Queue<ToolKitSyncPost> syncPool;
     private final int maxMillisInsideHandleMessage;
     private boolean asyncActive;
     private boolean syncActive;
 
-    HandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
+    ToolKitHandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
         super(looper);
         this.maxMillisInsideHandleMessage = maxMillisInsideHandleMessage;
         asyncPool = new LinkedList<>();
@@ -67,7 +67,7 @@ final class HandlerPoster extends Handler {
         }
     }
 
-    void sync(SyncPost post) {
+    void sync(ToolKitSyncPost post) {
         synchronized (syncPool) {
             syncPool.offer(post);
             if (!syncActive) {
@@ -115,7 +115,7 @@ final class HandlerPoster extends Handler {
             try {
                 long started = SystemClock.uptimeMillis();
                 while (true) {
-                    SyncPost post = syncPool.poll();
+                    ToolKitSyncPost post = syncPool.poll();
                     if (post == null) {
                         synchronized (syncPool) {
                             // Check again, this time in synchronized

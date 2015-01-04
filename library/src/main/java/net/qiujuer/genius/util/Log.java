@@ -435,7 +435,7 @@ public final class Log {
     /**
      * Class
      */
-    private java.util.Date mDate;
+    private Date mDate;
     private int mLevel;
     private String mTag;
     private String mMsg;
@@ -448,7 +448,7 @@ public final class Log {
      * @param msg   Msg
      */
     public Log(int level, String tag, String msg) {
-        this(new java.util.Date(), level, tag, msg);
+        this(new Date(), level, tag, msg);
     }
 
     /**

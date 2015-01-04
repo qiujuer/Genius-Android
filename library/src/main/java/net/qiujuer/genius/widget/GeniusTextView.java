@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/30/2014
- * Changed 12/30/2014
+ * Changed 01/01/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,6 +43,7 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
     private int customBackgroundColor = Attributes.INVALID;
 
     private boolean hasOwnTextColor;
+    private boolean hasOwnBackground;
 
     public GeniusTextView(Context context) {
         super(context);
@@ -69,19 +70,28 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
 
             // getting android default tags for textColor and textColorHint
             String textColorAttribute = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "textColor");
-            int styleId = attrs.getStyleAttribute();
-            int[] attributesArray = new int[]{android.R.attr.textColor};
+            if (textColorAttribute == null) {
+                int styleId = attrs.getStyleAttribute();
+                int[] attributesArray = new int[]{android.R.attr.textColor};
 
-            if (!this.isInEditMode()) {
-                TypedArray styleTextColorTypedArray = getContext().obtainStyledAttributes(styleId, attributesArray);
-                // color might have values from the entire integer range, so to find out if there is any color set,
-                // checking if default value is returned is not enough. Thus we get color with two different
-                // default values - if returned value is the same, it means color is set
-                int styleTextColor1 = styleTextColorTypedArray.getColor(0, -1);
-                int styleTextColor2 = styleTextColorTypedArray.getColor(0, 1);
-                hasOwnTextColor = textColorAttribute != null || styleTextColor1 == styleTextColor2;
-                styleTextColorTypedArray.recycle();
+                if (!this.isInEditMode()) {
+                    TypedArray styleTextColorTypedArray = getContext().obtainStyledAttributes(styleId, attributesArray);
+                    // color might have values from the entire integer range, so to find out if there is any color set,
+                    // checking if default value is returned is not enough. Thus we get color with two different
+                    // default values - if returned value is the same, it means color is set
+                    int styleTextColor1 = styleTextColorTypedArray.getColor(0, -1);
+                    int styleTextColor2 = styleTextColorTypedArray.getColor(0, 1);
+                    hasOwnTextColor = styleTextColor1 == styleTextColor2;
+                    styleTextColorTypedArray.recycle();
+                }
+            } else {
+                hasOwnTextColor = true;
             }
+
+            // getting android default tags for background
+            String backgroundAttribute = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "background");
+            hasOwnBackground = backgroundAttribute != null;
+
 
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.GeniusTextView);
 
@@ -104,17 +114,19 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
             a.recycle();
         }
 
-        GradientDrawable gradientDrawable = new GradientDrawable();
-        if (backgroundColor != Attributes.INVALID) {
-            gradientDrawable.setColor(attributes.getColor(backgroundColor));
-        } else if (customBackgroundColor != Attributes.INVALID) {
-            gradientDrawable.setColor(customBackgroundColor);
-        } else {
-            gradientDrawable.setColor(Color.TRANSPARENT);
+        if (!hasOwnBackground) {
+            GradientDrawable gradientDrawable = new GradientDrawable();
+            if (backgroundColor != Attributes.INVALID) {
+                gradientDrawable.setColor(attributes.getColor(backgroundColor));
+            } else if (customBackgroundColor != Attributes.INVALID) {
+                gradientDrawable.setColor(customBackgroundColor);
+            } else {
+                gradientDrawable.setColor(Color.TRANSPARENT);
+            }
+            gradientDrawable.setCornerRadius(attributes.getRadius());
+            gradientDrawable.setStroke(attributes.getBorderWidth(), attributes.getColor(textColor));
+            setBackgroundDrawable(gradientDrawable);
         }
-        gradientDrawable.setCornerRadius(attributes.getRadius());
-        gradientDrawable.setStroke(attributes.getBorderWidth(), attributes.getColor(textColor));
-        setBackgroundDrawable(gradientDrawable);
 
         // setting the text color only if there is no android:textColor attribute used
         if (!hasOwnTextColor) setTextColor(attributes.getColor(textColor));

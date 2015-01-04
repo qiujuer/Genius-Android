@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 9/3/2014
- * Changed 12/30/2014
+ * Changed 01/01/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,7 +54,7 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
  */
 public class GeniusButton extends Button implements Attributes.AttributeChangeListener {
     private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
-    private static final long ANIMATION_TIME = 420;
+    private static final long ANIMATION_TIME = 4200;
     private static final ArgbEvaluator ARGB_EVALUATOR = new ArgbEvaluator();
 
     private Paint backgroundPaint;

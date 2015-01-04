@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/29/2014
- * Changed 12/31/2014
+ * Changed 01/01/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ package net.qiujuer.genius.widget;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -70,7 +71,7 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
 
     private float mCenterX, mCenterY;
     private boolean mCustomCircleRadius;
-    private int mCircleRadius;
+    private int mCircleRadius = AUTO_CIRCLE_RADIUS;
     private int mRingWidth = RING_WIDTH;
 
     private Attributes attributes;
@@ -108,11 +109,9 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
             attributes.setThemeSilent(customTheme, getResources());
 
             // getting custom attributes
-            mRingWidth = a.getDimensionPixelSize(R.styleable.GeniusCheckBox_g_ringWidth, RING_WIDTH);
-            mCircleRadius = a.getDimensionPixelSize(R.styleable.GeniusCheckBox_g_circleRadius, AUTO_CIRCLE_RADIUS);
-            if (mCircleRadius != AUTO_CIRCLE_RADIUS) {
-                mCustomCircleRadius = true;
-            }
+            mRingWidth = a.getDimensionPixelSize(R.styleable.GeniusCheckBox_g_ringWidth, mRingWidth);
+            mCircleRadius = a.getDimensionPixelSize(R.styleable.GeniusCheckBox_g_circleRadius, mCircleRadius);
+            mCustomCircleRadius = mCircleRadius != AUTO_CIRCLE_RADIUS;
 
             check = a.getBoolean(R.styleable.GeniusCheckBox_g_checked, false);
             enable = a.getBoolean(R.styleable.GeniusCheckBox_g_enabled, true);
@@ -272,6 +271,7 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
         mIsAttachWindow = false;
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void setChecked(boolean checked) {
         if (mChecked != checked) {
@@ -279,8 +279,8 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
             refreshDrawableState();
 
             // To Animator
-            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isAttachedToWindow() && isLaidOut()
-                    || (mIsAttachWindow && mOval != null))) {
+            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isAttachedToWindow() && isLaidOut())
+                    || (mIsAttachWindow && mOval != null)) {
                 animateThumbToCheckedState(checked);
             } else {
                 // Immediately move the thumb to the new position.

@@ -23,11 +23,11 @@ package net.qiujuer.genius.app;
  * Created by QiuJu
  * on 2014/11/24.
  */
-final class SyncPost {
+final class ToolKitSyncPost {
     boolean end = false;
     Runnable runnable;
 
-    SyncPost(Runnable runnable) {
+    ToolKitSyncPost(Runnable runnable) {
         this.runnable = runnable;
     }
 

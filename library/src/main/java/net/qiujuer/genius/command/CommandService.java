@@ -130,7 +130,7 @@ public class CommandService extends Service {
          *
          * @param params params
          * @return result
-         * @throws RemoteException
+         * @throws android.os.RemoteException
          */
         @Override
         public String command(String id, int timeout, String params) throws RemoteException {
@@ -164,7 +164,7 @@ public class CommandService extends Service {
          * cancel command
          *
          * @param id command.id
-         * @throws RemoteException
+         * @throws android.os.RemoteException
          */
         @Override
         public void cancel(String id) throws RemoteException {
@@ -184,7 +184,7 @@ public class CommandService extends Service {
          * Get Task Count
          *
          * @return Map Count
-         * @throws RemoteException
+         * @throws android.os.RemoteException
          */
         @Override
         public int getTaskCount() throws RemoteException {

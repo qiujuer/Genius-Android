@@ -40,7 +40,7 @@ import java.util.NoSuchElementException;
  * Use a method similar to LinkedList
  * Queue operations can be performed, such as: add elements, elements of poll
  */
-public class FixedList<E> extends java.util.AbstractSequentialList<E> implements java.util.List<E>, java.util.Deque<E>, java.util.Queue<E>, java.lang.Cloneable, java.io.Serializable {
+public class FixedList<E> extends java.util.AbstractSequentialList<E> implements java.util.List<E>, java.util.Deque<E>, java.util.Queue<E>, Cloneable, java.io.Serializable {
     private static final long serialVersionUID = 876323262645176354L;
 
     transient int maxSize = Integer.MAX_VALUE;
@@ -116,7 +116,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
 
         public ET next() {
             if (expectedModCount == list.modCount) {
-                FixedList.Link<ET> next = link.next;
+                Link<ET> next = link.next;
                 if (next != list.voidLink) {
                     lastLink = link = next;
                     pos++;
@@ -448,7 +448,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
      * {@code FixedLenList}.
      *
      * @return a shallow copy of this {@code FixedLenList}.
-     * @see java.lang.Cloneable
+     * @see Cloneable
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -516,7 +516,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
      * Returns the first element in this {@code FixedLenList}.
      *
      * @return the first element.
-     * @throws NoSuchElementException if this {@code FixedLenList} is empty.
+     * @throws java.util.NoSuchElementException if this {@code FixedLenList} is empty.
      */
     public E getFirst() {
         return getFirstImpl();
@@ -534,7 +534,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
      * Returns the last element in this {@code FixedLenList}.
      *
      * @return the last element
-     * @throws NoSuchElementException if this {@code FixedLenList} is empty
+     * @throws java.util.NoSuchElementException if this {@code FixedLenList} is empty
      */
     public E getLast() {
         Link<E> last = voidLink.previous;
@@ -608,7 +608,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
      * @param location the index at which to start the iteration
      * @return a ListIterator on the elements of this {@code FixedLenList}
      * @throws IndexOutOfBoundsException if {@code location < 0 || location > size()}
-     * @see ListIterator
+     * @see java.util.ListIterator
      */
     @Override
     public ListIterator<E> listIterator(int location) {
@@ -670,7 +670,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
      * Removes the first object from this {@code FixedLenList}.
      *
      * @return the removed object.
-     * @throws NoSuchElementException if this {@code FixedLenList} is empty.
+     * @throws java.util.NoSuchElementException if this {@code FixedLenList} is empty.
      */
     public E removeFirst() {
         return removeFirstImpl();
@@ -693,7 +693,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
      * Removes the last object from this {@code FixedLenList}.
      *
      * @return the removed object.
-     * @throws NoSuchElementException if this {@code FixedLenList} is empty.
+     * @throws java.util.NoSuchElementException if this {@code FixedLenList} is empty.
      */
     public E removeLast() {
         return removeLastImpl();
@@ -725,7 +725,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
     /**
      * {@inheritDoc}
      *
-     * @see java.util.Deque#offerFirst(java.lang.Object)
+     * @see java.util.Deque#offerFirst(Object)
      * @since 1.6
      */
     public boolean offerFirst(E e) {
@@ -735,7 +735,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
     /**
      * {@inheritDoc}
      *
-     * @see java.util.Deque#offerLast(java.lang.Object)
+     * @see java.util.Deque#offerLast(Object)
      * @since 1.6
      */
     public boolean offerLast(E e) {
@@ -796,7 +796,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
     /**
      * {@inheritDoc}
      *
-     * @see java.util.Deque#push(java.lang.Object)
+     * @see java.util.Deque#push(Object)
      * @since 1.6
      */
     public void push(E e) {
@@ -806,7 +806,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
     /**
      * {@inheritDoc}
      *
-     * @see java.util.Deque#removeFirstOccurrence(java.lang.Object)
+     * @see java.util.Deque#removeFirstOccurrence(Object)
      * @since 1.6
      */
     public boolean removeFirstOccurrence(Object o) {
@@ -816,7 +816,7 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
     /**
      * {@inheritDoc}
      *
-     * @see java.util.Deque#removeLastOccurrence(java.lang.Object)
+     * @see java.util.Deque#removeLastOccurrence(Object)
      * @since 1.6
      */
     public boolean removeLastOccurrence(Object o) {

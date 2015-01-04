@@ -1,4 +1,4 @@
-package net.qiujuer.sample;
+package net.qiujuer.genius.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,31 +14,28 @@ import net.qiujuer.genius.nettool.TraceRoute;
 import net.qiujuer.genius.util.FixedList;
 import net.qiujuer.genius.util.HashUtils;
 import net.qiujuer.genius.util.Log;
-import net.qiujuer.genius.util.Log.LogCallbackListener;
 import net.qiujuer.genius.util.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by QiuJu
- * on 2014/11/25.
- * <p/>
- * 测试用例界面
- */
-public class TestCaseActivity extends ActionBarActivity {
-    private static final String TAG = TestCaseActivity.class.getSimpleName();
+
+public class CaseActivity extends ActionBarActivity {
+    private static final String TAG = CaseActivity.class.getSimpleName();
     TextView mText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_case);
+        setContentView(R.layout.activity_case);
+
+        // 初始化
+        Genius.initialize(getApplication());
 
         mText = (TextView) findViewById(R.id.text);
 
-        //添加回调
-        Log.addCallbackListener(new LogCallbackListener() {
+        // 添加回调
+        Log.addCallbackListener(new Log.LogCallbackListener() {
             @Override
             public void onLogArrived(final Log data) {
                 //异步显示到界面
@@ -52,11 +49,11 @@ public class TestCaseActivity extends ActionBarActivity {
             }
         });
 
-        //开始测试
+        // 开始测试
         testLog();
+        testTool();
         testToolKit();
         testHashUtils();
-        testTools();
         testFixedList();
         testNetTool();
         testCommand();
@@ -64,14 +61,16 @@ public class TestCaseActivity extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
-        mText = null;
         super.onDestroy();
+        // 销毁
+        Genius.dispose();
     }
 
+
     /**
-     * 测试 App 工具包
+     * 测试 工具包
      */
-    void testToolKit() {
+    private void testToolKit() {
         // 同步模式一般用于更新界面同时等待界面更新完成后才能继续往下走的情况
         // 异步模式一般用于线程操作完成后统一更新主界面的情况
         Thread thread = new Thread(new Runnable() {
@@ -109,10 +108,15 @@ public class TestCaseActivity extends ActionBarActivity {
         thread.start();
     }
 
+    private void testTool() {
+        Log.i(TAG, "ToolKit：getAndroidId：" + Tools.getAndroidId(Genius.getApplication()));
+        Log.i(TAG, "ToolKit：getSerialNumber：" + Tools.getSerialNumber());
+    }
+
     /**
      * 日志测试
      */
-    public void testLog() {
+    private void testLog() {
         //是否调用系统Android Log，发布时可设置为false
         Log.setCallLog(true);
 
@@ -151,23 +155,15 @@ public class TestCaseActivity extends ActionBarActivity {
     /**
      * 测试MD5
      */
-    public void testHashUtils() {
+    private void testHashUtils() {
         Log.i(TAG, "HashUtils：QIUJUER的MD5值为：" + HashUtils.getStringMd5("QIUJUER"));
         //文件MD5不做演示，传入file类即可
     }
 
     /**
-     * 测试工具类
-     */
-    public void testTools() {
-        Log.i(TAG, "Tools：getAndroidId：" + Tools.getAndroidId(Genius.getApplication()));
-        Log.i(TAG, "Tools：getSerialNumber：" + Tools.getSerialNumber());
-    }
-
-    /**
      * 测试固定长度队列
      */
-    public void testFixedList() {
+    private void testFixedList() {
         //初始化最大长度为5
         FixedList<Integer> list = new FixedList<Integer>(5);
         Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
@@ -238,7 +234,7 @@ public class TestCaseActivity extends ActionBarActivity {
     /**
      * 测试命令行执行
      */
-    public void testCommand() {
+    private void testCommand() {
         //同步
         Thread thread = new Thread() {
             public void run() {

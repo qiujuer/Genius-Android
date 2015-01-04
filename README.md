@@ -1,6 +1,6 @@
 ﻿## Version 1.+.+ Guide
 
-[`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/Guide.md)
+[`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md)
 
 ##What is Genius-Android?
 
@@ -97,6 +97,7 @@
 * Version: `1.0.0`
 * Date: `2014-12-26 00:20`
 * Log: [`Notes`](docs/NOTES.md)
+* Guide: [`README_V1.0.0`](docs/guides/README_V1.0.0.md)
 
 
 ## Method of application
