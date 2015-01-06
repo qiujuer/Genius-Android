@@ -21,7 +21,7 @@ package net.qiujuer.genius;
 
 import android.app.Application;
 
-import net.qiujuer.genius.app.ToolKit;
+import net.qiujuer.genius.app.UIKit;
 import net.qiujuer.genius.command.Command;
 import net.qiujuer.genius.util.Log;
 
@@ -43,7 +43,7 @@ public final class Genius {
     public static void dispose() {
         Command.dispose();
         Log.dispose();
-        ToolKit.dispose();
+        UIKit.dispose();
         application = null;
     }
 }

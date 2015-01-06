@@ -135,3 +135,5 @@
 * `2014/12/04` 最大更改：移除 util nettool command 等模块
 * `2014/12/04` 重新建立新的 Sample 包，更改 Genius-Android 为：GeniusUI
 * `2014/12/05` 重新合并框架，重新整合，调整UI，调整说明
+* `2014/12/06` 更名 ToolKit 为 UIKit 并重命名其子类
+* `2014/12/06` 重新设计 GeniusButton ,重新设计动画控制

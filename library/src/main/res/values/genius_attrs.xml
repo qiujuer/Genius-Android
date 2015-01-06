@@ -15,13 +15,6 @@
         <enum name="light" value="2" />
     </attr>
 
-    <attr name="g_touchEffect" format="integer">
-        <enum name="none" value="0" />
-        <enum name="ease" value="1" />
-        <enum name="ripple" value="2" />
-    </attr>
-
-
     <declare-styleable name="GeniusButton">
         <attr name="g_theme" />
         <attr name="g_fontFamily" />
@@ -29,8 +22,13 @@
         <attr name="g_fontExtension" />
         <attr name="g_textAppearance" />
         <attr name="g_cornerRadius" />
-        <attr name="g_isMaterial" format="boolean" />
-        <attr name="g_isAutoMove" format="boolean" />
+
+        <attr name="g_touchEffect" format="integer">
+            <enum name="move" value="0" />
+            <enum name="ease" value="1" />
+            <enum name="ripple" value="2" />
+            <enum name="none" value="3" />
+        </attr>
         <attr name="g_blockButtonEffectHeight" format="dimension" />
     </declare-styleable>
 
@@ -52,6 +50,7 @@
         <attr name="g_fontExtension" />
         <attr name="g_cornerRadius" />
         <attr name="g_borderWidth" />
+
         <attr name="g_textColor" format="integer">
             <enum name="darker" value="0" />
             <enum name="dark" value="1" />

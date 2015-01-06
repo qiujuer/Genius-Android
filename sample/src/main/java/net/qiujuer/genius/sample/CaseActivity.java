@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.widget.TextView;
 
 import net.qiujuer.genius.Genius;
-import net.qiujuer.genius.app.ToolKit;
+import net.qiujuer.genius.app.UIKit;
 import net.qiujuer.genius.command.Command;
 import net.qiujuer.genius.nettool.DnsResolve;
 import net.qiujuer.genius.nettool.Ping;
@@ -39,7 +39,7 @@ public class CaseActivity extends ActionBarActivity {
             @Override
             public void onLogArrived(final Log data) {
                 //异步显示到界面
-                ToolKit.runOnMainThreadAsync(new Runnable() {
+                UIKit.runOnMainThreadAsync(new Runnable() {
                     @Override
                     public void run() {
                         if (mText != null)
@@ -84,7 +84,7 @@ public class CaseActivity extends ActionBarActivity {
                 // 子线程将会等待其执行完成
                 // 在主线程中调用该方法后才能继续往下走
                 // 该方法首先会将要执行的命令放到队列中，等待主线程执行
-                ToolKit.runOnMainThreadSync(new Runnable() {
+                UIKit.runOnMainThreadSync(new Runnable() {
                     @Override
                     public void run() {
                         Tools.sleepIgnoreInterrupt(20);
@@ -95,7 +95,7 @@ public class CaseActivity extends ActionBarActivity {
                 start = System.currentTimeMillis();
                 // 测试异步模式，在该模式下
                 // 子线程调用该方法后既可继续往下走，并不会阻塞
-                ToolKit.runOnMainThreadAsync(new Runnable() {
+                UIKit.runOnMainThreadAsync(new Runnable() {
                     @Override
                     public void run() {
                         Tools.sleepIgnoreInterrupt(20);

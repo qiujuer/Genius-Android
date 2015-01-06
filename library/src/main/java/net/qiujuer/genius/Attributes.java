@@ -28,11 +28,7 @@ import android.graphics.Color;
  */
 public class Attributes {
     public static final int INVALID = -1;
-
     public static int DEFAULT_THEME = R.array.StrawberryIce;
-    public static final int DEFAULT_TOUCH_EFFECT = 0;
-    public static final int EASE_TOUCH_EFFECT = 1;
-    public static final int RIPPLE_TOUCH_EFFECT = 2;
 
     public static final String DEFAULT_FONT_FAMILY = "roboto";
     public static final String DEFAULT_FONT_WEIGHT = "light";
@@ -57,7 +53,6 @@ public class Attributes {
      */
     private int[] colors;
     private int theme = INVALID;
-    private int touchEffect = DEFAULT_TOUCH_EFFECT;
 
     /**
      * Font related fields
@@ -173,18 +168,6 @@ public class Attributes {
 
     public void setTextAppearance(int textAppearance) {
         this.textAppearance = textAppearance;
-    }
-
-    public int getTouchEffect() {
-        return touchEffect;
-    }
-
-    public void setTouchEffect(int touchEffect) {
-        this.touchEffect = touchEffect;
-    }
-
-    public boolean hasTouchEffect() {
-        return this.touchEffect != Attributes.DEFAULT_TOUCH_EFFECT;
     }
 
     public interface AttributeChangeListener {

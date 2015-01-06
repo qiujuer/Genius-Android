@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e8e8e8"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -218,97 +219,112 @@
             android:textSize="20sp"
             genius:g_textColor="main" />
 
-        <net.qiujuer.genius.widget.GeniusButton
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="4dp"
-            android:text="Light"
-            genius:g_isAutoMove="false"
-            genius:g_textAppearance="light"
-            genius:g_theme="@array/ScubaBlue" />
-
-        <net.qiujuer.genius.widget.GeniusButton
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="4dp"
-            android:text="Light Auto"
-            genius:g_textAppearance="light"
-            genius:g_theme="@array/ScubaBlue" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:weightSum="2">
 
             <net.qiujuer.genius.widget.GeniusButton
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="0dp"
+                android:layout_height="68dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
-                android:text="Roboto"
-                genius:g_fontFamily="roboto"
-                genius:g_fontWeight="light"
-                genius:g_isAutoMove="false"
-                genius:g_theme="@array/Dark" />
+                android:layout_weight="1"
+                android:text="Default"
+                genius:g_textAppearance="light"
+                genius:g_theme="@array/Dark"
+                genius:g_touchEffect="move" />
 
             <net.qiujuer.genius.widget.GeniusButton
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="0dp"
+                android:layout_height="68dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
-                android:text="Auto"
-                genius:g_fontFamily="roboto"
-                genius:g_fontWeight="light"
-                genius:g_theme="@array/Dark" />
+                android:layout_weight="1"
+                android:text="Ripple"
+                genius:g_textAppearance="light"
+                genius:g_theme="@array/Dark"
+                genius:g_touchEffect="ripple" />
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
 
             <net.qiujuer.genius.widget.GeniusButton
-                android:layout_width="120dp"
-                android:layout_height="260dp"
+                android:layout_width="0dp"
+                android:layout_height="68dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
-                android:text="Roboto"
-                genius:g_fontFamily="roboto"
-                genius:g_fontWeight="light"
-                genius:g_isAutoMove="false"
-                genius:g_theme="@array/LuciteGreen" />
+                android:layout_weight="1"
+                android:text="Ease"
+                genius:g_textAppearance="light"
+                genius:g_theme="@array/ScubaBlue"
+                genius:g_touchEffect="ease" />
+
 
             <net.qiujuer.genius.widget.GeniusButton
-                android:layout_width="120dp"
-                android:layout_height="260dp"
+                android:layout_width="0dp"
+                android:layout_height="68dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
-                android:text="Auto"
-                genius:g_fontFamily="roboto"
-                genius:g_fontWeight="light"
-                genius:g_theme="@array/LuciteGreen" />
+                android:layout_weight="1"
+                android:text="None"
+                genius:g_textAppearance="light"
+                genius:g_theme="@array/ScubaBlue"
+                genius:g_touchEffect="none" />
         </LinearLayout>
 
-        <net.qiujuer.genius.widget.GeniusButton
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="4dp"
-            android:text="Material Is False"
-            genius:g_fontFamily="roboto"
-            genius:g_fontWeight="light"
-            genius:g_isMaterial="false"
-            genius:g_textAppearance="dark"
-            genius:g_theme="@array/Tangerine" />
+            android:layout_height="wrap_content"
+            android:weightSum="3">
+
+            <net.qiujuer.genius.widget.GeniusButton
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:text="Color"
+                genius:g_textAppearance="none"
+                genius:g_theme="@array/StrawberryIce" />
+
+            <net.qiujuer.genius.widget.GeniusButton
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:text="Corner "
+                genius:g_cornerRadius="10dp"
+                genius:g_textAppearance="light"
+                genius:g_theme="@array/StrawberryIce" />
+
+            <net.qiujuer.genius.widget.GeniusButton
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:text="Block"
+                genius:g_blockButtonEffectHeight="4dp"
+                genius:g_textAppearance="light"
+                genius:g_theme="@array/StrawberryIce" />
+        </LinearLayout>
+
 
         <!-- CheckBox -->
         <net.qiujuer.genius.widget.GeniusTextView
