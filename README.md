@@ -1,6 +1,6 @@
 ﻿## Version 2.0.0 Guide
 
-[`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md)
+[`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md) [`Sample`](/release/sample.apk)
 
 ##What is Genius-Android?
 
