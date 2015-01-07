@@ -1,4 +1,4 @@
-﻿## Version 2.+.+ Guide
+﻿## Version 2.0.0 Guide
 
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md)
 
@@ -13,14 +13,14 @@
 
 ## Screenshots
 
-##### ThemeColors
-![ThemeColors](art/theme_colors.png)
-
 ##### GeniusUI
 ![GeniusUI](art/genius_ui.gif)
 
 ##### BlurKit
 ![BlurKit](art/blur_kit.png)
+
+##### ThemeColors
+![ThemeColors](art/theme_colors.png)
 
 
 ## Function modules
