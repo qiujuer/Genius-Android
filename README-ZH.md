@@ -1,4 +1,4 @@
-﻿## Version 1.+.+ Guide
+﻿## Version 2.+.+ Guide
 
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md)
 
@@ -6,9 +6,9 @@
 
 ![icon](art/launcher.png)
 
-**Genius-Android** 是 **Android** 中一些常用的的方法集合, **Genius** 提供5个基本板块：
+**Genius-Android** 是 **Android** 中一些常用的的方法集合, **Genius** 提供6个基本板块：
 
-`app`（**Ui**） `widget`（**Material控件**） `command`（**命令行**） `net tool`（**Ping、Dns...**） `util`（**常用方法,类**）
+`app`（**Ui**）`animation`（**动画**）`widget`（**Material控件**） `command`（**命令行**） `net tool`（**Ping、Dns...**） `util`（**常用方法,类**）
 
 
 ## 截图
@@ -17,7 +17,7 @@
 ![ThemeColors](art/theme_colors.png)
 
 ##### GeniusUI
-![GeniusUI](art/genius_ui.png)
+![GeniusUI](art/genius_ui.gif)
 
 ##### BlurKit
 ![BlurKit](art/blur_kit.png)
@@ -25,8 +25,11 @@
 
 ## 功能模块
 
+* `animation`
+  > *  `TouchEffectAnimator` 支持快速响应点击特效
+
 * `app`
-  > *  `ToolKit` 支持子线程`同步`、`异步`切换到主线程操作
+  > *  `UIKit` 支持子线程`同步`、`异步`切换到主线程操作
   > *  `BlurKit` 支持`Java`、`Jni`使用`StackBlur`算法模糊图片
 
 * `widget`
@@ -49,7 +52,7 @@
 * `util`
   > *  `AppContext` 全局、存取方便快捷
   > *  `HashUtils`  字符串与文件`MD5`获取
-  > *  `ID` `SN` 确定设备唯一标识
+  > *  `Tools` `ID` `SN` 确定设备唯一标识
   > *  `Log` 如系统Log一样使用简单，一键开关
   > *  `Log` 可存储日志到文件，方便分析差错
   > *  `Log` 可添加事件监听，方便界面显示日志信息
@@ -59,45 +62,22 @@
 ## 获取库
 
 * `Star` 和 `Fork` 项目。
-* `release` 文件夹中的 `*.jar` 或者 `*.aar` 文件可直接导入项目中。
-  *  `*.jar` 无法使用控件资源，如字体和 `R..`。
-  *  `*.aar` 能使用所有的类和控件以及字体等。
-  *  `*.aar` 本地引入方法：
-* `Eclipse` [`Eclipse导入详解`](docs/EclipseImport.md)
-* `Android Studio` :
-  *  `*.aar` 本地导入方法：
-  
-  ```gradle
-  // 需拷贝 "genius_1.0.0.aar" 到 "libs" 目录
-  android {
-      repositories {
-          flatDir { dirs 'libs' }
-      }
-  }
-  dependencies {
-      compile (name:'genius_1.0.0', ext:'aar')
-  }
+* `MavenCentral` 远程导入 :
 
-  ```
+```gradle
+// 在项目 "build.gradle" 中添加
+dependencies {
+  compile 'com.github.qiujuer:genius:2.0.0'
+}
 
-  *  `*.aar` `MavenCentral`远程导入：
-  
-  ```gradle
-  // 在项目 "build.gradle" 中添加
-  // 无需拷贝任何文件，等待联网更新完成即可使用
-  dependencies {
-      compile 'com.github.qiujuer:genius:1.0.0'
-  }
-
-  ```
+```
 
 
 ## 更新日志
 
-* 版本：`1.0.0`
-* 日期：`2014-12-26 00:20`
+* 版本：`2.0.0`
+* 日期：`2015-01-07`
 * 日志：[`更新日志`](docs/NOTES.md)
-* 帮助： [`README-ZH_V1.0.0`](docs/guides/README-ZH_V1.0.0.md)
 
 
 ## 使用方法
@@ -117,14 +97,14 @@ Genius.dispose();
 // "Runnable" 实现其中 "run()" 方法
 // "run()" 运行在主线程中，可在其中进行界面操作
 // 同步进入主线程,等待主线程处理完成后继续执行子线程
-ToolKit.runOnMainThreadSync(Runnable runnable);
+UIKit.runOnMainThreadSync(Runnable runnable);
 // 异步进入主线程,无需等待
-ToolKit.runOnMainThreadAsync(Runnable runnable);
+UIKit.runOnMainThreadAsync(Runnable runnable);
 // 同步但是子线程只等待指定时间
 // @param runnable Runnable 接口
 // @param waitTime 子线程等待时长
 // @param cancel   等待时间到时是否取消主线程执行该任务
-ToolKit.runOnMainThreadSync(Runnable runnable, int waitTime, boolean cancel)
+UIKit.runOnMainThreadSync(Runnable runnable, int waitTime, boolean cancel)
 
 // "bitmap" 待处理的图片
 // "radius" 图片模糊半径
@@ -140,6 +120,49 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 ```
 
 
+##### `animation` 模块
+
+```java
+// TouchEffectAnimator 允许给你的控件添加点击特效
+// 特效类型：Move, Ease, Ripple, None
+public class GeniusButton extends Button {
+    private TouchEffectAnimator touchEffectAnimator = null;
+    // 在你的控件中初始化动画效果类
+    public void initTouchEffect(TouchEffect touchEffect) {
+        touchEffectAnimator = new TouchEffectAnimator(this);
+        // 动画模式
+        touchEffectAnimator.setTouchEffect(touchEffect);
+        // 动画颜色
+        touchEffectAnimator.setEffectColor("this color");
+        // 边缘圆弧半径
+        touchEffectAnimator.setClipRadius(20);
+    }
+    // 用于初始化高宽等数据
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (touchEffectAnimator != null)
+            touchEffectAnimator.onMeasure();
+    }
+    // 回调绘制方法
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (touchEffectAnimator != null)
+            touchEffectAnimator.onDraw(canvas);
+        super.onDraw(canvas);
+    }
+    // 触发点击事件
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (touchEffectAnimator != null)
+            touchEffectAnimator.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+}
+
+```
+
+
 ##### `widget` 模块
 
 ```xml
@@ -148,27 +171,61 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
     ...
     xmlns:genius="http://schemas.android.com/apk/res-auto"/>
 
-// 主题样式：见截图Theme
+// 主题样式：见截图Colors
 // 提供字体：`opensans` `roboto`
 // 字体粗细：`bold` `extrabold` `extralight` `light` `regular`
 
-// ==================GeniusButton==================
-<net.qiujuer.genius.widget.GeniusButton
+// ==================全局属性==================
+<net.qiujuer.genius.widget.all
     ...
     genius:g_textAppearance="light"
     genius:g_fontFamily="opensans"
     genius:g_fontWeight="bold"
-    genius:g_isMaterial="true"
-    genius:g_isAutoMove="true"
+    genius:g_fontExtension="ttf"
+    genius:g_cornerRadius="5dp"
+    genius:g_borderWidth="5dp"
     genius:g_theme="@array/grass" />
 
 // `g_textAppearance`: 指定字体颜色，默认为 `none`
 // `g_fontFamily`: 指定两种字体中的一种字体
 // `g_fontWeight`: 指定字体粗细
-// `g_isMaterial`: 是否打开 Material 动画，默认 `true`
-// `g_isAutoMove`: 动画是否自动移动到中心，默认 `true`
-// 开启后动画将不会原地扩散，点击处 `XY` 坐标将向中心靠拢
+// `g_fontExtension`: 字体扩展名
+// `g_cornerRadius`: 控件边缘圆角半径
+// `g_borderWidth`: 描边宽度
 // `g_theme`: 指定主题样式，12种任意选
+
+// ==================GeniusButton==================
+<net.qiujuer.genius.widget.GeniusButton
+    ...
+    genius:g_touchEffect="move"
+    genius:g_blockButtonEffectHeight="10dp" />
+
+// `g_touchEffect`: Move, Ease, Ripple, None
+// `g_blockButtonEffectHeight`: 底部阴影高度
+
+// ==================GeniusCheckBox==================
+<net.qiujuer.genius.widget.GeniusCheckBox
+    ...
+    genius:g_ringWidth="2dp"
+    genius:g_circleRadius="22dp"
+    genius:g_checked="true"
+    genius:g_enabled="true" />
+
+// `g_ringWidth`: 圆环宽度
+// `g_circleRadius`: 圆心半径
+// `g_checked`: 是否选中
+// `g_enabled`: 是否可点击
+
+// ==================GeniusTextView==================
+<net.qiujuer.genius.widget.GeniusTextView
+    ...
+    genius:g_textColor="light"
+    genius:g_backgroundColor="dark"
+    genius:g_customBackgroundColor="#FFFFFF" />
+
+// `g_textColor`: 字体颜色类型
+// `g_backgroundColor`: 背景颜色类型
+// `g_customBackgroundColor`: 背景颜色
 
 ```
 
@@ -224,11 +281,8 @@ Ping ping = new Ping("www.baidu.com");
 // 开始
 ping.start();
 // 返回
-if (ping.getError() == NetModel.SUCCEED) {
-    ...
-} else {
-    ...
-}
+if (ping.getError() == NetModel.SUCCEED) {}
+else {}
 ...
 其他操作与Ping类似
 ...
@@ -306,18 +360,18 @@ Log.setLevel(Log.ALL);
 Log.d(TAG, "DEBUG ");
 
 
-// ====================ToolUtils====================
+// ====================Tools====================
 // 常用工具包
 // 全部为静态方法，以后会持续添加完善
 
 // 休眠
-ToolUtils.sleepIgnoreInterrupt(long time);
+Tools.sleepIgnoreInterrupt(long time);
 // 拷贝文件
-ToolUtils.copyFile(File source, File target);
+Tools.copyFile(File source, File target);
 // AndroidId
-ToolUtils.getAndroidId(Context context);
+Tools.getAndroidId(Context context);
 // SN编号
-ToolUtils.getSerialNumber();
+Tools.getSerialNumber();
 
 ```
 

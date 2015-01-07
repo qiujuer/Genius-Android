@@ -1,4 +1,4 @@
-﻿## Version 1.+.+ Guide
+﻿## Version 2.+.+ Guide
 
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md)
 
@@ -8,7 +8,7 @@
 
 **Genius-Android** is some of the commonly used method in **Android** collection, **Genius** library provide five basic plate :
 
-`app`（**Ui**） `widget`（**Material Widget**） `command`（**Command Line**） `net tool`（**Ping、Dns...**） `util`（**Common Method,Class**）
+`app`(**Ui**) `animation`(**Animation**)`widget`(**Material Widget**) `command`(**Command Line**) `net tool`(**Ping、Dns...**) `util`(**Common Method,Class**)
 
 
 ## Screenshots
@@ -17,7 +17,7 @@
 ![ThemeColors](art/theme_colors.png)
 
 ##### GeniusUI
-![GeniusUI](art/genius_ui.png)
+![GeniusUI](art/genius_ui.gif)
 
 ##### BlurKit
 ![BlurKit](art/blur_kit.png)
@@ -26,8 +26,12 @@
 ## Function modules
 
 * `app`
-  > *  `ToolKit` support the child thread `synchronization` `asynchronous` switching to the main thread
+  > *  `UIKit` support the child thread `synchronization` `asynchronous` switching to the main thread
   > *  `BlurKit` support `Java` `Jni` use the `StackBlur` algorithm fuzzy images
+
+* `animation`
+  > *  `TouchEffectAnimator` Can add click to control effects
+  > *  `TouchEffectEnum` Move, Ripple, Ease, None
 
 * `widget`
   > *  Fonts `opensans` `roboto`
@@ -49,7 +53,7 @@
 * `util`
   > *  `AppContext` Global variables, access convenient and quick
   > *  `HashUtils` String with the file `MD5`
-  > *  `ID` `SN` Determine the device unique identifier
+  > *  `Tools` `ID` `SN` Determine the device unique identifier
   > *  `Log` Such as system Log as simple to use, one key switch
   > *  `Log` Can store the log to a file, convenient analysis errors
   > *  `Log` You can add event listeners, convenient interface display log information
@@ -59,45 +63,22 @@
 ## Get library
 
 * `Star` and `Fork` this project.
-* `release` folder with `*.jar` or `*.aar` files can be imported in your project
-  *  `*.jar` unable to use a control resources, Such as font and `R..`
-  *  `*.aar` can use all of the classes and controls as well as the font, etc
-  *  `*.aar` locally introduction methods:
-* `Eclipse` [Eclipse Import](docs/EclipseImport.md)
-* `Android Studio` :
-  *  `*.aar` The local import:
-  
-  ```gradle
-  // needing copy "genius_1.0.0.aar" to "libs" contents
-  android {
-      repositories {
-          flatDir { dirs 'libs' }
-      }
-  }
-  dependencies {
-      compile (name:'genius_1.0.0', ext:'aar')
-  }
+* `MavenCentral` remote import:
 
-  ```
+```gradle
+// Adding to your project "build.gradle" file
+dependencies {
+  compile 'com.github.qiujuer:genius:2.0.0'
+}
 
-  *  `*.aar` `MavenCentral` remote import:
-  
-  ```gradle
-  // Adding to the project named "build.gradle"
-  // Don't need to copy any file, waiting for networking updates finish can be used
-  dependencies {
-      compile 'com.github.qiujuer:genius:1.0.0'
-  }
-
-  ```
+```
 
 
 ## Update Log 
 
-* Version: `1.0.0`
-* Date: `2014-12-26 00:20`
+* Version: `2.0.0`
+* Date: `2015-01-07`
 * Log: [`Notes`](docs/NOTES.md)
-* Guide: [`README_V1.0.0`](docs/guides/README_V1.0.0.md)
 
 
 ## Method of application
@@ -117,14 +98,14 @@ Genius.dispose();
 // "Runnable" implementation method "run()"
 // "run()" run in the main thread, the can interface
 // Synchronization to enter the main thread, waiting for the main thread processing to continue after the completion of the subprocess
-ToolKit.runOnMainThreadSync(Runnable runnable);
+UIKit.runOnMainThreadSync(Runnable runnable);
 // Asynchronous into the main thread, without waiting for
-ToolKit.runOnMainThreadAsync(Runnable runnable);
+UIKit.runOnMainThreadAsync(Runnable runnable);
 // Synchronously But the child thread just wait for the waitTime long
 // @param runnable Runnable Interface
 // @param waitTime wait for the main thread run Time
 // @param cancel   on the child thread cancel the runnable task
-ToolKit.runOnMainThreadSync(Runnable runnable, int waitTime, boolean cancel)
+UIKit.runOnMainThreadSync(Runnable runnable, int waitTime, boolean cancel)
 
 // "bitmap" is to be processed images
 // "radius" is picture is fuzzy radius
@@ -136,6 +117,49 @@ BlurKit.blur(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 BlurKit.blurNatively(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 // Jni blur, To the Jni is image collection "pixel"
 BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+
+```
+
+
+##### `animation` 模块
+
+```java
+// TouchEffectAnimator Allowed to add click on special effects to your control
+// Types: Move, Ease, Ripple, None
+public class GeniusButton extends Button {
+    private TouchEffectAnimator touchEffectAnimator = null;
+    // Initialize
+    public void initTouchEffect(TouchEffect touchEffect) {
+        touchEffectAnimator = new TouchEffectAnimator(this);
+        // Set model
+        touchEffectAnimator.setTouchEffect(touchEffect);
+        // Set Color
+        touchEffectAnimator.setEffectColor("this color");
+        // Set this clip radius
+        touchEffectAnimator.setClipRadius(20);
+    }
+    // Init height width and others
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (touchEffectAnimator != null)
+            touchEffectAnimator.onMeasure();
+    }
+    // Callback onDraw
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (touchEffectAnimator != null)
+            touchEffectAnimator.onDraw(canvas);
+        super.onDraw(canvas);
+    }
+    // Callback onTouchEvent
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (touchEffectAnimator != null)
+            touchEffectAnimator.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+}
 
 ```
 
@@ -152,23 +176,57 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 // Provide the font: `opensans` `roboto`
 // The font size: `bold` `extrabold` `extralight` `light` `regular`
 
-// ==================GeniusButton==================
-<net.qiujuer.genius.widget.GeniusButton
+// ==================Global Attribute=================
+<net.qiujuer.genius.widget.all
     ...
     genius:g_textAppearance="light"
     genius:g_fontFamily="opensans"
     genius:g_fontWeight="bold"
-    genius:g_isMaterial="true"
-    genius:g_isAutoMove="true"
+    genius:g_fontExtension="ttf"
+    genius:g_cornerRadius="5dp"
+    genius:g_borderWidth="5dp"
     genius:g_theme="@array/grass" />
 
 // `g_textAppearance`: Specify the font color, the default for ` none `
 // `g_fontFamily`: Specify a font of two kinds of fonts
 // `g_fontWeight`: The specified font weight
-// `g_isMaterial`: Whether to open the Material animation, the default ` true `
-// `g_isAutoMove`: Animation is automatically moved to the center, the default ` true `
-// After open the animation will not place spread, click ` XY ` coordinates will be closer to the center
-// ` g_theme` : specify the subject style, 12 kinds of arbitrary choice
+// `g_fontExtension`: The font extension
+// `g_cornerRadius`: Arc radius
+// `g_borderWidth`: Border width
+// `g_theme`: Specify the subject style, 12 kinds of arbitrary choice
+
+// ==================GeniusButton==================
+<net.qiujuer.genius.widget.GeniusButton
+    ...
+    genius:g_touchEffect="move"
+    genius:g_blockButtonEffectHeight="10dp" />
+
+// `g_touchEffect`: Move, Ease, Ripple, None
+// `g_blockButtonEffectHeight`: The button shadow height
+
+// ==================GeniusCheckBox==================
+<net.qiujuer.genius.widget.GeniusCheckBox
+    ...
+    genius:g_ringWidth="2dp"
+    genius:g_circleRadius="22dp"
+    genius:g_checked="true"
+    genius:g_enabled="true" />
+
+// `g_ringWidth`: Ring width
+// `g_circleRadius`: The center of the circle radius
+// `g_checked`: Is checked
+// `g_enabled`: Is allow click
+
+// ==================GeniusTextView==================
+<net.qiujuer.genius.widget.GeniusTextView
+    ...
+    genius:g_textColor="light"
+    genius:g_backgroundColor="dark"
+    genius:g_customBackgroundColor="#FFFFFF" />
+
+// `g_textColor`: Font color type
+// `g_backgroundColor`: Background color type
+// `g_customBackgroundColor`: Background color
 
 ```
 
@@ -224,11 +282,8 @@ Ping ping = new Ping("www.baidu.com");
 // Start
 ping.start();
 // Return
-if (ping.getError() == NetModel.SUCCEED) {
-    ...
-} else {
-    ...
-}
+if (ping.getError() == NetModel.SUCCEED) {}
+else {}
 ...
 Others similarly
 ...
@@ -257,7 +312,7 @@ List<Integer> list1 = new FixedList<Integer>(2);
 
 
 // ====================HashUtils==================
-// Hash to calculate（Md5）
+// Hash to calculate(Md5)
 // String with the file can be calculated Md5 value
 
 // Get the MD5
@@ -294,7 +349,7 @@ Log.setSaveLog(true, 10, 1);
 // This operation depends on whether written to the file open function, not open, this method is invalid
 Log.setCopyExternalStorage(true, "Test/Logs");
 
-// Copies of internal storage log files to external storage（SD）
+// Copies of internal storage log files to external storage(SD)
 // This operation depends on whether written to the file open function, not open, this method is invalid
 Log.copyToExternalStorage("Test/Logs");
 
@@ -306,18 +361,18 @@ Log.setLevel(Log.ALL);
 Log.d(TAG, "DEBUG ");
 
 
-// ====================ToolUtils====================
+// ====================Tools====================
 // Commonly used toolkit
 // Are all static methods, later will continue to add
 
 // Thread sleep
-ToolUtils.sleepIgnoreInterrupt(long time);
+Tools.sleepIgnoreInterrupt(long time);
 // Copy the files
-ToolUtils.copyFile(File source, File target);
+Tools.copyFile(File source, File target);
 // AndroidId
-ToolUtils.getAndroidId(Context context);
+Tools.getAndroidId(Context context);
 // SN Id
-ToolUtils.getSerialNumber();
+Tools.getSerialNumber();
 
 ```
 

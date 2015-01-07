@@ -3,7 +3,7 @@
  * WebSite http://www.qiujuer.net
  * Created 01/06/2015
  * Changed 01/06/2015
- * Version 1.0.0
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,6 +102,8 @@ public class TouchEffectAnimator {
         mTouchEffect = touchEffect;
         if (mTouchEffect == TouchEffect.Ease)
             mAnimDuration = EASE_ANIM_DURATION;
+
+        onMeasure();
     }
 
     public void setEffectColor(int effectColor) {
@@ -120,6 +122,14 @@ public class TouchEffectAnimator {
 
         mRectPath.reset();
         mRectPath.addRoundRect(mRectRectR, mClipRadius, mClipRadius, Path.Direction.CW);
+
+        // Gets the bigger value (width or height) to fit the circle
+        mMaxRadius = mCenterX > mCenterY ? mCenterX : mCenterY;
+        // This circle radius is 75% or fill all
+        if (mTouchEffect == TouchEffect.Move)
+            mMaxRadius *= 0.75;
+        else
+            mMaxRadius *= 2.5;
     }
 
     public void onTouchEvent(final MotionEvent event) {
@@ -136,14 +146,6 @@ public class TouchEffectAnimator {
                 fadeOutEffect();
             }
         } else if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            // Gets the bigger value (width or height) to fit the circle
-            mMaxRadius = mCenterX > mCenterY ? mCenterX : mCenterY;
-            // This circle radius is 75% or fill all
-            if (mTouchEffect == TouchEffect.Move)
-                mMaxRadius *= 0.75;
-            else
-                mMaxRadius *= 2.5;
-
             // Set default operation to fadeOutEffect()
             isTouchReleased = false;
             isAnimatingFadeIn = true;
@@ -170,9 +172,11 @@ public class TouchEffectAnimator {
         if (isAnimatingFadeIn && (mTouchEffect == TouchEffect.Move
                 || mTouchEffect == TouchEffect.Ripple)) {
             // Canvas Clip
+            canvas.save();
             canvas.clipPath(mRectPath);
-            mPaint.setAlpha(MAX_RIPPLE_ALPHA);
+            mPaint.setAlpha(255);
             canvas.drawCircle(mPaintX, mPaintY, mRadius, mPaint);
+            canvas.restore();
         }
     }
 

@@ -7,7 +7,6 @@
 
     <attr name="g_cornerRadius" format="dimension" />
     <attr name="g_borderWidth" format="dimension" />
-    <attr name="g_size" format="dimension" />
 
     <attr name="g_textAppearance" format="integer">
         <enum name="none" value="0" />
@@ -35,6 +34,7 @@
     <!-- GeniusCheckBox -->
     <declare-styleable name="GeniusCheckBox">
         <attr name="g_theme" />
+
         <attr name="g_ringWidth" format="dimension" />
         <attr name="g_circleRadius" format="dimension" />
 

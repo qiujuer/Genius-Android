@@ -2,8 +2,8 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/25/2014
- * Changed 12/25/2014
- * Version 1.0.0
+ * Changed 01/07/2015
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

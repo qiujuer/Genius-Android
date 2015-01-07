@@ -128,12 +128,13 @@
 * `2014/12/30` Genius 颜色卡重新选取颜色，更加真实
 * `2014/12/30` Genius 中 GeniusCheckBox 修复几个由于 SDK 版本导致的异常错误
 * `2014/12/30` 更新演示代码中模糊图片（Blur）部分的实现方式
-* `2014/12/01` 更新部分说明文档
-* `2014/12/01` 修复 BlurKit 中当模糊半径为1时出现异常的情况
-* `2014/12/04` 添加新控件 GeniusTextView 到项目
-* `2014/12/04` Fixed GeniusCheckBox Bug
-* `2014/12/04` 最大更改：移除 util nettool command 等模块
-* `2014/12/04` 重新建立新的 Sample 包，更改 Genius-Android 为：GeniusUI
-* `2014/12/05` 重新合并框架，重新整合，调整UI，调整说明
-* `2014/12/06` 更名 ToolKit 为 UIKit 并重命名其子类
-* `2014/12/06` 重新设计 GeniusButton ,重新设计动画控制
+* `2015/01/01` 更新部分说明文档
+* `2015/01/01` 修复 BlurKit 中当模糊半径为1时出现异常的情况
+* `2015/01/04` 添加新控件 GeniusTextView 到项目
+* `2015/01/04` Fixed GeniusCheckBox Bug
+* `2015/01/04` 最大更改：移除 util nettool command 等模块
+* `2015/01/04` 重新建立新的 Sample 包，更改 Genius-Android 为：GeniusUI
+* `2015/01/05` 重新合并框架，重新整合，调整UI，调整说明
+* `2015/01/06` 更名 ToolKit 为 UIKit 并重命名其子类
+* `2015/01/06` 重新设计 GeniusButton ,重新设计动画控制
+* `2015/01/07` 修复动画控制中的一个BUG

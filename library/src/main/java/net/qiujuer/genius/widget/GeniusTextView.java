@@ -3,7 +3,7 @@
  * WebSite http://www.qiujuer.net
  * Created 12/30/2014
  * Changed 01/01/2015
- * Version 1.0.0
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
