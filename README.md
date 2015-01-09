@@ -92,6 +92,73 @@ Genius.dispose();
 ```
 
 
+##### `widget` module
+
+```xml
+// First of all specified in the root container:
+<LinearLayout
+    ...
+    xmlns:genius="http://schemas.android.com/apk/res-auto"/>
+
+// The theme style: see screenshot
+// Provide the font: `opensans` `roboto`
+// The font size: `bold` `extrabold` `extralight` `light` `regular`
+
+// ==================Global Attribute=================
+<net.qiujuer.genius.widget.all
+    ...
+    genius:g_textAppearance="light"
+    genius:g_fontFamily="opensans"
+    genius:g_fontWeight="bold"
+    genius:g_fontExtension="ttf"
+    genius:g_cornerRadius="5dp"
+    genius:g_borderWidth="5dp"
+    genius:g_theme="@array/StrawberryIce" />
+
+// `g_textAppearance`: Specify the font color, the default for ` none `
+// `g_fontFamily`: Specify a font of two kinds of fonts
+// `g_fontWeight`: The specified font weight
+// `g_fontExtension`: The font extension
+// `g_cornerRadius`: Arc radius
+// `g_borderWidth`: Border width
+// `g_theme`: Specify the subject style, 12 kinds of arbitrary choice
+
+// ==================GeniusButton==================
+<net.qiujuer.genius.widget.GeniusButton
+    ...
+    genius:g_touchEffect="move"
+    genius:g_blockButtonEffectHeight="10dp" />
+
+// `g_touchEffect`: Move, Ease, Ripple, None
+// `g_blockButtonEffectHeight`: The button shadow height
+
+// ==================GeniusCheckBox==================
+<net.qiujuer.genius.widget.GeniusCheckBox
+    ...
+    genius:g_ringWidth="2dp"
+    genius:g_circleRadius="22dp"
+    genius:g_checked="true"
+    genius:g_enabled="true" />
+
+// `g_ringWidth`: Ring width
+// `g_circleRadius`: The center of the circle radius
+// `g_checked`: Is checked
+// `g_enabled`: Is allow click
+
+// ==================GeniusTextView==================
+<net.qiujuer.genius.widget.GeniusTextView
+    ...
+    genius:g_textColor="light"
+    genius:g_backgroundColor="dark"
+    genius:g_customBackgroundColor="#FFFFFF" />
+
+// `g_textColor`: Font color type
+// `g_backgroundColor`: Background color type
+// `g_customBackgroundColor`: Background color
+
+```
+
+
 ##### `app`  module
 
 ```java
@@ -160,73 +227,6 @@ public class GeniusButton extends Button {
         return super.onTouchEvent(event);
     }
 }
-
-```
-
-
-##### `widget` module
-
-```xml
-// First of all specified in the root container:
-<LinearLayout
-    ...
-    xmlns:genius="http://schemas.android.com/apk/res-auto"/>
-
-// The theme style: see screenshot
-// Provide the font: `opensans` `roboto`
-// The font size: `bold` `extrabold` `extralight` `light` `regular`
-
-// ==================Global Attribute=================
-<net.qiujuer.genius.widget.all
-    ...
-    genius:g_textAppearance="light"
-    genius:g_fontFamily="opensans"
-    genius:g_fontWeight="bold"
-    genius:g_fontExtension="ttf"
-    genius:g_cornerRadius="5dp"
-    genius:g_borderWidth="5dp"
-    genius:g_theme="@array/grass" />
-
-// `g_textAppearance`: Specify the font color, the default for ` none `
-// `g_fontFamily`: Specify a font of two kinds of fonts
-// `g_fontWeight`: The specified font weight
-// `g_fontExtension`: The font extension
-// `g_cornerRadius`: Arc radius
-// `g_borderWidth`: Border width
-// `g_theme`: Specify the subject style, 12 kinds of arbitrary choice
-
-// ==================GeniusButton==================
-<net.qiujuer.genius.widget.GeniusButton
-    ...
-    genius:g_touchEffect="move"
-    genius:g_blockButtonEffectHeight="10dp" />
-
-// `g_touchEffect`: Move, Ease, Ripple, None
-// `g_blockButtonEffectHeight`: The button shadow height
-
-// ==================GeniusCheckBox==================
-<net.qiujuer.genius.widget.GeniusCheckBox
-    ...
-    genius:g_ringWidth="2dp"
-    genius:g_circleRadius="22dp"
-    genius:g_checked="true"
-    genius:g_enabled="true" />
-
-// `g_ringWidth`: Ring width
-// `g_circleRadius`: The center of the circle radius
-// `g_checked`: Is checked
-// `g_enabled`: Is allow click
-
-// ==================GeniusTextView==================
-<net.qiujuer.genius.widget.GeniusTextView
-    ...
-    genius:g_textColor="light"
-    genius:g_backgroundColor="dark"
-    genius:g_customBackgroundColor="#FFFFFF" />
-
-// `g_textColor`: Font color type
-// `g_backgroundColor`: Background color type
-// `g_customBackgroundColor`: Background color
 
 ```
 

@@ -91,6 +91,73 @@ Genius.dispose();
 ```
 
 
+##### `widget` 模块
+
+```xml
+// 首先在根容器中指定：
+<LinearLayout
+    ...
+    xmlns:genius="http://schemas.android.com/apk/res-auto"/>
+
+// 主题样式：见截图Colors
+// 提供字体：`opensans` `roboto`
+// 字体粗细：`bold` `extrabold` `extralight` `light` `regular`
+
+// ==================全局属性==================
+<net.qiujuer.genius.widget.all
+    ...
+    genius:g_textAppearance="light"
+    genius:g_fontFamily="opensans"
+    genius:g_fontWeight="bold"
+    genius:g_fontExtension="ttf"
+    genius:g_cornerRadius="5dp"
+    genius:g_borderWidth="5dp"
+    genius:g_theme="@array/StrawberryIce" />
+
+// `g_textAppearance`: 指定字体颜色，默认为 `none`
+// `g_fontFamily`: 指定两种字体中的一种字体
+// `g_fontWeight`: 指定字体粗细
+// `g_fontExtension`: 字体扩展名
+// `g_cornerRadius`: 控件边缘圆角半径
+// `g_borderWidth`: 描边宽度
+// `g_theme`: 指定主题样式，12种任意选
+
+// ==================GeniusButton==================
+<net.qiujuer.genius.widget.GeniusButton
+    ...
+    genius:g_touchEffect="move"
+    genius:g_blockButtonEffectHeight="10dp" />
+
+// `g_touchEffect`: Move, Ease, Ripple, None
+// `g_blockButtonEffectHeight`: 底部阴影高度
+
+// ==================GeniusCheckBox==================
+<net.qiujuer.genius.widget.GeniusCheckBox
+    ...
+    genius:g_ringWidth="2dp"
+    genius:g_circleRadius="22dp"
+    genius:g_checked="true"
+    genius:g_enabled="true" />
+
+// `g_ringWidth`: 圆环宽度
+// `g_circleRadius`: 圆心半径
+// `g_checked`: 是否选中
+// `g_enabled`: 是否可点击
+
+// ==================GeniusTextView==================
+<net.qiujuer.genius.widget.GeniusTextView
+    ...
+    genius:g_textColor="light"
+    genius:g_backgroundColor="dark"
+    genius:g_customBackgroundColor="#FFFFFF" />
+
+// `g_textColor`: 字体颜色类型
+// `g_backgroundColor`: 背景颜色类型
+// `g_customBackgroundColor`: 背景颜色
+
+```
+
+
 ##### `app` 模块
 
 ```java
@@ -159,73 +226,6 @@ public class GeniusButton extends Button {
         return super.onTouchEvent(event);
     }
 }
-
-```
-
-
-##### `widget` 模块
-
-```xml
-// 首先在根容器中指定：
-<LinearLayout
-    ...
-    xmlns:genius="http://schemas.android.com/apk/res-auto"/>
-
-// 主题样式：见截图Colors
-// 提供字体：`opensans` `roboto`
-// 字体粗细：`bold` `extrabold` `extralight` `light` `regular`
-
-// ==================全局属性==================
-<net.qiujuer.genius.widget.all
-    ...
-    genius:g_textAppearance="light"
-    genius:g_fontFamily="opensans"
-    genius:g_fontWeight="bold"
-    genius:g_fontExtension="ttf"
-    genius:g_cornerRadius="5dp"
-    genius:g_borderWidth="5dp"
-    genius:g_theme="@array/grass" />
-
-// `g_textAppearance`: 指定字体颜色，默认为 `none`
-// `g_fontFamily`: 指定两种字体中的一种字体
-// `g_fontWeight`: 指定字体粗细
-// `g_fontExtension`: 字体扩展名
-// `g_cornerRadius`: 控件边缘圆角半径
-// `g_borderWidth`: 描边宽度
-// `g_theme`: 指定主题样式，12种任意选
-
-// ==================GeniusButton==================
-<net.qiujuer.genius.widget.GeniusButton
-    ...
-    genius:g_touchEffect="move"
-    genius:g_blockButtonEffectHeight="10dp" />
-
-// `g_touchEffect`: Move, Ease, Ripple, None
-// `g_blockButtonEffectHeight`: 底部阴影高度
-
-// ==================GeniusCheckBox==================
-<net.qiujuer.genius.widget.GeniusCheckBox
-    ...
-    genius:g_ringWidth="2dp"
-    genius:g_circleRadius="22dp"
-    genius:g_checked="true"
-    genius:g_enabled="true" />
-
-// `g_ringWidth`: 圆环宽度
-// `g_circleRadius`: 圆心半径
-// `g_checked`: 是否选中
-// `g_enabled`: 是否可点击
-
-// ==================GeniusTextView==================
-<net.qiujuer.genius.widget.GeniusTextView
-    ...
-    genius:g_textColor="light"
-    genius:g_backgroundColor="dark"
-    genius:g_customBackgroundColor="#FFFFFF" />
-
-// `g_textColor`: 字体颜色类型
-// `g_backgroundColor`: 背景颜色类型
-// `g_customBackgroundColor`: 背景颜色
 
 ```
 

@@ -44,8 +44,8 @@ public class TouchEffectAnimator {
     private static final Interpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
     private static final int EASE_ANIM_DURATION = 200;
     private static final int RIPPLE_ANIM_DURATION = 300;
-    // 255*0.85
-    private static final int MAX_RIPPLE_ALPHA = 216;
+    // 255*0.8
+    private static final int MAX_RIPPLE_ALPHA = 204;
 
     private View mView;
     private int mClipRadius;
