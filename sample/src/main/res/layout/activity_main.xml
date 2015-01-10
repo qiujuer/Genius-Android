@@ -298,7 +298,8 @@
                 android:layout_weight="1"
                 android:text="Color"
                 genius:g_textAppearance="none"
-                genius:g_theme="@array/StrawberryIce" />
+                genius:g_theme="@array/StrawberryIce"
+                genius:g_touchEffect="press" />
 
             <net.qiujuer.genius.widget.GeniusButton
                 android:layout_width="0dp"

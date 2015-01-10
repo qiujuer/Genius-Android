@@ -103,8 +103,8 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
             attributes.setFontWeight(a.getString(R.styleable.GeniusTextView_g_fontWeight));
             attributes.setFontExtension(a.getString(R.styleable.GeniusTextView_g_fontExtension));
 
-            attributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_cornerRadius, Attributes.DEFAULT_RADIUS_PX));
-            attributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, 0));
+            attributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_cornerRadius, Attributes.DEFAULT_RADIUS));
+            attributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, Attributes.DEFAULT_BORDER_WIDTH));
 
             // getting view specific attributes
             textColor = a.getInt(R.styleable.GeniusTextView_g_textColor, textColor);

@@ -49,7 +49,7 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
     private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
     private static final ArgbEvaluator ARGB_EVALUATOR = new ArgbEvaluator();
     private static final int THUMB_ANIMATION_DURATION = 250;
-    private static final int RING_WIDTH = 5;
+    private static final int RING_WIDTH = 4;
     public static final int AUTO_CIRCLE_RADIUS = -1;
 
     // Animator

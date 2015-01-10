@@ -27,5 +27,6 @@ public enum TouchEffect {
     None,
     Ease,
     Ripple,
-    Move
+    Move,
+    Press
 }

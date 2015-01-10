@@ -45,7 +45,8 @@ public class TouchEffectAnimator {
     private static final int EASE_ANIM_DURATION = 200;
     private static final int RIPPLE_ANIM_DURATION = 300;
     // 255*0.8
-    private static final int MAX_RIPPLE_ALPHA = 204;
+    private static final int MAX_BACK_ALPHA = 200;
+    private static final int MAX_RIPPLE_ALPHA = 255;
 
     private View mView;
     private int mClipRadius;
@@ -53,7 +54,8 @@ public class TouchEffectAnimator {
     private TouchEffect mTouchEffect = TouchEffect.Move;
     private Animation mAnimation = null;
 
-    private float mMaxRadius;
+    private float mStartRadius;
+    private float mEndRadius;
     private float mRadius;
 
     private float mDownX, mDownY;
@@ -63,10 +65,12 @@ public class TouchEffectAnimator {
     private Paint mPaint = new Paint();
     private RectF mRectRectR = new RectF();
     private Path mRectPath = new Path();
-    private int mRectAlpha = 0;
+    private int mBackAlpha = 0;
+    private int mRippleAlpha = 0;
 
     private boolean isTouchReleased = false;
     private boolean isAnimatingFadeIn = false;
+    private boolean isAnimatingFadeOut = false;
 
     private Animation.AnimationListener mAnimationListener = new Animation.AnimationListener() {
         @Override
@@ -123,14 +127,6 @@ public class TouchEffectAnimator {
 
         mRectPath.reset();
         mRectPath.addRoundRect(mRectRectR, mClipRadius, mClipRadius, Path.Direction.CW);
-
-        // Gets the bigger value (width or height) to fit the circle
-        mMaxRadius = mCenterX > mCenterY ? mCenterX : mCenterY;
-        // This circle radius is 75% or fill all
-        if (mTouchEffect == TouchEffect.Move)
-            mMaxRadius *= 0.75;
-        else
-            mMaxRadius *= 2.5;
     }
 
     public void onTouchEvent(final MotionEvent event) {
@@ -156,7 +152,32 @@ public class TouchEffectAnimator {
             mPaintY = mDownY = event.getY();
 
             // This color alpha
-            mRectAlpha = 0;
+            mBackAlpha = 0;
+            mRippleAlpha = 255;
+
+            // Gets the bigger value (width or height) to fit the circle
+            mEndRadius = mCenterX > mCenterY ? mCenterX : mCenterY;
+            mStartRadius = 0;
+            mRadius = 0;
+
+            // This circle radius is 78% 90% or fill all
+            switch (mTouchEffect) {
+                case Ripple:
+                    float x = mDownX < mCenterX ? 2 * mCenterX : 0;
+                    float y = mDownY < mCenterY ? 2 * mCenterY : 0;
+                    mEndRadius = (float) Math.sqrt((x - mDownX) * (x - mDownX) + (y - mDownY) * (y - mDownY));
+                    break;
+                case Move:
+                    mStartRadius = 0;
+                    mEndRadius *= 0.78;
+                    break;
+                case Press:
+                    mStartRadius = mEndRadius * 0.5f;
+                    mEndRadius *= 0.9;
+                    mPaintX = mCenterX;
+                    mPaintY = mCenterY;
+                    break;
+            }
 
             // Cancel and Start new animation
             cancelAnimation();
@@ -165,17 +186,18 @@ public class TouchEffectAnimator {
     }
 
     public void onDraw(final Canvas canvas) {
-        // Draw Area
-        mPaint.setAlpha(mRectAlpha);
-        canvas.drawPath(mRectPath, mPaint);
+        // Draw Background
+        if (mTouchEffect != TouchEffect.Press && mBackAlpha != 0) {
+            mPaint.setAlpha(mBackAlpha);
+            canvas.drawPath(mRectPath, mPaint);
+        }
 
         // Draw Ripple
-        if (isAnimatingFadeIn && (mTouchEffect == TouchEffect.Move
-                || mTouchEffect == TouchEffect.Ripple)) {
+        if (mRadius != 0) {
             // Canvas Clip
             canvas.save();
             canvas.clipPath(mRectPath);
-            mPaint.setAlpha(255);
+            mPaint.setAlpha(mRippleAlpha);
             canvas.drawCircle(mPaintX, mPaintY, mRadius, mPaint);
             canvas.restore();
         }
@@ -185,15 +207,25 @@ public class TouchEffectAnimator {
         Animation animation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if (mTouchEffect == TouchEffect.Move) {
-                    mRadius = mMaxRadius * interpolatedTime;
-                    mPaintX = mDownX + (mCenterX - mDownX) * interpolatedTime;
-                    mPaintY = mDownY + (mCenterY - mDownY) * interpolatedTime;
-                } else if (mTouchEffect == TouchEffect.Ripple) {
-                    mRadius = mMaxRadius * interpolatedTime;
+                switch (mTouchEffect) {
+                    case Ease:
+                        mBackAlpha = (int) (interpolatedTime * MAX_BACK_ALPHA);
+                        break;
+                    case Ripple:
+                        mBackAlpha = (int) (interpolatedTime * MAX_BACK_ALPHA);
+                        mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
+                        break;
+                    case Move:
+                        mBackAlpha = (int) (interpolatedTime * MAX_BACK_ALPHA);
+                        mRadius = mEndRadius * interpolatedTime;
+                        mPaintX = mDownX + (mCenterX - mDownX) * interpolatedTime;
+                        mPaintY = mDownY + (mCenterY - mDownY) * interpolatedTime;
+                        break;
+                    case Press:
+                        mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
+                        mRippleAlpha = (int) (interpolatedTime * MAX_RIPPLE_ALPHA);
+                        break;
                 }
-
-                mRectAlpha = (int) (interpolatedTime * MAX_RIPPLE_ALPHA);
                 mView.invalidate();
             }
         };
@@ -214,7 +246,13 @@ public class TouchEffectAnimator {
         Animation animation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                mRectAlpha = (int) (MAX_RIPPLE_ALPHA - (MAX_RIPPLE_ALPHA * interpolatedTime));
+                mBackAlpha = (int) (MAX_BACK_ALPHA - (MAX_BACK_ALPHA * interpolatedTime));
+                if (mTouchEffect == TouchEffect.Press) {
+                    mRippleAlpha = (int) (MAX_RIPPLE_ALPHA - (MAX_RIPPLE_ALPHA * interpolatedTime));
+                    mRadius = mEndRadius + (mStartRadius - mEndRadius) * interpolatedTime;
+                } else {
+                    mRadius = 0;
+                }
                 mView.invalidate();
             }
         };

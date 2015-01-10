@@ -55,17 +55,6 @@ public class GeniusUI {
     public static final int DARK = R.array.Dark;
 
     /**
-     * Converts the default values to dp to be compatible with different screen sizes
-     *
-     * @param context Context
-     */
-    public static void initDefaultValues(Context context) {
-        Attributes.DEFAULT_BORDER_WIDTH_PX = (int) dipToPx(context, Attributes.DEFAULT_BORDER_WIDTH_DP);
-        Attributes.DEFAULT_RADIUS_PX = (int) dipToPx(context, Attributes.DEFAULT_RADIUS_DP);
-        Attributes.DEFAULT_SIZE_PX = (int) dipToPx(context, Attributes.DEFAULT_SIZE_DP);
-    }
-
-    /**
      * Creates and returns the font file from given attributes.
      *
      * @param context    Context
@@ -146,7 +135,7 @@ public class GeniusUI {
      * @param dp      Dip
      * @return PX
      */
-    private static float dipToPx(Context context, float dp) {
+    public static float dipToPx(Context context, float dp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
     }

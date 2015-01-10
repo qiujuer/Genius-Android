@@ -23,10 +23,11 @@
         <attr name="g_cornerRadius" />
 
         <attr name="g_touchEffect" format="integer">
-            <enum name="move" value="0" />
+            <enum name="none" value="0" />
             <enum name="ease" value="1" />
             <enum name="ripple" value="2" />
-            <enum name="none" value="3" />
+            <enum name="move" value="3" />
+            <enum name="press" value="4" />
         </attr>
         <attr name="g_blockButtonEffectHeight" format="dimension" />
     </declare-styleable>

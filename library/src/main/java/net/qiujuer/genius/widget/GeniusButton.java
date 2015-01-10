@@ -88,10 +88,10 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
             attributes.setFontExtension(a.getString(R.styleable.GeniusButton_g_fontExtension));
 
             attributes.setTextAppearance(a.getInt(R.styleable.GeniusButton_g_textAppearance, Attributes.DEFAULT_TEXT_APPEARANCE));
-            attributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusButton_g_cornerRadius, 0));
+            attributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusButton_g_cornerRadius, Attributes.DEFAULT_RADIUS));
 
             // getting view specific attributes
-            setTouchEffect(a.getInt(R.styleable.GeniusButton_g_touchEffect, 0));
+            setTouchEffect(a.getInt(R.styleable.GeniusButton_g_touchEffect, 3));
             bottom = a.getDimensionPixelSize(R.styleable.GeniusButton_g_blockButtonEffectHeight, bottom);
 
             a.recycle();
@@ -165,7 +165,7 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
         TouchEffect touchEffect = TouchEffect.Move;
         switch (value) {
             case 0:
-                touchEffect = TouchEffect.Move;
+                touchEffect = TouchEffect.None;
                 break;
             case 1:
                 touchEffect = TouchEffect.Ease;
@@ -174,7 +174,10 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
                 touchEffect = TouchEffect.Ripple;
                 break;
             case 3:
-                touchEffect = TouchEffect.None;
+                touchEffect = TouchEffect.Move;
+                break;
+            case 4:
+                touchEffect = TouchEffect.Press;
                 break;
         }
         setTouchEffect(touchEffect);
