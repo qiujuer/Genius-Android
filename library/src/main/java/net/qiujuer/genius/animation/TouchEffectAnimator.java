@@ -31,6 +31,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 
+import static android.graphics.Paint.ANTI_ALIAS_FLAG;
+
 /**
  * Created by Qiujuer
  * on 2015/01/06.
@@ -62,7 +64,7 @@ public class TouchEffectAnimator {
     private float mCenterX, mCenterY;
     private float mPaintX, mPaintY;
 
-    private Paint mPaint = new Paint();
+    private Paint mPaint = new Paint(ANTI_ALIAS_FLAG);
     private RectF mRectRectR = new RectF();
     private Path mRectPath = new Path();
     private int mBackAlpha = 0;
@@ -70,7 +72,6 @@ public class TouchEffectAnimator {
 
     private boolean isTouchReleased = false;
     private boolean isAnimatingFadeIn = false;
-    private boolean isAnimatingFadeOut = false;
 
     private Animation.AnimationListener mAnimationListener = new Animation.AnimationListener() {
         @Override
@@ -92,6 +93,10 @@ public class TouchEffectAnimator {
 
     public TouchEffectAnimator(View mView) {
         this.mView = mView;
+        mPaint = new Paint(ANTI_ALIAS_FLAG);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
         onMeasure();
     }
 

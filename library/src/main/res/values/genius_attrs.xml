@@ -29,6 +29,7 @@
             <enum name="move" value="3" />
             <enum name="press" value="4" />
         </attr>
+        <attr name="g_touchEffectColor" format="color" />
         <attr name="g_blockButtonEffectHeight" format="dimension" />
     </declare-styleable>
 

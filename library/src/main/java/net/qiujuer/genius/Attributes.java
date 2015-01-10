@@ -19,8 +19,11 @@
  */
 package net.qiujuer.genius;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.util.AttributeSet;
 
 /**
  * Created by QiuJu
@@ -64,6 +67,12 @@ public class Attributes {
     private int borderWidth = DEFAULT_BORDER_WIDTH;
 
     /**
+     * Is has own set
+     */
+    private boolean hasOwnTextColor;
+    private boolean hasOwnBackground;
+
+    /**
      * Attribute change listener. Used to redraw the view when attributes are changed.
      */
     private AttributeChangeListener attributeChangeListener;
@@ -71,6 +80,34 @@ public class Attributes {
     public Attributes(AttributeChangeListener attributeChangeListener, Resources resources) {
         this.attributeChangeListener = attributeChangeListener;
         setThemeSilent(DEFAULT_THEME, resources);
+    }
+
+    public void initHasOwnAttrs(Context context, AttributeSet attrs) {
+        // getting android default tags for textColor and textColorHint
+        String textColorAttribute = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "textColor");
+        if (textColorAttribute == null) {
+            int styleId = attrs.getStyleAttribute();
+            int[] attributesArray = new int[]{android.R.attr.textColor};
+
+            try {
+                TypedArray styleTextColorTypedArray = context.obtainStyledAttributes(styleId, attributesArray);
+                // color might have values from the entire integer range, so to find out if there is any color set,
+                // checking if default value is returned is not enough. Thus we get color with two different
+                // default values - if returned value is the same, it means color is set
+                int styleTextColor1 = styleTextColorTypedArray.getColor(0, -1);
+                int styleTextColor2 = styleTextColorTypedArray.getColor(0, 1);
+                hasOwnTextColor = styleTextColor1 == styleTextColor2;
+                styleTextColorTypedArray.recycle();
+            } catch (Resources.NotFoundException e) {
+                hasOwnTextColor = false;
+            }
+        } else {
+            hasOwnTextColor = true;
+        }
+
+        // getting android default tags for background
+        String backgroundAttribute = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "background");
+        hasOwnBackground = backgroundAttribute != null;
     }
 
     public int getTheme() {
@@ -154,6 +191,14 @@ public class Attributes {
 
     public void setTextAppearance(int textAppearance) {
         this.textAppearance = textAppearance;
+    }
+
+    public boolean isHasOwnBackground() {
+        return hasOwnBackground;
+    }
+
+    public boolean isHasOwnTextColor() {
+        return hasOwnTextColor;
     }
 
     public interface AttributeChangeListener {

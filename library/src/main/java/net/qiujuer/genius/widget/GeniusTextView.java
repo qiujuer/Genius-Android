@@ -42,9 +42,6 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
     private int backgroundColor = Attributes.INVALID;
     private int customBackgroundColor = Attributes.INVALID;
 
-    private boolean hasOwnTextColor;
-    private boolean hasOwnBackground;
-
     public GeniusTextView(Context context) {
         super(context);
         init(null);
@@ -68,30 +65,8 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
 
         if (attrs != null) {
 
-            // getting android default tags for textColor and textColorHint
-            String textColorAttribute = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "textColor");
-            if (textColorAttribute == null) {
-                int styleId = attrs.getStyleAttribute();
-                int[] attributesArray = new int[]{android.R.attr.textColor};
-
-                if (!this.isInEditMode()) {
-                    TypedArray styleTextColorTypedArray = getContext().obtainStyledAttributes(styleId, attributesArray);
-                    // color might have values from the entire integer range, so to find out if there is any color set,
-                    // checking if default value is returned is not enough. Thus we get color with two different
-                    // default values - if returned value is the same, it means color is set
-                    int styleTextColor1 = styleTextColorTypedArray.getColor(0, -1);
-                    int styleTextColor2 = styleTextColorTypedArray.getColor(0, 1);
-                    hasOwnTextColor = styleTextColor1 == styleTextColor2;
-                    styleTextColorTypedArray.recycle();
-                }
-            } else {
-                hasOwnTextColor = true;
-            }
-
-            // getting android default tags for background
-            String backgroundAttribute = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "background");
-            hasOwnBackground = backgroundAttribute != null;
-
+            // Set if has own attrs
+            attributes.initHasOwnAttrs(getContext(), attrs);
 
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.GeniusTextView);
 
@@ -114,7 +89,7 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
             a.recycle();
         }
 
-        if (!hasOwnBackground) {
+        if (!attributes.isHasOwnBackground()) {
             GradientDrawable gradientDrawable = new GradientDrawable();
             if (backgroundColor != Attributes.INVALID) {
                 gradientDrawable.setColor(attributes.getColor(backgroundColor));
@@ -129,7 +104,7 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
         }
 
         // setting the text color only if there is no android:textColor attribute used
-        if (!hasOwnTextColor) setTextColor(attributes.getColor(textColor));
+        if (!attributes.isHasOwnTextColor()) setTextColor(attributes.getColor(textColor));
 
         // check for IDE preview render
         if (!this.isInEditMode()) {

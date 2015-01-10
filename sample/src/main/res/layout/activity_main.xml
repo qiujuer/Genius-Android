@@ -296,10 +296,11 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
                 android:layout_weight="1"
+                android:background="#0000"
                 android:text="Color"
                 genius:g_textAppearance="none"
-                genius:g_theme="@array/StrawberryIce"
-                genius:g_touchEffect="press" />
+                genius:g_touchEffect="press"
+                genius:g_touchEffectColor="#ffff68ff" />
 
             <net.qiujuer.genius.widget.GeniusButton
                 android:layout_width="0dp"
