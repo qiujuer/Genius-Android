@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 09/17/2014
+ * Changed 01/13/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,7 +56,7 @@ public class CommandService extends Service {
     public boolean onUnbind(Intent intent) {
         super.onUnbind(intent);
         stopSelf();
-        return true;
+        return false;
     }
 
     @Override
@@ -66,61 +66,63 @@ public class CommandService extends Service {
             mImpl = null;
         }
         super.onDestroy();
-        //kill process
+        // Kill process
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
 
     private class CommandServiceImpl extends ICommandInterface.Stub {
-        private Map<String, CommandExecutor> commandExecutorMap = new HashMap<String, CommandExecutor>();
-        private Lock lock = new ReentrantLock();
-        private Thread thread;
+        private Map<String, CommandExecutor> mCommandExecutorMap = new HashMap<String, CommandExecutor>();
+        private Lock mMapLock = new ReentrantLock();
+        private Thread mTimeoutThread;
 
         public CommandServiceImpl() {
-            //init
-            thread = new Thread(CommandServiceImpl.class.getName()) {
+            // Init
+            mTimeoutThread = new Thread(CommandServiceImpl.class.getName()) {
                 @Override
                 public void run() {
-                    while (thread == this && !this.isInterrupted()) {
-                        if (commandExecutorMap != null && commandExecutorMap.size() > 0) {
+                    // When thread is not destroy
+                    while (mTimeoutThread == this && !this.isInterrupted()) {
+                        if (mCommandExecutorMap != null && mCommandExecutorMap.size() > 0) {
                             try {
-                                lock.lock();
-                                Collection<CommandExecutor> commandExecutors = commandExecutorMap.values();
+                                mMapLock.lock();
+                                Collection<CommandExecutor> commandExecutors = mCommandExecutorMap.values();
                                 for (CommandExecutor executor : commandExecutors) {
-                                    //kill Service Process
+                                    // Kill Service Process
                                     if (executor.isTimeOut())
                                         android.os.Process.killProcess(android.os.Process.myPid());
-                                    if (thread != this && this.isInterrupted())
+                                    if (mTimeoutThread != this && this.isInterrupted())
                                         break;
                                 }
                             } finally {
-                                lock.unlock();
+                                mMapLock.unlock();
                             }
                         }
+                        // Sleep 10 Second
                         Tools.sleepIgnoreInterrupt(10000);
                     }
                 }
             };
-            thread.setDaemon(true);
-            thread.start();
+            mTimeoutThread.setDaemon(true);
+            mTimeoutThread.start();
         }
 
         /**
-         * destroy
+         * Destroy
          */
         protected void destroy() {
-            if (thread != null) {
-                thread.interrupt();
-                thread = null;
+            if (mTimeoutThread != null) {
+                mTimeoutThread.interrupt();
+                mTimeoutThread = null;
             }
             try {
-                lock.lock();
-                commandExecutorMap.clear();
-                commandExecutorMap = null;
+                mMapLock.lock();
+                mCommandExecutorMap.clear();
+                mCommandExecutorMap = null;
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                lock.unlock();
+                mMapLock.unlock();
             }
         }
 
@@ -134,17 +136,17 @@ public class CommandService extends Service {
          */
         @Override
         public String command(String id, int timeout, String params) throws RemoteException {
-            CommandExecutor executor = commandExecutorMap.get(id);
+            CommandExecutor executor = mCommandExecutorMap.get(id);
             if (executor == null) {
                 try {
-                    lock.lock();
-                    executor = commandExecutorMap.get(id);
+                    mMapLock.lock();
+                    executor = mCommandExecutorMap.get(id);
                     if (executor == null) {
                         executor = CommandExecutor.create(timeout, params);
-                        commandExecutorMap.put(id, executor);
+                        mCommandExecutorMap.put(id, executor);
                     }
                 } finally {
-                    lock.unlock();
+                    mMapLock.unlock();
                 }
             }
 
@@ -152,29 +154,33 @@ public class CommandService extends Service {
             String result = executor.getResult();
 
             try {
-                lock.lock();
-                commandExecutorMap.remove(id);
+                mMapLock.lock();
+                mCommandExecutorMap.remove(id);
+            } catch (Exception e) {
+                e.printStackTrace();
             } finally {
-                lock.unlock();
+                mMapLock.unlock();
             }
             return result;
         }
 
         /**
-         * cancel command
+         * Cancel command
          *
          * @param id command.id
          * @throws android.os.RemoteException
          */
         @Override
         public void cancel(String id) throws RemoteException {
-            CommandExecutor executor = commandExecutorMap.get(id);
+            CommandExecutor executor = mCommandExecutorMap.get(id);
             if (executor != null) {
                 try {
-                    lock.lock();
-                    commandExecutorMap.remove(id);
+                    mMapLock.lock();
+                    mCommandExecutorMap.remove(id);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
-                    lock.unlock();
+                    mMapLock.unlock();
                 }
                 executor.destroy();
             }
@@ -188,9 +194,9 @@ public class CommandService extends Service {
          */
         @Override
         public int getTaskCount() throws RemoteException {
-            if (commandExecutorMap == null)
+            if (mCommandExecutorMap == null)
                 return 0;
-            return commandExecutorMap.size();
+            return mCommandExecutorMap.size();
         }
     }
 }

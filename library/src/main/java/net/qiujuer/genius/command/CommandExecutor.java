@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 09/17/2014
+ * Changed 01/13/2014
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,44 +34,34 @@ import java.util.concurrent.locks.ReentrantLock;
  * on 2014/9/17.
  */
 class CommandExecutor {
-    //TAG
+    // TAG
     private static final String TAG = CommandExecutor.class.getSimpleName();
-
-    private static final String BREAK_LINE;
-    private static final byte[] BUFFER;
-    private static final int BUFFER_LENGTH;
+    // Final
+    private static final String BREAK_LINE = "\n";
+    private static final int BUFFER_LENGTH = 128;
+    private static final byte[] BUFFER = new byte[BUFFER_LENGTH];
     private static final Lock LOCK = new ReentrantLock();
+    // ProcessBuilder
+    private static final ProcessBuilder PRC = new ProcessBuilder();
 
-    //ProcessBuilder
-    private static ProcessBuilder PRC;
+    // Class value
+    private final Process mProcess;
+    private final int mTimeout;
+    private final long mStartTime;
 
-    final private Process process;
-    final private InputStream in;
-    final private InputStream err;
-    final private OutputStream out;
-    final private StringBuilder sbReader;
-    final private int timeout;
+    // Result
+    private final StringBuilder mResult;
 
-    private BufferedReader bInReader = null;
-    private InputStreamReader isInReader = null;
+    // Stream
+    private InputStream mInStream;
+    private InputStream mErrStream;
+    private OutputStream mOutStream;
+    private InputStreamReader mInStreamReader = null;
+    private BufferedReader mInStreamBuffer = null;
+
+    // Is end
     private boolean isDone;
-    private long startTime;
 
-    /**
-     * init
-     */
-    static {
-        BREAK_LINE = "\n";
-        BUFFER_LENGTH = 128;
-        BUFFER = new byte[BUFFER_LENGTH];
-
-        try {
-            LOCK.lock();
-            PRC = new ProcessBuilder();
-        } finally {
-            LOCK.unlock();
-        }
-    }
 
     /**
      * *********************************************************************************************
@@ -84,24 +74,24 @@ class CommandExecutor {
      * @param process Process
      */
     private CommandExecutor(Process process, int timeout) {
-        //init
-        this.timeout = timeout;
-        this.startTime = System.currentTimeMillis();
-        this.process = process;
-        //get
-        out = process.getOutputStream();
-        in = process.getInputStream();
-        err = process.getErrorStream();
+        // Init
+        this.mTimeout = timeout;
+        this.mStartTime = System.currentTimeMillis();
+        this.mProcess = process;
+        // Get
+        mOutStream = process.getOutputStream();
+        mInStream = process.getInputStream();
+        mErrStream = process.getErrorStream();
 
-        //in
-        if (in != null) {
-            isInReader = new InputStreamReader(in);
-            bInReader = new BufferedReader(isInReader, BUFFER_LENGTH);
+        // In
+        if (mInStream != null) {
+            mInStreamReader = new InputStreamReader(mInStream);
+            mInStreamBuffer = new BufferedReader(mInStreamReader, BUFFER_LENGTH);
         }
 
-        sbReader = new StringBuilder();
+        mResult = new StringBuilder();
 
-        //start read thread
+        // Start read thread
         Thread processThread = new Thread(TAG) {
             @Override
             public void run() {
@@ -113,15 +103,15 @@ class CommandExecutor {
     }
 
     /**
-     * read
+     * Read
      */
     private void read() {
         String str;
-        //read In
+        // Read data
         try {
-            while ((str = bInReader.readLine()) != null) {
-                sbReader.append(str);
-                sbReader.append(BREAK_LINE);
+            while ((str = mInStreamBuffer.readLine()) != null) {
+                mResult.append(str);
+                mResult.append(BREAK_LINE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,13 +119,13 @@ class CommandExecutor {
     }
 
     /**
-     * run thread
+     * Run thread
      */
     private void startRead() {
-        //while to end
+        // While to end
         while (true) {
             try {
-                process.exitValue();
+                mProcess.exitValue();
                 //read last
                 read();
                 break;
@@ -145,12 +135,12 @@ class CommandExecutor {
             Tools.sleepIgnoreInterrupt(50);
         }
 
-        //read end
+        // Read end
         int len;
-        if (in != null) {
+        if (mInStream != null) {
             try {
                 while (true) {
-                    len = in.read(BUFFER);
+                    len = mInStream.read(BUFFER);
                     if (len <= 0)
                         break;
                 }
@@ -159,56 +149,60 @@ class CommandExecutor {
             }
         }
 
-        //close
+        // Close destroy and done the read
         close();
-        //destroy
         destroy();
-        //done
+
         isDone = true;
 
     }
 
     /**
-     * close
+     * Close
      */
     private void close() {
-        //close out
-        if (out != null) {
+        // Out
+        if (mOutStream != null) {
             try {
-                out.close();
+                mOutStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            mOutStream = null;
         }
-        //err
-        if (err != null) {
+        // Err
+        if (mErrStream != null) {
             try {
-                err.close();
+                mErrStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            mErrStream = null;
         }
-        //in
-        if (in != null) {
+        // In
+        if (mInStream != null) {
             try {
-                in.close();
+                mInStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            mInStream = null;
         }
-        if (isInReader != null) {
+        if (mInStreamReader != null) {
             try {
-                isInReader.close();
+                mInStreamReader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            mInStreamReader = null;
         }
-        if (bInReader != null) {
+        if (mInStreamBuffer != null) {
             try {
-                bInReader.close();
+                mInStreamBuffer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            mInStreamBuffer = null;
         }
     }
 
@@ -235,7 +229,7 @@ class CommandExecutor {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            //sleep 10
+            // Sleep 10 to create next
             Tools.sleepIgnoreInterrupt(10);
             LOCK.unlock();
         }
@@ -248,7 +242,7 @@ class CommandExecutor {
      * @return Time Out
      */
     protected boolean isTimeOut() {
-        return ((System.currentTimeMillis() - startTime) >= timeout);
+        return ((System.currentTimeMillis() - mStartTime) >= mTimeout);
     }
 
     /**
@@ -257,23 +251,23 @@ class CommandExecutor {
      * @return Result
      */
     protected String getResult() {
-        //until startRead en
+        // Until read end
         while (!isDone) {
             Tools.sleepIgnoreInterrupt(500);
         }
 
-        //return
-        if (sbReader.length() == 0)
+        // Get return value
+        if (mResult.length() == 0)
             return null;
         else
-            return sbReader.toString();
+            return mResult.toString();
     }
 
     /**
-     * destroy
+     * Destroy
      */
     protected void destroy() {
-        String str = process.toString();
+        String str = mProcess.toString();
         try {
             int i = str.indexOf("=") + 1;
             int j = str.indexOf("]");
@@ -283,7 +277,7 @@ class CommandExecutor {
                 android.os.Process.killProcess(pid);
             } catch (Exception e) {
                 try {
-                    process.destroy();
+                    mProcess.destroy();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

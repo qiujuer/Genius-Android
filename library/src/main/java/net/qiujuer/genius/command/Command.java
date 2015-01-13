@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 08/13/2014
+ * Changed 01/13/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,15 +38,16 @@ import java.util.concurrent.Executors;
  * on 2014/8/13.
  */
 public final class Command {
-    //Time Out
+    // Time Out is 90 seconds
     public static final int TIMEOUT = 90000;
-    //Threads
+    // Threads
     private static ExecutorService EXECUTORSERVICE = null;
-    //ICommandInterface
+    // ICommandInterface
     private static ICommandInterface I_COMMAND = null;
-    //IService Lock
+    // IService Lock
     private static final Object I_LOCK = new Object();
-    //Service link class, used to instantiate the service interface
+
+    // Service link class, used to instantiate the service interface
     private static ServiceConnection I_CONN = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -69,11 +70,14 @@ public final class Command {
             dispose();
         }
     };
-    //Mark If Bind Service
+
+    // Mark If Bind Service
     private static boolean IS_BIND = false;
+
+    // Destroy Service Thread
     private static Thread DESTROY_THREAD = null;
 
-    //Destroy Service After 5 seconds run
+    // Destroy Service After 5 seconds run
     private static void destroyService() {
         if (DESTROY_THREAD == null) {
             DESTROY_THREAD = new Thread() {
@@ -93,7 +97,7 @@ public final class Command {
         }
     }
 
-    //Cancel Destroy Service
+    // Cancel Destroy Service
     private static void cancelDestroyService() {
         if (DESTROY_THREAD != null) {
             DESTROY_THREAD.interrupt();
@@ -102,7 +106,7 @@ public final class Command {
     }
 
     /**
-     * start bind Service
+     * Start bind Service
      */
     private static void bindService() {
         synchronized (Command.class) {
@@ -111,7 +115,7 @@ public final class Command {
                 if (context == null) {
                     throw new NullPointerException("Application is not null.Please Genius.initialize(Application)");
                 } else {
-                    //init service
+                    // Init service
                     context.bindService(new Intent(context, CommandService.class), I_CONN, Context.BIND_AUTO_CREATE);
                     IS_BIND = true;
                 }
@@ -120,13 +124,13 @@ public final class Command {
     }
 
     /**
-     * run do Command
+     * Run do Command
      *
      * @param command Command
      * @return Result
      */
     private static String commandRun(Command command) {
-        //wait
+        // Wait bind
         if (I_COMMAND == null) {
             synchronized (I_LOCK) {
                 if (I_COMMAND == null) {
@@ -138,21 +142,23 @@ public final class Command {
                 }
             }
         }
-        //Cancel Destroy Service
+
+        // Cancel Destroy Service
         cancelDestroyService();
-        //Get result
+
+        // Get result
         int count = 5;
         Exception error = null;
         while (count > 0) {
             if (command.isCancel) {
-                if (command.listener != null)
-                    command.listener.onCancel();
+                if (command.mListener != null)
+                    command.mListener.onCancel();
                 break;
             }
             try {
-                command.result = I_COMMAND.command(command.id, command.timeout, command.parameter);
-                if (command.listener != null)
-                    command.listener.onCompleted(command.result);
+                command.mResult = I_COMMAND.command(command.mId, command.mTimeout, command.mParameters);
+                if (command.mListener != null)
+                    command.mListener.onCompleted(command.mResult);
                 break;
             } catch (Exception e) {
                 error = e;
@@ -160,19 +166,22 @@ public final class Command {
                 Tools.sleepIgnoreInterrupt(3000);
             }
         }
-        //Check is Error
-        if (count <= 0 && command.listener != null) {
-            command.listener.onError(error);
+
+        // Check is Error
+        if (count <= 0 && command.mListener != null) {
+            command.mListener.onError(error);
         }
-        //Check is end
+
+        // Check is end and call destroy service
         try {
             if (I_COMMAND.getTaskCount() <= 0)
                 destroyService();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        //Return
-        return command.result;
+
+        // Return
+        return command.mResult;
     }
 
     /**
@@ -188,10 +197,11 @@ public final class Command {
      * @return Results
      */
     public static String command(Command command) {
-        //check Service
+        // Check Service
         if (!IS_BIND)
             bindService();
-        //Return
+
+        // Return
         return commandRun(command);
     }
 
@@ -201,21 +211,23 @@ public final class Command {
      * @param command Command
      */
     public static void command(final Command command, CommandListener listener) {
-        command.listener = listener;
-        //check Service
+        command.mListener = listener;
+        // Check Service
         if (!IS_BIND)
             bindService();
-        //check executor
+
+        // Check and init executor
         if (EXECUTORSERVICE == null) {
             synchronized (Command.class) {
                 if (EXECUTORSERVICE == null) {
-                    //init threads
+                    // Init threads executor
                     int size = Runtime.getRuntime().availableProcessors();
                     EXECUTORSERVICE = Executors.newFixedThreadPool(size > 0 ? size : 1);
                 }
             }
         }
-        //add executorService thread run
+
+        // Add executorService thread in executor run
         try {
             EXECUTORSERVICE.execute(new Runnable() {
                 @Override
@@ -230,13 +242,13 @@ public final class Command {
     }
 
     /**
-     * cancel Test
+     * Cancel Test
      */
     public static void cancel(Command command) {
         command.isCancel = true;
         if (I_COMMAND != null)
             try {
-                I_COMMAND.cancel(command.id);
+                I_COMMAND.cancel(command.mId);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -251,7 +263,7 @@ public final class Command {
     }
 
     /**
-     * dispose unbindService stopService
+     * Dispose unbindService stopService
      */
     public static void dispose() {
         synchronized (Command.class) {
@@ -283,12 +295,13 @@ public final class Command {
      * Class
      * *********************************************************************************************
      */
-    private String id = null;
-    private String parameter = null;
+    private int mTimeout = TIMEOUT;
+    private String mId = null;
+    private String mParameters = null;
+    private String mResult = null;
+    private CommandListener mListener = null;
     private boolean isCancel = false;
-    private CommandListener listener = null;
-    private String result = null;
-    private int timeout = TIMEOUT;
+
 
     /**
      * Get a Command
@@ -306,25 +319,26 @@ public final class Command {
      * @param params  params eg: "/system/bin/ping", "-c", "4", "-s", "100","www.qiujuer.net"
      */
     public Command(int timeout, String... params) {
-        //check params
+        // Check params
         if (params == null)
             throw new NullPointerException("params is not null.");
-        //run
+
+        // Run
         StringBuilder sb = new StringBuilder();
         for (String str : params) {
             sb.append(str);
             sb.append(" ");
         }
-        this.parameter = sb.toString();
-        this.id = UUID.randomUUID().toString();
-        this.timeout = timeout;
+        this.mParameters = sb.toString();
+        this.mId = UUID.randomUUID().toString();
+        this.mTimeout = timeout;
     }
 
     /**
      * Delete the callback CommandListener
      */
     public void removeListener() {
-        listener = null;
+        mListener = null;
     }
 
     /**
