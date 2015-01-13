@@ -62,6 +62,7 @@ public class CaseActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mText = null;
         // 销毁
         Genius.dispose();
     }

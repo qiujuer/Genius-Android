@@ -44,10 +44,10 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 public class TouchEffectAnimator {
     private static final Interpolator DECELERATE_INTERPOLATOR = new DecelerateInterpolator(2.8f);
     private static final Interpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
-    private static final int EASE_ANIM_DURATION = 200;
-    private static final int RIPPLE_ANIM_DURATION = 300;
-    // 255*0.8
-    private static final int MAX_BACK_ALPHA = 200;
+    private static final int EASE_ANIM_DURATION = 180;
+    private static final int RIPPLE_ANIM_DURATION = 250;
+    // 255*0.70
+    private static final int MAX_BACK_ALPHA = 180;
     private static final int MAX_RIPPLE_ALPHA = 255;
 
     private View mView;
@@ -67,6 +67,8 @@ public class TouchEffectAnimator {
     private Paint mPaint = new Paint(ANTI_ALIAS_FLAG);
     private RectF mRectRectR = new RectF();
     private Path mRectPath = new Path();
+    private int mEndBackAlpha = MAX_BACK_ALPHA;
+    private int mEndRippleAlpha = MAX_RIPPLE_ALPHA;
     private int mBackAlpha = 0;
     private int mRippleAlpha = 0;
 
@@ -118,6 +120,12 @@ public class TouchEffectAnimator {
 
     public void setEffectColor(int effectColor) {
         mPaint.setColor(effectColor);
+
+        int alpha = (effectColor >> 24) & 0xff;
+        if (alpha != 255) {
+            mEndBackAlpha = (int) (MAX_BACK_ALPHA * (alpha / 255.0f));
+            mEndRippleAlpha = (int) (MAX_RIPPLE_ALPHA * (alpha / 255.0f));
+        }
     }
 
     public void setClipRadius(int mClipRadius) {
@@ -177,7 +185,7 @@ public class TouchEffectAnimator {
                     mEndRadius *= 0.78;
                     break;
                 case Press:
-                    mStartRadius = mEndRadius * 0.5f;
+                    mStartRadius = mEndRadius * 0.6f;
                     mEndRadius *= 0.9;
                     mPaintX = mCenterX;
                     mPaintY = mCenterY;
@@ -214,21 +222,21 @@ public class TouchEffectAnimator {
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 switch (mTouchEffect) {
                     case Ease:
-                        mBackAlpha = (int) (interpolatedTime * MAX_BACK_ALPHA);
+                        mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
                         break;
                     case Ripple:
-                        mBackAlpha = (int) (interpolatedTime * MAX_BACK_ALPHA);
+                        mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
                         mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
                         break;
                     case Move:
-                        mBackAlpha = (int) (interpolatedTime * MAX_BACK_ALPHA);
+                        mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
                         mRadius = mEndRadius * interpolatedTime;
                         mPaintX = mDownX + (mCenterX - mDownX) * interpolatedTime;
                         mPaintY = mDownY + (mCenterY - mDownY) * interpolatedTime;
                         break;
                     case Press:
                         mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
-                        mRippleAlpha = (int) (interpolatedTime * MAX_RIPPLE_ALPHA);
+                        mRippleAlpha = (int) (interpolatedTime * mEndRippleAlpha);
                         break;
                 }
                 mView.invalidate();
@@ -251,9 +259,9 @@ public class TouchEffectAnimator {
         Animation animation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                mBackAlpha = (int) (MAX_BACK_ALPHA - (MAX_BACK_ALPHA * interpolatedTime));
+                mBackAlpha = (int) (mEndBackAlpha - (mEndBackAlpha * interpolatedTime));
                 if (mTouchEffect == TouchEffect.Press) {
-                    mRippleAlpha = (int) (MAX_RIPPLE_ALPHA - (MAX_RIPPLE_ALPHA * interpolatedTime));
+                    mRippleAlpha = (int) (mEndRippleAlpha - (mEndRippleAlpha * interpolatedTime));
                     mRadius = mEndRadius + (mStartRadius - mEndRadius) * interpolatedTime;
                 } else {
                     mRadius = 0;
