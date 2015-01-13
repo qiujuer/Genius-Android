@@ -16,6 +16,8 @@ import net.qiujuer.genius.util.HashUtils;
 import net.qiujuer.genius.util.Log;
 import net.qiujuer.genius.util.Tools;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -290,9 +292,15 @@ public class CaseActivity extends ActionBarActivity {
                 ping.start();
                 Log.i(TAG, "Ping：" + ping.toString());
                 //目标，可指定解析服务器
-                DnsResolve dns = new DnsResolve("www.baidu.com");
-                dns.start();
-                Log.i(TAG, "DnsResolve：" + dns.toString());
+                DnsResolve dns = null;
+                try {
+                    // 添加深圳电信DNS服务器地址进行解析
+                    dns = new DnsResolve("www.baidu.com", InetAddress.getByName("202.96.128.166"));
+                    dns.start();
+                    Log.i(TAG, "DnsResolve：" + dns.toString());
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
                 //目标，端口
                 Telnet telnet = new Telnet("www.baidu.com", 80);
                 telnet.start();

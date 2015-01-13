@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 09/20/2014
+ * Changed 01/13/2014
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,41 +34,45 @@ import java.util.List;
  */
 public class DnsResolve extends NetModel {
     private static final byte[] ID = new byte[]{(byte) 2, (byte) 6};
-    private static final String POINT = ".";
-    private String host;
-    private InetAddress server;
-    private List<String> addresses;
-    private long delay;
+    private static final int TIME_OUT = 8000;
+    private String mHostName;
+    private InetAddress mServer;
+    private List<String> mIPs;
+    private long mDelay;
 
     /**
      * Domain name resolution test
      *
-     * @param host Domain name address
+     * @param hostName Domain name address
      */
-    public DnsResolve(String host) {
-        this(host, null);
+    public DnsResolve(String hostName) {
+        this(hostName, null);
     }
 
     /**
      * Domain name resolution test
      *
-     * @param host   Domain name address
-     * @param server Specify the domain name server
+     * @param hostName Domain name address
+     * @param server   Specify the domain name server
      */
-    public DnsResolve(String host, InetAddress server) {
-        this.host = host;
-        this.server = server;
+    public DnsResolve(String hostName, InetAddress server) {
+        this.mHostName = hostName;
+        this.mServer = server;
     }
 
+    /**
+     * This resolve domain to ips
+     *
+     * @param domain    Domain Name
+     * @param dnsServer DNS Server
+     * @return IPs
+     */
     private ArrayList<String> resolve(String domain, InetAddress dnsServer) {
-        //pointer
-        int pos;
-        /**
-         * init
-         */
+        // Pointer
+        int pos = 12;
+        // Init buffer
         byte[] sendBuffer = new byte[100];
-        pos = 12;
-        // message head
+        // Message head
         sendBuffer[0] = ID[0];
         sendBuffer[1] = ID[1];
         sendBuffer[2] = 0x01;
@@ -81,7 +85,8 @@ public class DnsResolve extends NetModel {
         sendBuffer[9] = 0x00;
         sendBuffer[10] = 0x00;
         sendBuffer[11] = 0x00;
-        // add domain
+
+        // Add domain
         String[] part = domain.split("\\.");
         for (String s : part) {
             if (s == null || s.length() <= 0)
@@ -94,6 +99,7 @@ public class DnsResolve extends NetModel {
                 sendBuffer[pos++] = (byte) val[i++];
             }
         }
+
         // 0 end
         sendBuffer[pos++] = 0x00;
         sendBuffer[pos++] = 0x00;
@@ -110,23 +116,27 @@ public class DnsResolve extends NetModel {
         byte[] receiveBuffer = null;
         try {
             ds = new DatagramSocket();
-            ds.setSoTimeout(8000);
+            ds.setSoTimeout(TIME_OUT);
+
+            // Send
             DatagramPacket dp = new DatagramPacket(sendBuffer, pos, dnsServer, 53);
             ds.send(dp);
-            dp = new DatagramPacket(new byte[1024], 1024);
+
+            // Receive
+            dp = new DatagramPacket(new byte[512], 512);
             ds.receive(dp);
+
+            // Copy
             int len = dp.getLength();
             receiveBuffer = new byte[len];
-            for (int i = 0; i < len; i++) {
-                receiveBuffer[i] = dp.getData()[i];
-            }
+            System.arraycopy(dp.getData(), 0, receiveBuffer, 0, len);
         } catch (UnknownHostException e) {
-            error = UNKNOWN_HOST_ERROR;
+            mError = UNKNOWN_HOST_ERROR;
         } catch (SocketException e) {
-            error = NETWORK_SOCKET_ERROR;
+            mError = NETWORK_SOCKET_ERROR;
             e.printStackTrace();
         } catch (IOException e) {
-            error = NETWORK_IO_ERROR;
+            mError = NETWORK_IO_ERROR;
             e.printStackTrace();
         } finally {
             if (ds != null)
@@ -134,23 +144,30 @@ public class DnsResolve extends NetModel {
         }
 
         /**
-         * resolve data
+         * Resolve data
          */
-        if (error != SUCCEED || receiveBuffer == null)
+
+        // Check is return
+        if (mError != SUCCEED || receiveBuffer == null)
             return null;
 
-        int queryCount, answerCount;
+        // ID
         if (receiveBuffer[0] != ID[0] || receiveBuffer[1] != ID[1]
                 || (receiveBuffer[2] & 0x80) != 0x80)
             return null;
-        queryCount = (receiveBuffer[4] << 8) | receiveBuffer[5];
+
+        // Count
+        int queryCount = (receiveBuffer[4] << 8) | receiveBuffer[5];
         if (queryCount == 0)
             return null;
-        answerCount = (receiveBuffer[6] << 8) | receiveBuffer[7];
+
+        int answerCount = (receiveBuffer[6] << 8) | receiveBuffer[7];
         if (answerCount == 0)
             return null;
-        // pointer restore
+
+        // Pointer restore
         pos = 12;
+
         // Skip the query part head
         for (int i = 0; i < queryCount; i++) {
             while (receiveBuffer[pos] != 0x00) {
@@ -158,7 +175,8 @@ public class DnsResolve extends NetModel {
             }
             pos += 5;
         }
-        // get ip form data
+
+        // Get ip form data
         ArrayList<String> iPs = new ArrayList<String>();
         for (int i = 0; i < answerCount; i++) {
             if (receiveBuffer[pos] == (byte) 0xC0) {
@@ -173,7 +191,7 @@ public class DnsResolve extends NetModel {
             pos += 8;
             int dataLength = (receiveBuffer[pos] << 8 | receiveBuffer[pos + 1]);
             pos += 2;
-            // add ip
+            // Add ip
             if (queryType == (byte) 0x01) {
                 int address[] = new int[4];
                 for (int n = 0; n < 4; n++) {
@@ -181,7 +199,7 @@ public class DnsResolve extends NetModel {
                     if (address[n] < 0)
                         address[n] += 256;
                 }
-                iPs.add(address[0] + POINT + address[1] + POINT + address[2] + POINT + address[3]);
+                iPs.add(String.format("%d.%d.%d.%d", address[0], address[1], address[2], address[3]));
             }
             pos += dataLength;
         }
@@ -191,27 +209,29 @@ public class DnsResolve extends NetModel {
     @Override
     public void start() {
         long sTime = System.currentTimeMillis();
-        if (server == null) {
+        if (mServer == null) {
             try {
-                InetAddress[] adds = InetAddress.getAllByName(host);
-                addresses = new ArrayList<String>(adds.length);
-                for (InetAddress add : adds)
-                    addresses.add(add.getHostAddress());
+                InetAddress[] adds = InetAddress.getAllByName(mHostName);
+                if (adds != null && adds.length > 0) {
+                    mIPs = new ArrayList<>(adds.length);
+                    for (InetAddress add : adds)
+                        mIPs.add(add.getHostAddress());
+                }
             } catch (UnknownHostException e) {
-                error = UNKNOWN_HOST_ERROR;
+                mError = UNKNOWN_HOST_ERROR;
             } catch (Exception e) {
-                error = UNKNOWN_ERROR;
+                mError = UNKNOWN_ERROR;
             }
         } else {
             try {
-                addresses = resolve(host, server);
+                mIPs = resolve(mHostName, mServer);
             } catch (Exception e) {
-                if (error == SUCCEED)
-                    error = UNKNOWN_ERROR;
+                if (mError == SUCCEED)
+                    mError = UNKNOWN_ERROR;
                 e.printStackTrace();
             }
         }
-        delay = System.currentTimeMillis() - sTime;
+        mDelay = System.currentTimeMillis() - sTime;
     }
 
     @Override
@@ -220,16 +240,16 @@ public class DnsResolve extends NetModel {
     }
 
     public List<String> getAddresses() {
-        return addresses;
+        return mIPs;
     }
 
     public long getDelay() {
-        return delay;
+        return mDelay;
     }
 
     @Override
     public String toString() {
-        return "Delay:" + delay +
-                " IPs:" + (addresses == null ? "[]" : addresses.toString());
+        return "Delay:" + mDelay +
+                " IPs:" + (mIPs == null ? "[]" : mIPs.toString());
     }
 }

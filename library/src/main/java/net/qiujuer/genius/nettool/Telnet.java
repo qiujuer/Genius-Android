@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 09/21/2014
+ * Changed 01/13/2014
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,40 +26,41 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 /**
- * @author QiuJu
+ * Created by QiuJu
+ * on 2014/9/21.
  */
 public class Telnet extends NetModel {
-    protected static final int TimeOutSize = 3000;
-    private String host;
-    private int port;
-    private long delay;
+    private static final int TIME_OUT = 3000;
+    private String mHost;
+    private int mPort;
+    private long mDelay;
     private boolean isConnected;
 
     public Telnet(String host, int port) {
-        this.host = host;
-        this.port = port;
+        this.mHost = host;
+        this.mPort = port;
     }
 
     @Override
     public void start() {
         Socket socket = null;
         try {
-            Long bTime = System.currentTimeMillis();
+            Long startTime = System.currentTimeMillis();
             socket = new Socket();
             try {
-                socket.setSoTimeout(TimeOutSize);
+                socket.setSoTimeout(TIME_OUT);
             } catch (SocketException e) {
                 e.printStackTrace();
             }
-            socket.connect(new InetSocketAddress(host, port), TimeOutSize);
+            socket.connect(new InetSocketAddress(mHost, mPort), TIME_OUT);
             if (isConnected = socket.isConnected())
-                delay = System.currentTimeMillis() - bTime;
+                mDelay = System.currentTimeMillis() - startTime;
             else
-                error = TCP_LINK_ERROR;
+                mError = TCP_LINK_ERROR;
         } catch (UnknownHostException e) {
-            error = UNKNOWN_HOST_ERROR;
+            mError = UNKNOWN_HOST_ERROR;
         } catch (IOException e) {
-            error = TCP_LINK_ERROR;
+            mError = TCP_LINK_ERROR;
         } finally {
             if (socket != null)
                 try {
@@ -80,13 +81,13 @@ public class Telnet extends NetModel {
     }
 
     public long getDelay() {
-        return delay;
+        return mDelay;
     }
 
     @Override
     public String toString() {
-        return "Port:" + port +
-                " Delay:" + delay +
+        return "Port:" + mPort +
+                " Delay:" + mDelay +
                 " Connected:" + isConnected;
     }
 }

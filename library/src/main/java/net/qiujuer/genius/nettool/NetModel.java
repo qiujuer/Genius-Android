@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 09/20/2014
+ * Changed 01/13/2014
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +18,6 @@
  * limitations under the License.
  */
 package net.qiujuer.genius.nettool;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by QiuJu
@@ -61,14 +58,14 @@ public abstract class NetModel {
     protected static final String PING_EQUAL = "=";
     protected static final String PING_SLASH = "/";
 
-    protected int error = SUCCEED;
+    protected int mError = SUCCEED;
 
     public abstract void start();
 
     public abstract void cancel();
 
     public int getError() {
-        return error;
+        return mError;
     }
 
     protected static byte[] convertIpToByte(String ip) {
@@ -82,16 +79,5 @@ public abstract class NetModel {
             e.printStackTrace();
         }
         return bIp;
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    protected static void closeInputStream(InputStream in) {
-        if (in != null) {
-            try {
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

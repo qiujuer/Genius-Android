@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 09/21/2014
+ * Changed 01/13/2014
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,26 +26,25 @@ import net.qiujuer.genius.command.Command;
  * on 2014/9/21.
  */
 public class Ping extends NetModel {
-    private boolean analysisIp;
-    private int count, size;
-    private String target;
+    private String mTarget;
+    private String mIp = null;
+    private float mLossRate = 1f;
+    private float mDelay = 0;
+    private float mTotalTime = 0;
 
-    private String ip = null;
-    private float lossRate = 1f;
-    private float delay = 0;
-    private float totalTime = 0;
-    private transient Command command;
-
+    private transient boolean isAnalysisIp;
+    private transient int mCount, mSize;
+    private transient Command mCommand;
 
     /**
      * To specify the IP or domain name to Ping test and return the IP, packet loss,
      * delay parameter to specify the IP or domain name such as Ping test and return the IP,
      * packet loss, delay and other parameters
      *
-     * @param aim The target
+     * @param target The target
      */
-    public Ping(String aim) {
-        this(4, 32, aim, true);
+    public Ping(String target) {
+        this(4, 32, target, true);
     }
 
     /**
@@ -66,16 +65,16 @@ public class Ping extends NetModel {
      * delay parameter to specify the IP or domain name such as Ping test and return the IP,
      * packet loss, delay and other parameters
      *
-     * @param count      Packets
-     * @param size       Packet size
-     * @param target     The target
-     * @param analysisIp Whether parsing IP
+     * @param count        Packets
+     * @param size         Packet size
+     * @param target       The target
+     * @param isAnalysisIp Whether parsing IP
      */
-    public Ping(int count, int size, String target, boolean analysisIp) {
-        this.analysisIp = analysisIp;
-        this.count = count;
-        this.size = size;
-        this.target = target;
+    public Ping(int count, int size, String target, boolean isAnalysisIp) {
+        this.isAnalysisIp = isAnalysisIp;
+        this.mCount = count;
+        this.mSize = size;
+        this.mTarget = target;
     }
 
     /**
@@ -85,21 +84,23 @@ public class Ping extends NetModel {
      */
     private String launchPing() {
         long startTime = System.currentTimeMillis();
-        command = new Command("/system/bin/ping",
-                "-c", String.valueOf(count),
-                "-s", String.valueOf(size),
-                target);
+        mCommand = new Command("/system/bin/ping",
+                "-c", String.valueOf(mCount),
+                "-s", String.valueOf(mSize),
+                mTarget);
         try {
-            String res = Command.command(command);
-            command = null;
-            totalTime = (System.currentTimeMillis() - startTime);
+            String res = Command.command(mCommand);
+            mTotalTime = (System.currentTimeMillis() - startTime);
             return res;
         } catch (Exception e) {
+            cancel();
             return null;
+        } finally {
+            mCommand = null;
         }
     }
 
-    private String parseIpFromPing(String ping) {
+    private String parseIp(String ping) {
         String ip = null;
         try {
             if (ping.contains(NetModel.PING)) {
@@ -113,7 +114,7 @@ public class Ping extends NetModel {
         return ip;
     }
 
-    private float parseLossFromPing(String ping) {
+    private float parseLoss(String ping) {
         float transmit = 0f, error = 0f, receive = 0f, lossRate = 0f;
         try {
             if (ping.contains(NetModel.PING_STATISTICS)) {
@@ -132,16 +133,16 @@ public class Ping extends NetModel {
                 }
             }
             if (transmit != 0)
-                return error / transmit;
+                lossRate = error / transmit;
             else if (lossRate == 0)
-                return error / (error + receive);
+                lossRate = error / (error + receive);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return lossRate;
     }
 
-    private float parseDelayFromPing(String ping) {
+    private float parseDelay(String ping) {
         float delay = 0;
         try {
             if (ping.contains(NetModel.PING_RTT)) {
@@ -168,48 +169,48 @@ public class Ping extends NetModel {
         if (res != null && res.length() > 0) {
             res = res.toLowerCase();
             if (res.contains(NetModel.PING_UNREACHABLE) && !res.contains(NetModel.PING_EXCEED)) {
-                // failed
-                lossRate = 1f;
-                error = HOST_UNREACHABLE_ERROR;
+                // Failed
+                mLossRate = 1f;
+                mError = HOST_UNREACHABLE_ERROR;
             } else {
-                // succeed
-                lossRate = parseLossFromPing(res);
-                delay = parseDelayFromPing(res);
-                if (analysisIp)
-                    ip = parseIpFromPing(res);
+                // Succeed
+                mLossRate = parseLoss(res);
+                mDelay = parseDelay(res);
+                if (isAnalysisIp)
+                    mIp = parseIp(res);
             }
         } else {
-            error = DROP_DATA_ERROR;
+            mError = DROP_DATA_ERROR;
         }
     }
 
     @Override
     public void cancel() {
-        if (command != null)
-            Command.cancel(command);
+        if (mCommand != null)
+            Command.cancel(mCommand);
     }
 
     public String getIp() {
-        return ip;
+        return mIp;
     }
 
     public float getLossRate() {
-        return lossRate;
+        return mLossRate;
     }
 
     public float getDelay() {
-        return delay;
+        return mDelay;
     }
 
     public float getTotalTime() {
-        return totalTime;
+        return mTotalTime;
     }
 
     @Override
     public String toString() {
-        return "IP:" + ip +
-                " LossRate:" + lossRate +
-                " Delay:" + delay +
-                " TotalTime:" + totalTime;
+        return "IP:" + mIp +
+                " LossRate:" + mLossRate +
+                " Delay:" + mDelay +
+                " TotalTime:" + mTotalTime;
     }
 }
