@@ -14,7 +14,15 @@
 ## Screenshots
 
 ##### GeniusUI
-![GeniusUI](art/genius_ui.gif)
+
+###### CheckBox
+![GeniusUI](art/ui_checkbox.gif)
+
+###### Button
+![GeniusUI](art/ui_button.gif)
+
+###### All
+![GeniusUI](art/ui_all.gif)
 
 ##### BlurKit
 ![BlurKit](art/blur_kit.png)
