@@ -36,11 +36,10 @@ import net.qiujuer.genius.R;
  * on 2014/12/30.
  */
 public class GeniusTextView extends TextView implements Attributes.AttributeChangeListener {
-    private Attributes attributes;
-
-    private int textColor = 2;
-    private int backgroundColor = Attributes.INVALID;
-    private int customBackgroundColor = Attributes.INVALID;
+    private int mTextColor = 2;
+    private int mBackgroundColor = Attributes.INVALID;
+    private int mCustomBackgroundColor = Attributes.INVALID;
+    private Attributes mAttributes;
 
     public GeniusTextView(Context context) {
         super(context);
@@ -60,62 +59,62 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
     @SuppressWarnings("deprecation")
     private void init(AttributeSet attrs) {
 
-        if (attributes == null)
-            attributes = new Attributes(this, getResources());
+        if (mAttributes == null)
+            mAttributes = new Attributes(this, getResources());
 
         if (attrs != null) {
 
             // Set if has own attrs
-            attributes.initHasOwnAttrs(getContext(), attrs);
+            mAttributes.initHasOwnAttrs(getContext(), attrs);
 
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.GeniusTextView);
 
-            // getting common attributes
+            // Getting common attributes
             int customTheme = a.getResourceId(R.styleable.GeniusTextView_g_theme, Attributes.DEFAULT_THEME);
-            attributes.setThemeSilent(customTheme, getResources());
+            mAttributes.setThemeSilent(customTheme, getResources());
 
-            attributes.setFontFamily(a.getString(R.styleable.GeniusTextView_g_fontFamily));
-            attributes.setFontWeight(a.getString(R.styleable.GeniusTextView_g_fontWeight));
-            attributes.setFontExtension(a.getString(R.styleable.GeniusTextView_g_fontExtension));
+            mAttributes.setFontFamily(a.getString(R.styleable.GeniusTextView_g_fontFamily));
+            mAttributes.setFontWeight(a.getString(R.styleable.GeniusTextView_g_fontWeight));
+            mAttributes.setFontExtension(a.getString(R.styleable.GeniusTextView_g_fontExtension));
 
-            attributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_cornerRadius, Attributes.DEFAULT_RADIUS));
-            attributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, Attributes.DEFAULT_BORDER_WIDTH));
+            mAttributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_cornerRadius, Attributes.DEFAULT_RADIUS));
+            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, Attributes.DEFAULT_BORDER_WIDTH));
 
-            // getting view specific attributes
-            textColor = a.getInt(R.styleable.GeniusTextView_g_textColor, textColor);
-            backgroundColor = a.getInt(R.styleable.GeniusTextView_g_backgroundColor, backgroundColor);
-            customBackgroundColor = a.getInt(R.styleable.GeniusTextView_g_customBackgroundColor, customBackgroundColor);
+            // Getting view specific attributes
+            mTextColor = a.getInt(R.styleable.GeniusTextView_g_textColor, mTextColor);
+            mBackgroundColor = a.getInt(R.styleable.GeniusTextView_g_backgroundColor, mBackgroundColor);
+            mCustomBackgroundColor = a.getInt(R.styleable.GeniusTextView_g_customBackgroundColor, mCustomBackgroundColor);
 
             a.recycle();
         }
 
-        if (!attributes.isHasOwnBackground()) {
+        if (!mAttributes.isHasOwnBackground()) {
             GradientDrawable gradientDrawable = new GradientDrawable();
-            if (backgroundColor != Attributes.INVALID) {
-                gradientDrawable.setColor(attributes.getColor(backgroundColor));
-            } else if (customBackgroundColor != Attributes.INVALID) {
-                gradientDrawable.setColor(customBackgroundColor);
+            if (mBackgroundColor != Attributes.INVALID) {
+                gradientDrawable.setColor(mAttributes.getColor(mBackgroundColor));
+            } else if (mCustomBackgroundColor != Attributes.INVALID) {
+                gradientDrawable.setColor(mCustomBackgroundColor);
             } else {
                 gradientDrawable.setColor(Color.TRANSPARENT);
             }
-            gradientDrawable.setCornerRadius(attributes.getRadius());
-            gradientDrawable.setStroke(attributes.getBorderWidth(), attributes.getColor(textColor));
+            gradientDrawable.setCornerRadius(mAttributes.getRadius());
+            gradientDrawable.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(mTextColor));
             setBackgroundDrawable(gradientDrawable);
         }
 
-        // setting the text color only if there is no android:textColor attribute used
-        if (!attributes.isHasOwnTextColor()) setTextColor(attributes.getColor(textColor));
+        // Setting the text color only if there is no android:textColor attribute used
+        if (!mAttributes.isHasOwnTextColor()) setTextColor(mAttributes.getColor(mTextColor));
 
-        // check for IDE preview render
+        // Check for IDE preview render
         if (!this.isInEditMode()) {
-            Typeface typeface = GeniusUI.getFont(getContext(), attributes);
+            Typeface typeface = GeniusUI.getFont(getContext(), mAttributes);
             if (typeface != null) setTypeface(typeface);
         }
     }
 
     @Override
     public Attributes getAttributes() {
-        return attributes;
+        return mAttributes;
     }
 
     @Override

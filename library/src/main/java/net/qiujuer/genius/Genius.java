@@ -44,6 +44,6 @@ public final class Genius {
         Command.dispose();
         Log.dispose();
         UIKit.dispose();
-        application = null;
+        Genius.application = null;
     }
 }

@@ -231,7 +231,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
                 android:layout_weight="1"
-                android:text="Default"
+                android:text="Move"
                 genius:g_textAppearance="light"
                 genius:g_theme="@array/Dark"
                 genius:g_touchEffect="move" />
@@ -277,10 +277,10 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
                 android:layout_weight="1"
-                android:text="None"
+                android:text="Press"
                 genius:g_textAppearance="light"
                 genius:g_theme="@array/ScubaBlue"
-                genius:g_touchEffect="none" />
+                genius:g_touchEffect="press" />
         </LinearLayout>
 
 
@@ -296,11 +296,10 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
                 android:layout_weight="1"
-                android:background="#0000"
                 android:text="Color"
                 genius:g_textAppearance="none"
                 genius:g_touchEffect="press"
-                genius:g_touchEffectColor="#ffff68ff" />
+                genius:g_touchEffectColor="#ff4181ff" />
 
             <net.qiujuer.genius.widget.GeniusButton
                 android:layout_width="0dp"

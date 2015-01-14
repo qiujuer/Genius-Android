@@ -74,7 +74,7 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
     private int mCircleRadius = AUTO_CIRCLE_RADIUS;
     private int mRingWidth = RING_WIDTH;
 
-    private Attributes attributes;
+    private Attributes mAttributes;
 
     public GeniusCheckBox(Context context) {
         super(context);
@@ -93,8 +93,8 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
 
     private void init(AttributeSet attrs, int defStyle) {
         // Load attributes
-        if (attributes == null)
-            attributes = new Attributes(this, getResources());
+        if (mAttributes == null)
+            mAttributes = new Attributes(this, getResources());
 
         boolean enable = isEnabled();
         boolean check = isChecked();
@@ -106,7 +106,7 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
 
             // getting common attributes
             int customTheme = a.getResourceId(R.styleable.GeniusCheckBox_g_theme, Attributes.DEFAULT_THEME);
-            attributes.setThemeSilent(customTheme, getResources());
+            mAttributes.setThemeSilent(customTheme, getResources());
 
             // getting custom attributes
             mRingWidth = a.getDimensionPixelSize(R.styleable.GeniusCheckBox_g_ringWidth, mRingWidth);
@@ -187,14 +187,14 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
     }
 
     private void initColor() {
-        if (attributes == null)
+        if (mAttributes == null)
             return;
         if (isEnabled()) {
-            mUnCheckedPaintColor = attributes.getColor(4);
-            mCheckedPaintColor = attributes.getColor(2);
+            mUnCheckedPaintColor = mAttributes.getColor(4);
+            mCheckedPaintColor = mAttributes.getColor(2);
         } else {
-            mUnCheckedPaintColor = attributes.getColor(5);
-            mCheckedPaintColor = attributes.getColor(3);
+            mUnCheckedPaintColor = mAttributes.getColor(5);
+            mCheckedPaintColor = mAttributes.getColor(3);
         }
         setCircleColor(isChecked() ? mCheckedPaintColor : mUnCheckedPaintColor);
     }
@@ -308,7 +308,7 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
 
     @Override
     public Attributes getAttributes() {
-        return attributes;
+        return mAttributes;
     }
 
     public void setRingWidth(int width) {
