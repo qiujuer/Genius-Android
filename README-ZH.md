@@ -22,7 +22,7 @@
 ![GeniusUI](art/ui_button.gif)
 
 ###### All
-![GeniusUI](art/ui_all.gif)
+![GeniusUI](art/ui_all.png)
 
 ##### BlurKit
 ![BlurKit](art/blur_kit.png)
