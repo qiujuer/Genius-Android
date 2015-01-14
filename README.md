@@ -1,4 +1,4 @@
-﻿## Version 2.0.0 Guide
+﻿## Version 2.1.0 Guide
 
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md) [`Sample`](/release/sample.apk)
 
@@ -68,7 +68,7 @@
 ```gradle
 // Adding to your project "build.gradle" file
 dependencies {
-  compile 'com.github.qiujuer:genius:2.0.0'
+  compile 'com.github.qiujuer:genius:2.1.0'
 }
 
 ```
@@ -76,8 +76,8 @@ dependencies {
 
 ## Update Log 
 
-* Version: `2.0.0`
-* Date: `2015-01-07`
+* Version: `2.1.0`
+* Date: `2015-01-14`
 * Log: [`Notes`](docs/NOTES.md)
 
 
@@ -119,17 +119,19 @@ Genius.dispose();
 // `g_fontFamily`: Specify a font of two kinds of fonts
 // `g_fontWeight`: The specified font weight
 // `g_fontExtension`: The font extension
-// `g_cornerRadius`: Arc radius
+// `g_cornerRadius`: Arc radius, default: ` 0`
 // `g_borderWidth`: Border width
-// `g_theme`: Specify the subject style, 12 kinds of arbitrary choice
+// `g_theme`: Specify the subject style, 17 kinds of arbitrary choice
 
 // ==================GeniusButton==================
 <net.qiujuer.genius.widget.GeniusButton
     ...
     genius:g_touchEffect="move"
+    genius:g_touchEffectColor="#ff4181ff"
     genius:g_blockButtonEffectHeight="10dp" />
 
-// `g_touchEffect`: Move, Ease, Ripple, None
+// `g_touchEffect`: press, move, ease, ripple, none
+// `g_touchEffectColor`: TouchEffectColor,Invalid when `g_touchEffect` is 'None'
 // `g_blockButtonEffectHeight`: The button shadow height
 
 // ==================GeniusCheckBox==================
@@ -192,7 +194,7 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 
 ```java
 // TouchEffectAnimator Allowed to add click on special effects to your control
-// Types: Move, Ease, Ripple, None
+// Types: Press, Move, Ease, Ripple, None
 public class GeniusButton extends Button {
     private TouchEffectAnimator touchEffectAnimator = null;
     // Initialize
@@ -201,7 +203,7 @@ public class GeniusButton extends Button {
         // Set model
         touchEffectAnimator.setTouchEffect(touchEffect);
         // Set Color
-        touchEffectAnimator.setEffectColor("this color");
+        touchEffectAnimator.setEffectColor("color");
         // Set this clip radius
         touchEffectAnimator.setClipRadius(20);
     }
@@ -316,9 +318,9 @@ List<Integer> list1 = new FixedList<Integer>(2);
 // String with the file can be calculated Md5 value
 
 // Get the MD5
-String hash = HashUtils.getStringMd5(String str);
+String hash = HashUtils.getMD5String(String str);
 // Access to the file MD5
-String hash = HashUtils.getFileMd5(File file);
+String hash = HashUtils.getMD5String(File file);
 
 
 // ======================Log======================

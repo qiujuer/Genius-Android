@@ -1,4 +1,4 @@
-﻿## Version 2.0.0 Guide
+﻿## Version 2.1.0 Guide
 
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md) [`Sample`](/release/sample.apk)
 
@@ -67,7 +67,7 @@
 ```gradle
 // 在项目 "build.gradle" 中添加
 dependencies {
-  compile 'com.github.qiujuer:genius:2.0.0'
+  compile 'com.github.qiujuer:genius:2.1.0'
 }
 
 ```
@@ -75,8 +75,8 @@ dependencies {
 
 ## 更新日志
 
-* 版本：`2.0.0`
-* 日期：`2015-01-07`
+* 版本：`2.1.0`
+* 日期：`2015-01-14`
 * 日志：[`更新日志`](docs/NOTES.md)
 
 
@@ -118,17 +118,19 @@ Genius.dispose();
 // `g_fontFamily`: 指定两种字体中的一种字体
 // `g_fontWeight`: 指定字体粗细
 // `g_fontExtension`: 字体扩展名
-// `g_cornerRadius`: 控件边缘圆角半径
+// `g_cornerRadius`: 控件边缘圆角半径,默认为 `0`
 // `g_borderWidth`: 描边宽度
-// `g_theme`: 指定主题样式，12种任意选
+// `g_theme`: 指定主题样式，17种任意选
 
 // ==================GeniusButton==================
 <net.qiujuer.genius.widget.GeniusButton
     ...
     genius:g_touchEffect="move"
+    genius:g_touchEffectColor="#ff4181ff"
     genius:g_blockButtonEffectHeight="10dp" />
 
-// `g_touchEffect`: Move, Ease, Ripple, None
+// `g_touchEffect`: press, move, ease, ripple, none
+// `g_touchEffectColor`: 扩散效果颜色, `g_touchEffect`为"None"则无效
 // `g_blockButtonEffectHeight`: 底部阴影高度
 
 // ==================GeniusCheckBox==================
@@ -191,7 +193,7 @@ BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 
 ```java
 // TouchEffectAnimator 允许给你的控件添加点击特效
-// 特效类型：Move, Ease, Ripple, None
+// 特效类型：Press, Move, Ease, Ripple, None
 public class GeniusButton extends Button {
     private TouchEffectAnimator touchEffectAnimator = null;
     // 在你的控件中初始化动画效果类
@@ -200,7 +202,7 @@ public class GeniusButton extends Button {
         // 动画模式
         touchEffectAnimator.setTouchEffect(touchEffect);
         // 动画颜色
-        touchEffectAnimator.setEffectColor("this color");
+        touchEffectAnimator.setEffectColor("color");
         // 边缘圆弧半径
         touchEffectAnimator.setClipRadius(20);
     }
@@ -315,9 +317,9 @@ List<Integer> list = new FixedList<Integer>(2);
 // 可计算字符串与文件Md5值
 
 // 获取字符串MD5
-String hash = HashUtils.getStringMd5(String str);
+String hash = HashUtils.getMD5String(String str);
 // 获取文件MD5
-String hash = HashUtils.getFileMd5(File file);
+String hash = HashUtils.getMD5String(File file);
 
 
 // ======================Log======================
@@ -386,7 +388,7 @@ Tools.getSerialNumber();
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- getDeviceId 权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    
+
 ```
 
 
