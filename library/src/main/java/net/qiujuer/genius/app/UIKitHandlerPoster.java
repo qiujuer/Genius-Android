@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 01/07/2015
+ * Created 11/24/2014
+ * Changed 01/14/2015
  * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,32 +34,32 @@ import java.util.Queue;
  * on 2014/11/24.
  */
 final class UIKitHandlerPoster extends Handler {
-    private final int ASYNC = 0x1;
-    private final int SYNC = 0x2;
-    private final Queue<Runnable> asyncPool;
-    private final Queue<UIKitSyncPost> syncPool;
-    private final int maxMillisInsideHandleMessage;
-    private boolean asyncActive;
-    private boolean syncActive;
+    private static final int ASYNC = 0x1;
+    private static final int SYNC = 0x2;
+    private final Queue<Runnable> mAsyncPool;
+    private final Queue<UIKitSyncPost> mSyncPool;
+    private final int mMaxMillisInsideHandleMessage;
+    private boolean isAsyncActive;
+    private boolean isSyncActive;
 
     UIKitHandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
         super(looper);
-        this.maxMillisInsideHandleMessage = maxMillisInsideHandleMessage;
-        asyncPool = new LinkedList<>();
-        syncPool = new LinkedList<>();
+        this.mMaxMillisInsideHandleMessage = maxMillisInsideHandleMessage;
+        mAsyncPool = new LinkedList<>();
+        mSyncPool = new LinkedList<>();
     }
 
     void dispose() {
         this.removeCallbacksAndMessages(null);
-        this.asyncPool.clear();
-        this.syncPool.clear();
+        this.mAsyncPool.clear();
+        this.mSyncPool.clear();
     }
 
     void async(Runnable runnable) {
-        synchronized (asyncPool) {
-            asyncPool.offer(runnable);
-            if (!asyncActive) {
-                asyncActive = true;
+        synchronized (mAsyncPool) {
+            mAsyncPool.offer(runnable);
+            if (!isAsyncActive) {
+                isAsyncActive = true;
                 if (!sendMessage(obtainMessage(ASYNC))) {
                     throw new GeniusException("Could not send handler message");
                 }
@@ -68,10 +68,10 @@ final class UIKitHandlerPoster extends Handler {
     }
 
     void sync(UIKitSyncPost post) {
-        synchronized (syncPool) {
-            syncPool.offer(post);
-            if (!syncActive) {
-                syncActive = true;
+        synchronized (mSyncPool) {
+            mSyncPool.offer(post);
+            if (!isSyncActive) {
+                isSyncActive = true;
                 if (!sendMessage(obtainMessage(SYNC))) {
                     throw new GeniusException("Could not send handler message");
                 }
@@ -86,20 +86,20 @@ final class UIKitHandlerPoster extends Handler {
             try {
                 long started = SystemClock.uptimeMillis();
                 while (true) {
-                    Runnable runnable = asyncPool.poll();
+                    Runnable runnable = mAsyncPool.poll();
                     if (runnable == null) {
-                        synchronized (asyncPool) {
+                        synchronized (mAsyncPool) {
                             // Check again, this time in synchronized
-                            runnable = asyncPool.poll();
+                            runnable = mAsyncPool.poll();
                             if (runnable == null) {
-                                asyncActive = false;
+                                isAsyncActive = false;
                                 return;
                             }
                         }
                     }
                     runnable.run();
                     long timeInMethod = SystemClock.uptimeMillis() - started;
-                    if (timeInMethod >= maxMillisInsideHandleMessage) {
+                    if (timeInMethod >= mMaxMillisInsideHandleMessage) {
                         if (!sendMessage(obtainMessage(ASYNC))) {
                             throw new GeniusException("Could not send handler message");
                         }
@@ -108,27 +108,27 @@ final class UIKitHandlerPoster extends Handler {
                     }
                 }
             } finally {
-                asyncActive = rescheduled;
+                isAsyncActive = rescheduled;
             }
         } else if (msg.what == SYNC) {
             boolean rescheduled = false;
             try {
                 long started = SystemClock.uptimeMillis();
                 while (true) {
-                    UIKitSyncPost post = syncPool.poll();
+                    UIKitSyncPost post = mSyncPool.poll();
                     if (post == null) {
-                        synchronized (syncPool) {
+                        synchronized (mSyncPool) {
                             // Check again, this time in synchronized
-                            post = syncPool.poll();
+                            post = mSyncPool.poll();
                             if (post == null) {
-                                syncActive = false;
+                                isSyncActive = false;
                                 return;
                             }
                         }
                     }
                     post.run();
                     long timeInMethod = SystemClock.uptimeMillis() - started;
-                    if (timeInMethod >= maxMillisInsideHandleMessage) {
+                    if (timeInMethod >= mMaxMillisInsideHandleMessage) {
                         if (!sendMessage(obtainMessage(SYNC))) {
                             throw new GeniusException("Could not send handler message");
                         }
@@ -137,7 +137,7 @@ final class UIKitHandlerPoster extends Handler {
                     }
                 }
             } finally {
-                syncActive = rescheduled;
+                isSyncActive = rescheduled;
             }
         } else super.handleMessage(msg);
     }

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 08/13/2014
+ * Changed 01/14/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +52,7 @@ public final class Tools {
      *
      * @param source Source File
      * @param target Target File
-     * @return isCopy ok
+     * @return Return copy isOk
      */
     public static boolean copyFile(File source, File target) {
         boolean bFlag = false;
@@ -60,8 +60,8 @@ public final class Tools {
         FileOutputStream out = null;
         try {
             if (!target.exists()) {
-                boolean createSuccess = target.createNewFile();
-                if (!createSuccess) {
+                if (!target.createNewFile()) {
+                    // Create Error
                     return false;
                 }
             }
@@ -81,6 +81,10 @@ public final class Tools {
                 if (in != null) {
                     in.close();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
                 if (out != null) {
                     out.close();
                 }

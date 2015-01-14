@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 09/22/2014
+ * Changed 01/14/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,9 +36,9 @@ public class HashUtils {
 
     private static String convertToHexString(byte[] b) {
         StringBuilder sb = new StringBuilder(b.length * 2);
-        for (byte aB : b) {
-            sb.append(HEX_DIGITS[(aB & 0xf0) >>> 4]);
-            sb.append(HEX_DIGITS[aB & 0x0f]);
+        for (byte a : b) {
+            sb.append(HEX_DIGITS[(a & 0xf0) >>> 4]);
+            sb.append(HEX_DIGITS[a & 0x0f]);
         }
         return sb.toString();
     }
@@ -49,7 +49,7 @@ public class HashUtils {
      * @param str String
      * @return HashCode
      */
-    public static String getStringMd5(String str) {
+    public static String getMD5String(String str) {
         MessageDigest md5;
         try {
             md5 = MessageDigest.getInstance("MD5");
@@ -57,8 +57,7 @@ public class HashUtils {
             return null;
         }
         md5.update(str.getBytes());
-        byte[] m = md5.digest();
-        return convertToHexString(m);
+        return convertToHexString(md5.digest());
     }
 
     /**
@@ -67,16 +66,19 @@ public class HashUtils {
      * @param file File
      * @return HashCode
      */
-    public static String getFileMd5(File file) {
-        InputStream in = null;
-        byte[] buffer = new byte[1024];
-        int numRead;
+    public static String getMD5String(File file) {
+        // Create md5
         MessageDigest md5;
         try {
             md5 = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             return null;
         }
+        // Stream
+        InputStream in = null;
+        byte[] buffer = new byte[1024];
+        int numRead;
+        // Read
         try {
             in = new FileInputStream(file);
             while ((numRead = in.read(buffer)) > 0) {
@@ -86,12 +88,13 @@ public class HashUtils {
         } catch (Exception e) {
             return null;
         } finally {
-            if (in != null)
+            if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
         }
     }
 }

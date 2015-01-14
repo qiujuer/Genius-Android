@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 01/07/2015
+ * Created 11/24/2014
+ * Changed 01/14/2015
  * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,19 +24,20 @@ package net.qiujuer.genius.app;
  * on 2014/11/24.
  */
 final class UIKitSyncPost {
-    boolean end = false;
-    Runnable runnable;
+    private Runnable mRunnable;
+    private boolean isEnd = false;
+
 
     UIKitSyncPost(Runnable runnable) {
-        this.runnable = runnable;
+        this.mRunnable = runnable;
     }
 
     public void run() {
-        if (!end) {
+        if (!isEnd) {
             synchronized (this) {
-                if (!end) {
-                    runnable.run();
-                    end = true;
+                if (!isEnd) {
+                    mRunnable.run();
+                    isEnd = true;
                     try {
                         this.notifyAll();
                     } catch (Exception e) {
@@ -48,9 +49,9 @@ final class UIKitSyncPost {
     }
 
     public void waitRun() {
-        if (!end) {
+        if (!isEnd) {
             synchronized (this) {
-                if (!end) {
+                if (!isEnd) {
                     try {
                         this.wait();
                     } catch (InterruptedException e) {
@@ -62,16 +63,16 @@ final class UIKitSyncPost {
     }
 
     public void waitRun(int time, boolean cancel) {
-        if (!end) {
+        if (!isEnd) {
             synchronized (this) {
-                if (!end) {
+                if (!isEnd) {
                     try {
                         this.wait(time);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } finally {
-                        if (!end && cancel)
-                            end = true;
+                        if (!isEnd && cancel)
+                            isEnd = true;
                     }
                 }
             }

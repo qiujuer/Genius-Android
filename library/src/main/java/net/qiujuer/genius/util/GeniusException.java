@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 11/24/2014
+ * Changed 01/14/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ package net.qiujuer.genius.util;
  */
 public class GeniusException extends RuntimeException {
 
-    private static final long serialVersionUID = -2912559384646531479L;
+    private static final long serialVersionUID = -1L;
 
     public GeniusException(String detailMessage) {
         super(detailMessage);

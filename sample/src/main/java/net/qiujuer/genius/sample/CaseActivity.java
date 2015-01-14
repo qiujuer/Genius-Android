@@ -159,7 +159,7 @@ public class CaseActivity extends ActionBarActivity {
      * 测试MD5
      */
     private void testHashUtils() {
-        Log.i(TAG, "HashUtils：QIUJUER的MD5值为：" + HashUtils.getStringMd5("QIUJUER"));
+        Log.i(TAG, "HashUtils：QIUJUER的MD5值为：" + HashUtils.getMD5String("QIUJUER"));
         //文件MD5不做演示，传入file类即可
     }
 

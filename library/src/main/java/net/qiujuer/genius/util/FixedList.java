@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 10/03/2014
+ * Changed 01/14/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +41,7 @@ import java.util.NoSuchElementException;
  * Queue operations can be performed, such as: add elements, elements of poll
  */
 public class FixedList<E> extends java.util.AbstractSequentialList<E> implements java.util.List<E>, java.util.Deque<E>, java.util.Queue<E>, Cloneable, java.io.Serializable {
-    private static final long serialVersionUID = 876323262645176354L;
+    private static final long serialVersionUID = 1L;
 
     transient int maxSize = Integer.MAX_VALUE;
     transient int size = 0;
@@ -101,6 +101,11 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
                 expectedModCount++;
                 list.size++;
                 list.modCount++;
+                // Remove
+                if (++list.size > list.maxSize) {
+                    list.removeFirstImpl();
+                    expectedModCount++;
+                }
             } else {
                 throw new ConcurrentModificationException();
             }

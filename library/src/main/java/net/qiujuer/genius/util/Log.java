@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
- * Changed 12/25/2014
+ * Created 09/16/2014
+ * Changed 01/14/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -198,6 +198,8 @@ public final class Log {
             callbackListeners.clear();
         else
             callbackListeners.remove(listener);
+
+        // destroy
         if (callbackListeners.size() <= 0 && callBackManager != null) {
             CallBackManager manager = callBackManager;
             callBackManager = null;

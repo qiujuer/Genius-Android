@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/25/2014
+ * Created 11/24/2014
  * Changed 01/07/2015
  * Version 2.0.0
  *
