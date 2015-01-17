@@ -326,6 +326,41 @@
                 genius:g_theme="@array/StrawberryIce" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+
+            <net.qiujuer.genius.widget.GeniusButton
+                android:id="@+id/button_skip_isDelay"
+                android:layout_width="0dp"
+                android:layout_height="68dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:text="Is Delay"
+                genius:g_delayClick="true"
+                genius:g_textAppearance="light"
+                genius:g_theme="@array/ScubaBlue"
+                genius:g_touchEffect="move" />
+
+
+            <net.qiujuer.genius.widget.GeniusButton
+                android:id="@+id/button_skip_disDelay"
+                android:layout_width="0dp"
+                android:layout_height="68dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:text="Not Delay"
+                genius:g_delayClick="false"
+                genius:g_textAppearance="light"
+                genius:g_theme="@array/ScubaBlue"
+                genius:g_touchEffect="move" />
+        </LinearLayout>
 
         <!-- CheckBox -->
         <net.qiujuer.genius.widget.GeniusTextView

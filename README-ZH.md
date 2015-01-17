@@ -33,12 +33,13 @@
 
 ## 功能模块
 
-* `animation`
-  > *  `TouchEffectAnimator` 支持快速响应点击特效
-
 * `app`
   > *  `UIKit` 支持子线程`同步`、`异步`切换到主线程操作
   > *  `BlurKit` 支持`Java`、`Jni`使用`StackBlur`算法模糊图片
+
+* `animation`
+  > *  `TouchEffectAnimator` 支持快速响应点击特效
+  > *  `TouchEffectEnum` Press, Move, Ripple, Ease, None
 
 * `widget`
   > *  字体 `opensans` `roboto`
@@ -416,6 +417,7 @@ Tools.getSerialNumber();
 * 项目：[`提交Bug或想法`](https://github.com/qiujuer/Genius-Android/issues)
 * 邮件：[`qiujuer@live.cn`](mailto:qiujuer@live.cn)
 * QQ： `756069544`
+* QQ群：[`387403637`](http://shang.qq.com/wpa/qunwpa?idkey=3f1ed8e41ed84b07775ca593032c5d956fbd8c3320ce94817bace00549d58a8f)
 * Weibo： [`@qiujuer`](http://weibo.com/qiujuer)
 * 网站：[`www.qiujuer.net`](http://www.qiujuer.net)
 

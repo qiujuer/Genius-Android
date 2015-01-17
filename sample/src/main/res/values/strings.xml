@@ -6,5 +6,6 @@
     <string name="action_case">Case Test</string>
     <string name="title_activity_case">CaseActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_two">TwoActivity</string>
 
 </resources>

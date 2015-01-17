@@ -45,9 +45,10 @@ import net.qiujuer.genius.animation.TouchEffectAnimator;
  * on 2014/9/3.
  */
 public class GeniusButton extends Button implements Attributes.AttributeChangeListener {
-    private int mBottom;
+    private int mBottom = 0;
+    private boolean mDelayClick = true;
 
-    private Attributes mAttributes;
+    private Attributes mAttributes = null;
     private TouchEffectAnimator mTouchEffectAnimator = null;
 
     public GeniusButton(Context context) {
@@ -95,9 +96,10 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
             mAttributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusButton_g_cornerRadius, Attributes.DEFAULT_RADIUS));
 
             // Getting view specific attributes
+            mBottom = a.getDimensionPixelSize(R.styleable.GeniusButton_g_blockButtonEffectHeight, mBottom);
             setTouchEffect(a.getInt(R.styleable.GeniusButton_g_touchEffect, 3));
             setTouchEffectColor(a.getColor(R.styleable.GeniusButton_g_touchEffectColor, -1));
-            mBottom = a.getDimensionPixelSize(R.styleable.GeniusButton_g_blockButtonEffectHeight, mBottom);
+            setDelayClick(a.getBoolean(R.styleable.GeniusButton_g_delayClick, mDelayClick));
 
             a.recycle();
         }
@@ -208,6 +210,22 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
     public void setTouchEffectColor(int touchEffectColor) {
         if (mTouchEffectAnimator != null && touchEffectColor != -1)
             mTouchEffectAnimator.setEffectColor(touchEffectColor);
+    }
+
+    public void setDelayClick(boolean isDelay) {
+        mDelayClick = isDelay;
+    }
+
+    public boolean isDelayClick() {
+        return mDelayClick;
+    }
+
+    @Override
+    public boolean performClick() {
+        boolean bFlag = mDelayClick
+                && mTouchEffectAnimator != null
+                && mTouchEffectAnimator.interceptClick();
+        return !bFlag && super.performClick();
     }
 
     @Override

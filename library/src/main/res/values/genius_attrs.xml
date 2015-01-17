@@ -31,6 +31,7 @@
         </attr>
         <attr name="g_touchEffectColor" format="color" />
         <attr name="g_blockButtonEffectHeight" format="dimension" />
+        <attr name="g_delayClick" format="boolean" />
     </declare-styleable>
 
     <!-- GeniusCheckBox -->

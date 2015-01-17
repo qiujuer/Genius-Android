@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.qiujuer.genius.sample">
+    package="net.qiujuer.genius.sample" >
 
     <!-- 网络 权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,10 +14,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +26,11 @@
         </activity>
         <activity
             android:name=".CaseActivity"
-            android:label="@string/title_activity_case"></activity>
+            android:label="@string/title_activity_case" />
+        <activity
+            android:name=".TwoActivity"
+            android:label="@string/title_activity_two" >
+        </activity>
     </application>
 
 </manifest>

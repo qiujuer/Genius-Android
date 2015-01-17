@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ import net.qiujuer.genius.app.BlurKit;
 import net.qiujuer.genius.widget.GeniusCheckBox;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     private static final int SCALE_FACTOR = 6;
     private boolean mCompress;
     private TextView mTime;
@@ -29,6 +30,10 @@ public class MainActivity extends ActionBarActivity {
 
         initCheckBox();
         initBlur();
+
+        // Init GeniusButton and Test delayClick
+        findViewById(R.id.button_skip_isDelay).setOnClickListener(this);
+        findViewById(R.id.button_skip_disDelay).setOnClickListener(this);
     }
 
     @Override
@@ -182,5 +187,11 @@ public class MainActivity extends ActionBarActivity {
                 view.setImageBitmap(overlay);
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, TwoActivity.class);
+        startActivity(intent);
     }
 }

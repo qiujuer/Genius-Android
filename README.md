@@ -39,7 +39,7 @@
 
 * `animation`
   > *  `TouchEffectAnimator` Can add click to control effects
-  > *  `TouchEffectEnum` Move, Ripple, Ease, None
+  > *  `TouchEffectEnum` Press, Move, Ripple, Ease, None
 
 * `widget`
   > *  Fonts `opensans` `roboto`
@@ -418,6 +418,7 @@ You in use if you have any question, please timely feedback to me, you can use t
 * Project: [`Submit Bug or Idea`](https://github.com/qiujuer/Genius-Android/issues)
 * Email: [`qiujuer@live.cn`](mailto:qiujuer@live.cn)
 * QQ: `756069544`
+* QQ Group: [`387403637`](http://shang.qq.com/wpa/qunwpa?idkey=3f1ed8e41ed84b07775ca593032c5d956fbd8c3320ce94817bace00549d58a8f)
 * WeiBo: [`@qiujuer`](http://weibo.com/qiujuer)
 * WebSit:[`www.qiujuer.net`](http://www.qiujuer.net)
 
