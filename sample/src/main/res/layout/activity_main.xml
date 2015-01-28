@@ -297,6 +297,8 @@
                 android:layout_margin="4dp"
                 android:layout_weight="1"
                 android:text="Color"
+                genius:g_cornerRadii_A="10dp"
+                genius:g_cornerRadii_D="10dp"
                 genius:g_textAppearance="none"
                 genius:g_touchEffect="press"
                 genius:g_touchEffectColor="#ff4181ff" />
@@ -309,6 +311,8 @@
                 android:layout_margin="4dp"
                 android:layout_weight="1"
                 android:text="Corner "
+                genius:g_cornerRadii_B="20dp"
+                genius:g_cornerRadii_D="20dp"
                 genius:g_cornerRadius="10dp"
                 genius:g_textAppearance="light"
                 genius:g_theme="@array/StrawberryIce" />
@@ -322,6 +326,8 @@
                 android:layout_weight="1"
                 android:text="Block"
                 genius:g_blockButtonEffectHeight="4dp"
+                genius:g_cornerRadii_B="10dp"
+                genius:g_cornerRadii_C="10dp"
                 genius:g_textAppearance="light"
                 genius:g_theme="@array/StrawberryIce" />
         </LinearLayout>
@@ -362,7 +368,55 @@
                 genius:g_touchEffect="move" />
         </LinearLayout>
 
-        <!-- CheckBox -->
+
+        <!-- EditText -->
+        <net.qiujuer.genius.widget.GeniusTextView
+            android:id="@+id/title_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="EditText"
+            android:textSize="20sp"
+            genius:g_textColor="main" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <net.qiujuer.genius.widget.GeniusEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:hint="HintText" />
+
+            <net.qiujuer.genius.widget.GeniusEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:hint="HintText"
+                android:text="Have Text" />
+
+            <net.qiujuer.genius.widget.GeniusEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:hint="HintText"
+                genius:g_titleTextColor="#ff1fedff" />
+
+            <net.qiujuer.genius.widget.GeniusEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:hint="HintText"
+                android:text="Have Text"
+                genius:g_showTitle="false" />
+        </LinearLayout>
+
+        <!-- BlurKit -->
         <net.qiujuer.genius.widget.GeniusTextView
             android:id="@+id/title_blur"
             android:layout_width="match_parent"

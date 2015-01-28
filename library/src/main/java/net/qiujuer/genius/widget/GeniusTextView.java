@@ -2,8 +2,9 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/30/2014
- * Changed 01/14/2015
+ * Changed 01/27/2015
  * Version 2.0.0
+ * GeniusEditText
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +33,7 @@ import net.qiujuer.genius.GeniusUI;
 import net.qiujuer.genius.R;
 
 /**
- * Created by Qiujuer
- * on 2014/12/30.
+ * GeniusTextView this is quickly set up color and theme
  */
 public class GeniusTextView extends TextView implements Attributes.AttributeChangeListener {
     private int mTextColor = 2;
@@ -76,9 +76,12 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
             mAttributes.setFontFamily(a.getString(R.styleable.GeniusTextView_g_fontFamily));
             mAttributes.setFontWeight(a.getString(R.styleable.GeniusTextView_g_fontWeight));
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusTextView_g_fontExtension));
-
-            mAttributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_cornerRadius, Attributes.DEFAULT_RADIUS));
             mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, Attributes.DEFAULT_BORDER_WIDTH));
+
+            // Set init Corners Radius
+            mAttributes.initCornerRadius(a, R.styleable.GeniusTextView_g_cornerRadius,
+                    R.styleable.GeniusTextView_g_cornerRadii_A, R.styleable.GeniusTextView_g_cornerRadii_B,
+                    R.styleable.GeniusTextView_g_cornerRadii_C, R.styleable.GeniusTextView_g_cornerRadii_D);
 
             // Getting view specific attributes
             mTextColor = a.getInt(R.styleable.GeniusTextView_g_textColor, mTextColor);
@@ -97,7 +100,7 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
             } else {
                 gradientDrawable.setColor(Color.TRANSPARENT);
             }
-            gradientDrawable.setCornerRadius(mAttributes.getRadius());
+            gradientDrawable.setCornerRadii(mAttributes.getOuterRadii());
             gradientDrawable.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(mTextColor));
             setBackgroundDrawable(gradientDrawable);
         }

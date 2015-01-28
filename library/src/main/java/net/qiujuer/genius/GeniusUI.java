@@ -140,4 +140,15 @@ public class GeniusUI {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
     }
 
+    /**
+     * Change SP to PX
+     *
+     * @param context Context
+     * @param sp      SP
+     * @return PX
+     */
+    public static float spToPx(Context context, float sp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
+    }
 }

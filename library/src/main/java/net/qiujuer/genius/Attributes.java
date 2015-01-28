@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/03/2014
- * Changed 01/14/2015
+ * Changed 01/27/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -63,7 +63,8 @@ public class Attributes {
     /**
      * Size related fields
      */
-    private int radius = DEFAULT_RADIUS;
+    private float radius = DEFAULT_RADIUS;
+    private float[] radiusArray = null;
     private int borderWidth = DEFAULT_BORDER_WIDTH;
 
     /**
@@ -71,6 +72,7 @@ public class Attributes {
      */
     private boolean hasOwnTextColor;
     private boolean hasOwnBackground;
+    private boolean hasOwnHintColor;
 
     /**
      * Attribute change listener. Used to redraw the view when attributes are changed.
@@ -108,6 +110,27 @@ public class Attributes {
         // getting android default tags for background
         String backgroundAttribute = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "background");
         hasOwnBackground = backgroundAttribute != null;
+
+
+        // getting android default tags for textColorHint
+        hasOwnHintColor = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "textColorHint") != null;
+    }
+
+    public void initCornerRadius(TypedArray a, int indexRadius, int indexRadiiA, int indexRadiiB, int indexRadiiC, int indexRadiiD) {
+        // Set Radius
+        setRadius(a.getDimension(indexRadius, Attributes.DEFAULT_RADIUS));
+
+        // Set Radii[] array
+        float rA, rB, rC, rD, r = getRadius();
+        rA = a.getDimension(indexRadiiA, r);
+        rB = a.getDimension(indexRadiiB, r);
+        rC = a.getDimension(indexRadiiC, r);
+        rD = a.getDimension(indexRadiiD, r);
+
+        if (rA == r && rB == r && rC == r && rD == r)
+            return;
+
+        setRadii(new float[]{rA, rA, rB, rB, rC, rC, rD, rD});
     }
 
     public int getTheme() {
@@ -165,15 +188,28 @@ public class Attributes {
             this.fontExtension = fontExtension;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(float radius) {
+        if (radius < 0) {
+            radius = 0;
+        }
         this.radius = radius;
+        this.radiusArray = null;
     }
 
-    public int getRadius() {
+    public void setRadii(float[] radii) {
+        radiusArray = radii;
+        if (radii == null) {
+            radius = 0;
+        }
+    }
+
+    public float getRadius() {
         return radius;
     }
 
-    public float[] getOuterRadius() {
+    public float[] getOuterRadii() {
+        if (radiusArray != null)
+            return radiusArray;
         return new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
     }
 
@@ -199,6 +235,10 @@ public class Attributes {
 
     public boolean isHasOwnTextColor() {
         return hasOwnTextColor;
+    }
+
+    public boolean isHasOwnHintColor() {
+        return hasOwnHintColor;
     }
 
     public interface AttributeChangeListener {

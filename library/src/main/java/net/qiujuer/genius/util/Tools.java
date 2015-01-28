@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/13/2014
- * Changed 01/14/2015
+ * Changed 01/26/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -127,5 +127,19 @@ public final class Tools {
             }
         }
         return serialNumber;
+    }
+
+    /**
+     * Get a new color ,the color's alpha is new set
+     *
+     * @param color Color
+     * @param alpha New alpha
+     * @return New alpha color
+     */
+    public static int getNewAlphaColor(int color, int alpha) {
+        int r = (color >> 16) & 0xff;
+        int g = (color >> 8) & 0xff;
+        int b = color & 0xff;
+        return alpha << 24 | r << 16 | g << 8 | b;
     }
 }

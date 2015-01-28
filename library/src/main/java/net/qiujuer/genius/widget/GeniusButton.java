@@ -2,8 +2,9 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/03/2014
- * Changed 01/14/2015
+ * Changed 01/27/2015
  * Version 2.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,8 +42,7 @@ import net.qiujuer.genius.animation.TouchEffect;
 import net.qiujuer.genius.animation.TouchEffectAnimator;
 
 /**
- * Created by Qiujuer
- * on 2014/9/3.
+ * GeniusButton this have touch effect animator
  */
 public class GeniusButton extends Button implements Attributes.AttributeChangeListener {
     private int mBottom = 0;
@@ -91,9 +91,12 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
             mAttributes.setFontFamily(a.getString(R.styleable.GeniusButton_g_fontFamily));
             mAttributes.setFontWeight(a.getString(R.styleable.GeniusButton_g_fontWeight));
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusButton_g_fontExtension));
-
             mAttributes.setTextAppearance(a.getInt(R.styleable.GeniusButton_g_textAppearance, Attributes.DEFAULT_TEXT_APPEARANCE));
-            mAttributes.setRadius(a.getDimensionPixelSize(R.styleable.GeniusButton_g_cornerRadius, Attributes.DEFAULT_RADIUS));
+
+            // Set init Corners Radius
+            mAttributes.initCornerRadius(a, R.styleable.GeniusButton_g_cornerRadius,
+                    R.styleable.GeniusButton_g_cornerRadii_A, R.styleable.GeniusButton_g_cornerRadii_B,
+                    R.styleable.GeniusButton_g_cornerRadii_C, R.styleable.GeniusButton_g_cornerRadii_D);
 
             // Getting view specific attributes
             mBottom = a.getDimensionPixelSize(R.styleable.GeniusButton_g_blockButtonEffectHeight, mBottom);
@@ -107,10 +110,10 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
         if (!mAttributes.isHasOwnBackground()) {
 
             // Creating normal state drawable
-            ShapeDrawable normalFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadius(), null, null));
+            ShapeDrawable normalFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
             normalFront.getPaint().setColor(mAttributes.getColor(2));
 
-            ShapeDrawable normalBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadius(), null, null));
+            ShapeDrawable normalBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
             normalBack.getPaint().setColor(mAttributes.getColor(1));
 
             normalBack.setPadding(0, 0, 0, mBottom);
@@ -119,10 +122,10 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
             LayerDrawable normal = new LayerDrawable(d);
 
             // Creating pressed state drawable
-            ShapeDrawable pressedFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadius(), null, null));
+            ShapeDrawable pressedFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
             pressedFront.getPaint().setColor(mAttributes.getColor(1));
 
-            ShapeDrawable pressedBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadius(), null, null));
+            ShapeDrawable pressedBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
             pressedBack.getPaint().setColor(mAttributes.getColor(0));
             if (mBottom != 0) pressedBack.setPadding(0, 0, 0, mBottom / 2);
 
@@ -130,11 +133,11 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
             LayerDrawable pressed = new LayerDrawable(d2);
 
             // Creating disabled state drawable
-            ShapeDrawable disabledFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadius(), null, null));
+            ShapeDrawable disabledFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
             disabledFront.getPaint().setColor(mAttributes.getColor(3));
             disabledFront.getPaint().setAlpha(0xA0);
 
-            ShapeDrawable disabledBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadius(), null, null));
+            ShapeDrawable disabledBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
             disabledBack.getPaint().setColor(mAttributes.getColor(2));
 
             Drawable[] d3 = {disabledBack, disabledFront};
@@ -202,7 +205,7 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
                 mTouchEffectAnimator = new TouchEffectAnimator(this);
                 mTouchEffectAnimator.setTouchEffect(touchEffect);
                 mTouchEffectAnimator.setEffectColor(mAttributes.getColor(1));
-                mTouchEffectAnimator.setClipRadius(mAttributes.getRadius());
+                mTouchEffectAnimator.setClipRadii(mAttributes.getOuterRadii());
             }
         }
     }
@@ -222,18 +225,10 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
 
     @Override
     public boolean performClick() {
-        boolean bFlag = mDelayClick
-                && mTouchEffectAnimator != null
-                && mTouchEffectAnimator.interceptClick();
-        return !bFlag && super.performClick();
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        if (mTouchEffectAnimator != null)
-            mTouchEffectAnimator.onMeasure();
+        if (mDelayClick && mTouchEffectAnimator != null) {
+            return !mTouchEffectAnimator.interceptClick() && super.performClick();
+        } else
+            return super.performClick();
     }
 
     @Override

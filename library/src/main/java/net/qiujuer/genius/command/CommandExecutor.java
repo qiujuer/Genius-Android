@@ -91,15 +91,17 @@ class CommandExecutor {
 
         mResult = new StringBuilder();
 
-        // Start read thread
-        Thread processThread = new Thread(TAG) {
-            @Override
-            public void run() {
-                startRead();
-            }
-        };
-        processThread.setDaemon(true);
-        processThread.start();
+        if (mInStream != null) {
+            // Start read thread
+            Thread processThread = new Thread(TAG) {
+                @Override
+                public void run() {
+                    startRead();
+                }
+            };
+            processThread.setDaemon(true);
+            processThread.start();
+        }
     }
 
     /**

@@ -4,6 +4,7 @@
  * Created 01/06/2015
  * Changed 01/13/2015
  * Version 2.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +21,7 @@
 package net.qiujuer.genius.animation;
 
 /**
- * Created by Qiujuer
- * on 2015/1/6.
+ * This is TouchEffectAnimator class's touch enum
  */
 public enum TouchEffect {
     None,

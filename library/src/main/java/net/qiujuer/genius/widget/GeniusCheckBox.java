@@ -2,8 +2,9 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/29/2014
- * Changed 01/14/2015
+ * Changed 01/27/2015
  * Version 2.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +43,8 @@ import net.qiujuer.genius.R;
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 /**
- * Created by Qiujuer
- * on 2014/12/29.
+ * This is CheckBox widget
+ * The widget extend view widget
  */
 public class GeniusCheckBox extends View implements Checkable, Attributes.AttributeChangeListener {
     private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
@@ -154,15 +155,23 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
     }
 
     private void initSize() {
-        int paddingLeft = getPaddingLeft();
-        int paddingTop = getPaddingTop();
-        int paddingRight = getPaddingRight();
-        int paddingBottom = getPaddingBottom();
+        int w = getWidth();
+        int h = getHeight();
 
-        int contentWidth = getWidth() - paddingLeft - paddingRight;
-        int contentHeight = getHeight() - paddingTop - paddingBottom;
+        if (w == 0)
+            w = getMeasuredWidth();
+        if (h == 0)
+            h = getMeasuredHeight();
 
-        if (contentWidth > 0 && contentHeight > 0) {
+        if (w > 0 && h > 0) {
+            int paddingLeft = getPaddingLeft();
+            int paddingTop = getPaddingTop();
+            int paddingRight = getPaddingRight();
+            int paddingBottom = getPaddingBottom();
+
+            int contentWidth = w - paddingLeft - paddingRight;
+            int contentHeight = h - paddingTop - paddingBottom;
+
             int center = Math.min(contentHeight, contentWidth) / 2;
             int areRadius = center - (mRingWidth + 1) / 2;
             mCenterX = center + paddingLeft;
@@ -217,12 +226,15 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        // Init this Layout size
+        initSize();
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        if (isInEditMode()) {
-            initSize();
-        }
 
         mCirclePaint.setColor(mCircleColor);
         canvas.drawCircle(mCenterX, mCenterY, mCircleRadius, mCirclePaint);

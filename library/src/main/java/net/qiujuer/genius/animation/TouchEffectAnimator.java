@@ -2,8 +2,9 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 01/06/2015
- * Changed 01/13/2015
+ * Changed 01/26/2015
  * Version 2.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,9 +35,6 @@ import android.view.animation.Transformation;
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 /**
- * Created by Qiujuer
- * on 2015/01/06.
- * <p/>
  * This class adds touch effects to the given View. The effect animation is triggered by onTouchEvent
  * of the View and this class is injected into the onDraw function of the View to perform animation.
  * You should in your View onMeasure() call to this class.
@@ -44,15 +42,16 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 public class TouchEffectAnimator {
     private static final Interpolator DECELERATE_INTERPOLATOR = new DecelerateInterpolator(2.8f);
     private static final Interpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
-    private static final int EASE_ANIM_DURATION = 180;
-    private static final int RIPPLE_ANIM_DURATION = 250;
-    // 255*0.70
+    private static final int IN_ANIM_DURATION = 250;
+    private static final int OUT_ANIM_DURATION = 160;
+    // MAX_RIPPLE_ALPHA * 0.70
     private static final int MAX_BACK_ALPHA = 180;
     private static final int MAX_RIPPLE_ALPHA = 255;
 
     private View mView;
-    private int mClipRadius;
-    private int mAnimDuration = RIPPLE_ANIM_DURATION;
+    private float[] mRadii = new float[8];
+    private int mFadeInAnimDuration = IN_ANIM_DURATION;
+    private int mFadeOutAnimDuration = OUT_ANIM_DURATION;
     private TouchEffect mTouchEffect = TouchEffect.Move;
     private Animation mFadeInAnimation = null;
     private Animation mFadeOutAnimation = null;
@@ -76,11 +75,9 @@ public class TouchEffectAnimator {
     private boolean isTouchReleased = false;
     private boolean isAnimatingFadeIn = false;
     private boolean isInterceptClick = false;
-    private boolean isAnimation = false;
 
     // To call view performClick
     private PerformClick mPerformClick;
-
 
     public TouchEffectAnimator(View mView) {
         this.mView = mView;
@@ -88,11 +85,11 @@ public class TouchEffectAnimator {
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        onMeasure();
     }
 
-    public void setAnimDuration(int animDuration) {
-        this.mAnimDuration = animDuration;
+    public void setAnimDurationFactor(float factor) {
+        this.mFadeInAnimDuration = (int) (this.mFadeInAnimDuration * factor);
+        this.mFadeOutAnimDuration = (int) (this.mFadeOutAnimDuration * factor);
     }
 
     public TouchEffect getTouchEffect() {
@@ -101,39 +98,49 @@ public class TouchEffectAnimator {
 
     public void setTouchEffect(TouchEffect touchEffect) {
         mTouchEffect = touchEffect;
-        if (mTouchEffect == TouchEffect.Ease)
-            mAnimDuration = EASE_ANIM_DURATION;
-
-        onMeasure();
+        if (mTouchEffect == TouchEffect.Ease) {
+            mFadeInAnimDuration = OUT_ANIM_DURATION;
+            mFadeOutAnimDuration = OUT_ANIM_DURATION;
+        } else if (mTouchEffect == TouchEffect.Press) {
+            mFadeInAnimDuration = (int) (IN_ANIM_DURATION * 0.6);
+            mFadeOutAnimDuration = (int) (OUT_ANIM_DURATION * 1.3);
+        } else {
+            mFadeInAnimDuration = IN_ANIM_DURATION;
+            mFadeOutAnimDuration = OUT_ANIM_DURATION;
+        }
     }
 
     public void setEffectColor(int effectColor) {
-        mPaint.setColor(effectColor);
-
         int alpha = (effectColor >> 24) & 0xff;
         if (alpha != 255) {
             mEndBackAlpha = (int) (MAX_BACK_ALPHA * (alpha / 255.0f));
             mEndRippleAlpha = (int) (MAX_RIPPLE_ALPHA * (alpha / 255.0f));
+            // Set not alpha color
+            int a = 255;
+            int r = (effectColor >> 16) & 0xff;
+            int g = (effectColor >> 8) & 0xff;
+            int b = effectColor & 0xff;
+            effectColor = a << 24 | r << 16 | g << 8 | b;
         }
+
+        // Set Color
+        mPaint.setColor(effectColor);
     }
 
-    public void setClipRadius(int mClipRadius) {
-        this.mClipRadius = mClipRadius;
+    public void setClipRadius(float radius) {
+        this.mRadii = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
+    }
+
+    public void setClipRadii(float[] radii) {
+        if (radii == null || radii.length < 8) {
+            throw new ArrayIndexOutOfBoundsException("radii[] needs 8 values");
+        }
+        this.mRadii = radii;
     }
 
     public boolean interceptClick() {
-        isInterceptClick = true;
-        return isAnimation;
-    }
-
-    public void onMeasure() {
-        mCenterX = mView.getWidth() / 2;
-        mCenterY = mView.getHeight() / 2;
-
-        mRectRectR.set(0, 0, mView.getWidth(), mView.getHeight());
-
-        mRectPath.reset();
-        mRectPath.addRoundRect(mRectRectR, mClipRadius, mClipRadius, Path.Direction.CW);
+        isInterceptClick = !isInterceptClick;
+        return isInterceptClick;
     }
 
     public void onTouchEvent(final MotionEvent event) {
@@ -153,6 +160,9 @@ public class TouchEffectAnimator {
                 fadeOutEffect();
             }
         } else if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            // Init
+            initTouch();
+
             // Set default operation to fadeOutEffect()
             isTouchReleased = false;
 
@@ -181,8 +191,8 @@ public class TouchEffectAnimator {
                     mEndRadius *= 0.78;
                     break;
                 case Press:
-                    mStartRadius = mEndRadius * 0.6f;
-                    mEndRadius *= 0.9;
+                    mStartRadius = mEndRadius * 0.68f;
+                    mEndRadius *= 0.98;
                     mPaintX = mCenterX;
                     mPaintY = mCenterY;
                     break;
@@ -212,6 +222,23 @@ public class TouchEffectAnimator {
         }
     }
 
+    private void initTouch() {
+        // Initializes the height width
+        int x = mView.getWidth() / 2;
+        int y = mView.getHeight() / 2;
+
+        if (x == mCenterX && y == mCenterY)
+            return;
+
+        mCenterX = x;
+        mCenterY = y;
+
+        mRectRectR.set(0, 0, mView.getWidth(), mView.getHeight());
+
+        mRectPath.reset();
+        mRectPath.addRoundRect(mRectRectR, mRadii, Path.Direction.CW);
+    }
+
     private void fadeInEffect() {
         mFadeInAnimation = new Animation() {
             @Override
@@ -239,7 +266,7 @@ public class TouchEffectAnimator {
             }
         };
         mFadeInAnimation.setInterpolator(DECELERATE_INTERPOLATOR);
-        mFadeInAnimation.setDuration(mAnimDuration);
+        mFadeInAnimation.setDuration(mFadeInAnimDuration);
         mFadeInAnimation.setAnimationListener(mFadeInAnimationListener);
         mView.startAnimation(mFadeInAnimation);
     }
@@ -259,7 +286,7 @@ public class TouchEffectAnimator {
             }
         };
         mFadeOutAnimation.setInterpolator(ACCELERATE_INTERPOLATOR);
-        mFadeOutAnimation.setDuration(EASE_ANIM_DURATION);
+        mFadeOutAnimation.setDuration(mFadeOutAnimDuration);
         mFadeOutAnimation.setAnimationListener(mFadeOutAnimationListener);
         mView.startAnimation(mFadeOutAnimation);
     }
@@ -274,8 +301,6 @@ public class TouchEffectAnimator {
             mFadeOutAnimation.setAnimationListener(null);
             mFadeOutAnimation.cancel();
         }
-
-        isAnimation = false;
     }
 
     private void performClick() {
@@ -291,7 +316,6 @@ public class TouchEffectAnimator {
         @Override
         public void onAnimationStart(Animation animation) {
             isAnimatingFadeIn = true;
-            isAnimation = true;
         }
 
         @Override
@@ -314,10 +338,7 @@ public class TouchEffectAnimator {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            isAnimation = false;
-
             if (isInterceptClick) {
-                isInterceptClick = false;
                 performClick();
             }
         }
