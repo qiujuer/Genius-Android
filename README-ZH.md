@@ -1,4 +1,4 @@
-﻿## Version 2.1.0 Guide
+﻿## Version 2.2.0 Guide
 
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md) [`Sample`](/release/sample.apk)
 
@@ -20,6 +20,9 @@
 
 ###### Button
 ![GeniusUI](art/ui_button.gif)
+
+###### EditText
+![GeniusUI](art/ui_edittext.gif)
 
 ###### All
 ![GeniusUI](art/ui_all.png)
@@ -76,7 +79,7 @@
 ```gradle
 // 在项目 "build.gradle" 中添加
 dependencies {
-  compile 'com.github.qiujuer:genius:2.1.0'
+  compile 'com.github.qiujuer:genius:2.2.0'
 }
 
 ```
@@ -84,8 +87,8 @@ dependencies {
 
 ## 更新日志
 
-* 版本：`2.1.0`
-* 日期：`2015-01-14`
+* 版本：`2.2.0`
+* 日期：`2015-01-30`
 * 日志：[`更新日志`](docs/NOTES.md)
 
 
@@ -119,25 +122,32 @@ Genius.dispose();
     genius:g_fontFamily="opensans"
     genius:g_fontWeight="bold"
     genius:g_fontExtension="ttf"
-    genius:g_cornerRadius="5dp"
     genius:g_borderWidth="5dp"
-    genius:g_theme="@array/StrawberryIce" />
+    genius:g_theme="@array/StrawberryIce"
+    genius:g_cornerRadius="5dp"
+    genius:g_cornerRadii_A="10dp"
+    genius:g_cornerRadii_B="10dp"
+    genius:g_cornerRadii_C="10dp"
+    genius:g_cornerRadii_D="10dp" />
 
 // `g_textAppearance`: 指定字体颜色，默认为 `none`
 // `g_fontFamily`: 指定两种字体中的一种字体
 // `g_fontWeight`: 指定字体粗细
 // `g_fontExtension`: 字体扩展名
-// `g_cornerRadius`: 控件边缘圆角半径,默认为 `0`
 // `g_borderWidth`: 描边宽度
 // `g_theme`: 指定主题样式，17种任意选
+// `g_cornerRadius`: 控件边缘圆角半径,默认为 `0`
+// `g_cornerRadii`: 控件边缘四角(A,B,C,D)半径,默认为 `0`
 
 // ==================GeniusButton==================
 <net.qiujuer.genius.widget.GeniusButton
     ...
+    genius:g_delayClick="true"
     genius:g_touchEffect="move"
     genius:g_touchEffectColor="#ff4181ff"
     genius:g_blockButtonEffectHeight="10dp" />
 
+// `g_delayClick`: 是否延迟响应点击事件，默认为"True"
 // `g_touchEffect`: press, move, ease, ripple, none
 // `g_touchEffectColor`: 扩散效果颜色, `g_touchEffect`为"None"则无效
 // `g_blockButtonEffectHeight`: 底部阴影高度
@@ -165,6 +175,23 @@ Genius.dispose();
 // `g_textColor`: 字体颜色类型
 // `g_backgroundColor`: 背景颜色类型
 // `g_customBackgroundColor`: 背景颜色
+
+// ==================GeniusEditText==================
+<net.qiujuer.genius.widget.GeniusEditText
+    ...
+    genius:g_fieldStyle="fill"
+    genius:g_showTitle="true"
+    genius:g_titleTextColor="#ff1fedff"
+    genius:g_titleTextSize="12sp"
+    genius:g_titlePaddingTop="5dp"
+    genius:g_titlePaddingLeft="5dp" />
+
+// `g_fieldStyle`: 外观样式：`fill` `box` `transparent`
+// `g_showTitle`: 是否显示Hint Title
+// `g_titleTextColor`: Title 字体颜色
+// `g_titleTextSize`: Title 字体大小
+// `g_titlePaddingTop`: Title 顶部间距
+// `g_titlePaddingLeft`: Title 左边间距
 
 ```
 

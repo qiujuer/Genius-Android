@@ -40,14 +40,18 @@ public class CaseActivity extends ActionBarActivity {
         Log.addCallbackListener(new Log.LogCallbackListener() {
             @Override
             public void onLogArrived(final Log data) {
-                //异步显示到界面
-                UIKit.runOnMainThreadAsync(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mText != null)
-                            mText.append("\n" + data.getMsg());
-                    }
-                });
+                try {
+                    //异步显示到界面
+                    UIKit.runOnMainThreadAsync(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mText != null)
+                                mText.append("\n" + data.getMsg());
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

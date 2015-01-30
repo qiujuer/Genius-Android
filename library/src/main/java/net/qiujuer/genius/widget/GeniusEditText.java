@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 01/23/2015
- * Changed 01/27/2015
+ * Changed 01/30/2015
  * Version 2.0.0
  * Author Qiujuer
  *
@@ -99,8 +99,8 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
             int customTheme = a.getResourceId(R.styleable.GeniusEditText_g_theme, Attributes.DEFAULT_THEME);
             mAttributes.setThemeSilent(customTheme, getResources());
 
-            mAttributes.setFontFamily(a.getString(R.styleable.GeniusEditText_g_fontFamily));
-            mAttributes.setFontWeight(a.getString(R.styleable.GeniusEditText_g_fontWeight));
+            mAttributes.setFontFamily(Attributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusEditText_g_fontFamily, 0)]);
+            mAttributes.setFontWeight(Attributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusEditText_g_fontWeight, 3)]);
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusEditText_g_fontExtension));
 
             mAttributes.setTextAppearance(a.getInt(R.styleable.GeniusEditText_g_textAppearance, Attributes.DEFAULT_TEXT_APPEARANCE));

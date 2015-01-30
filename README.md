@@ -1,4 +1,4 @@
-﻿## Version 2.1.0 Guide
+﻿## Version 2.2.0 Guide
 
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md) [`Sample`](/release/sample.apk)
 
@@ -20,6 +20,9 @@
 
 ###### Button
 ![GeniusUI](art/ui_button.gif)
+
+###### EditText
+![GeniusUI](art/ui_edittext.gif)
 
 ###### All
 ![GeniusUI](art/ui_all.png)
@@ -76,7 +79,7 @@
 ```gradle
 // Adding to your project "build.gradle" file
 dependencies {
-  compile 'com.github.qiujuer:genius:2.1.0'
+  compile 'com.github.qiujuer:genius:2.2.0'
 }
 
 ```
@@ -84,8 +87,8 @@ dependencies {
 
 ## Update Log 
 
-* Version: `2.1.0`
-* Date: `2015-01-14`
+* Version: `2.2.0`
+* Date: `2015-01-30`
 * Log: [`Notes`](docs/NOTES.md)
 
 
@@ -119,25 +122,32 @@ Genius.dispose();
     genius:g_fontFamily="opensans"
     genius:g_fontWeight="bold"
     genius:g_fontExtension="ttf"
-    genius:g_cornerRadius="5dp"
     genius:g_borderWidth="5dp"
-    genius:g_theme="@array/StrawberryIce" />
+    genius:g_theme="@array/StrawberryIce"
+    genius:g_cornerRadius="5dp"
+    genius:g_cornerRadii_A="10dp"
+    genius:g_cornerRadii_B="10dp"
+    genius:g_cornerRadii_C="10dp"
+    genius:g_cornerRadii_D="10dp"/>
 
 // `g_textAppearance`: Specify the font color, the default for ` none `
 // `g_fontFamily`: Specify a font of two kinds of fonts
 // `g_fontWeight`: The specified font weight
 // `g_fontExtension`: The font extension
-// `g_cornerRadius`: Arc radius, default: ` 0`
 // `g_borderWidth`: Border width
 // `g_theme`: Specify the subject style, 17 kinds of arbitrary choice
+// `g_cornerRadius`: Arc radius, default: ` 0`
+// `g_cornerRadii`: Arc radius, four angles(A,B,C,D)radius, default: `0`
 
 // ==================GeniusButton==================
 <net.qiujuer.genius.widget.GeniusButton
     ...
+    genius:g_delayClick="true"
     genius:g_touchEffect="move"
     genius:g_touchEffectColor="#ff4181ff"
     genius:g_blockButtonEffectHeight="10dp" />
 
+// `g_delayClick`: Delayed response to the click event, Default "True"
 // `g_touchEffect`: press, move, ease, ripple, none
 // `g_touchEffectColor`: TouchEffectColor,Invalid when `g_touchEffect` is 'None'
 // `g_blockButtonEffectHeight`: The button shadow height
@@ -165,6 +175,23 @@ Genius.dispose();
 // `g_textColor`: Font color type
 // `g_backgroundColor`: Background color type
 // `g_customBackgroundColor`: Background color
+
+// ==================GeniusEditText==================
+<net.qiujuer.genius.widget.GeniusEditText
+    ...
+    genius:g_fieldStyle="fill"
+    genius:g_showTitle="true"
+    genius:g_titleTextColor="#ff1fedff"
+    genius:g_titleTextSize="12sp"
+    genius:g_titlePaddingTop="5dp"
+    genius:g_titlePaddingLeft="5dp" />
+
+// `g_fieldStyle`: Style: `fill` `box` `transparent`
+// `g_showTitle`: If show Hint Title
+// `g_titleTextColor`: Title font color
+// `g_titleTextSize`: Title font size
+// `g_titlePaddingTop`: Title padding to top
+// `g_titlePaddingLeft`: Title padding to left
 
 ```
 

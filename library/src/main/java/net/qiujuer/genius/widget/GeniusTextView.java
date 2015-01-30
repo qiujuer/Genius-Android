@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/30/2014
- * Changed 01/27/2015
+ * Changed 01/30/2015
  * Version 2.0.0
  * GeniusEditText
  *
@@ -73,8 +73,8 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
             int customTheme = a.getResourceId(R.styleable.GeniusTextView_g_theme, Attributes.DEFAULT_THEME);
             mAttributes.setThemeSilent(customTheme, getResources());
 
-            mAttributes.setFontFamily(a.getString(R.styleable.GeniusTextView_g_fontFamily));
-            mAttributes.setFontWeight(a.getString(R.styleable.GeniusTextView_g_fontWeight));
+            mAttributes.setFontFamily(Attributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusTextView_g_fontFamily, 0)]);
+            mAttributes.setFontWeight(Attributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusTextView_g_fontWeight, 3)]);
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusTextView_g_fontExtension));
             mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, Attributes.DEFAULT_BORDER_WIDTH));
 

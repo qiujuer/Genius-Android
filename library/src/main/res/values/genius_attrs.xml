@@ -1,8 +1,17 @@
 <resources>
     <!-- All -->
     <attr name="g_theme" format="reference" />
-    <attr name="g_fontFamily" format="string" />
-    <attr name="g_fontWeight" format="string" />
+    <attr name="g_fontFamily" format="integer">
+        <enum name="roboto" value="0" />
+        <enum name="opensans" value="1" />
+    </attr>
+    <attr name="g_fontWeight" format="integer">
+        <enum name="bold" value="0" />
+        <enum name="extrabold" value="1" />
+        <enum name="extralight" value="2" />
+        <enum name="light" value="3" />
+        <enum name="regular" value="4" />
+    </attr>
     <attr name="g_fontExtension" format="string" />
 
     <attr name="g_cornerRadius" format="dimension" />

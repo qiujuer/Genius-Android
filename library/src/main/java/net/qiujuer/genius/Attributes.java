@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/03/2014
- * Changed 01/27/2015
+ * Changed 01/30/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,8 +33,8 @@ public class Attributes {
     public static final int INVALID = -1;
     public static int DEFAULT_THEME = R.array.StrawberryIce;
 
-    public static final String DEFAULT_FONT_FAMILY = "roboto";
-    public static final String DEFAULT_FONT_WEIGHT = "light";
+    public static final String[] DEFAULT_FONT_FAMILY = new String[]{"roboto", "opensans"};
+    public static final String[] DEFAULT_FONT_WEIGHT = new String[]{"bold", "extrabold", "extralight", "light", "regular"};
     public static final String DEFAULT_FONT_EXTENSION = "ttf";
     public static final int DEFAULT_TEXT_APPEARANCE = 0;
 
@@ -55,8 +55,8 @@ public class Attributes {
     /**
      * Font related fields
      */
-    private String fontFamily = DEFAULT_FONT_FAMILY;
-    private String fontWeight = DEFAULT_FONT_WEIGHT;
+    private String fontFamily = DEFAULT_FONT_FAMILY[0];
+    private String fontWeight = DEFAULT_FONT_WEIGHT[3];
     private String fontExtension = DEFAULT_FONT_EXTENSION;
     private int textAppearance = DEFAULT_TEXT_APPEARANCE;
 
