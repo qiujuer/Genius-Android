@@ -8,7 +8,12 @@
 
 **Genius-Android** 是 **Android** 中一些常用的的方法集合, **Genius** 提供6个基本板块：
 
-`app`（**Ui**）`animation`（**动画**）`widget`（**Material控件**） `command`（**命令行**） `net tool`（**Ping、Dns...**） `util`（**常用方法,类**）
+* `app` (**Ui**)
+* `animation` （**动画**）
+* `widget` （**Material控件**）
+* `command` （**命令行**）
+* `net tool` （**Ping、Dns...**）
+* `util` （**常用方法,类**）
 
 
 ## 截图
@@ -47,7 +52,7 @@
 * `widget`
   > *  字体 `opensans` `roboto`
   > *  颜色 `none` `dark` `light`
-  > *  控件 `GeniusButton` `GeniusCheckBox` `GeniusTextView`
+  > *  控件 `GeniusButton` `GeniusCheckBox` `GeniusTextView` `GeniusEditText`
 
 * `command`
   > *  独立服务进程执行命令行工作
@@ -241,13 +246,18 @@ public class GeniusButton extends Button {
         touchEffectAnimator.setEffectColor("color");
         // 边缘圆弧半径
         touchEffectAnimator.setClipRadius(20);
+        // 同上，能指定单个角（四个顶点）的弧度
+        touchEffectAnimator.setClipRadii(new float[]{20,20,20,20,20,20,20,20});
+        // 设置动画时间倍数，设置动画模式后调用
+        touchEffectAnimator.setAnimDurationFactor(1);
     }
-    // 用于初始化高宽等数据
+    // 延迟点击事件(可选)
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (touchEffectAnimator != null)
-            touchEffectAnimator.onMeasure();
+    public boolean performClick() {
+        if (touchEffectAnimator != null) {
+            return !touchEffectAnimator.interceptClick() && super.performClick();
+        } else
+            return super.performClick();
     }
     // 回调绘制方法
     @Override

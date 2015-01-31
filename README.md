@@ -8,7 +8,12 @@
 
 **Genius-Android** is some of the commonly used method in **Android** collection, **Genius** library provide five basic plate :
 
-`app`(**Ui**) `animation`(**Animation**)`widget`(**Material Widget**) `command`(**Command Line**) `net tool`(**Ping、Dns...**) `util`(**Common Method,Class**)
+* `app` (**Ui**)
+* `animation` (**Animation**)
+* `widget` (**Material Widget**)
+* `command` (**Command Line**)
+* `net tool` (**Ping、Dns...**)
+* `util` (**Common Method,Class**)
 
 
 ## Screenshots
@@ -47,7 +52,7 @@
 * `widget`
   > *  Fonts `opensans` `roboto`
   > *  Colors `none` `dark` `light`
-  > *  Controls `GeniusButton` `GeniusCheckBox` `GeniusTextView`
+  > *  Controls `GeniusButton` `GeniusCheckBox` `GeniusTextView` `GeniusEditText`
 
 * `command`
   > *  Independent service command-line work process execution
@@ -241,13 +246,18 @@ public class GeniusButton extends Button {
         touchEffectAnimator.setEffectColor("color");
         // Set this clip radius
         touchEffectAnimator.setClipRadius(20);
+        // Same as above, Set up four vertices radian
+        touchEffectAnimator.setClipRadii(new float[]{20,20,20,20,20,20,20,20});
+        // Set animation time factor, you need to set up setTouchEffect() after the call
+        touchEffectAnimator.setAnimDurationFactor(1);
     }
-    // Init height width and others
+    // Delay click event (optional)
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (touchEffectAnimator != null)
-            touchEffectAnimator.onMeasure();
+    public boolean performClick() {
+        if (touchEffectAnimator != null) {
+            return !touchEffectAnimator.interceptClick() && super.performClick();
+        } else
+            return super.performClick();
     }
     // Callback onDraw
     @Override
