@@ -1,5 +1,7 @@
 ﻿## Version 2.2.0 Guide
 
+[`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android)
+
 [`中文`](README-ZH.md) [`English`](README.md) [`Guides`](/docs/guides/GuideCatalog.md) [`Sample`](/release/sample.apk)
 
 ## Genius-Android是什么?
