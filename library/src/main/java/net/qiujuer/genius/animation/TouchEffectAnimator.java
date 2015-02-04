@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 01/06/2015
- * Changed 01/26/2015
+ * Changed 02/04/2015
  * Version 2.0.0
  * Author Qiujuer
  *
@@ -20,10 +20,12 @@
  */
 package net.qiujuer.genius.animation;
 
+import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -50,6 +52,7 @@ public class TouchEffectAnimator {
 
     private View mView;
     private float[] mRadii = new float[8];
+    private float mAnimDurationFactor = 1;
     private int mFadeInAnimDuration = IN_ANIM_DURATION;
     private int mFadeOutAnimDuration = OUT_ANIM_DURATION;
     private TouchEffect mTouchEffect = TouchEffect.Move;
@@ -65,7 +68,6 @@ public class TouchEffectAnimator {
     private float mPaintX, mPaintY;
 
     private Paint mPaint = new Paint(ANTI_ALIAS_FLAG);
-    private RectF mRectRectR = new RectF();
     private Path mRectPath = new Path();
     private int mEndBackAlpha = MAX_BACK_ALPHA;
     private int mEndRippleAlpha = MAX_RIPPLE_ALPHA;
@@ -77,19 +79,24 @@ public class TouchEffectAnimator {
     private boolean isInterceptClick = false;
 
     // To call view performClick
-    private PerformClick mPerformClick;
+    private Runnable mPerformClick;
 
-    public TouchEffectAnimator(View mView) {
-        this.mView = mView;
+    public TouchEffectAnimator(View view) {
+        mView = view;
         mPaint = new Paint(ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
+        initTouch();
+    }
+
+    public float getAnimDurationFactor() {
+        return mAnimDurationFactor;
     }
 
     public void setAnimDurationFactor(float factor) {
-        this.mFadeInAnimDuration = (int) (this.mFadeInAnimDuration * factor);
-        this.mFadeOutAnimDuration = (int) (this.mFadeOutAnimDuration * factor);
+        mAnimDurationFactor = factor;
+        setTouchEffect(mTouchEffect);
     }
 
     public TouchEffect getTouchEffect() {
@@ -108,6 +115,8 @@ public class TouchEffectAnimator {
             mFadeInAnimDuration = IN_ANIM_DURATION;
             mFadeOutAnimDuration = OUT_ANIM_DURATION;
         }
+        this.mFadeInAnimDuration = (int) (this.mFadeInAnimDuration * mAnimDurationFactor);
+        this.mFadeOutAnimDuration = (int) (this.mFadeOutAnimDuration * mAnimDurationFactor);
     }
 
     public void setEffectColor(int effectColor) {
@@ -165,6 +174,7 @@ public class TouchEffectAnimator {
 
             // Set default operation to fadeOutEffect()
             isTouchReleased = false;
+            isAnimatingFadeIn = true;
 
             // Set this start point
             mPaintX = mDownX = event.getX();
@@ -222,6 +232,7 @@ public class TouchEffectAnimator {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initTouch() {
         // Initializes the height width
         int x = mView.getWidth() / 2;
@@ -233,124 +244,111 @@ public class TouchEffectAnimator {
         mCenterX = x;
         mCenterY = y;
 
-        mRectRectR.set(0, 0, mView.getWidth(), mView.getHeight());
-
         mRectPath.reset();
-        mRectPath.addRoundRect(mRectRectR, mRadii, Path.Direction.CW);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            mRectPath.addRoundRect(new RectF(0, 0, mView.getWidth(), mView.getHeight()), mRadii, Path.Direction.CW);
+        else
+            mRectPath.addRoundRect(0, 0, mView.getWidth(), mView.getHeight(), mRadii, Path.Direction.CW);
     }
 
     private void fadeInEffect() {
-        mFadeInAnimation = new Animation() {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                switch (mTouchEffect) {
-                    case Ease:
-                        mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
-                        break;
-                    case Ripple:
-                        mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
-                        mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
-                        break;
-                    case Move:
-                        mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
-                        mRadius = mEndRadius * interpolatedTime;
-                        mPaintX = mDownX + (mCenterX - mDownX) * interpolatedTime;
-                        mPaintY = mDownY + (mCenterY - mDownY) * interpolatedTime;
-                        break;
-                    case Press:
-                        mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
-                        mRippleAlpha = (int) (interpolatedTime * mEndRippleAlpha);
-                        break;
+        if (mFadeInAnimation == null) {
+            mFadeInAnimation = new Animation() {
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+                    switch (mTouchEffect) {
+                        case Ease:
+                            mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
+                            break;
+                        case Ripple:
+                            mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
+                            mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
+                            break;
+                        case Move:
+                            mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
+                            mRadius = mEndRadius * interpolatedTime;
+                            mPaintX = mDownX + (mCenterX - mDownX) * interpolatedTime;
+                            mPaintY = mDownY + (mCenterY - mDownY) * interpolatedTime;
+                            break;
+                        case Press:
+                            mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
+                            mRippleAlpha = (int) (interpolatedTime * mEndRippleAlpha);
+                            break;
+                    }
+                    mView.invalidate();
                 }
-                mView.invalidate();
-            }
-        };
-        mFadeInAnimation.setInterpolator(DECELERATE_INTERPOLATOR);
-        mFadeInAnimation.setDuration(mFadeInAnimDuration);
-        mFadeInAnimation.setAnimationListener(mFadeInAnimationListener);
+            };
+            mFadeInAnimation.setInterpolator(DECELERATE_INTERPOLATOR);
+            mFadeInAnimation.setDuration(mFadeInAnimDuration);
+            mFadeInAnimation.setAnimationListener(new TouchEffectAnimatorListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    isAnimatingFadeIn = true;
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    isAnimatingFadeIn = false;
+                    // Is un touch auto fadeOutEffect()
+                    if (isTouchReleased) fadeOutEffect();
+                }
+            });
+        }
         mView.startAnimation(mFadeInAnimation);
     }
 
     private void fadeOutEffect() {
-        mFadeOutAnimation = new Animation() {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                mBackAlpha = (int) (mEndBackAlpha - (mEndBackAlpha * interpolatedTime));
-                if (mTouchEffect == TouchEffect.Press) {
-                    mRippleAlpha = (int) (mEndRippleAlpha - (mEndRippleAlpha * interpolatedTime));
-                    mRadius = mEndRadius + (mStartRadius - mEndRadius) * interpolatedTime;
-                } else {
-                    mRadius = 0;
+        if (mFadeOutAnimation == null) {
+            mFadeOutAnimation = new Animation() {
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+                    mBackAlpha = (int) (mEndBackAlpha - (mEndBackAlpha * interpolatedTime));
+                    if (mTouchEffect == TouchEffect.Press) {
+                        mRippleAlpha = (int) (mEndRippleAlpha - (mEndRippleAlpha * interpolatedTime));
+                        mRadius = mEndRadius + (mStartRadius - mEndRadius) * interpolatedTime;
+                    } else {
+                        mRadius = 0;
+                    }
+                    mView.invalidate();
                 }
-                mView.invalidate();
-            }
-        };
-        mFadeOutAnimation.setInterpolator(ACCELERATE_INTERPOLATOR);
-        mFadeOutAnimation.setDuration(mFadeOutAnimDuration);
-        mFadeOutAnimation.setAnimationListener(mFadeOutAnimationListener);
+            };
+            mFadeOutAnimation.setInterpolator(ACCELERATE_INTERPOLATOR);
+            mFadeOutAnimation.setDuration(mFadeOutAnimDuration);
+            mFadeOutAnimation.setAnimationListener(new TouchEffectAnimatorListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (isInterceptClick) {
+                        performClick();
+                    }
+                }
+            });
+        } else {
+            mFadeOutAnimation.cancel();
+        }
         mView.startAnimation(mFadeOutAnimation);
     }
 
     private void cancelEffect() {
         if (mFadeInAnimation != null) {
-            mFadeInAnimation.setAnimationListener(null);
             mFadeInAnimation.cancel();
         }
 
         if (mFadeOutAnimation != null) {
-            mFadeOutAnimation.setAnimationListener(null);
             mFadeOutAnimation.cancel();
         }
     }
 
     private void performClick() {
-        if (mPerformClick == null)
-            mPerformClick = new PerformClick();
+        if (mPerformClick == null) {
+            mPerformClick = new Runnable() {
+                @Override
+                public void run() {
+                    mView.performClick();
+                }
+            };
+        }
         if (!mView.post(mPerformClick)) {
-            mView.performClick();
-        }
-    }
-
-    private Animation.AnimationListener mFadeInAnimationListener = new Animation.AnimationListener() {
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-            isAnimatingFadeIn = true;
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            isAnimatingFadeIn = false;
-            // Is un touch auto fadeOutEffect()
-            if (isTouchReleased) fadeOutEffect();
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-    };
-
-    private Animation.AnimationListener mFadeOutAnimationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            if (isInterceptClick) {
-                performClick();
-            }
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-    };
-
-    private final class PerformClick implements Runnable {
-        @Override
-        public void run() {
             mView.performClick();
         }
     }
