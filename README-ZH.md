@@ -173,6 +173,8 @@ Genius.dispose();
 // `g_circleRadius`: 圆心半径
 // `g_checked`: 是否选中
 // `g_enabled`: 是否可点击
+//  注意：如果你想设置圆环的颜色，你可以调用Attributes的方法
+//        setColors，而不是GeniusCheckBox的方法setCircleColor，这里主要是 为了 集合封装
 
 // ==================GeniusTextView==================
 <net.qiujuer.genius.widget.GeniusTextView
