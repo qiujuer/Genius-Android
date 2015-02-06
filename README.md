@@ -173,6 +173,7 @@ Genius.dispose();
 // `g_circleRadius`: The center of the circle radius
 // `g_checked`: Is checked
 // `g_enabled`: Is allow click
+//  Note: If you want to change color,you should use Attributes's mehtod "setColors" but not GeniusCheckBox's setCircleColor and you will find it's private
 
 // ==================GeniusTextView==================
 <net.qiujuer.genius.widget.GeniusTextView
