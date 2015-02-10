@@ -172,9 +172,10 @@ containing a value of this type.
 <colgroup align="left" />
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>fill</code></td><td>0</td><td></td></tr>
-<tr><td><code>box</code></td><td>1</td><td></td></tr>
-<tr><td><code>transparent</code></td><td>2</td><td></td></tr>
+<tr><td><code>fill</code></td><td>1</td><td></td></tr>
+<tr><td><code>box</code></td><td>2</td><td></td></tr>
+<tr><td><code>transparent</code></td><td>3</td><td></td></tr>
+<tr><td><code>line</code></td><td>4</td><td></td></tr>
 </table>
          */
         public static int g_fieldStyle=0x7f010013;
@@ -302,13 +303,10 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static int g_titlePaddingTop=0x7f010017;
-        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
          */
         public static int g_titleTextColor=0x7f010015;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
@@ -455,25 +453,33 @@ containing a value of this type.
         public static int Woodbine_Translucence=0x7f030064;
         public static int Woodbine_Transparent=0x7f030065;
     }
+    public static final class dimen {
+        public static int genius_checkBox_ringWidth=0x7f040000;
+        public static int genius_editText_lineStyle_selectBorder=0x7f040001;
+        public static int genius_editText_titlePaddingLeft=0x7f040002;
+        public static int genius_editText_titlePaddingTop=0x7f040003;
+        public static int genius_editText_titleTextSize=0x7f040004;
+    }
     public static final class id {
-        public static int bold=0x7f040002;
-        public static int box=0x7f04000d;
-        public static int dark=0x7f040007;
-        public static int darker=0x7f040010;
-        public static int ease=0x7f040009;
-        public static int extrabold=0x7f040003;
-        public static int extralight=0x7f040004;
-        public static int fill=0x7f04000e;
-        public static int light=0x7f040005;
-        public static int main=0x7f040011;
-        public static int move=0x7f04000a;
-        public static int none=0x7f040008;
-        public static int opensans=0x7f040000;
-        public static int press=0x7f04000b;
-        public static int regular=0x7f040006;
-        public static int ripple=0x7f04000c;
-        public static int roboto=0x7f040001;
-        public static int transparent=0x7f04000f;
+        public static int bold=0x7f050002;
+        public static int box=0x7f05000d;
+        public static int dark=0x7f050007;
+        public static int darker=0x7f050011;
+        public static int ease=0x7f050009;
+        public static int extrabold=0x7f050003;
+        public static int extralight=0x7f050004;
+        public static int fill=0x7f05000e;
+        public static int light=0x7f050005;
+        public static int line=0x7f05000f;
+        public static int main=0x7f050012;
+        public static int move=0x7f05000a;
+        public static int none=0x7f050008;
+        public static int opensans=0x7f050000;
+        public static int press=0x7f05000b;
+        public static int regular=0x7f050006;
+        public static int ripple=0x7f05000c;
+        public static int roboto=0x7f050001;
+        public static int transparent=0x7f050010;
     }
     public static final class styleable {
         /** Attributes that can be used with a GeniusButton.
@@ -483,6 +489,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #GeniusButton_g_blockButtonEffectHeight net.qiujuer.genius:g_blockButtonEffectHeight}</code></td><td></td></tr>
+           <tr><td><code>{@link #GeniusButton_g_borderWidth net.qiujuer.genius:g_borderWidth}</code></td><td></td></tr>
            <tr><td><code>{@link #GeniusButton_g_cornerRadii_A net.qiujuer.genius:g_cornerRadii_A}</code></td><td></td></tr>
            <tr><td><code>{@link #GeniusButton_g_cornerRadii_B net.qiujuer.genius:g_cornerRadii_B}</code></td><td></td></tr>
            <tr><td><code>{@link #GeniusButton_g_cornerRadii_C net.qiujuer.genius:g_cornerRadii_C}</code></td><td></td></tr>
@@ -498,6 +505,7 @@ containing a value of this type.
            <tr><td><code>{@link #GeniusButton_g_touchEffectColor net.qiujuer.genius:g_touchEffectColor}</code></td><td></td></tr>
            </table>
            @see #GeniusButton_g_blockButtonEffectHeight
+           @see #GeniusButton_g_borderWidth
            @see #GeniusButton_g_cornerRadii_A
            @see #GeniusButton_g_cornerRadii_B
            @see #GeniusButton_g_cornerRadii_C
@@ -513,10 +521,10 @@ containing a value of this type.
            @see #GeniusButton_g_touchEffectColor
          */
         public static final int[] GeniusButton = {
-            0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004,
-            0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008,
-            0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c,
-            0x7f01000d, 0x7f01000e
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
+            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
+            0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b,
+            0x7f01000c, 0x7f01000d, 0x7f01000e
         };
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_blockButtonEffectHeight}
@@ -533,7 +541,23 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_blockButtonEffectHeight
         */
-        public static int GeniusButton_g_blockButtonEffectHeight = 12;
+        public static int GeniusButton_g_blockButtonEffectHeight = 13;
+        /**
+          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_borderWidth}
+          attribute's value can be found in the {@link #GeniusButton} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name net.qiujuer.genius:g_borderWidth
+        */
+        public static int GeniusButton_g_borderWidth = 0;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_A}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -549,7 +573,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_cornerRadii_A
         */
-        public static int GeniusButton_g_cornerRadii_A = 0;
+        public static int GeniusButton_g_cornerRadii_A = 1;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_B}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -565,7 +589,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_cornerRadii_B
         */
-        public static int GeniusButton_g_cornerRadii_B = 1;
+        public static int GeniusButton_g_cornerRadii_B = 2;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_C}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -581,7 +605,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_cornerRadii_C
         */
-        public static int GeniusButton_g_cornerRadii_C = 2;
+        public static int GeniusButton_g_cornerRadii_C = 3;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_D}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -597,7 +621,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_cornerRadii_D
         */
-        public static int GeniusButton_g_cornerRadii_D = 3;
+        public static int GeniusButton_g_cornerRadii_D = 4;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadius}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -613,7 +637,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_cornerRadius
         */
-        public static int GeniusButton_g_cornerRadius = 4;
+        public static int GeniusButton_g_cornerRadius = 5;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_delayClick}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -627,7 +651,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_delayClick
         */
-        public static int GeniusButton_g_delayClick = 13;
+        public static int GeniusButton_g_delayClick = 14;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontExtension}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -641,7 +665,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_fontExtension
         */
-        public static int GeniusButton_g_fontExtension = 5;
+        public static int GeniusButton_g_fontExtension = 6;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontFamily}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -664,7 +688,7 @@ containing a value of this type.
 </table>
           @attr name net.qiujuer.genius:g_fontFamily
         */
-        public static int GeniusButton_g_fontFamily = 6;
+        public static int GeniusButton_g_fontFamily = 7;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontWeight}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -690,7 +714,7 @@ containing a value of this type.
 </table>
           @attr name net.qiujuer.genius:g_fontWeight
         */
-        public static int GeniusButton_g_fontWeight = 7;
+        public static int GeniusButton_g_fontWeight = 8;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_textAppearance}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -714,7 +738,7 @@ containing a value of this type.
 </table>
           @attr name net.qiujuer.genius:g_textAppearance
         */
-        public static int GeniusButton_g_textAppearance = 8;
+        public static int GeniusButton_g_textAppearance = 9;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -724,7 +748,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name net.qiujuer.genius:g_theme
         */
-        public static int GeniusButton_g_theme = 9;
+        public static int GeniusButton_g_theme = 10;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_touchEffect}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -750,7 +774,7 @@ containing a value of this type.
 </table>
           @attr name net.qiujuer.genius:g_touchEffect
         */
-        public static int GeniusButton_g_touchEffect = 10;
+        public static int GeniusButton_g_touchEffect = 11;
         /**
           <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_touchEffectColor}
           attribute's value can be found in the {@link #GeniusButton} array.
@@ -765,7 +789,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name net.qiujuer.genius:g_touchEffectColor
         */
-        public static int GeniusButton_g_touchEffectColor = 11;
+        public static int GeniusButton_g_touchEffectColor = 12;
         /** Attributes that can be used with a GeniusCheckBox.
            <p>Includes the following attributes:</p>
            <table>
@@ -1020,9 +1044,10 @@ containing a value of this type.
 <colgroup align="left" />
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>fill</code></td><td>0</td><td></td></tr>
-<tr><td><code>box</code></td><td>1</td><td></td></tr>
-<tr><td><code>transparent</code></td><td>2</td><td></td></tr>
+<tr><td><code>fill</code></td><td>1</td><td></td></tr>
+<tr><td><code>box</code></td><td>2</td><td></td></tr>
+<tr><td><code>transparent</code></td><td>3</td><td></td></tr>
+<tr><td><code>line</code></td><td>4</td><td></td></tr>
 </table>
           @attr name net.qiujuer.genius:g_fieldStyle
         */
@@ -1175,13 +1200,10 @@ containing a value of this type.
           attribute's value can be found in the {@link #GeniusEditText} array.
 
 
-          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
           @attr name net.qiujuer.genius:g_titleTextColor
         */
         public static int GeniusEditText_g_titleTextColor = 13;

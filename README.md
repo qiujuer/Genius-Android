@@ -1,6 +1,6 @@
 ﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
 
-## Version 2.2.0 Guide
+## Version 2.3.0 Guide
 
 [`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android)
 
@@ -55,7 +55,7 @@
 
 * `widget`
   > *  Fonts `opensans` `roboto`
-  > *  Colors `none` `dark` `light`
+  > *  Colors `none` `dark` `darker` `light`
   > *  Controls `GeniusButton` `GeniusCheckBox` `GeniusTextView` `GeniusEditText`
 
 * `command`
@@ -88,7 +88,7 @@
 ```gradle
 // Adding to your project "build.gradle" file
 dependencies {
-  compile 'com.github.qiujuer:genius:2.2.0'
+  compile 'com.github.qiujuer:genius:2.3.0'
 }
 
 ```
@@ -96,8 +96,8 @@ dependencies {
 
 ## Update Log 
 
-* Version: `2.2.0`
-* Date: `2015-01-30`
+* Version: `2.3.0`
+* Date: `2015-02-10`
 * Log: [`Notes`](docs/NOTES.md)
 
 
@@ -173,6 +173,8 @@ Genius.dispose();
 // `g_circleRadius`: The center of the circle radius
 // `g_checked`: Is checked
 // `g_enabled`: Is allow click
+//  Note: If you want to change color, you should use Attributes method "setColors"
+//  And call Attribute.notifyAttributeChange() method
 
 // ==================GeniusTextView==================
 <net.qiujuer.genius.widget.GeniusTextView
@@ -190,17 +192,37 @@ Genius.dispose();
     ...
     genius:g_fieldStyle="fill"
     genius:g_showTitle="true"
-    genius:g_titleTextColor="#ff1fedff"
+    genius:g_titleTextColor="#ff1fedff|statusColor"
     genius:g_titleTextSize="12sp"
     genius:g_titlePaddingTop="5dp"
     genius:g_titlePaddingLeft="5dp" />
 
-// `g_fieldStyle`: Style: `fill` `box` `transparent`
+// `g_fieldStyle`: Style: `fill` `box` `transparent` `line`
 // `g_showTitle`: If show Hint Title
 // `g_titleTextColor`: Title font color
 // `g_titleTextSize`: Title font size
 // `g_titlePaddingTop`: Title padding to top
 // `g_titlePaddingLeft`: Title padding to left
+
+```
+
+```java
+// Code to set widget
+GeniusCheckBox box = new GeniusCheckBox(this);
+box.setChecked(!box.isChecked());
+// Theme
+CheckBoxAttributes attr = box.getAttributes();
+attr.setRingWidth(4);
+attr.setCircleRadius(22);
+attr.setTheme(R.array.StrawberryIce, getResources());
+// Or
+// Color is Darker, Dark, Primary, Light, Translucence, Transparent
+attr.setColors(new int[]{
+               Color.parseColor("#ffc26165"), Color.parseColor("#ffdb6e77"),
+               Color.parseColor("#ffef7e8b"), Color.parseColor("#fff7c2c8"),
+               Color.parseColor("#ffc2cbcb"), Color.parseColor("#ffe2e7e7")});
+// End
+attr.notifyAttributeChange();
 
 ```
 

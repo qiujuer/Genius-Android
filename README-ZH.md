@@ -1,6 +1,6 @@
 ﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
 
-## Version 2.2.0 Guide
+## Version 2.3.0 Guide
 
 [`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android)
 
@@ -55,7 +55,7 @@
 
 * `widget`
   > *  字体 `opensans` `roboto`
-  > *  颜色 `none` `dark` `light`
+  > *  颜色 `none` `dark` `darker` `light`
   > *  控件 `GeniusButton` `GeniusCheckBox` `GeniusTextView` `GeniusEditText`
 
 * `command`
@@ -88,7 +88,7 @@
 ```gradle
 // 在项目 "build.gradle" 中添加
 dependencies {
-  compile 'com.github.qiujuer:genius:2.2.0'
+  compile 'com.github.qiujuer:genius:2.3.0'
 }
 
 ```
@@ -96,8 +96,8 @@ dependencies {
 
 ## 更新日志
 
-* 版本：`2.2.0`
-* 日期：`2015-01-30`
+* 版本：`2.3.0`
+* 日期：`2015-02-10`
 * 日志：[`更新日志`](docs/NOTES.md)
 
 
@@ -173,6 +173,8 @@ Genius.dispose();
 // `g_circleRadius`: 圆心半径
 // `g_checked`: 是否选中
 // `g_enabled`: 是否可点击
+//  注意：如果你想设置圆环的颜色，你可以调用Attributes的方法setColors，
+//  同时调用 Attribute.notifyAttributeChange() 方法进行更新
 
 // ==================GeniusTextView==================
 <net.qiujuer.genius.widget.GeniusTextView
@@ -190,17 +192,37 @@ Genius.dispose();
     ...
     genius:g_fieldStyle="fill"
     genius:g_showTitle="true"
-    genius:g_titleTextColor="#ff1fedff"
+    genius:g_titleTextColor="#ff1fedff|statusColor"
     genius:g_titleTextSize="12sp"
     genius:g_titlePaddingTop="5dp"
     genius:g_titlePaddingLeft="5dp" />
 
-// `g_fieldStyle`: 外观样式：`fill` `box` `transparent`
+// `g_fieldStyle`: 外观样式：`fill` `box` `transparent` `line`
 // `g_showTitle`: 是否显示Hint Title
 // `g_titleTextColor`: Title 字体颜色
 // `g_titleTextSize`: Title 字体大小
 // `g_titlePaddingTop`: Title 顶部间距
 // `g_titlePaddingLeft`: Title 左边间距
+
+```
+
+```java
+// 通过代码改变属性
+GeniusCheckBox box = new GeniusCheckBox(this);
+box.setChecked(!box.isChecked());
+// Theme
+CheckBoxAttributes attr = box.getAttributes();
+attr.setRingWidth(4);
+attr.setCircleRadius(22);
+attr.setTheme(R.array.StrawberryIce, getResources());
+// 设置颜色能通过设置主题或者单独设置
+// 分别是 Darker, Dark, Primary, Light, Translucence, Transparent
+attr.setColors(new int[]{
+               Color.parseColor("#ffc26165"), Color.parseColor("#ffdb6e77"),
+               Color.parseColor("#ffef7e8b"), Color.parseColor("#fff7c2c8"),
+               Color.parseColor("#ffc2cbcb"), Color.parseColor("#ffe2e7e7")});
+// 最后别忘了
+attr.notifyAttributeChange();
 
 ```
 
