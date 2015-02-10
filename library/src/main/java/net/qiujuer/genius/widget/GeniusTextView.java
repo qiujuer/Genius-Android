@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/30/2014
- * Changed 01/30/2015
+ * Changed 02/09/2015
  * Version 2.0.0
  * GeniusEditText
  *
@@ -28,18 +28,17 @@ import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import net.qiujuer.genius.Attributes;
 import net.qiujuer.genius.GeniusUI;
 import net.qiujuer.genius.R;
+import net.qiujuer.genius.widget.attribute.Attributes;
+import net.qiujuer.genius.widget.attribute.GeniusAttributes;
+import net.qiujuer.genius.widget.attribute.TextViewAttributes;
 
 /**
  * GeniusTextView this is quickly set up color and theme
  */
 public class GeniusTextView extends TextView implements Attributes.AttributeChangeListener {
-    private int mTextColor = 2;
-    private int mBackgroundColor = Attributes.INVALID;
-    private int mCustomBackgroundColor = Attributes.INVALID;
-    private Attributes mAttributes;
+    private TextViewAttributes mAttributes;
 
     public GeniusTextView(Context context) {
         super(context);
@@ -60,7 +59,7 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
     private void init(AttributeSet attrs) {
 
         if (mAttributes == null)
-            mAttributes = new Attributes(this, getResources());
+            mAttributes = new TextViewAttributes(this, getResources());
 
         if (attrs != null) {
 
@@ -71,12 +70,12 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
 
             // Getting common attributes
             int customTheme = a.getResourceId(R.styleable.GeniusTextView_g_theme, Attributes.DEFAULT_THEME);
-            mAttributes.setThemeSilent(customTheme, getResources());
+            mAttributes.setTheme(customTheme, getResources());
 
-            mAttributes.setFontFamily(Attributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusTextView_g_fontFamily, 0)]);
-            mAttributes.setFontWeight(Attributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusTextView_g_fontWeight, 3)]);
+            mAttributes.setFontFamily(GeniusAttributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusTextView_g_fontFamily, 0)]);
+            mAttributes.setFontWeight(GeniusAttributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusTextView_g_fontWeight, 3)]);
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusTextView_g_fontExtension));
-            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, Attributes.DEFAULT_BORDER_WIDTH));
+            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, GeniusAttributes.DEFAULT_BORDER_WIDTH));
 
             // Set init Corners Radius
             mAttributes.initCornerRadius(a, R.styleable.GeniusTextView_g_cornerRadius,
@@ -84,29 +83,36 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
                     R.styleable.GeniusTextView_g_cornerRadii_C, R.styleable.GeniusTextView_g_cornerRadii_D);
 
             // Getting view specific attributes
-            mTextColor = a.getInt(R.styleable.GeniusTextView_g_textColor, mTextColor);
-            mBackgroundColor = a.getInt(R.styleable.GeniusTextView_g_backgroundColor, mBackgroundColor);
-            mCustomBackgroundColor = a.getInt(R.styleable.GeniusTextView_g_customBackgroundColor, mCustomBackgroundColor);
+            mAttributes.setTextColorStyle(a.getInt(R.styleable.GeniusTextView_g_textColor, mAttributes.getTextColorStyle()));
+            mAttributes.setBackgroundColorStyle(a.getInt(R.styleable.GeniusTextView_g_backgroundColor, mAttributes.getBackgroundColorStyle()));
+            mAttributes.setCustomBackgroundColor(a.getInt(R.styleable.GeniusTextView_g_customBackgroundColor, mAttributes.getCustomBackgroundColor()));
 
             a.recycle();
         }
 
         if (!mAttributes.isHasOwnBackground()) {
-            GradientDrawable gradientDrawable = new GradientDrawable();
-            if (mBackgroundColor != Attributes.INVALID) {
-                gradientDrawable.setColor(mAttributes.getColor(mBackgroundColor));
-            } else if (mCustomBackgroundColor != Attributes.INVALID) {
-                gradientDrawable.setColor(mCustomBackgroundColor);
-            } else {
-                gradientDrawable.setColor(Color.TRANSPARENT);
+            // Get Color
+            int color = Color.TRANSPARENT;
+            if (mAttributes.getBackgroundColorStyle() != Attributes.INVALID) {
+                color = mAttributes.getColor(mAttributes.getBackgroundColorStyle());
+            } else if (mAttributes.getCustomBackgroundColor() != Attributes.INVALID) {
+                color = mAttributes.getCustomBackgroundColor();
             }
-            gradientDrawable.setCornerRadii(mAttributes.getOuterRadii());
-            gradientDrawable.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(mTextColor));
-            setBackgroundDrawable(gradientDrawable);
+            // Check
+            if (!(color == Color.TRANSPARENT &&
+                    mAttributes.isOuterRadiiZero() &&
+                    mAttributes.getBorderWidth() == 0)) {
+                GradientDrawable gradientDrawable = new GradientDrawable();
+                gradientDrawable.setColor(color);
+                gradientDrawable.setCornerRadii(mAttributes.getOuterRadiiNull());
+                gradientDrawable.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(mAttributes.getTextColorStyle()));
+                setBackgroundDrawable(gradientDrawable);
+            }
         }
 
         // Setting the text color only if there is no android:textColor attribute used
-        if (!mAttributes.isHasOwnTextColor()) setTextColor(mAttributes.getColor(mTextColor));
+        if (!mAttributes.isHasOwnTextColor())
+            setTextColor(mAttributes.getColor(mAttributes.getTextColorStyle()));
 
         // Check for IDE preview render
         if (!this.isInEditMode()) {
@@ -116,7 +122,7 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
     }
 
     @Override
-    public Attributes getAttributes() {
+    public TextViewAttributes getAttributes() {
         return mAttributes;
     }
 
