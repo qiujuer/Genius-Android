@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/13/2014
- * Changed 01/13/2015
+ * Changed 02/10/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.os.RemoteException;
 
 import net.qiujuer.genius.Genius;
 import net.qiujuer.genius.util.Tools;
@@ -34,8 +33,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Created by QiuJu
- * on 2014/8/13.
+ * Command same cmd line
  */
 public final class Command {
     // Time Out is 90 seconds
@@ -173,13 +171,14 @@ public final class Command {
         }
 
         // Check is end and call destroy service
-        try {
-            if (I_COMMAND.getTaskCount() <= 0)
-                destroyService();
-        } catch (RemoteException e) {
-            e.printStackTrace();
+        if (I_COMMAND != null) {
+            try {
+                if (I_COMMAND.getTaskCount() <= 0)
+                    destroyService();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
         // Return
         return command.mResult;
     }
@@ -249,7 +248,7 @@ public final class Command {
         if (I_COMMAND != null)
             try {
                 I_COMMAND.cancel(command.mId);
-            } catch (RemoteException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
     }
