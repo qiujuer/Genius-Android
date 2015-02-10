@@ -21,6 +21,7 @@ package net.qiujuer.genius;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -28,6 +29,9 @@ import android.graphics.drawable.PaintDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+
+import net.qiujuer.genius.widget.attribute.Attributes;
+import net.qiujuer.genius.widget.attribute.GeniusAttributes;
 
 /**
  * Created by QiuJu
@@ -61,7 +65,7 @@ public class GeniusUI {
      * @param attributes Attributes
      * @return Typeface
      */
-    public static Typeface getFont(Context context, Attributes attributes) {
+    public static Typeface getFont(Context context, GeniusAttributes attributes) {
         String fontPath = "fonts/" + attributes.getFontFamily()
                 + "_" + attributes.getFontWeight()
                 + "." + attributes.getFontExtension();
@@ -140,6 +144,20 @@ public class GeniusUI {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
     }
 
+
+    /**
+     * Change Dip to PX
+     *
+     * @param resources Resources
+     * @param dp        Dip
+     * @return PX
+     */
+    public static float dipToPx(Resources resources, float dp) {
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
+    }
+
+
     /**
      * Change SP to PX
      *
@@ -149,6 +167,18 @@ public class GeniusUI {
      */
     public static float spToPx(Context context, float sp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
+    }
+
+    /**
+     * Change SP to PX
+     *
+     * @param resources Resources
+     * @param sp        SP
+     * @return PX
+     */
+    public static float spToPx(Resources resources, float sp) {
+        DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
     }
 }

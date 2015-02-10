@@ -1,9 +1,10 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/03/2014
- * Changed 01/30/2015
- * Version 1.0.0
+ * Created 02/09/2015
+ * Changed 02/09/2015
+ * Version 2.0.0
+ * GeniusEditText
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +18,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.qiujuer.genius;
+package net.qiujuer.genius.widget.attribute;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 
-/**
- * Created by QiuJu
- * on 2014/9/3.
- */
-public class Attributes {
-    public static final int INVALID = -1;
-    public static int DEFAULT_THEME = R.array.StrawberryIce;
+import net.qiujuer.genius.GeniusUI;
 
+
+public class GeniusAttributes extends Attributes {
     public static final String[] DEFAULT_FONT_FAMILY = new String[]{"roboto", "opensans"};
     public static final String[] DEFAULT_FONT_WEIGHT = new String[]{"bold", "extrabold", "extralight", "light", "regular"};
     public static final String DEFAULT_FONT_EXTENSION = "ttf";
@@ -40,17 +36,6 @@ public class Attributes {
 
     public static final int DEFAULT_RADIUS = 0;
     public static final int DEFAULT_BORDER_WIDTH = 0;
-
-    public static final int[] DEFAULT_COLORS = new int[]{
-            Color.parseColor("#ffc26165"), Color.parseColor("#ffdb6e77"),
-            Color.parseColor("#ffef7e8b"), Color.parseColor("#fff7c2c8"),
-            Color.parseColor("#ffc2cbcb"), Color.parseColor("#ffe2e7e7")};
-
-    /**
-     * Color related fields
-     */
-    private int[] colors;
-    private int theme = INVALID;
 
     /**
      * Font related fields
@@ -72,16 +57,11 @@ public class Attributes {
      */
     private boolean hasOwnTextColor;
     private boolean hasOwnBackground;
-    private boolean hasOwnHintColor;
+    private boolean hasHintTextColor;
 
-    /**
-     * Attribute change listener. Used to redraw the view when attributes are changed.
-     */
-    private AttributeChangeListener attributeChangeListener;
 
-    public Attributes(AttributeChangeListener attributeChangeListener, Resources resources) {
-        this.attributeChangeListener = attributeChangeListener;
-        setThemeSilent(DEFAULT_THEME, resources);
+    public GeniusAttributes(AttributeChangeListener attributeChangeListener, Resources resources) {
+        super(attributeChangeListener, resources);
     }
 
     public void initHasOwnAttrs(Context context, AttributeSet attrs) {
@@ -113,12 +93,12 @@ public class Attributes {
 
 
         // getting android default tags for textColorHint
-        hasOwnHintColor = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "textColorHint") != null;
+        hasHintTextColor = attrs.getAttributeValue(GeniusUI.androidStyleNameSpace, "textColorHint") != null;
     }
 
     public void initCornerRadius(TypedArray a, int indexRadius, int indexRadiiA, int indexRadiiB, int indexRadiiC, int indexRadiiD) {
         // Set Radius
-        setRadius(a.getDimension(indexRadius, Attributes.DEFAULT_RADIUS));
+        setRadius(a.getDimension(indexRadius, DEFAULT_RADIUS));
 
         // Set Radii[] array
         float rA, rB, rC, rD, r = getRadius();
@@ -131,34 +111,6 @@ public class Attributes {
             return;
 
         setRadii(new float[]{rA, rA, rB, rB, rC, rC, rD, rD});
-    }
-
-    public int getTheme() {
-        return theme;
-    }
-
-    public void setTheme(int theme, Resources resources) {
-        setThemeSilent(theme, resources);
-        attributeChangeListener.onThemeChange();
-    }
-
-    public void setThemeSilent(int theme, Resources resources) {
-        try {
-            this.theme = theme;
-            colors = resources.getIntArray(theme);
-        } catch (Resources.NotFoundException e) {
-            // setting theme blood if exception occurs (especially used for preview rendering by IDE)
-            colors = DEFAULT_COLORS;
-        }
-    }
-
-    public void setColors(int[] colors) {
-        this.colors = colors;
-        attributeChangeListener.onThemeChange();
-    }
-
-    public int getColor(int colorPos) {
-        return colors[colorPos];
     }
 
     public String getFontFamily() {
@@ -213,6 +165,28 @@ public class Attributes {
         return new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
     }
 
+    public boolean isOuterRadiiZero() {
+        if (radiusArray == null)
+            return radius == 0;
+        else {
+            boolean isZero = true;
+            for (float i : radiusArray) {
+                if (i != 0) {
+                    isZero = false;
+                    break;
+                }
+            }
+            return isZero;
+        }
+    }
+
+    public float[] getOuterRadiiNull() {
+        if (isOuterRadiiZero())
+            return null;
+        else
+            return getOuterRadii();
+    }
+
     public int getBorderWidth() {
         return borderWidth;
     }
@@ -229,6 +203,18 @@ public class Attributes {
         this.textAppearance = textAppearance;
     }
 
+    public void setHasOwnBackground(boolean isHave) {
+        hasOwnBackground = isHave;
+    }
+
+    public void setHasOwnTextColor(boolean isHave) {
+        hasOwnTextColor = isHave;
+    }
+
+    public void setHasOwnHintTextColor(boolean isHave) {
+        hasHintTextColor = isHave;
+    }
+
     public boolean isHasOwnBackground() {
         return hasOwnBackground;
     }
@@ -237,13 +223,7 @@ public class Attributes {
         return hasOwnTextColor;
     }
 
-    public boolean isHasOwnHintColor() {
-        return hasOwnHintColor;
-    }
-
-    public interface AttributeChangeListener {
-        public void onThemeChange();
-
-        public Attributes getAttributes();
+    public boolean isHasOwnHintTextColor() {
+        return hasHintTextColor;
     }
 }
