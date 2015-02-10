@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 01/23/2015
- * Changed 01/30/2015
+ * Changed 02/09/2015
  * Version 2.0.0
  * Author Qiujuer
  *
@@ -23,12 +23,18 @@ package net.qiujuer.genius.widget;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -39,30 +45,27 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.EditText;
 
-import net.qiujuer.genius.Attributes;
 import net.qiujuer.genius.GeniusUI;
 import net.qiujuer.genius.R;
-
-import static android.graphics.Color.TRANSPARENT;
+import net.qiujuer.genius.drawable.shape.BorderShape;
+import net.qiujuer.genius.widget.attribute.Attributes;
+import net.qiujuer.genius.widget.attribute.EditTextAttributes;
+import net.qiujuer.genius.widget.attribute.GeniusAttributes;
 
 /**
  * GeniusEditText this have a title from hint
  */
-public class GeniusEditText extends EditText implements Attributes.AttributeChangeListener, TextWatcher {
+public class GeniusEditText extends EditText implements Attributes.AttributeChangeListener {
     private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
-    private static final int THUMB_ANIMATION_DURATION = 255;
-    private static final int HINT_PADDING_TOP_DP = 4;
-    private static final int HINT_TEXT_SIZE_SP = 10;
+    private static final int ANIMATION_DURATION = 300;
 
-    private Attributes mAttributes;
-    private int mStyle = 0;
-
-    private TextPaint mHintPaint;
-    private TitleProperty mTitleProperty;
-    private TitleProperty mCurrentTitleProperty;
+    private EditTextAttributes mAttributes;
+    private TextPaint mTitlePaint;
+    private TextWatcher mTextWatcher;
+    private TitleProperty mCurTitleProperty;
+    private ObjectAnimator mAnimator;
 
     private boolean isHaveText;
-    private boolean isShowTitle;
     private boolean isAttachWindow;
 
     public GeniusEditText(Context context) {
@@ -84,10 +87,9 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
     private void init(AttributeSet attrs) {
 
         if (mAttributes == null)
-            mAttributes = new Attributes(this, getResources());
+            mAttributes = new EditTextAttributes(this, getResources());
 
-        TitleProperty titleProperty = null;
-        boolean showTitle = isShowTitle;
+        boolean showTitle = mAttributes.isShowTitle();
 
         if (attrs != null) {
             // Set if has own attrs
@@ -97,14 +99,14 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
 
             // getting common mAttributes
             int customTheme = a.getResourceId(R.styleable.GeniusEditText_g_theme, Attributes.DEFAULT_THEME);
-            mAttributes.setThemeSilent(customTheme, getResources());
+            mAttributes.setTheme(customTheme, getResources());
 
-            mAttributes.setFontFamily(Attributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusEditText_g_fontFamily, 0)]);
-            mAttributes.setFontWeight(Attributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusEditText_g_fontWeight, 3)]);
+            mAttributes.setFontFamily(GeniusAttributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusEditText_g_fontFamily, 0)]);
+            mAttributes.setFontWeight(GeniusAttributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusEditText_g_fontWeight, 3)]);
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusEditText_g_fontExtension));
 
-            mAttributes.setTextAppearance(a.getInt(R.styleable.GeniusEditText_g_textAppearance, Attributes.DEFAULT_TEXT_APPEARANCE));
-            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusEditText_g_borderWidth, Attributes.DEFAULT_BORDER_WIDTH));
+            mAttributes.setTextAppearance(a.getInt(R.styleable.GeniusEditText_g_textAppearance, GeniusAttributes.DEFAULT_TEXT_APPEARANCE));
+            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusEditText_g_borderWidth, GeniusAttributes.DEFAULT_BORDER_WIDTH));
 
             // Set init Corners Radius
             mAttributes.initCornerRadius(a, R.styleable.GeniusEditText_g_cornerRadius,
@@ -112,75 +114,26 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
                     R.styleable.GeniusEditText_g_cornerRadii_C, R.styleable.GeniusEditText_g_cornerRadii_D);
 
             // getting view specific mAttributes
-            mStyle = a.getInt(R.styleable.GeniusEditText_g_fieldStyle, mStyle);
+            mAttributes.setStyle(a.getInt(R.styleable.GeniusEditText_g_fieldStyle, mAttributes.getStyle()));
 
             // Set HintProperty
-            titleProperty = new TitleProperty();
-            titleProperty.textSize = a.getDimensionPixelSize(R.styleable.GeniusEditText_g_titleTextSize, (int) GeniusUI.spToPx(getContext(), HINT_TEXT_SIZE_SP));
-            titleProperty.paddingLeft = a.getDimensionPixelSize(R.styleable.GeniusEditText_g_titlePaddingLeft, getPaddingLeft());
-            titleProperty.paddingTop = a.getDimensionPixelSize(R.styleable.GeniusEditText_g_titlePaddingTop, (int) GeniusUI.spToPx(getContext(), HINT_PADDING_TOP_DP));
-            titleProperty.textColor = a.getColor(R.styleable.GeniusEditText_g_titleTextColor, Color.TRANSPARENT);
-            showTitle = a.getBoolean(R.styleable.GeniusEditText_g_showTitle, mTitleProperty == null || showTitle);
-
+            mAttributes.setTitleTextColor(a.getColorStateList(R.styleable.GeniusEditText_g_titleTextColor));
+            mAttributes.setTitleTextSize(a.getDimensionPixelSize(R.styleable.GeniusEditText_g_titleTextSize, mAttributes.getTitleTextSize()));
+            mAttributes.setTitleTextPaddingLeft(a.getDimensionPixelSize(R.styleable.GeniusEditText_g_titlePaddingLeft, getPaddingLeft()));
+            mAttributes.setTitleTextPaddingTop(a.getDimensionPixelSize(R.styleable.GeniusEditText_g_titlePaddingTop, mAttributes.getTitleTextPaddingTop()));
+            showTitle = a.getBoolean(R.styleable.GeniusEditText_g_showTitle, mCurTitleProperty == null || showTitle);
             a.recycle();
         }
 
-        GradientDrawable backgroundDrawable = null;
-        if (!mAttributes.isHasOwnBackground()) {
-            backgroundDrawable = new GradientDrawable();
-            backgroundDrawable.setCornerRadii(mAttributes.getOuterRadii());
-        }
+        // Init methods
+        if (!mAttributes.isHasOwnBackground())
+            initBackground();
+        if (!mAttributes.isHasOwnTextColor())
+            initTextColor();
+        if (!mAttributes.isHasOwnHintTextColor())
+            initHintTextColor();
 
-        if (mStyle == 0) {             // fill
-            if (!mAttributes.isHasOwnTextColor()) setTextColor(mAttributes.getColor(3));
-            if (backgroundDrawable != null) {
-                backgroundDrawable.setColor(mAttributes.getColor(2));
-                backgroundDrawable.setStroke(0, mAttributes.getColor(2));
-            }
-        } else if (mStyle == 1) {      // box
-            if (!mAttributes.isHasOwnTextColor()) setTextColor(mAttributes.getColor(2));
-            if (backgroundDrawable != null) {
-                backgroundDrawable.setColor(Color.WHITE);
-                backgroundDrawable.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(2));
-            }
-
-        } else if (mStyle == 2) {      // transparent
-            if (!mAttributes.isHasOwnTextColor()) setTextColor(mAttributes.getColor(1));
-            if (backgroundDrawable != null) {
-                backgroundDrawable.setColor(TRANSPARENT);
-                backgroundDrawable.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(2));
-            }
-        }
-
-        // Set Background
-        if (backgroundDrawable != null) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-                setBackgroundDrawable(backgroundDrawable);
-            else
-                setBackground(backgroundDrawable);
-        }
-
-        // Set HintTextColor
-        if (!mAttributes.isHasOwnHintColor()) setHintTextColor(mAttributes.getColor(3));
-
-
-        // Set TextColor
-        if (!mAttributes.isHasOwnTextColor()) {
-            if (mAttributes.getTextAppearance() == 1) setTextColor(mAttributes.getColor(0));
-            else if (mAttributes.getTextAppearance() == 2) setTextColor(mAttributes.getColor(3));
-        }
-
-        // Init Title
-        if (titleProperty == null) {
-            if (mTitleProperty == null) {
-                mTitleProperty = new TitleProperty();
-            }
-        } else {
-            mTitleProperty = titleProperty;
-        }
-        if (mTitleProperty.textColor == Color.TRANSPARENT)
-            mTitleProperty.textColor = getCurrentHintTextColor();
-        setShowTitle(showTitle);
+        initTitleText(showTitle);
 
         // check for IDE preview render
         if (!this.isInEditMode()) {
@@ -189,83 +142,259 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
         }
     }
 
-    private void invalidateTitle() {
-        // Padding
-        final int paddingTop = getPaddingTop();
-        final int paddingRight = getPaddingRight();
-        final int paddingLeft = getPaddingLeft();
-        final int paddingBottom = getPaddingBottom();
+    private void initTitleText(boolean isShow) {
+        if (isShow != mAttributes.isShowTitle()) {
+            mAttributes.setShowTitle(isShow);
+            // Padding
+            final int paddingTop = getPaddingTop();
+            final int paddingRight = getPaddingRight();
+            final int paddingLeft = getPaddingLeft();
+            final int paddingBottom = getPaddingBottom();
+            if (isShow) {
+                mCurTitleProperty = new TitleProperty();
 
-        if (isShowTitle) {
-            mCurrentTitleProperty = mTitleProperty.clone();
+                // Set up a default TextPaint object
+                if (mTitlePaint == null) {
+                    mTitlePaint = new TextPaint();
+                    mTitlePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+                    mTitlePaint.setTextAlign(Paint.Align.LEFT);
+                }
 
-            // Alpha
-            Editable editable = getText();
-            if (editable == null || editable.length() <= 0)
-                mCurrentTitleProperty.textColor = Color.TRANSPARENT;
+                setPadding(paddingLeft, paddingTop + mAttributes.getTitleTextSize(), paddingRight, paddingBottom);
 
-            // Set up a default TextPaint object
-            if (mHintPaint == null) {
-                mHintPaint = new TextPaint();
-                mHintPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-                mHintPaint.setTextAlign(Paint.Align.LEFT);
+                // Add Watcher
+                if (mTextWatcher == null) {
+                    mTextWatcher = new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            if (mAttributes.isShowTitle() && mTitlePaint != null) {
+                                boolean have = s != null && s.length() > 0;
+                                if (have != isHaveText) {
+                                    isHaveText = have;
+                                    animateShowTitle(isHaveText);
+                                }
+                            }
+                        }
+                    };
+                    addTextChangedListener(mTextWatcher);
+                }
+
+                // Show
+                Editable editable = getText();
+                animateShowTitle(editable != null && editable.length() > 0);
+            } else {
+                if (mTextWatcher != null) {
+                    removeTextChangedListener(mTextWatcher);
+                    mTextWatcher = null;
+                }
+
+                mTitlePaint = null;
+                mCurTitleProperty = null;
+                mAnimator = null;
+
+                setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
             }
-            mHintPaint.setTextSize(mCurrentTitleProperty.textSize);
-            mHintPaint.setColor(mCurrentTitleProperty.textColor);
-
-            // mHintPaint.getFontMetrics().bottom;
-            setPadding(paddingLeft, paddingTop + mTitleProperty.textSize, paddingRight, paddingBottom);
-        } else {
-
-            mHintPaint = null;
-            mCurrentTitleProperty = null;
-
-            setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
         }
     }
 
-    private void showTitle(boolean show) {
-        TitleProperty property = mTitleProperty;
-        if (!show) {
-            property = new TitleProperty();
-            property.textColor = getCurrentHintTextColor();
-            int a = 0;
-            int r = (property.textColor >> 16) & 0xff;
-            int g = (property.textColor >> 8) & 0xff;
-            int b = property.textColor & 0xff;
-            property.textColor = a << 24 | r << 16 | g << 8 | b;
-            property.textSize = (int) getTextSize();
-            property.paddingLeft = getPaddingLeft();
-            property.paddingTop = getPaddingTop();
+    @SuppressWarnings("deprecation")
+    private void initBackground() {
+        Drawable[] drawable = null;
+        switch (mAttributes.getStyle()) {
+            case EditTextAttributes.STYLE_FILL: {
+                // Creating normal state drawable
+                ShapeDrawable normal = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadiiNull(), null, null));
+                normal.getPaint().setColor(mAttributes.getColor(2));
+
+                // Creating pressed state drawable
+                ShapeDrawable pressed = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadiiNull(), null, null));
+                pressed.getPaint().setColor(mAttributes.getColor(1));
+
+                // Creating disabled state drawable
+                ShapeDrawable disabled = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadiiNull(), null, null));
+                disabled.getPaint().setColor(mAttributes.getColor(3));
+                // disabled.getPaint().setAlpha(0xA0);
+
+                drawable = new Drawable[]{pressed, normal, disabled};
+            }
+            break;
+            case EditTextAttributes.STYLE_BOX: {
+                // Creating normal state drawable
+                GradientDrawable normal = new GradientDrawable();
+                normal.setCornerRadii(mAttributes.getOuterRadiiNull());
+                normal.setColor(Color.WHITE);
+                normal.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(2));
+
+                // Creating pressed state drawable
+                GradientDrawable pressed = new GradientDrawable();
+                pressed.setCornerRadii(mAttributes.getOuterRadiiNull());
+                pressed.setColor(Color.WHITE);
+                pressed.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(1));
+
+                // Creating disabled state drawable
+                GradientDrawable disabled = new GradientDrawable();
+                disabled.setCornerRadii(mAttributes.getOuterRadiiNull());
+                disabled.setColor(0x00ffffff | 0x1E000000);
+                disabled.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(3));
+
+                drawable = new Drawable[]{pressed, normal, disabled};
+            }
+            break;
+            case EditTextAttributes.STYLE_TRANSPARENT: {
+                // Creating normal state drawable
+                GradientDrawable normal = new GradientDrawable();
+                normal.setCornerRadii(mAttributes.getOuterRadiiNull());
+                normal.setColor(Color.TRANSPARENT);
+                normal.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(2));
+
+                // Creating pressed state drawable
+                GradientDrawable pressed = new GradientDrawable();
+                pressed.setCornerRadii(mAttributes.getOuterRadiiNull());
+                pressed.setColor(Color.TRANSPARENT);
+                pressed.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(1));
+
+                // Creating disabled state drawable
+                GradientDrawable disabled = new GradientDrawable();
+                disabled.setCornerRadii(mAttributes.getOuterRadiiNull());
+                disabled.setColor(Color.TRANSPARENT);
+                disabled.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(3));
+
+                drawable = new Drawable[]{pressed, normal, disabled};
+            }
+            break;
+            case EditTextAttributes.STYLE_LINE: {
+                // Creating normal state drawable
+                ShapeDrawable normal = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, mAttributes.getBorderWidth())));
+                normal.getPaint().setColor(mAttributes.getColor(2));
+
+                // Creating pressed state drawable
+                ShapeDrawable pressed = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, mAttributes.getBorderWidth() > 0 ? mAttributes.getBorderWidth() +
+                        getContext().getResources().getDimensionPixelSize(R.dimen.genius_editText_lineStyle_selectBorder) : 0)));
+                pressed.getPaint().setColor(mAttributes.getColor(1));
+
+                // Creating disabled state drawable
+                ShapeDrawable disabled = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, mAttributes.getBorderWidth() / 2), mAttributes.getBorderWidth() / 2, mAttributes.getBorderWidth()));
+                disabled.getPaint().setColor(mAttributes.getColor(3));
+                // disabled.getPaint().setAlpha(0xA0);
+
+                drawable = new Drawable[]{pressed, normal, disabled};
+            }
+            break;
         }
 
-        if (isAttachWindow) {
-            ObjectAnimator circleColorAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, TitleEvaluator.getInstance(), property);
-            circleColorAnimator.setDuration(THUMB_ANIMATION_DURATION);
-            circleColorAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            circleColorAnimator.start();
-        } else {
-            changeTitleProperty(property.clone());
+        if (drawable != null) {
+            Drawable states = createStateListDrawable(drawable);
+            // Set Background
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+                setBackgroundDrawable(states);
+            else
+                setBackground(states);
         }
     }
 
-    private void changeTitleProperty(TitleProperty value) {
-        mCurrentTitleProperty = value;
-        mHintPaint.setTextSize(mCurrentTitleProperty.textSize);
-        mHintPaint.setColor(mCurrentTitleProperty.textColor);
+    private void initTextColor() {
+        ColorStateList colors = null;
+        switch (mAttributes.getStyle()) {
+            case EditTextAttributes.STYLE_FILL:
+                if (mAttributes.getTextAppearance() == 1)
+                    colors = (createColorStateList(Color.BLACK, 0x2E000000));
+                else if (mAttributes.getTextAppearance() == 2)
+                    colors = (createColorStateList(Color.WHITE, 0x2E000000));
+                else colors = (createColorStateList(0xEEFFFFFF, 0x2E000000));
+                break;
+            case EditTextAttributes.STYLE_BOX:
+                if (mAttributes.getTextAppearance() == 1)
+                    colors = (createColorStateList(mAttributes.getColor(1), mAttributes.getColor(1) & 0x2E000000));
+                else if (mAttributes.getTextAppearance() == 2)
+                    colors = (createColorStateList(mAttributes.getColor(3), mAttributes.getColor(3) & 0x2E000000));
+                else
+                    colors = (createColorStateList(mAttributes.getColor(2), mAttributes.getColor(2) & 0x2E000000));
+                break;
+            case EditTextAttributes.STYLE_TRANSPARENT:
+                if (mAttributes.getTextAppearance() == 1)
+                    colors = (createColorStateList(mAttributes.getColor(0), mAttributes.getColor(0) & 0x2E000000));
+                else if (mAttributes.getTextAppearance() == 2)
+                    colors = (createColorStateList(mAttributes.getColor(2), mAttributes.getColor(2) & 0x2E000000));
+                else
+                    colors = (createColorStateList(mAttributes.getColor(1), mAttributes.getColor(1) & 0x2E000000));
+                break;
+            case EditTextAttributes.STYLE_LINE:
+                if (mAttributes.getTextAppearance() == 1)
+                    colors = (createColorStateList(Color.BLACK, 0x5E000000));
+                else if (mAttributes.getTextAppearance() == 2)
+                    colors = (createColorStateList(Color.WHITE, 0x5EFFFFFF));
+                else
+                    colors = (createColorStateList(mAttributes.getColor(0), mAttributes.getColor(0) & 0x2E000000));
+                break;
+        }
+        if (colors != null) {
+            setTextColor(colors);
+        }
+    }
+
+    private void initHintTextColor() {
+        ColorStateList colors;
+        switch (mAttributes.getStyle()) {
+            case EditTextAttributes.STYLE_FILL:
+                colors = (createColorStateList(mAttributes.getColor(3), 0xEEFFFFFF, 0x40000000));
+                break;
+            case EditTextAttributes.STYLE_BOX:
+                colors = (createColorStateList(mAttributes.getColor(3), mAttributes.getColor(2), mAttributes.getColor(3) & 0x00ffffff | 0x90000000));
+                break;
+            default:
+                colors = (createColorStateList(mAttributes.getColor(3), mAttributes.getColor(2), mAttributes.getColor(3) & 0x00ffffff | 0x90000000));
+                break;
+        }
+
+        if (colors != null) {
+            setHintTextColor(colors);
+        }
+    }
+
+    private void setTitleProperty(TitleProperty value) {
+        mCurTitleProperty = value;
         invalidate();
     }
 
+    private int getCurrentTitleTextColor() {
+        if (mAttributes.getTitleTextColor() == null) {
+            ColorStateList colors = getHintTextColors();
+            if (colors == null)
+                return getCurrentHintTextColor();
+            else
+                return colors.getColorForState(getDrawableState(), 0);
+        } else
+            return mAttributes.getTitleTextColor().getColorForState(getDrawableState(), 0);
+    }
+
+    @SuppressWarnings("NullableProblems")
     @Override
     protected void onDraw(Canvas canvas) {
 
-        if (isShowTitle && mHintPaint != null && mCurrentTitleProperty != null) {
+        // Draw Title Text
+        if (mAttributes.isShowTitle() && mTitlePaint != null && mCurTitleProperty != null && mCurTitleProperty.mAlpha != 0) {
             CharSequence buf = getHint();
             if (buf != null) {
+                mTitlePaint.setTextSize(mCurTitleProperty.mTextSize);
+
+                int color = getCurrentTitleTextColor();
+                int alpha = (int) (((color >> 24) & 0xff) * (mCurTitleProperty.mAlpha / 255.0f) + 0.5);
+
+                mTitlePaint.setColor(color);
+                mTitlePaint.setAlpha(alpha);
+
                 canvas.drawText(buf, 0, buf.length(),
-                        mCurrentTitleProperty.paddingLeft,
-                        mCurrentTitleProperty.paddingTop + mCurrentTitleProperty.textSize,
-                        mHintPaint);
+                        mCurTitleProperty.mPaddingLeft,
+                        mCurTitleProperty.mPaddingTop + mCurTitleProperty.mTextSize,
+                        mTitlePaint);
             }
         }
 
@@ -282,7 +411,10 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         isAttachWindow = false;
-        removeTextChangedListener(this);
+        if (mTextWatcher != null) {
+            removeTextChangedListener(mTextWatcher);
+            mTextWatcher = null;
+        }
     }
 
     @Override
@@ -291,122 +423,128 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (mHintPaint != null) {
-            boolean have = s != null && s.length() > 0;
-            if (have != isHaveText) {
-                isHaveText = have;
-                showTitle(isHaveText);
-            }
-        }
-    }
-
-    public Attributes getAttributes() {
+    public EditTextAttributes getAttributes() {
         return mAttributes;
     }
 
-    public TitleProperty getTitleProperty() {
-        return mTitleProperty;
+    /**
+     * =============================================================================================
+     * Init State List Drawable and Color
+     * =============================================================================================
+     */
+
+    private StateListDrawable createStateListDrawable(Drawable drawable[]) {
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, drawable[0]);
+        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[0]);
+        states.addState(new int[]{android.R.attr.state_enabled}, drawable[1]);
+        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[2]);
+        return states;
     }
 
-    public void setTitleProperty(TitleProperty titleProperty) {
-        if (!mTitleProperty.equals(titleProperty)) {
-            mTitleProperty = titleProperty.clone();
-            invalidateTitle();
+    private ColorStateList createColorStateList(int normal, int unable) {
+        int[] colors = new int[]{normal, unable};
+        int[][] states = new int[2][];
+        states[0] = new int[]{android.R.attr.state_enabled};
+        states[1] = new int[]{-android.R.attr.state_enabled};
+        return new ColorStateList(states, colors);
+    }
+
+    private ColorStateList createColorStateList(int normal, int pressed, int unable) {
+        int[] colors = new int[]{pressed, pressed, normal, unable};
+        int[][] states = new int[4][];
+        states[0] = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
+        states[1] = new int[]{android.R.attr.state_focused, android.R.attr.state_enabled};
+        states[2] = new int[]{android.R.attr.state_enabled};
+        states[3] = new int[]{-android.R.attr.state_enabled};
+        return new ColorStateList(states, colors);
+    }
+
+    /**
+     * =============================================================================================
+     * The Animate
+     * =============================================================================================
+     */
+
+    private void animateShowTitle(boolean show) {
+        TitleProperty property;
+        if (show)
+            property = new TitleProperty(mAttributes);
+        else {
+            property = new TitleProperty();
+            property.mAlpha = 0;
+            property.mTextSize = (int) getTextSize();
+            property.mPaddingLeft = getPaddingLeft();
+            property.mPaddingTop = getPaddingTop();
+        }
+
+        if (isAttachWindow) {
+            if (mAnimator == null) {
+                mAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, new TitleEvaluator(mCurTitleProperty), property);
+                mAnimator.setDuration(ANIMATION_DURATION);
+                mAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            } else {
+                mAnimator.cancel();
+                mAnimator.setObjectValues(property);
+            }
+            mAnimator.start();
+        } else {
+            setTitleProperty(property);
         }
     }
 
-    public void setShowTitle(boolean isShow) {
-        if (isShow != isShowTitle) {
-            isShowTitle = isShow;
-            if (isShowTitle)
-                addTextChangedListener(this);
-            else
-                removeTextChangedListener(this);
+    /**
+     * =============================================================================================
+     * The custom properties
+     * =============================================================================================
+     */
 
-            invalidateTitle();
+    public final static class TitleProperty {
+        private int mPaddingLeft;
+        private int mPaddingTop;
+        private int mTextSize;
+        private int mAlpha;
+
+        public TitleProperty() {
+        }
+
+        public TitleProperty(EditTextAttributes attributes) {
+            mPaddingLeft = attributes.getTitleTextPaddingLeft();
+            mPaddingTop = attributes.getTitleTextPaddingTop();
+            mTextSize = attributes.getTitleTextSize();
+            mAlpha = 255;
         }
     }
 
-    public static class TitleProperty {
-        private int paddingLeft;
-        private int paddingTop;
-        private int textSize;
-        private int textColor;
+    private final static class TitleEvaluator implements TypeEvaluator<TitleProperty> {
 
-        @Override
-        public TitleProperty clone() {
-            TitleProperty titleProperty = new TitleProperty();
-            titleProperty.paddingLeft = this.paddingLeft;
-            titleProperty.paddingTop = this.paddingTop;
-            titleProperty.textSize = this.textSize;
-            titleProperty.textColor = this.textColor;
-            return titleProperty;
-        }
+        private final TitleProperty mProperty;
 
-        @Override
-        public boolean equals(Object o) {
-            TitleProperty titleProperty = (TitleProperty) o;
-            return titleProperty.paddingLeft == this.paddingLeft
-                    && titleProperty.paddingTop == this.paddingTop
-                    && titleProperty.textSize == this.textSize
-                    && titleProperty.textColor == this.textColor;
-        }
-    }
-
-    private static class TitleEvaluator implements TypeEvaluator<TitleProperty> {
-        private static final TitleEvaluator sInstance = new TitleEvaluator();
-
-        public static TitleEvaluator getInstance() {
-            return sInstance;
+        public TitleEvaluator(TitleProperty property) {
+            mProperty = property;
         }
 
         @Override
         public TitleProperty evaluate(float fraction, TitleProperty startValue, TitleProperty endValue) {
-            TitleProperty value = new TitleProperty();
             // Values
-            value.paddingLeft = (int) (startValue.paddingLeft + (endValue.paddingLeft - startValue.paddingLeft) * fraction);
-            value.paddingTop = (int) (startValue.paddingTop + (endValue.paddingTop - startValue.paddingTop) * fraction);
-            value.textSize = (int) (startValue.textSize + (endValue.textSize - startValue.textSize) * fraction);
-
-            // Color
-            int startA = (startValue.textColor >> 24) & 0xff;
-            int startR = (startValue.textColor >> 16) & 0xff;
-            int startG = (startValue.textColor >> 8) & 0xff;
-            int startB = startValue.textColor & 0xff;
-
-            int endA = (endValue.textColor >> 24) & 0xff;
-            int endR = (endValue.textColor >> 16) & 0xff;
-            int endG = (endValue.textColor >> 8) & 0xff;
-            int endB = endValue.textColor & 0xff;
-
-            value.textColor = (startA + (int) (fraction * (endA - startA))) << 24 |
-                    (startR + (int) (fraction * (endR - startR))) << 16 |
-                    (startG + (int) (fraction * (endG - startG))) << 8 |
-                    (startB + (int) (fraction * (endB - startB)));
-
-            return value;
+            mProperty.mPaddingLeft = (int) (startValue.mPaddingLeft + (endValue.mPaddingLeft - startValue.mPaddingLeft) * fraction);
+            mProperty.mPaddingTop = (int) (startValue.mPaddingTop + (endValue.mPaddingTop - startValue.mPaddingTop) * fraction);
+            mProperty.mTextSize = (int) (startValue.mTextSize + (endValue.mTextSize - startValue.mTextSize) * fraction);
+            mProperty.mAlpha = (int) (startValue.mAlpha + (endValue.mAlpha - startValue.mAlpha) * fraction);
+            return mProperty;
         }
     }
 
-    private static final Property<GeniusEditText, TitleProperty> TITLE_PROPERTY = new Property<GeniusEditText, TitleProperty>(TitleProperty.class, "titleProperty") {
+    private final static Property<GeniusEditText, TitleProperty> TITLE_PROPERTY = new Property<GeniusEditText, TitleProperty>(TitleProperty.class, "titleProperty") {
         @Override
         public TitleProperty get(GeniusEditText object) {
-            return object.mCurrentTitleProperty;
+            return object.mCurTitleProperty;
         }
 
         @Override
         public void set(GeniusEditText object, TitleProperty value) {
-            object.changeTitleProperty(value);
+            object.setTitleProperty(value);
         }
     };
+
 }
