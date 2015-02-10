@@ -182,3 +182,13 @@
 
 
 ### V2.+.+
+* `2015/02/04` 优化 TouchEffectAnimator 点击效果，减少 CPU 消耗，同时优化第一次点击时出现动画未显示的现象。
+* `2015/02/05` 优化 TextView ，减少不必要的内存消耗
+* `2015/02/05` 添加 EditText Line Style ，添加底部线条效果
+* `2015/02/06` 添加 EditText ，状态效果，普通、选中、无法操作
+* `2015/02/06` 优化 EditText ，不同的效果采用不同的渲染，减少内存消耗
+* `2015/02/09` 重新设计 Attribute 类，尽可能的分块封装
+* `2015/02/09` 重新设计 CheckBox、EditText 动画实现，使其更加流畅减少内存消耗
+* `2015/02/09` 优化并简化 EditText 实现，添加 Title 变色属性
+* `2015/02/10` Button 添加边框属性
+* `2015/02/10` 所有控件优化并把属性集中到 Attributes 中，添加后更改应使用 Attribute.notifyAttributeChange()

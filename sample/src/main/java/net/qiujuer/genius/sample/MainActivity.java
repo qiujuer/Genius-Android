@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         initCheckBox();
+        initEditText();
         initBlur();
 
         // Init GeniusButton and Test delayClick
@@ -75,6 +76,22 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             @Override
             public void onCheckedChanged(GeniusCheckBox checkBox, boolean isChecked) {
                 (findViewById(R.id.checkbox_disEnable_strawberryIce)).setEnabled(isChecked);
+            }
+        });
+    }
+
+    private void initEditText() {
+        GeniusCheckBox checkBox = (GeniusCheckBox) findViewById(R.id.checkbox_editText_isEnable);
+        checkBox.setOnCheckedChangeListener(new GeniusCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(GeniusCheckBox checkBox, boolean isChecked) {
+                (findViewById(R.id.editText_fill)).setEnabled(isChecked);
+                (findViewById(R.id.editText_box)).setEnabled(isChecked);
+                (findViewById(R.id.editText_transparent)).setEnabled(isChecked);
+                (findViewById(R.id.editText_line)).setEnabled(isChecked);
+                (findViewById(R.id.editText_noHave)).setEnabled(isChecked);
+                (findViewById(R.id.editText_radius)).setEnabled(isChecked);
+                (findViewById(R.id.editText_title)).setEnabled(isChecked);
             }
         });
     }
