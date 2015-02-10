@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="genius_checkBox_ringWidth">2dp</dimen>
+    <dimen name="genius_editText_titleTextSize">12sp</dimen>
+    <dimen name="genius_editText_titlePaddingTop">4dp</dimen>
+    <dimen name="genius_editText_titlePaddingLeft">0dp</dimen>
+    <dimen name="genius_editText_lineStyle_selectBorder">0.5dp</dimen>
+</resources>

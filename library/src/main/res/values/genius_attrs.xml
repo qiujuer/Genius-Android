@@ -36,6 +36,7 @@
         <attr name="g_fontExtension" />
         <attr name="g_textAppearance" />
         <attr name="g_cornerRadius" />
+        <attr name="g_borderWidth" />
 
         <attr name="g_cornerRadii_A" />
         <attr name="g_cornerRadii_B" />
@@ -110,13 +111,14 @@
         <attr name="g_cornerRadii_D" />
 
         <attr name="g_fieldStyle" format="integer">
-            <enum name="fill" value="0" />
-            <enum name="box" value="1" />
-            <enum name="transparent" value="2" />
+            <enum name="fill" value="1" />
+            <enum name="box" value="2" />
+            <enum name="transparent" value="3" />
+            <enum name="line" value="4" />
         </attr>
 
         <attr name="g_showTitle" format="boolean" />
-        <attr name="g_titleTextColor" format="color" />
+        <attr name="g_titleTextColor" format="reference|color" />
         <attr name="g_titleTextSize" format="dimension" />
         <attr name="g_titlePaddingTop" format="dimension" />
         <attr name="g_titlePaddingLeft" format="dimension" />

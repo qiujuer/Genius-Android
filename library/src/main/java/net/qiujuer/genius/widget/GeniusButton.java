@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/03/2014
- * Changed 01/30/2015
+ * Changed 02/10/2015
  * Version 2.0.0
  * Author Qiujuer
  *
@@ -26,6 +26,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -35,20 +36,19 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
 
-import net.qiujuer.genius.Attributes;
 import net.qiujuer.genius.GeniusUI;
 import net.qiujuer.genius.R;
 import net.qiujuer.genius.animation.TouchEffect;
 import net.qiujuer.genius.animation.TouchEffectAnimator;
+import net.qiujuer.genius.widget.attribute.Attributes;
+import net.qiujuer.genius.widget.attribute.ButtonAttributes;
+import net.qiujuer.genius.widget.attribute.GeniusAttributes;
 
 /**
  * GeniusButton this have touch effect animator
  */
 public class GeniusButton extends Button implements Attributes.AttributeChangeListener {
-    private int mBottom = 0;
-    private boolean mDelayClick = true;
-
-    private Attributes mAttributes = null;
+    private ButtonAttributes mAttributes = null;
     private TouchEffectAnimator mTouchEffectAnimator = null;
 
     public GeniusButton(Context context) {
@@ -76,7 +76,7 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
         final int paddingBottom = getPaddingBottom();
 
         if (mAttributes == null)
-            mAttributes = new Attributes(this, getResources());
+            mAttributes = new ButtonAttributes(this, getResources());
 
         if (attrs != null) {
             // Set if has own attrs
@@ -86,12 +86,13 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
 
             // Getting common attributes
             int customTheme = a.getResourceId(R.styleable.GeniusButton_g_theme, Attributes.DEFAULT_THEME);
-            mAttributes.setThemeSilent(customTheme, getResources());
+            mAttributes.setTheme(customTheme, getResources());
 
-            mAttributes.setFontFamily(Attributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusButton_g_fontFamily, 0)]);
-            mAttributes.setFontWeight(Attributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusButton_g_fontWeight, 3)]);
+            mAttributes.setFontFamily(GeniusAttributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusButton_g_fontFamily, 0)]);
+            mAttributes.setFontWeight(GeniusAttributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusButton_g_fontWeight, 3)]);
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusButton_g_fontExtension));
-            mAttributes.setTextAppearance(a.getInt(R.styleable.GeniusButton_g_textAppearance, Attributes.DEFAULT_TEXT_APPEARANCE));
+            mAttributes.setTextAppearance(a.getInt(R.styleable.GeniusButton_g_textAppearance, GeniusAttributes.DEFAULT_TEXT_APPEARANCE));
+            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusButton_g_borderWidth, GeniusAttributes.DEFAULT_BORDER_WIDTH));
 
             // Set init Corners Radius
             mAttributes.initCornerRadius(a, R.styleable.GeniusButton_g_cornerRadius,
@@ -99,57 +100,29 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
                     R.styleable.GeniusButton_g_cornerRadii_C, R.styleable.GeniusButton_g_cornerRadii_D);
 
             // Getting view specific attributes
-            mBottom = a.getDimensionPixelSize(R.styleable.GeniusButton_g_blockButtonEffectHeight, mBottom);
+            mAttributes.setBottom(a.getDimensionPixelSize(R.styleable.GeniusButton_g_blockButtonEffectHeight, mAttributes.getBottom()));
             setTouchEffect(a.getInt(R.styleable.GeniusButton_g_touchEffect, 3));
             setTouchEffectColor(a.getColor(R.styleable.GeniusButton_g_touchEffectColor, -1));
-            setDelayClick(a.getBoolean(R.styleable.GeniusButton_g_delayClick, mDelayClick));
+            mAttributes.setDelayClick(a.getBoolean(R.styleable.GeniusButton_g_delayClick, mAttributes.isDelayClick()));
 
             a.recycle();
         }
 
         if (!mAttributes.isHasOwnBackground()) {
 
-            // Creating normal state drawable
-            ShapeDrawable normalFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
-            normalFront.getPaint().setColor(mAttributes.getColor(2));
-
-            ShapeDrawable normalBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
-            normalBack.getPaint().setColor(mAttributes.getColor(1));
-
-            normalBack.setPadding(0, 0, 0, mBottom);
-
-            Drawable[] d = {normalBack, normalFront};
-            LayerDrawable normal = new LayerDrawable(d);
-
-            // Creating pressed state drawable
-            ShapeDrawable pressedFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
-            pressedFront.getPaint().setColor(mAttributes.getColor(1));
-
-            ShapeDrawable pressedBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
-            pressedBack.getPaint().setColor(mAttributes.getColor(0));
-            if (mBottom != 0) pressedBack.setPadding(0, 0, 0, mBottom / 2);
-
-            Drawable[] d2 = {pressedBack, pressedFront};
-            LayerDrawable pressed = new LayerDrawable(d2);
-
-            // Creating disabled state drawable
-            ShapeDrawable disabledFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
-            disabledFront.getPaint().setColor(mAttributes.getColor(3));
-            disabledFront.getPaint().setAlpha(0xA0);
-
-            ShapeDrawable disabledBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
-            disabledBack.getPaint().setColor(mAttributes.getColor(2));
-
-            Drawable[] d3 = {disabledBack, disabledFront};
-            LayerDrawable disabled = new LayerDrawable(d3);
+            Drawable[] background;
+            if (mAttributes.getBorderWidth() > 0)
+                background = initBorderBackground();
+            else
+                background = initBackground();
 
             StateListDrawable states = new StateListDrawable();
 
             if (mTouchEffectAnimator == null)
-                states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, pressed);
-            states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, pressed);
-            states.addState(new int[]{android.R.attr.state_enabled}, normal);
-            states.addState(new int[]{-android.R.attr.state_enabled}, disabled);
+                states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, background[1]);
+            states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, background[1]);
+            states.addState(new int[]{android.R.attr.state_enabled}, background[0]);
+            states.addState(new int[]{-android.R.attr.state_enabled}, background[2]);
 
             // Set Background
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
@@ -173,6 +146,90 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
             Typeface typeface = GeniusUI.getFont(getContext(), mAttributes);
             if (typeface != null) setTypeface(typeface);
         }
+    }
+
+    private Drawable[] initBackground() {
+        Drawable[] background = new Drawable[3];
+
+        // Creating normal state drawable
+        ShapeDrawable normalFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
+        normalFront.getPaint().setColor(mAttributes.getColor(2));
+
+        if (mAttributes.getBottom() > 0) {
+            ShapeDrawable normalBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
+            normalBack.getPaint().setColor(mAttributes.getColor(1));
+            normalBack.setPadding(0, 0, 0, mAttributes.getBottom());
+
+            Drawable[] d = {normalBack, normalFront};
+            LayerDrawable normal = new LayerDrawable(d);
+
+            background[0] = normal;
+        } else
+            background[0] = normalFront;
+
+        // Creating pressed state drawable
+        ShapeDrawable pressedFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
+        pressedFront.getPaint().setColor(mAttributes.getColor(1));
+
+        if (mAttributes.getBottom() > 0) {
+            ShapeDrawable pressedBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
+            pressedBack.getPaint().setColor(mAttributes.getColor(0));
+            if (mAttributes.getBottom() != 0)
+                pressedBack.setPadding(0, 0, 0, mAttributes.getBottom() / 2);
+
+            Drawable[] d2 = {pressedBack, pressedFront};
+            LayerDrawable pressed = new LayerDrawable(d2);
+
+            background[1] = pressed;
+        } else
+            background[1] = pressedFront;
+
+        // Creating disabled state drawable
+        ShapeDrawable disabledFront = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
+        disabledFront.getPaint().setColor(mAttributes.getColor(3));
+        disabledFront.getPaint().setAlpha(0xA0);
+
+
+        if (mAttributes.getBottom() > 0) {
+            ShapeDrawable disabledBack = new ShapeDrawable(new RoundRectShape(mAttributes.getOuterRadii(), null, null));
+            disabledBack.getPaint().setColor(mAttributes.getColor(2));
+
+            Drawable[] d3 = {disabledBack, disabledFront};
+            LayerDrawable disabled = new LayerDrawable(d3);
+
+            background[2] = disabled;
+        } else
+            background[2] = disabledFront;
+
+        return background;
+    }
+
+    private Drawable[] initBorderBackground() {
+        Drawable[] background = new Drawable[3];
+
+        // Creating normal state drawable
+        GradientDrawable normal = new GradientDrawable();
+        normal.setCornerRadii(mAttributes.getOuterRadiiNull());
+        normal.setColor(mAttributes.getColor(2));
+        normal.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(1));
+        background[0] = normal;
+
+        // Creating pressed state drawable
+        GradientDrawable pressed = new GradientDrawable();
+        pressed.setCornerRadii(mAttributes.getOuterRadiiNull());
+        pressed.setColor(mAttributes.getColor(1));
+        pressed.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(0));
+        background[1] = pressed;
+
+        // Creating disabled state drawable
+        GradientDrawable disabled = new GradientDrawable();
+        disabled.setCornerRadii(mAttributes.getOuterRadiiNull());
+        disabled.setColor(mAttributes.getColor(3));
+        disabled.setStroke(mAttributes.getBorderWidth(), mAttributes.getColor(2));
+        disabled.setAlpha(0xA0);
+        background[2] = disabled;
+
+        return background;
     }
 
     private void setTouchEffect(int value) {
@@ -215,17 +272,9 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
             mTouchEffectAnimator.setEffectColor(touchEffectColor);
     }
 
-    public void setDelayClick(boolean isDelay) {
-        mDelayClick = isDelay;
-    }
-
-    public boolean isDelayClick() {
-        return mDelayClick;
-    }
-
     @Override
     public boolean performClick() {
-        if (mDelayClick && mTouchEffectAnimator != null) {
+        if (mAttributes.isDelayClick() && mTouchEffectAnimator != null) {
             return !mTouchEffectAnimator.interceptClick() && super.performClick();
         } else
             return super.performClick();
@@ -251,7 +300,7 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
     }
 
     @Override
-    public Attributes getAttributes() {
+    public ButtonAttributes getAttributes() {
         return mAttributes;
     }
 }
