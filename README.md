@@ -1,6 +1,6 @@
 ﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
 
-## Version 2.3.0 Guide
+## Version 2.3.1 Guide
 
 [`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android)
 
@@ -88,7 +88,7 @@
 ```gradle
 // Adding to your project "build.gradle" file
 dependencies {
-  compile 'com.github.qiujuer:genius:2.3.0'
+  compile 'com.github.qiujuer:genius:2.3.1'
 }
 
 ```
@@ -96,8 +96,8 @@ dependencies {
 
 ## Update Log 
 
-* Version: `2.3.0`
-* Date: `2015-02-10`
+* Version: `2.3.1`
+* Date: `2015-02-12`
 * Log: [`Notes`](docs/NOTES.md)
 
 
