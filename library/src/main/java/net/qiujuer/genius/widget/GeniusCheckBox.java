@@ -47,6 +47,7 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
  * The widget extend view widget
  */
 public class GeniusCheckBox extends View implements Checkable, Attributes.AttributeChangeListener {
+    private static final boolean IS_HEIGHT_JELLY_BEAN_MR1 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
     private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
     private static final int ANIMATION_DURATION = 250;
 
@@ -167,7 +168,11 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
 
             int center = Math.min(contentHeight, contentWidth) / 2;
             int areRadius = center - (mAttributes.getRingWidth() + 1) / 2;
-            mCenterX = center + paddingLeft;
+
+            if (isRtl())
+                mCenterX = w - center - paddingRight;
+            else
+                mCenterX = center + paddingLeft;
             mCenterY = center + paddingTop;
 
             if (mOval == null)
@@ -307,6 +312,14 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
             }
             mBroadcasting = false;
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public boolean isRtl() {
+        return IS_HEIGHT_JELLY_BEAN_MR1 &&
+                (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
+        // return IS_HEIGHT_JELLY_BEAN_MR1 &&
+        //        (ViewCompat.getLayoutDirection(this) == LAYOUT_DIRECTION_RTL);
     }
 
     @Override
