@@ -386,7 +386,7 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
                 mTitlePaint.setTextSize(mCurTitleProperty.mTextSize);
 
                 int color = getCurrentTitleTextColor();
-                int alpha = (int) (((color >> 24) & 0xff) * (mCurTitleProperty.mAlpha / 255.0f) + 0.5);
+                int alpha = GeniusUI.modulateAlpha(Color.alpha(color), mCurTitleProperty.mAlpha);
 
                 mTitlePaint.setColor(color);
                 mTitlePaint.setAlpha(alpha);

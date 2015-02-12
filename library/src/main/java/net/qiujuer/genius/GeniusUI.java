@@ -181,4 +181,16 @@ public class GeniusUI {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
     }
+
+    /**
+     * Modulate the colorAlpha to new alpha
+     *
+     * @param colorAlpha Color's alpha
+     * @param alpha      You alpha
+     * @return Modulate alpha
+     */
+    public static int modulateAlpha(int colorAlpha, int alpha) {
+        int scale = alpha + (alpha >> 7);
+        return colorAlpha * scale >> 8;
+    }
 }

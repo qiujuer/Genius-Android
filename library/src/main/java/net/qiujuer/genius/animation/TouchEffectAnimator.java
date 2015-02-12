@@ -22,6 +22,7 @@ package net.qiujuer.genius.animation;
 
 import android.annotation.TargetApi;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -33,6 +34,8 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
+
+import net.qiujuer.genius.GeniusUI;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -85,6 +88,7 @@ public class TouchEffectAnimator {
         mView = view;
         mPaint = new Paint(ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(Color.BLACK);
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         initTouch();
@@ -120,18 +124,12 @@ public class TouchEffectAnimator {
     }
 
     public void setEffectColor(int effectColor) {
-        int alpha = (effectColor >> 24) & 0xff;
+        // Get Alpha
+        int alpha = Color.alpha(effectColor);
         if (alpha != 255) {
-            mEndBackAlpha = (int) (MAX_BACK_ALPHA * (alpha / 255.0f));
-            mEndRippleAlpha = (int) (MAX_RIPPLE_ALPHA * (alpha / 255.0f));
-            // Set not alpha color
-            int a = 255;
-            int r = (effectColor >> 16) & 0xff;
-            int g = (effectColor >> 8) & 0xff;
-            int b = effectColor & 0xff;
-            effectColor = a << 24 | r << 16 | g << 8 | b;
+            mEndBackAlpha = GeniusUI.modulateAlpha(alpha, MAX_BACK_ALPHA);
+            mEndRippleAlpha = GeniusUI.modulateAlpha(alpha, MAX_RIPPLE_ALPHA);
         }
-
         // Set Color
         mPaint.setColor(effectColor);
     }
@@ -142,7 +140,7 @@ public class TouchEffectAnimator {
 
     public void setClipRadii(float[] radii) {
         if (radii == null || radii.length < 8) {
-            throw new ArrayIndexOutOfBoundsException("radii[] needs 8 values");
+            throw new ArrayIndexOutOfBoundsException("radii must have >= 8 values");
         }
         this.mRadii = radii;
     }
