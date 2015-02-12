@@ -63,8 +63,8 @@ public class Attributes {
     }
 
     public void setColors(int[] colors) {
-        if (colors == null || colors.length < 8)
-            throw new NullPointerException("colors length >= 8");
+        if (colors == null || colors.length < 6)
+            throw new ArrayIndexOutOfBoundsException("colors mast have >= 6 values");
         this.colors = colors;
     }
 
