@@ -574,6 +574,53 @@
                 genius:g_theme="@array/StrawberryIce" />
         </LinearLayout>
 
+        <!-- SeekBar -->
+        <net.qiujuer.genius.widget.GeniusTextView
+            android:id="@+id/title_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="SeekBar"
+            android:textSize="20sp"
+            genius:g_textColor="main" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <net.qiujuer.genius.widget.GeniusSeekBar
+                android:id="@+id/discrete1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                genius:g_max="5"
+                genius:g_min="-5"
+                genius:g_value="-2" />
+
+            <net.qiujuer.genius.widget.GeniusSeekBar
+                android:id="@+id/discrete2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                genius:g_allowTrackClickToDrag="true"
+                genius:g_indicatorColor="@color/my_floater_color"
+                genius:g_indicatorFormatter="\\o/ %d"
+                genius:g_indicatorTextAppearance="@style/CustomFloaterTextAppearance"
+                genius:g_progressColor="@color/my_progress_color"
+                genius:g_rippleColor="#FF7788FF" />
+
+            <net.qiujuer.genius.widget.GeniusSeekBar
+                android:id="@+id/discrete3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                genius:g_indicatorFormatter="%04d"
+                genius:g_max="1000"
+                genius:g_min="1" />
+        </LinearLayout>
+
         <!-- BlurKit -->
         <net.qiujuer.genius.widget.GeniusTextView
             android:id="@+id/title_blur"

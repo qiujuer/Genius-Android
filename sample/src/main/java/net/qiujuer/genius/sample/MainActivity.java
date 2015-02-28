@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import net.qiujuer.genius.app.BlurKit;
 import net.qiujuer.genius.widget.GeniusCheckBox;
+import net.qiujuer.genius.widget.GeniusAbsSeekBar;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -35,6 +36,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // Init GeniusButton and Test delayClick
         findViewById(R.id.button_skip_isDelay).setOnClickListener(this);
         findViewById(R.id.button_skip_disDelay).setOnClickListener(this);
+
+        GeniusAbsSeekBar discreteSeekBar1 = (GeniusAbsSeekBar) findViewById(R.id.discrete1);
+        discreteSeekBar1.setNumericTransformer(new GeniusAbsSeekBar.NumericTransformer() {
+            @Override
+            public int transform(int value) {
+                return value * 100;
+            }
+        });
     }
 
     @Override
