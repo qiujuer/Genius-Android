@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 02/10/2015
- * Changed 02/10/2015
+ * Changed 02/16/2015
  * Version 2.0.0
  * GeniusEditText
  *
@@ -23,7 +23,7 @@ package net.qiujuer.genius.widget.attribute;
 
 import android.content.res.Resources;
 
-public class ButtonAttributes extends GeniusAttributes {
+public class ButtonAttributes extends BaseAttributes {
     private int mBottom = 0;
     private boolean mDelayClick = true;
 

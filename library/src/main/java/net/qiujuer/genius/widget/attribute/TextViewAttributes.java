@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 02/09/2015
- * Changed 02/09/2015
+ * Changed 02/16/2015
  * Version 2.0.0
  * GeniusEditText
  *
@@ -22,7 +22,7 @@ package net.qiujuer.genius.widget.attribute;
 
 import android.content.res.Resources;
 
-public class TextViewAttributes extends GeniusAttributes {
+public class TextViewAttributes extends BaseAttributes {
     public static final int COLOR_STYLE_DARKER = 0;
     public static final int COLOR_STYLE_DARK = 1;
     public static final int COLOR_STYLE_MAIN = 2;

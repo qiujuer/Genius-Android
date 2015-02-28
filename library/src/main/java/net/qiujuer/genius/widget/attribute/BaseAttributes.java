@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 02/09/2015
- * Changed 02/09/2015
+ * Changed 02/16/2015
  * Version 2.0.0
  * GeniusEditText
  *
@@ -28,7 +28,7 @@ import android.util.AttributeSet;
 import net.qiujuer.genius.GeniusUI;
 
 
-public class GeniusAttributes extends Attributes {
+public class BaseAttributes extends Attributes {
     public static final String[] DEFAULT_FONT_FAMILY = new String[]{"roboto", "opensans"};
     public static final String[] DEFAULT_FONT_WEIGHT = new String[]{"bold", "extrabold", "extralight", "light", "regular"};
     public static final String DEFAULT_FONT_EXTENSION = "ttf";
@@ -60,7 +60,7 @@ public class GeniusAttributes extends Attributes {
     private boolean hasHintTextColor;
 
 
-    public GeniusAttributes(AttributeChangeListener attributeChangeListener, Resources resources) {
+    public BaseAttributes(AttributeChangeListener attributeChangeListener, Resources resources) {
         super(attributeChangeListener, resources);
     }
 

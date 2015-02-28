@@ -42,7 +42,7 @@ import net.qiujuer.genius.animation.TouchEffect;
 import net.qiujuer.genius.animation.TouchEffectAnimator;
 import net.qiujuer.genius.widget.attribute.Attributes;
 import net.qiujuer.genius.widget.attribute.ButtonAttributes;
-import net.qiujuer.genius.widget.attribute.GeniusAttributes;
+import net.qiujuer.genius.widget.attribute.BaseAttributes;
 
 /**
  * GeniusButton this have touch effect animator
@@ -88,11 +88,11 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
             int customTheme = a.getResourceId(R.styleable.GeniusButton_g_theme, Attributes.DEFAULT_THEME);
             mAttributes.setTheme(customTheme, getResources());
 
-            mAttributes.setFontFamily(GeniusAttributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusButton_g_fontFamily, 0)]);
-            mAttributes.setFontWeight(GeniusAttributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusButton_g_fontWeight, 3)]);
+            mAttributes.setFontFamily(BaseAttributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusButton_g_fontFamily, 0)]);
+            mAttributes.setFontWeight(BaseAttributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusButton_g_fontWeight, 3)]);
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusButton_g_fontExtension));
-            mAttributes.setTextAppearance(a.getInt(R.styleable.GeniusButton_g_textAppearance, GeniusAttributes.DEFAULT_TEXT_APPEARANCE));
-            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusButton_g_borderWidth, GeniusAttributes.DEFAULT_BORDER_WIDTH));
+            mAttributes.setTextAppearance(a.getInt(R.styleable.GeniusButton_g_textAppearance, BaseAttributes.DEFAULT_TEXT_APPEARANCE));
+            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusButton_g_borderWidth, BaseAttributes.DEFAULT_BORDER_WIDTH));
 
             // Set init Corners Radius
             mAttributes.initCornerRadius(a, R.styleable.GeniusButton_g_cornerRadius,

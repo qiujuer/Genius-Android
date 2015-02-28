@@ -31,7 +31,7 @@ import android.widget.TextView;
 import net.qiujuer.genius.GeniusUI;
 import net.qiujuer.genius.R;
 import net.qiujuer.genius.widget.attribute.Attributes;
-import net.qiujuer.genius.widget.attribute.GeniusAttributes;
+import net.qiujuer.genius.widget.attribute.BaseAttributes;
 import net.qiujuer.genius.widget.attribute.TextViewAttributes;
 
 /**
@@ -72,10 +72,10 @@ public class GeniusTextView extends TextView implements Attributes.AttributeChan
             int customTheme = a.getResourceId(R.styleable.GeniusTextView_g_theme, Attributes.DEFAULT_THEME);
             mAttributes.setTheme(customTheme, getResources());
 
-            mAttributes.setFontFamily(GeniusAttributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusTextView_g_fontFamily, 0)]);
-            mAttributes.setFontWeight(GeniusAttributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusTextView_g_fontWeight, 3)]);
+            mAttributes.setFontFamily(BaseAttributes.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.GeniusTextView_g_fontFamily, 0)]);
+            mAttributes.setFontWeight(BaseAttributes.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.GeniusTextView_g_fontWeight, 3)]);
             mAttributes.setFontExtension(a.getString(R.styleable.GeniusTextView_g_fontExtension));
-            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, GeniusAttributes.DEFAULT_BORDER_WIDTH));
+            mAttributes.setBorderWidth(a.getDimensionPixelSize(R.styleable.GeniusTextView_g_borderWidth, BaseAttributes.DEFAULT_BORDER_WIDTH));
 
             // Set init Corners Radius
             mAttributes.initCornerRadius(a, R.styleable.GeniusTextView_g_cornerRadius,

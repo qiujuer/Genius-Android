@@ -31,7 +31,7 @@ import android.util.Log;
 import android.util.TypedValue;
 
 import net.qiujuer.genius.widget.attribute.Attributes;
-import net.qiujuer.genius.widget.attribute.GeniusAttributes;
+import net.qiujuer.genius.widget.attribute.BaseAttributes;
 
 /**
  * Created by QiuJu
@@ -65,7 +65,7 @@ public class GeniusUI {
      * @param attributes Attributes
      * @return Typeface
      */
-    public static Typeface getFont(Context context, GeniusAttributes attributes) {
+    public static Typeface getFont(Context context, BaseAttributes attributes) {
         String fontPath = "fonts/" + attributes.getFontFamily()
                 + "_" + attributes.getFontWeight()
                 + "." + attributes.getFontExtension();

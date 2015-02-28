@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 02/09/2015
- * Changed 02/09/2015
+ * Changed 02/16/2015
  * Version 2.0.0
  * GeniusEditText
  *
@@ -26,7 +26,7 @@ import android.content.res.Resources;
 import net.qiujuer.genius.R;
 
 
-public class EditTextAttributes extends GeniusAttributes {
+public class EditTextAttributes extends BaseAttributes {
     public static final int STYLE_FILL = 1;
     public static final int STYLE_BOX = 2;
     public static final int STYLE_TRANSPARENT = 3;
