@@ -22,7 +22,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import net.qiujuer.genius.drawable.MarkerDrawable;
+import net.qiujuer.genius.drawable.BalloonMarkerDrawable;
 
 /**
  * Wrapper compatibility class to call some API-Specific methods
@@ -37,12 +37,12 @@ public class GeniusCompat {
      * Sets the custom Outline provider on API>=21.
      * Does nothing on API<21
      *
-     * @param view           View
-     * @param markerDrawable OutlineProvider Drawable
+     * @param view                  View
+     * @param balloonMarkerDrawable OutlineProvider Drawable
      */
-    public static void setOutlineProvider(View view, final MarkerDrawable markerDrawable) {
+    public static void setOutlineProvider(View view, final BalloonMarkerDrawable balloonMarkerDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            GeniusCompatNotCrash.setOutlineProvider(view, markerDrawable);
+            GeniusCompatNotCrash.setOutlineProvider(view, balloonMarkerDrawable);
         }
     }
 

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) Gustavo Claramunt (AnderWeb) 2014.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +15,8 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/g_disabled_color" android:state_enabled="false"/>
-    <item android:color="@color/g_ripple_color_focused" android:state_focused="true"/>
-    <item android:color="@color/g_ripple_color_pressed" android:state_pressed="true"/>
-    <item android:color="@android:color/transparent"/>
+    <item android:color="@color/g_disabled_color" android:state_enabled="false" />
+    <item android:color="@color/g_ripple_color_focused" android:state_focused="true" />
+    <item android:color="@color/g_ripple_color_pressed" android:state_pressed="true" />
+    <item android:color="@android:color/transparent" />
 </selector>

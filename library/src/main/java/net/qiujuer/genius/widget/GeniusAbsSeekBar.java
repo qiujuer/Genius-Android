@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 02/25/2015
+ * Changed 03/01/2015
+ * Version 2.0.0
+ * GeniusEditText
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.qiujuer.genius.widget;
 
 import android.animation.ValueAnimator;
@@ -19,7 +39,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,13 +48,16 @@ import android.view.ViewParent;
 
 import net.qiujuer.genius.R;
 import net.qiujuer.genius.drawable.AlmostRippleDrawable;
-import net.qiujuer.genius.drawable.MarkerDrawable;
+import net.qiujuer.genius.drawable.BalloonMarkerDrawable;
 import net.qiujuer.genius.drawable.SeekBarDrawable;
 import net.qiujuer.genius.widget.attribute.Attributes;
 
 import java.util.Formatter;
 import java.util.Locale;
 
+/**
+ * This abstract class use to SeekBar
+ */
 public abstract class GeniusAbsSeekBar extends View implements Attributes.AttributeChangeListener {
     /**
      * Interface to transform the current internal value of this GeniusSeekBar to anther one for the visualization.
@@ -132,7 +154,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     public GeniusAbsSeekBar(Context context, AttributeSet attrs) {
-        this(context, attrs, R.style.DefaultSeekBar);
+        this(context, attrs, R.style.DefaultSeekBarStyle);
     }
 
     public GeniusAbsSeekBar(Context context, AttributeSet attrs, int defStyle) {
@@ -154,88 +176,85 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
         if (mAttributes == null)
             mAttributes = new Attributes(this, getResources());
 
-        float density = context.getResources().getDisplayMetrics().density;
-        int mTrackHeight = (int) (1 * density);
-        int mScrubberHeight = (int) (4 * density);
-        int thumbSize = (int) (density * SeekBarDrawable.DEFAULT_SIZE_DP);
-
-        //Extra pixels for a touch area of 48dp
-        int touchBounds = (int) (density * 32);
-
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GeniusSeekBar,
-                    R.attr.g_SeekBarStyle, defStyle);
+                    R.attr.GeniusSeekBarStyle, defStyle);
 
+            // Values
             int max = 100;
             int min = 0;
             int value = 0;
-            mMirrorForRtl = a.getBoolean(R.styleable.GeniusSeekBar_g_mirrorForRtl, mMirrorForRtl);
-            mAllowTrackClick = a.getBoolean(R.styleable.GeniusSeekBar_g_allowTrackClickToDrag, mAllowTrackClick);
 
-            int indexMax = R.styleable.GeniusSeekBar_g_max;
-            int indexMin = R.styleable.GeniusSeekBar_g_min;
-            int indexValue = R.styleable.GeniusSeekBar_g_value;
-            final TypedValue out = new TypedValue();
-            //Not sure why, but we wanted to be able to use dimensions here...
-            if (a.getValue(indexMax, out)) {
-                if (out.type == TypedValue.TYPE_DIMENSION) {
-                    max = a.getDimensionPixelSize(indexMax, max);
-                } else {
-                    max = a.getInteger(indexMax, max);
-                }
-            }
-            if (a.getValue(indexMin, out)) {
-                if (out.type == TypedValue.TYPE_DIMENSION) {
-                    min = a.getDimensionPixelSize(indexMin, min);
-                } else {
-                    min = a.getInteger(indexMin, min);
-                }
-            }
-            if (a.getValue(indexValue, out)) {
-                if (out.type == TypedValue.TYPE_DIMENSION) {
-                    value = a.getDimensionPixelSize(indexValue, value);
-                } else {
-                    value = a.getInteger(indexValue, value);
-                }
-            }
+            max = a.getInteger(R.styleable.GeniusSeekBar_g_max, max);
+            min = a.getInteger(R.styleable.GeniusSeekBar_g_min, min);
+            value = a.getInteger(R.styleable.GeniusSeekBar_g_value, value);
 
             mMin = min;
             mMax = Math.max(min + 1, max);
             mValue = Math.max(min, Math.min(max, value));
             updateKeyboardRange();
 
-            mIndicatorFormatter = a.getString(R.styleable.GeniusSeekBar_g_indicatorFormatter);
-
+            // Colors
             ColorStateList trackColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_trackColor);
-            ColorStateList progressColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_progressColor);
+            ColorStateList thumbColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_thumbColor);
+            ColorStateList scrubberColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_scrubberColor);
             ColorStateList rippleColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_rippleColor);
-            boolean editMode = isInEditMode();
-            if (editMode && rippleColor == null) {
-                rippleColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{Color.DKGRAY});
+            ColorStateList indicatorColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_indicatorBackgroundColor);
+            if (rippleColor == null) {
+                rippleColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{mAttributes.getColor(4)});
             }
-            if (editMode && trackColor == null) {
+            if (trackColor == null) {
                 trackColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{Color.GRAY});
             }
-            if (editMode && progressColor == null) {
-                progressColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{0xff009688});
+            if (thumbColor == null) {
+                thumbColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{mAttributes.getColor(2)});
+            }
+            if (scrubberColor == null) {
+                scrubberColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{mAttributes.getColor(2)});
+            }
+            if (indicatorColor == null) {
+                indicatorColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{mAttributes.getColor(2)});
             }
 
+            // Size
+            int tickSize = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_tickSize, 0);
+            int thumbSize = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_thumbSize, 0);
+            int touchSize = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_touchSize, 0);
+            int trackStroke = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_trackStroke, 0);
+            int scrubberStroke = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_scrubberStroke, 0);
+
+
+            // Other
+            mMirrorForRtl = a.getBoolean(R.styleable.GeniusSeekBar_g_mirrorForRtl, mMirrorForRtl);
+            mAllowTrackClick = a.getBoolean(R.styleable.GeniusSeekBar_g_allowTrackClickToDrag, mAllowTrackClick);
+            mIndicatorFormatter = a.getString(R.styleable.GeniusSeekBar_g_indicatorFormatter);
+
+            // Set
             mRipple = new AlmostRippleDrawable(rippleColor);
             mRipple.setCallback(this);
 
-            mSeekBarDrawable = new SeekBarDrawable(trackColor, progressColor, progressColor);
+            mSeekBarDrawable = new SeekBarDrawable(trackColor, scrubberColor, thumbColor);
             mSeekBarDrawable.setCallback(this);
-            mSeekBarDrawable.setThumbSize(thumbSize);
-            mSeekBarDrawable.setTrackSize(Math.max(mTrackHeight, 2));
-            mSeekBarDrawable.setScrubberSize(Math.max(mScrubberHeight, 4));
-            mSeekBarDrawable.setTouchRadius(touchBounds / 2);
+
+            mSeekBarDrawable.setNumSegments(mMax - mMin);
+
+            mSeekBarDrawable.setTrackStroke(trackStroke);
+            mSeekBarDrawable.setScrubberStroke(scrubberStroke);
+
+            mSeekBarDrawable.setThumbRadius(thumbSize);
+            mSeekBarDrawable.setTouchRadius(touchSize);
+            mSeekBarDrawable.setTickRadius(tickSize);
 
             isRtl();
 
-            if (!editMode) {
-                mIndicator = new GeniusPopupIndicator(context, attrs, defStyle, convertValueToMessage(mMax));
+            if (!isInEditMode()) {
+                int textAppearanceId = a.getResourceId(R.styleable.GeniusSeekBar_g_indicatorTextAppearance,
+                        R.style.DefaultBalloonMarkerTextAppearanceStyle);
+
+                mIndicator = new GeniusPopupIndicator(context, indicatorColor, textAppearanceId, thumbSize * 2, convertValueToMessage(mMax));
                 mIndicator.setListener(mFloaterListener);
             }
+
             a.recycle();
         }
 
@@ -301,6 +320,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
             setMin(mMax - 1);
         }
         updateKeyboardRange();
+        mSeekBarDrawable.setNumSegments(mMax - mMin);
 
         if (mValue < mMin || mValue > mMax) {
             setProgress(mMin);
@@ -334,6 +354,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
             setMax(mMin + 1);
         }
         updateKeyboardRange();
+        mSeekBarDrawable.setNumSegments(mMax - mMin);
 
         if (mValue < mMin || mValue > mMax) {
             setProgress(mMin);
@@ -516,7 +537,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
 
     @Override
     public void onThemeChange() {
-        init(null, R.style.DefaultSeekBar);
+        init(null, R.style.DefaultSeekBarStyle);
     }
 
     @Override
@@ -787,7 +808,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
         }
     };
 
-    private final MarkerDrawable.MarkerAnimationListener mFloaterListener = new MarkerDrawable.MarkerAnimationListener() {
+    private final BalloonMarkerDrawable.MarkerAnimationListener mFloaterListener = new BalloonMarkerDrawable.MarkerAnimationListener() {
         @Override
         public void onClosingComplete() {
             mSeekBarDrawable.animateToNormal();

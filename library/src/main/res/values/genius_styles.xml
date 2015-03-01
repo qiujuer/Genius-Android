@@ -21,17 +21,37 @@
     <color name="g_ripple_color_pressed">#77939393</color>
     <color name="g_ripple_color_focused">#99999999</color>
 
-    <style name="DefaultSeekBar" parent="android:Widget">
-        <item name="g_indicatorTextAppearance">@style/DefaultIndicatorTextAppearance</item>
-        <item name="g_progressColor">@color/g_progress_color_list</item>
-        <item name="g_trackColor">@color/g_track_color_list</item>
-        <item name="g_rippleColor">@color/g_ripple_color_list</item>
-        <item name="g_indicatorColor">@color/g_progress_color</item>
-        <item name="g_indicatorElevation">4dp</item>
+    <style name="DefaultSeekBarStyle" parent="android:Widget">
         <item name="g_mirrorForRtl">true</item>
+        <item name="g_allowTrackClickToDrag">true</item>
+
+        <item name="g_min">0</item>
+        <item name="g_max">100</item>
+        <item name="g_value">0</item>
+
+        <item name="g_tickSize">0dp</item>
+        <item name="g_thumbSize">6dp</item>
+        <item name="g_touchSize">12dp</item>
+        <item name="g_trackStroke">2dp</item>
+        <item name="g_scrubberStroke">4dp</item>
+
+        <!--<item name="g_rippleColor">@color/g_ripple_color_list</item>
+        <item name="g_scrubberColor">@color/g_progress_color_list</item>
+        <item name="g_trackColor">@color/g_track_color_list</item>
+        <item name="g_thumbColor">@color/g_progress_color_list</item>
+        <item name="g_indicatorBackgroundColor">@color/g_progress_color</item>-->
+
+        <item name="g_indicatorTextAppearance">@style/DefaultBalloonMarkerTextAppearanceStyle</item>
+
     </style>
 
-    <style name="DefaultIndicatorTextAppearance" parent="android:TextAppearance.Small">
+    <style name="DefaultBalloonMarkerStyle" parent="android:Widget">
+        <item name="g_markerTextAppearance">@style/DefaultBalloonMarkerTextAppearanceStyle</item>
+        <item name="g_markerBackgroundColor">@color/g_progress_color</item>
+        <item name="g_markerElevation">4dp</item>
+    </style>
+
+    <style name="DefaultBalloonMarkerTextAppearanceStyle" parent="android:TextAppearance.Small">
         <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
         <item name="android:padding">6dp</item>
     </style>

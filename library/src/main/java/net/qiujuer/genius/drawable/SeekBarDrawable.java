@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 02/20/2015
+ * Changed 03/01/2015
+ * Version 2.0.0
+ * Author Qiujuer
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.qiujuer.genius.drawable;
 
 import android.content.res.ColorStateList;
@@ -18,23 +38,21 @@ import android.os.SystemClock;
  * It's special because it will stop drawing once the state is pressed/focused BUT only after a small delay.
  * </p>
  * <p>
- * This special delay is meant to help avoiding frame glitches while the {@link net.qiujuer.genius.drawable.MarkerDrawable} is added to the Window
+ * This special delay is meant to help avoiding frame glitches while the {@link BalloonMarkerDrawable} is added to the Window
  * </p>
  *
  * @hide
  */
 public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable {
-    public static final int DEFAULT_SIZE_DP = 12;
-
     private Point mPoint;
     private int mContentWidth;
-    private int mNumSegments = 10;
     private float mTickDistance;
     private float mHotScale;
 
-    private int mTrackSize;
-    private int mScrubberSize;
-    private int mThumbSize;
+    private int mNumSegments;
+    private int mTrackStroke;
+    private int mScrubberStroke;
+    private int mThumbRadius;
     private int mTickRadius;
     private int mTouchRadius;
 
@@ -45,10 +63,6 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
     public SeekBarDrawable(ColorStateList trackStateList, ColorStateList scrubberStateList, ColorStateList thumbStateList) {
         super(trackStateList, scrubberStateList, thumbStateList);
         mPoint = new Point();
-    }
-
-    public void setTouchRadius(int touchRadius) {
-        this.mTouchRadius = touchRadius;
     }
 
     public void setHotScale(float scale) {
@@ -68,40 +82,40 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         this.isRtl = isRtl;
     }
 
-    public void setTrackSize(int width) {
-        this.mTrackSize = width;
+    public void setTrackStroke(int trackStroke) {
+        this.mTrackStroke = trackStroke;
     }
 
-    public void setScrubberSize(int width) {
-        this.mScrubberSize = width;
+    public void setScrubberStroke(int scrubberStroke) {
+        this.mScrubberStroke = scrubberStroke;
     }
 
-    public void setThumbSize(int size) {
-        this.mThumbSize = size;
+    public void setThumbRadius(int thumbRadius) {
+        this.mThumbRadius = thumbRadius;
     }
 
-    public int getTouchRadius() {
-        return mTouchRadius;
+    public void setTouchRadius(int touchRadius) {
+        this.mTouchRadius = touchRadius;
+    }
+
+    public void setTickRadius(int tickRadius) {
+        this.mTickRadius = tickRadius;
+    }
+
+    public void setNumSegments(int numSegments) {
+        this.mNumSegments = numSegments;
     }
 
     public float getHotScale() {
         return mHotScale;
     }
 
-    public boolean isRtl() {
-        return isRtl;
+    public int getThumbRadius() {
+        return mThumbRadius;
     }
 
-    public int getTrackSize() {
-        return mTrackSize;
-    }
-
-    public int getScrubberSize() {
-        return mScrubberSize;
-    }
-
-    public int getThumbSize() {
-        return mThumbSize;
+    public int getTickRadius() {
+        return mTickRadius;
     }
 
     public Point getPosPoint() {
@@ -158,21 +172,9 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint, int trackColor, int trackAlpha, int scrubberColor, int scrubberAlpha, int thumbColor, int thumbAlpha) {
-        float halfTrackSize = mTrackSize / 2;
-        float halfScrubberSize = mScrubberSize / 2;
-
-        if (isRtl) {
-            draw(canvas, paint, thumbColor, thumbAlpha, trackColor, scrubberColor, trackAlpha, scrubberAlpha, halfTrackSize, halfScrubberSize);
-        } else {
-            draw(canvas, paint, thumbColor, thumbAlpha, scrubberColor, trackColor, scrubberAlpha, trackAlpha, halfScrubberSize, halfTrackSize);
-        }
-    }
-
-    @Override
     protected void onBoundsChange(Rect bounds) {
         mContentWidth = bounds.right - bounds.left - mTouchRadius - mTouchRadius;
-        mTickDistance = mContentWidth / mNumSegments;
+        mTickDistance = (float) mContentWidth / (float) mNumSegments;
         setHotScale(mHotScale);
     }
 
@@ -185,6 +187,19 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         return (int) (mContentWidth * mHotScale);
     }
 
+    @Override
+    public void draw(Canvas canvas, Paint paint, int trackColor, int trackAlpha, int scrubberColor, int scrubberAlpha, int thumbColor, int thumbAlpha) {
+        float halfTrackStroke = mTrackStroke / 2;
+        float halfScrubberStroke = mScrubberStroke / 2;
+
+        if (isRtl) {
+            draw(canvas, paint, thumbColor, thumbAlpha, trackColor, scrubberColor, trackAlpha, scrubberAlpha, halfTrackStroke, halfScrubberStroke);
+        } else {
+            draw(canvas, paint, thumbColor, thumbAlpha, scrubberColor, trackColor, scrubberAlpha, trackAlpha, halfScrubberStroke, halfTrackStroke);
+        }
+    }
+
+
     private void draw(Canvas canvas, Paint paint, int thumbColor, int thumbAlpha, int colorLeft, int colorRight, int alphaLeft, int alphaRight, float halfLeft, float halfRight) {
         Rect bounds = getBounds();
         int thumbX = mPoint.x;
@@ -192,19 +207,19 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         int startLeft = bounds.left + mTouchRadius;
         int startRight = bounds.right - mTouchRadius;
 
-        mTickRadius = mScrubberSize;
-
         // Track
         paint.setColor(colorLeft);
         paint.setAlpha(alphaLeft);
         canvas.drawRect(startLeft, thumbY - halfLeft, thumbX, thumbY + halfLeft, paint);
 
         // Ticks
-        for (int i = 0; i <= mNumSegments; i++) {
-            float x = i * mTickDistance + startLeft;
-            if (x > thumbX)
-                break;
-            canvas.drawCircle(x, thumbY, mTickRadius, paint);
+        if (mTickRadius > 0) {
+            for (int i = 0; i <= mNumSegments; i++) {
+                float x = i * mTickDistance + startLeft;
+                if (x > thumbX)
+                    break;
+                canvas.drawCircle(x, thumbY, mTickRadius, paint);
+            }
         }
 
         // Scrubber
@@ -213,19 +228,20 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         canvas.drawRect(thumbX, thumbY - halfRight, startRight, thumbY + halfRight, paint);
 
         // Ticks
-        for (int i = 0; i <= mNumSegments; i++) {
-            float x = startRight - i * mTickDistance;
-            if (x < thumbX)
-                break;
-            canvas.drawCircle(x, thumbY, mTickRadius, paint);
+        if (mTickRadius > 0) {
+            for (int i = 0; i <= mNumSegments; i++) {
+                float x = startRight - i * mTickDistance;
+                if (x <= thumbX)
+                    break;
+                canvas.drawCircle(x, thumbY, mTickRadius, paint);
+            }
         }
 
         // Thumb
         if (!isOpen) {
             paint.setColor(thumbColor);
             paint.setAlpha(thumbAlpha);
-            float radius = (mThumbSize / 2f);
-            canvas.drawCircle(thumbX, thumbY, radius, paint);
+            canvas.drawCircle(thumbX, thumbY, mThumbRadius, paint);
         }
     }
 }

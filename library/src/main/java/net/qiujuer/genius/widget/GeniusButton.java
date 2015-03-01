@@ -41,8 +41,8 @@ import net.qiujuer.genius.R;
 import net.qiujuer.genius.animation.TouchEffect;
 import net.qiujuer.genius.animation.TouchEffectAnimator;
 import net.qiujuer.genius.widget.attribute.Attributes;
-import net.qiujuer.genius.widget.attribute.ButtonAttributes;
 import net.qiujuer.genius.widget.attribute.BaseAttributes;
+import net.qiujuer.genius.widget.attribute.ButtonAttributes;
 
 /**
  * GeniusButton this have touch effect animator

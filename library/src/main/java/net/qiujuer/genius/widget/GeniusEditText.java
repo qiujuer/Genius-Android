@@ -49,8 +49,8 @@ import net.qiujuer.genius.GeniusUI;
 import net.qiujuer.genius.R;
 import net.qiujuer.genius.drawable.shape.BorderShape;
 import net.qiujuer.genius.widget.attribute.Attributes;
-import net.qiujuer.genius.widget.attribute.EditTextAttributes;
 import net.qiujuer.genius.widget.attribute.BaseAttributes;
+import net.qiujuer.genius.widget.attribute.EditTextAttributes;
 
 /**
  * GeniusEditText this have a title from hint

@@ -17,17 +17,13 @@
 package net.qiujuer.genius.widget.compat;
 
 import android.annotation.TargetApi;
-import android.content.res.ColorStateList;
 import android.graphics.Outline;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.view.ViewParent;
 import android.widget.TextView;
 
-import net.qiujuer.genius.drawable.MarkerDrawable;
+import net.qiujuer.genius.drawable.BalloonMarkerDrawable;
 
 /**
  * Wrapper compatibility class to call some API-Specific methods
@@ -37,11 +33,11 @@ import net.qiujuer.genius.drawable.MarkerDrawable;
  */
 @TargetApi(21)
 class GeniusCompatNotCrash {
-    public static void setOutlineProvider(View marker, final MarkerDrawable markerDrawable) {
+    public static void setOutlineProvider(View marker, final BalloonMarkerDrawable balloonMarkerDrawable) {
         marker.setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
-                outline.setConvexPath(markerDrawable.getPath());
+                outline.setConvexPath(balloonMarkerDrawable.getPath());
             }
         });
     }

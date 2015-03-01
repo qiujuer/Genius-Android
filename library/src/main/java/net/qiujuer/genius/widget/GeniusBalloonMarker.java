@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 02/25/2015
+ * Changed 03/01/2015
+ * Version 2.0.0
+ * GeniusEditText
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.qiujuer.genius.widget;
 
 import android.annotation.TargetApi;
@@ -5,6 +25,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -18,11 +39,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import net.qiujuer.genius.R;
-import net.qiujuer.genius.drawable.MarkerDrawable;
-import net.qiujuer.genius.drawable.ThumbDrawable;
+import net.qiujuer.genius.drawable.BalloonMarkerDrawable;
 import net.qiujuer.genius.widget.compat.GeniusCompat;
 
-public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.MarkerAnimationListener {
+/**
+ * This is a BalloonMarker
+ */
+public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
     private static final int PADDING_DP = 4;
     private static final int ELEVATION_DP = 8;
     private static final int SEPARATION_DP = 30;
@@ -33,14 +56,14 @@ public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.Mar
     //some distance between the thumb and our bubble marker.
     //This will be added to our measured height
     private int mSeparation;
-    MarkerDrawable mMarkerDrawable;
+    BalloonMarkerDrawable mBalloonMarkerDrawable;
 
     public GeniusBalloonMarker(Context context) {
         this(context, null);
     }
 
     public GeniusBalloonMarker(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.g_SeekBarStyle);
+        this(context, attrs, R.attr.GeniusBalloonMarkerStyle);
     }
 
     public GeniusBalloonMarker(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -50,17 +73,12 @@ public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.Mar
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public GeniusBalloonMarker(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
         super(context, attrs, defStyleAttr);
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GeniusSeekBar,
-                R.attr.g_SeekBarStyle, R.style.DefaultSeekBar);
 
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int padding = (int) (PADDING_DP * displayMetrics.density) * 2;
-        int textAppearanceId = a.getResourceId(R.styleable.GeniusSeekBar_g_indicatorTextAppearance,
-                R.style.DefaultIndicatorTextAppearance);
         mNumber = new TextView(context);
         //Add some padding to this textView so the bubble has some space to breath
         mNumber.setPadding(padding, 0, padding, 0);
-        mNumber.setTextAppearance(context, textAppearanceId);
         mNumber.setGravity(Gravity.CENTER);
         mNumber.setText(maxValue);
         mNumber.setMaxLines(1);
@@ -75,20 +93,46 @@ public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.Mar
         resetSizes(maxValue);
 
         mSeparation = (int) (SEPARATION_DP * displayMetrics.density);
-        int thumbSize = (int) (ThumbDrawable.DEFAULT_SIZE_DP * displayMetrics.density);
-        ColorStateList color = a.getColorStateList(R.styleable.GeniusSeekBar_g_indicatorColor);
-        mMarkerDrawable = new MarkerDrawable(color, thumbSize);
-        mMarkerDrawable.setCallback(this);
-        mMarkerDrawable.setMarkerListener(this);
-        mMarkerDrawable.setExternalOffset(padding);
 
-        //Elevation for android 5+
-        float elevation = a.getDimension(R.styleable.GeniusSeekBar_g_indicatorElevation, ELEVATION_DP * displayMetrics.density);
-        ViewCompat.setElevation(this, elevation);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            GeniusCompat.setOutlineProvider(this, mMarkerDrawable);
+        mBalloonMarkerDrawable = new BalloonMarkerDrawable(ColorStateList.valueOf(Color.TRANSPARENT), 0);
+        mBalloonMarkerDrawable.setCallback(this);
+        mBalloonMarkerDrawable.setMarkerListener(this);
+        mBalloonMarkerDrawable.setExternalOffset(padding);
+
+        GeniusCompat.setOutlineProvider(this, mBalloonMarkerDrawable);
+
+
+        if (attrs != null) {
+
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GeniusBalloonMarker,
+                    R.attr.GeniusBalloonMarkerStyle, R.style.DefaultBalloonMarkerStyle);
+            int textAppearanceId = a.getResourceId(R.styleable.GeniusBalloonMarker_g_markerTextAppearance,
+                    R.style.DefaultBalloonMarkerTextAppearanceStyle);
+
+            setTextAppearance(textAppearanceId);
+
+            ColorStateList color = a.getColorStateList(R.styleable.GeniusBalloonMarker_g_markerBackgroundColor);
+            setBackgroundColor(color);
+
+            //Elevation for android 5+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                float elevation = a.getDimension(R.styleable.GeniusBalloonMarker_g_markerElevation, ELEVATION_DP * displayMetrics.density);
+                ViewCompat.setElevation(this, elevation);
+            }
+            a.recycle();
         }
-        a.recycle();
+    }
+
+    public void setTextAppearance(int resid) {
+        mNumber.setTextAppearance(getContext(), resid);
+    }
+
+    public void setBackgroundColor(ColorStateList color) {
+        mBalloonMarkerDrawable.setColorStateList(color);
+    }
+
+    public void setClosedStateSize(float closedStateSize) {
+        mBalloonMarkerDrawable.setClosedStateSize(closedStateSize);
     }
 
     public void resetSizes(String maxValue) {
@@ -108,7 +152,7 @@ public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.Mar
 
     @Override
     protected void dispatchDraw(@NonNull Canvas canvas) {
-        mMarkerDrawable.draw(canvas);
+        mBalloonMarkerDrawable.draw(canvas);
         super.dispatchDraw(canvas);
     }
 
@@ -135,12 +179,12 @@ public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.Mar
         mNumber.layout(left, top, left + mWidth, top + mWidth);
         //the MarkerDrawable uses the whole view, it will adapt itself...
         // or it seems so...
-        mMarkerDrawable.setBounds(left, top, right, bottom);
+        mBalloonMarkerDrawable.setBounds(left, top, right, bottom);
     }
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
-        return who == mMarkerDrawable || super.verifyDrawable(who);
+        return who == mBalloonMarkerDrawable || super.verifyDrawable(who);
     }
 
     @Override
@@ -162,12 +206,12 @@ public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.Mar
     }
 
     public void animateOpen() {
-        mMarkerDrawable.stop();
-        mMarkerDrawable.animateToPressed();
+        mBalloonMarkerDrawable.stop();
+        mBalloonMarkerDrawable.animateToPressed();
     }
 
     public void animateClose() {
-        mMarkerDrawable.stop();
+        mBalloonMarkerDrawable.stop();
         ViewCompat.animate(mNumber)
                 .alpha(0f)
                 .setDuration(100)
@@ -176,7 +220,7 @@ public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.Mar
                     public void run() {
                         //We use INVISIBLE instead of GONE to avoid a requestLayout
                         mNumber.setVisibility(View.INVISIBLE);
-                        mMarkerDrawable.animateToNormal();
+                        mBalloonMarkerDrawable.animateToNormal();
                     }
                 }).start();
     }
@@ -188,25 +232,25 @@ public class GeniusBalloonMarker extends ViewGroup implements MarkerDrawable.Mar
                 .alpha(1f)
                 .setDuration(100)
                 .start();
-        if (getParent() instanceof MarkerDrawable.MarkerAnimationListener) {
-            ((MarkerDrawable.MarkerAnimationListener) getParent()).onOpeningComplete();
+        if (getParent() instanceof BalloonMarkerDrawable.MarkerAnimationListener) {
+            ((BalloonMarkerDrawable.MarkerAnimationListener) getParent()).onOpeningComplete();
         }
     }
 
     @Override
     public void onClosingComplete() {
-        if (getParent() instanceof MarkerDrawable.MarkerAnimationListener) {
-            ((MarkerDrawable.MarkerAnimationListener) getParent()).onClosingComplete();
+        if (getParent() instanceof BalloonMarkerDrawable.MarkerAnimationListener) {
+            ((BalloonMarkerDrawable.MarkerAnimationListener) getParent()).onClosingComplete();
         }
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mMarkerDrawable.stop();
+        mBalloonMarkerDrawable.stop();
     }
 
     public void setColors(int startColor, int endColor) {
-        mMarkerDrawable.setColors(startColor, endColor);
+        mBalloonMarkerDrawable.setColors(startColor, endColor);
     }
 }

@@ -1,11 +1,31 @@
+/*
+ * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 02/25/2015
+ * Changed 03/01/2015
+ * Version 2.0.0
+ * GeniusEditText
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.qiujuer.genius.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.IBinder;
 import android.support.v4.view.GravityCompat;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -13,10 +33,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import net.qiujuer.genius.drawable.MarkerDrawable;
+import net.qiujuer.genius.drawable.BalloonMarkerDrawable;
 
 /**
- * Created by Qiujuer on 2015/2/16.
+ * This is a SeekBar BalloonMarker PopupIndicator
  */
 public class GeniusPopupIndicator {
     private final WindowManager mWindowManager;
@@ -26,13 +46,13 @@ public class GeniusPopupIndicator {
     //The whole chain of events goes this way:
     //MarkerDrawable->Marker->Floater->mListener->DiscreteSeekBar....
     //... phew!
-    private MarkerDrawable.MarkerAnimationListener mListener;
+    private BalloonMarkerDrawable.MarkerAnimationListener mListener;
     private int[] mDrawingLocation = new int[2];
     Point screenSize = new Point();
 
-    public GeniusPopupIndicator(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
+    public GeniusPopupIndicator(Context context, ColorStateList color, int textAppearanceId, float closeSize, String maxValue) {
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        mPopupView = new Floater(context, attrs, defStyleAttr, maxValue);
+        mPopupView = new Floater(context, color, textAppearanceId, closeSize, maxValue);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         screenSize.set(displayMetrics.widthPixels, displayMetrics.heightPixels);
     }
@@ -44,7 +64,7 @@ public class GeniusPopupIndicator {
         }
     }
 
-    public void setListener(MarkerDrawable.MarkerAnimationListener listener) {
+    public void setListener(BalloonMarkerDrawable.MarkerAnimationListener listener) {
         mListener = listener;
     }
 
@@ -77,7 +97,7 @@ public class GeniusPopupIndicator {
             WindowManager.LayoutParams p = createPopupLayout(windowToken);
 
             p.gravity = Gravity.TOP | GravityCompat.START;
-            updateLayoutParamsForPosiion(parent, p, point.y);
+            updateLayoutParamsForPosition(parent, p, point.y);
             mShowing = true;
 
             translateViewIntoPosition(point.x);
@@ -113,11 +133,12 @@ public class GeniusPopupIndicator {
             try {
                 mWindowManager.removeViewImmediate(mPopupView);
             } finally {
+                // Do...
             }
         }
     }
 
-    private void updateLayoutParamsForPosiion(View anchor, WindowManager.LayoutParams p, int yOffset) {
+    private void updateLayoutParamsForPosition(View anchor, WindowManager.LayoutParams p, int yOffset) {
         measureFloater();
         int measuredHeight = mPopupView.getMeasuredHeight();
         int paddingBottom = mPopupView.mMarker.getPaddingBottom();
@@ -155,8 +176,8 @@ public class GeniusPopupIndicator {
     /**
      * I'm NOT completely sure how all this bitwise things work...
      *
-     * @param curFlags
-     * @return
+     * @param curFlags Cur Flags
+     * @return Flags
      */
     private int computeFlags(int curFlags) {
         curFlags &= ~(
@@ -179,13 +200,18 @@ public class GeniusPopupIndicator {
      * but doing so would make some things harder to implement
      * (like moving the marker around, having the Marker's outline to work, etc)
      */
-    private class Floater extends FrameLayout implements MarkerDrawable.MarkerAnimationListener {
+    private class Floater extends FrameLayout implements BalloonMarkerDrawable.MarkerAnimationListener {
         private GeniusBalloonMarker mMarker;
         private int mOffset;
 
-        public Floater(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
+        public Floater(Context context, ColorStateList color, int textAppearanceId, float closeSize, String maxValue) {
             super(context);
-            mMarker = new GeniusBalloonMarker(context, attrs, defStyleAttr, maxValue);
+            mMarker = new GeniusBalloonMarker(context);
+            mMarker.setBackgroundColor(color);
+            mMarker.setTextAppearance(textAppearanceId);
+            mMarker.setClosedStateSize(closeSize);
+            mMarker.resetSizes(maxValue);
+
             addView(mMarker, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
         }
 

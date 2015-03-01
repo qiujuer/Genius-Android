@@ -31,7 +31,7 @@ public class Attributes {
     public static final int[] DEFAULT_COLORS = new int[]{
             Color.parseColor("#ffc26165"), Color.parseColor("#ffdb6e77"),
             Color.parseColor("#ffef7e8b"), Color.parseColor("#fff7c2c8"),
-            Color.parseColor("#ffc2cbcb"), Color.parseColor("#ffe2e7e7")};
+            Color.parseColor("#aaef7e8b"), Color.parseColor("#55ef7e8b")};
     /**
      * Color related fields
      */

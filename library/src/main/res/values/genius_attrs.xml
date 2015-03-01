@@ -124,20 +124,37 @@
         <attr name="g_titlePaddingLeft" format="dimension" />
     </declare-styleable>
 
-    <!-- GeniusSeekBar specific attributes -->
-    <attr name="g_SeekBarStyle" format="reference"/>
+    <!-- BalloonMarker -->
+    <attr name="GeniusBalloonMarkerStyle" format="reference" />
+    <declare-styleable name="GeniusBalloonMarker">
+        <attr name="g_markerTextAppearance" format="reference" />
+        <attr name="g_markerBackgroundColor" format="color|reference" />
+        <attr name="g_markerElevation" format="dimension" />
+    </declare-styleable>
+
+    <!-- GeniusSeekBar -->
+    <attr name="GeniusSeekBarStyle" format="reference" />
     <declare-styleable name="GeniusSeekBar">
-        <attr name="g_min" format="integer|dimension"/>
-        <attr name="g_max" format="integer|dimension"/>
-        <attr name="g_value" format="integer|dimension"/>
-        <attr name="g_mirrorForRtl" format="boolean"/>
-        <attr name="g_allowTrackClickToDrag" format="boolean"/>
-        <attr name="g_progressColor" format="color|reference"/>
-        <attr name="g_trackColor" format="color|reference"/>
-        <attr name="g_indicatorTextAppearance" format="reference"/>
-        <attr name="g_indicatorColor" format="color|reference"/>
-        <attr name="g_indicatorElevation" format="dimension"/>
-        <attr name="g_indicatorFormatter" format="string|reference"/>
-        <attr name="g_rippleColor" format="color|reference"/>
+        <attr name="g_min" format="integer" />
+        <attr name="g_max" format="integer" />
+        <attr name="g_value" format="integer" />
+
+        <attr name="g_tickSize" format="dimension" />
+        <attr name="g_thumbSize" format="dimension" />
+        <attr name="g_touchSize" format="dimension" />
+        <attr name="g_trackStroke" format="dimension" />
+        <attr name="g_scrubberStroke" format="dimension" />
+
+        <attr name="g_mirrorForRtl" format="boolean" />
+        <attr name="g_allowTrackClickToDrag" format="boolean" />
+
+        <attr name="g_rippleColor" format="color|reference" />
+        <attr name="g_scrubberColor" format="color|reference" />
+        <attr name="g_trackColor" format="color|reference" />
+        <attr name="g_thumbColor" format="color|reference" />
+
+        <attr name="g_indicatorBackgroundColor" format="color|reference" />
+        <attr name="g_indicatorFormatter" format="string|reference" />
+        <attr name="g_indicatorTextAppearance" format="reference" />
     </declare-styleable>
 </resources>

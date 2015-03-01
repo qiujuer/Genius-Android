@@ -598,6 +598,7 @@
                 android:layout_height="wrap_content"
                 genius:g_max="5"
                 genius:g_min="-5"
+                genius:g_tickSize="4dp"
                 genius:g_value="-2" />
 
             <net.qiujuer.genius.widget.GeniusSeekBar
@@ -605,11 +606,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 genius:g_allowTrackClickToDrag="true"
-                genius:g_indicatorColor="@color/my_floater_color"
+                genius:g_indicatorBackgroundColor="@color/my_floater_color"
                 genius:g_indicatorFormatter="\\o/ %d"
                 genius:g_indicatorTextAppearance="@style/CustomFloaterTextAppearance"
-                genius:g_progressColor="@color/my_progress_color"
-                genius:g_rippleColor="#FF7788FF" />
+                genius:g_rippleColor="#FF7788FF"
+                genius:g_scrubberColor="@color/my_progress_color"
+                genius:g_thumbColor="@color/my_progress_color"
+                genius:g_trackColor="#ff000000" />
 
             <net.qiujuer.genius.widget.GeniusSeekBar
                 android:id="@+id/discrete3"
