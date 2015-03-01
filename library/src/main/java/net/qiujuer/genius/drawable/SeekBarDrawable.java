@@ -110,12 +110,8 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         return mHotScale;
     }
 
-    public int getThumbRadius() {
-        return mThumbRadius;
-    }
-
-    public int getTickRadius() {
-        return mTickRadius;
+    public boolean isHaveTick() {
+        return mTickRadius != 0;
     }
 
     public Point getPosPoint() {

@@ -477,7 +477,11 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+
+                if (mSeekBarDrawable.isHaveTick())
+                    animateSetProgress();
                 onStopTrackingTouch();
+
                 break;
         }
         return true;
@@ -668,11 +672,19 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     private int getAnimatedProgress() {
-        return isAnimationRunning() ? getAnimationTarget() : mValue;
+        return isAnimationRunning() ? getAnimationTarget() : getProgress();
     }
 
     private boolean isAnimationRunning() {
         return mPositionAnimator != null && mPositionAnimator.isRunning();
+    }
+
+    private void animateSetProgress() {
+        final float curProgress = isAnimationRunning() ? getAnimationPosition() : mSeekBarDrawable.getHotScale() * (mMax - mMin) + mMin;
+
+        mAnimationTarget = getProgress();
+
+        animateSetProgress(curProgress);
     }
 
     private void animateSetProgress(int progress) {
@@ -686,15 +698,21 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
 
         mAnimationTarget = progress;
 
+        animateSetProgress(curProgress);
+    }
+
+    private void animateSetProgress(float curProgress) {
         if (mPositionAnimator != null) {
             mPositionAnimator.cancel();
-            mPositionAnimator.setFloatValues(curProgress, progress);
+            mPositionAnimator.setFloatValues(curProgress, mAnimationTarget);
         } else {
-            mPositionAnimator = ValueAnimator.ofFloat(curProgress, progress);
+            mPositionAnimator = ValueAnimator.ofFloat(curProgress, mAnimationTarget);
             mPositionAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    setAnimationPosition((Float) animation.getAnimatedValue());
+                    mAnimationPosition = (Float) animation.getAnimatedValue();
+                    float currentScale = (mAnimationPosition - mMin) / (float) (mMax - mMin);
+                    updateProgressFromAnimation(currentScale);
                 }
             });
             mPositionAnimator.setDuration(PROGRESS_ANIMATION_DURATION);
@@ -704,12 +722,6 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
 
     private int getAnimationTarget() {
         return mAnimationTarget;
-    }
-
-    private void setAnimationPosition(float position) {
-        mAnimationPosition = position;
-        float currentScale = (position - mMin) / (float) (mMax - mMin);
-        updateProgressFromAnimation(currentScale);
     }
 
     private float getAnimationPosition() {
