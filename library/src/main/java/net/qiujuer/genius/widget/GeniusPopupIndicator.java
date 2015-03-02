@@ -50,6 +50,13 @@ public class GeniusPopupIndicator {
     private int[] mDrawingLocation = new int[2];
     Point screenSize = new Point();
 
+    public GeniusPopupIndicator(Context context) {
+        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        mPopupView = new Floater(context);
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        screenSize.set(displayMetrics.widthPixels, displayMetrics.heightPixels);
+    }
+
     public GeniusPopupIndicator(Context context, ColorStateList color, int textAppearanceId, float closeSize, String maxValue) {
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mPopupView = new Floater(context, color, textAppearanceId, closeSize, maxValue);
@@ -57,7 +64,28 @@ public class GeniusPopupIndicator {
         screenSize.set(displayMetrics.widthPixels, displayMetrics.heightPixels);
     }
 
-    public void updateSizes(String maxValue) {
+    public void setIndicatorColor(ColorStateList color) {
+        dismissComplete();
+        if (mPopupView != null) {
+            mPopupView.mMarker.setBackgroundColor(color);
+        }
+    }
+
+    public void setIndicatorTextAppearance(int textAppearanceId) {
+        dismissComplete();
+        if (mPopupView != null) {
+            mPopupView.mMarker.setTextAppearance(textAppearanceId);
+        }
+    }
+
+    public void setIndicatorClosedSize(float closeSize) {
+        dismissComplete();
+        if (mPopupView != null) {
+            mPopupView.mMarker.setClosedSize(closeSize);
+        }
+    }
+
+    public void setIndicatorSizes(String maxValue) {
         dismissComplete();
         if (mPopupView != null) {
             mPopupView.mMarker.resetSizes(maxValue);
@@ -204,15 +232,19 @@ public class GeniusPopupIndicator {
         private GeniusBalloonMarker mMarker;
         private int mOffset;
 
-        public Floater(Context context, ColorStateList color, int textAppearanceId, float closeSize, String maxValue) {
+        public Floater(Context context) {
             super(context);
             mMarker = new GeniusBalloonMarker(context);
+            addView(mMarker, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
+        }
+
+        public Floater(Context context, ColorStateList color, int textAppearanceId, float closeSize, String maxValue) {
+            this(context);
+
             mMarker.setBackgroundColor(color);
             mMarker.setTextAppearance(textAppearanceId);
-            mMarker.setClosedStateSize(closeSize);
+            mMarker.setClosedSize(closeSize);
             mMarker.resetSizes(maxValue);
-
-            addView(mMarker, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
         }
 
         @Override

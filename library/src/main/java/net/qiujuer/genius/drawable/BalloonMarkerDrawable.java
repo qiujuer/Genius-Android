@@ -69,8 +69,6 @@ public class BalloonMarkerDrawable extends PaintStateDrawable implements Animata
         super(tintList);
         mInterpolator = new AccelerateDecelerateInterpolator();
         mClosedStateSize = closedSize;
-        mStartColor = tintList.getColorForState(new int[]{android.R.attr.state_pressed}, tintList.getDefaultColor());
-        mEndColor = tintList.getDefaultColor();
 
         getPaint().setStyle(Paint.Style.FILL);
     }
@@ -96,8 +94,8 @@ public class BalloonMarkerDrawable extends PaintStateDrawable implements Animata
 
     public void setColorStateList(ColorStateList tintStateList) {
         super.setColorStateList(tintStateList);
-        mStartColor = tintStateList.getColorForState(new int[]{android.R.attr.state_pressed}, tintStateList.getDefaultColor());
         mEndColor = tintStateList.getDefaultColor();
+        mStartColor = tintStateList.getColorForState(new int[]{android.R.attr.state_pressed}, mEndColor);
     }
 
     @Override

@@ -57,9 +57,6 @@ public class AlmostRippleDrawable extends PaintStateDrawable implements Animatab
         super(tintStateList);
 
         mInterpolator = new AccelerateDecelerateInterpolator();
-        mFocusedColor = tintStateList.getColorForState(new int[]{android.R.attr.state_focused}, 0xFFFF0000);
-        mPressedColor = tintStateList.getColorForState(new int[]{android.R.attr.state_pressed}, 0xFFFF0000);
-        mDisabledColor = tintStateList.getColorForState(new int[]{-android.R.attr.state_enabled}, 0xFFFF0000);
     }
 
     @Override
@@ -88,6 +85,14 @@ public class AlmostRippleDrawable extends PaintStateDrawable implements Animatab
     private int decreasedAlpha(int alpha) {
         int scale = 100 + (100 >> 7);
         return alpha * scale >> 8;
+    }
+
+    @Override
+    public void setColorStateList(ColorStateList tintStateList) {
+        super.setColorStateList(tintStateList);
+        mFocusedColor = tintStateList.getColorForState(new int[]{android.R.attr.state_focused}, 0xFFFF0000);
+        mPressedColor = tintStateList.getColorForState(new int[]{android.R.attr.state_pressed}, 0xFFFF0000);
+        mDisabledColor = tintStateList.getColorForState(new int[]{-android.R.attr.state_enabled}, 0xFFFF0000);
     }
 
     @Override

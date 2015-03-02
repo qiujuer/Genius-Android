@@ -52,14 +52,9 @@ public abstract class SeekBarStatusDrawable extends Drawable {
         super();
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        mTrackStateList = trackStateList;
-        mTrackColor = mTrackStateList.getDefaultColor();
-
-        mScrubberStateList = scrubberStateList;
-        mScrubberColor = mScrubberStateList.getDefaultColor();
-
-        mThumbStateList = thumbStateList;
-        mThumbColor = mThumbStateList.getDefaultColor();
+        setTrackColor(trackStateList);
+        setScrubberColor(scrubberStateList);
+        setThumbColor(thumbStateList);
 
     }
 
@@ -114,6 +109,7 @@ public abstract class SeekBarStatusDrawable extends Drawable {
      */
     public void setTrackColor(ColorStateList stateList) {
         mTrackStateList = stateList;
+        mTrackColor = mTrackStateList.getDefaultColor();
     }
 
     /**
@@ -123,6 +119,7 @@ public abstract class SeekBarStatusDrawable extends Drawable {
      */
     public void setScrubberColor(ColorStateList stateList) {
         mScrubberStateList = stateList;
+        mScrubberColor = mScrubberStateList.getDefaultColor();
     }
 
     /**
@@ -132,6 +129,7 @@ public abstract class SeekBarStatusDrawable extends Drawable {
      */
     public void setThumbColor(ColorStateList stateList) {
         mThumbStateList = stateList;
+        mThumbColor = mThumbStateList.getDefaultColor();
     }
 
 

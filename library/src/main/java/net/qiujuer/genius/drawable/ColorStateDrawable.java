@@ -39,8 +39,7 @@ public abstract class ColorStateDrawable extends Drawable {
 
     public ColorStateDrawable(ColorStateList tintStateList) {
         super();
-        mTintStateList = tintStateList;
-        mCurrentColor = tintStateList.getDefaultColor();
+        setColorStateList(tintStateList);
     }
 
     @Override
@@ -85,6 +84,7 @@ public abstract class ColorStateDrawable extends Drawable {
      */
     public void setColorStateList(ColorStateList tintStateList) {
         mTintStateList = tintStateList;
+        mCurrentColor = tintStateList.getDefaultColor();
     }
 
     /**

@@ -83,10 +83,14 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
     }
 
     public void setTrackStroke(int trackStroke) {
+        if (trackStroke < 0)
+            trackStroke = 0;
         this.mTrackStroke = trackStroke;
     }
 
     public void setScrubberStroke(int scrubberStroke) {
+        if (scrubberStroke < 0)
+            scrubberStroke = 0;
         this.mScrubberStroke = scrubberStroke;
     }
 
@@ -104,6 +108,26 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
 
     public void setNumSegments(int numSegments) {
         this.mNumSegments = numSegments;
+    }
+
+    public int getTickRadius() {
+        return mTickRadius;
+    }
+
+    public int getThumbRadius() {
+        return mThumbRadius;
+    }
+
+    public int getTouchRadius() {
+        return mTouchRadius;
+    }
+
+    public int getScrubberStroke() {
+        return mScrubberStroke;
+    }
+
+    public int getTrackStroke() {
+        return mTrackStroke;
     }
 
     public float getHotScale() {
@@ -176,7 +200,11 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
 
     @Override
     public int getIntrinsicHeight() {
-        return mTouchRadius * 2;
+        int maxHeight = Math.max(mTrackStroke, mScrubberStroke);
+        maxHeight = Math.max(maxHeight, mThumbRadius * 2);
+        maxHeight = Math.max(maxHeight, mTickRadius * 2);
+        maxHeight = Math.max(maxHeight, mTouchRadius * 2);
+        return maxHeight;
     }
 
     private int getHotWidth() {
@@ -204,27 +232,21 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         int startRight = bounds.right - mTouchRadius;
 
         // Track
-        paint.setColor(colorLeft);
-        paint.setAlpha(alphaLeft);
-        canvas.drawRect(startLeft, thumbY - halfLeft, thumbX, thumbY + halfLeft, paint);
-
-        // Ticks
-        if (mTickRadius > 0) {
-            for (int i = 0; i <= mNumSegments; i++) {
-                float x = i * mTickDistance + startLeft;
-                if (x > thumbX)
-                    break;
-                canvas.drawCircle(x, thumbY, mTickRadius, paint);
-            }
+        if (halfLeft > 0) {
+            paint.setColor(colorLeft);
+            paint.setAlpha(alphaLeft);
+            canvas.drawRect(startLeft, thumbY - halfLeft, thumbX, thumbY + halfLeft, paint);
         }
 
         // Scrubber
-        paint.setColor(colorRight);
-        paint.setAlpha(alphaRight);
-        canvas.drawRect(thumbX, thumbY - halfRight, startRight, thumbY + halfRight, paint);
+        if (halfRight > 0) {
+            paint.setColor(colorRight);
+            paint.setAlpha(alphaRight);
+            canvas.drawRect(thumbX, thumbY - halfRight, startRight, thumbY + halfRight, paint);
+        }
 
-        // Ticks
-        if (mTickRadius > 0) {
+        // Ticks Right
+        if (mTickRadius > halfRight) {
             for (int i = 0; i <= mNumSegments; i++) {
                 float x = startRight - i * mTickDistance;
                 if (x <= thumbX)
@@ -233,8 +255,20 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
             }
         }
 
+        // Ticks Left
+        if (mThumbRadius > halfLeft) {
+            paint.setColor(colorLeft);
+            paint.setAlpha(alphaLeft);
+            for (int i = 0; i <= mNumSegments; i++) {
+                float x = i * mTickDistance + startLeft;
+                if (x > thumbX)
+                    break;
+                canvas.drawCircle(x, thumbY, mTickRadius, paint);
+            }
+        }
+
         // Thumb
-        if (!isOpen) {
+        if (!isOpen && mThumbRadius > 0) {
             paint.setColor(thumbColor);
             paint.setAlpha(thumbAlpha);
             canvas.drawCircle(thumbX, thumbY, mThumbRadius, paint);

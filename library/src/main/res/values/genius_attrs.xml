@@ -155,6 +155,8 @@
     <!-- GeniusSeekBar -->
     <attr name="GeniusSeekBarStyle" format="reference" />
     <declare-styleable name="GeniusSeekBar">
+        <attr name="g_theme" />
+
         <attr name="g_min" format="integer" />
         <attr name="g_max" format="integer" />
         <attr name="g_value" format="integer" />

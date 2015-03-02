@@ -48,7 +48,7 @@ import net.qiujuer.genius.widget.compat.GeniusCompat;
 public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
     private static final int PADDING_DP = 4;
     private static final int ELEVATION_DP = 8;
-    private static final int SEPARATION_DP = 30;
+    private static final int SEPARATION_DP = 22;
     //The TextView to show the info
     private TextView mNumber;
     //The max width of this View
@@ -131,8 +131,8 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
         mBalloonMarkerDrawable.setColorStateList(color);
     }
 
-    public void setClosedStateSize(float closedStateSize) {
-        mBalloonMarkerDrawable.setClosedStateSize(closedStateSize);
+    public void setClosedSize(float closedSize) {
+        mBalloonMarkerDrawable.setClosedStateSize(closedSize);
     }
 
     public void resetSizes(String maxValue) {

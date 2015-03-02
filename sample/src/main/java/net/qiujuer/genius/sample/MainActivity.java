@@ -1,8 +1,10 @@
 package net.qiujuer.genius.sample;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,10 +14,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.qiujuer.genius.GeniusUI;
 import net.qiujuer.genius.app.BlurKit;
 import net.qiujuer.genius.widget.GeniusAbsSeekBar;
 import net.qiujuer.genius.widget.GeniusCheckBox;
 import net.qiujuer.genius.widget.GeniusSeekBar;
+import net.qiujuer.genius.widget.attribute.SeekBarAttributes;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -32,19 +36,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         initCheckBox();
         initEditText();
+        initSeekBar();
         initBlur();
 
         // Init GeniusButton and Test delayClick
         findViewById(R.id.button_skip_isDelay).setOnClickListener(this);
         findViewById(R.id.button_skip_disDelay).setOnClickListener(this);
-
-        GeniusSeekBar seekBar = (GeniusSeekBar) findViewById(R.id.discrete1);
-        seekBar.setNumericTransformer(new GeniusAbsSeekBar.NumericTransformer() {
-            @Override
-            public int transform(int value) {
-                return value * 100;
-            }
-        });
     }
 
     @Override
@@ -104,6 +101,21 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 (findViewById(R.id.editText_title)).setEnabled(isChecked);
             }
         });
+    }
+
+    private void initSeekBar() {
+        GeniusSeekBar seekBar = (GeniusSeekBar) findViewById(R.id.seekBar1);
+        seekBar.setNumericTransformer(new GeniusAbsSeekBar.NumericTransformer() {
+            @Override
+            public int transform(int value) {
+                return value * 100;
+            }
+        });
+        SeekBarAttributes attributes = seekBar.getAttributes();
+        attributes.setTheme(GeniusUI.TREETOP, getResources());
+        attributes.setRippleColor(ColorStateList.valueOf(Color.RED));
+        attributes.notifyAttributeChange();
+        seekBar.setThumbRadius(16);
     }
 
     private void initBlur() {
