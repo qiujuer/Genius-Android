@@ -598,8 +598,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="true"
+                android:paddingTop="10dp"
                 genius:g_max="4"
                 genius:g_min="-4"
+                genius:g_theme="@array/Treetop"
                 genius:g_tickSize="4dp"
                 genius:g_value="-1" />
 
@@ -607,6 +609,22 @@
                 android:id="@+id/seekBar2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                genius:g_indicatorFormatter="%04d"
+                genius:g_max="1000"
+                genius:g_min="0"
+                genius:g_scrubberStroke="2dp"
+                genius:g_theme="@array/ScubaBlue"
+                genius:g_thumbSize="8dp"
+                genius:g_touchSize="12dp"
+                genius:g_trackStroke="2dp"
+                genius:g_value="600" />
+
+            <net.qiujuer.genius.widget.GeniusSeekBar
+                android:id="@+id/seekBar3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
                 genius:g_allowTrackClickToDrag="false"
                 genius:g_indicatorBackgroundColor="@color/my_floater_color"
                 genius:g_indicatorFormatter="o(∩_∩)o %d"
@@ -617,19 +635,7 @@
                 genius:g_trackColor="#ff000000"
                 genius:g_value="30" />
 
-            <net.qiujuer.genius.widget.GeniusSeekBar
-                android:id="@+id/seekBar3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                genius:g_indicatorFormatter="%04d"
-                genius:g_max="1000"
-                genius:g_min="0"
-                genius:g_scrubberStroke="2dp"
-                genius:g_theme="@array/ScubaBlue"
-                genius:g_thumbSize="8dp"
-                genius:g_touchSize="15dp"
-                genius:g_trackStroke="2dp"
-                genius:g_value="600" />
+
         </LinearLayout>
 
         <!-- BlurKit -->

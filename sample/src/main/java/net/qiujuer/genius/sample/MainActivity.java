@@ -111,11 +111,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 return value * 100;
             }
         });
-        SeekBarAttributes attributes = seekBar.getAttributes();
-        attributes.setTheme(GeniusUI.TREETOP, getResources());
-        attributes.setRippleColor(ColorStateList.valueOf(Color.RED));
-        attributes.notifyAttributeChange();
-        seekBar.setThumbRadius(16);
     }
 
     private void initBlur() {
