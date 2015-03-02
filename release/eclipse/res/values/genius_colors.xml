@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+* Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+* WebSite http://www.qiujuer.net
+* Created 10/01/2014
+* Changed 03/01/2015
+* Version 2.0.0
+* GeniusEditText
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*         http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+
 <resources>
     <!-- Aquamarine -->
     <color name="Aquamarine_Darker">#ff658B98</color>
@@ -135,6 +157,13 @@
     <color name="Dark_Light">#82a3a3a3</color>
     <color name="Dark_Translucence">#aa000000</color>
     <color name="Dark_Transparent">#55000000</color>
+
+    <!-- SeekBar -->
+    <color name="g_progress_color">#ff009688</color>
+    <color name="g_track_color">#ff939393</color>
+    <color name="g_disabled_color">#66939393</color>
+    <color name="g_ripple_color_pressed">#77939393</color>
+    <color name="g_ripple_color_focused">#99999999</color>
 
 
     <integer-array name="Aquamarine">

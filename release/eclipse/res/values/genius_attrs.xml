@@ -1,3 +1,23 @@
+<!--
+* Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+* WebSite http://www.qiujuer.net
+* Created 02/25/2015
+* Changed 03/01/2015
+* Version 2.0.0
+* GeniusEditText
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*         http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
 <resources>
     <!-- All -->
     <attr name="g_theme" format="reference" />
@@ -122,5 +142,41 @@
         <attr name="g_titleTextSize" format="dimension" />
         <attr name="g_titlePaddingTop" format="dimension" />
         <attr name="g_titlePaddingLeft" format="dimension" />
+    </declare-styleable>
+
+    <!-- BalloonMarker -->
+    <attr name="GeniusBalloonMarkerStyle" format="reference" />
+    <declare-styleable name="GeniusBalloonMarker">
+        <attr name="g_markerTextAppearance" format="reference" />
+        <attr name="g_markerBackgroundColor" format="color|reference" />
+        <attr name="g_markerElevation" format="dimension" />
+    </declare-styleable>
+
+    <!-- GeniusSeekBar -->
+    <attr name="GeniusSeekBarStyle" format="reference" />
+    <declare-styleable name="GeniusSeekBar">
+        <attr name="g_theme" />
+
+        <attr name="g_min" format="integer" />
+        <attr name="g_max" format="integer" />
+        <attr name="g_value" format="integer" />
+
+        <attr name="g_tickSize" format="dimension" />
+        <attr name="g_thumbSize" format="dimension" />
+        <attr name="g_touchSize" format="dimension" />
+        <attr name="g_trackStroke" format="dimension" />
+        <attr name="g_scrubberStroke" format="dimension" />
+
+        <attr name="g_mirrorForRtl" format="boolean" />
+        <attr name="g_allowTrackClickToDrag" format="boolean" />
+
+        <attr name="g_rippleColor" format="color|reference" />
+        <attr name="g_scrubberColor" format="color|reference" />
+        <attr name="g_trackColor" format="color|reference" />
+        <attr name="g_thumbColor" format="color|reference" />
+
+        <attr name="g_indicatorBackgroundColor" format="color|reference" />
+        <attr name="g_indicatorFormatter" format="string|reference" />
+        <attr name="g_indicatorTextAppearance" format="reference" />
     </declare-styleable>
 </resources>

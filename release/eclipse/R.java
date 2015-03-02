@@ -9,1493 +9,2158 @@ package net.qiujuer.genius;
 
 public final class R {
     public static final class array {
-        public static int Aquamarine=0x7f020000;
-        public static int ClassicBlue=0x7f020001;
-        public static int Custard=0x7f020002;
-        public static int Dark=0x7f020003;
-        public static int DuskBlue=0x7f020004;
-        public static int GlacierGray=0x7f020005;
-        public static int LavenderHerb=0x7f020006;
-        public static int LuciteGreen=0x7f020007;
-        public static int Marsala=0x7f020008;
-        public static int Sandstone=0x7f020009;
-        public static int ScubaBlue=0x7f02000a;
-        public static int StrawberryIce=0x7f02000b;
-        public static int Tangerine=0x7f02000c;
-        public static int Titanium=0x7f02000d;
-        public static int ToastedAlmond=0x7f02000e;
-        public static int Treetop=0x7f02000f;
-        public static int Woodbine=0x7f020010;
+        public static int Aquamarine = 0x7f020000;
+        public static int ClassicBlue = 0x7f020001;
+        public static int Custard = 0x7f020002;
+        public static int Dark = 0x7f020003;
+        public static int DuskBlue = 0x7f020004;
+        public static int GlacierGray = 0x7f020005;
+        public static int LavenderHerb = 0x7f020006;
+        public static int LuciteGreen = 0x7f020007;
+        public static int Marsala = 0x7f020008;
+        public static int Sandstone = 0x7f020009;
+        public static int ScubaBlue = 0x7f02000a;
+        public static int StrawberryIce = 0x7f02000b;
+        public static int Tangerine = 0x7f02000c;
+        public static int Titanium = 0x7f02000d;
+        public static int ToastedAlmond = 0x7f02000e;
+        public static int Treetop = 0x7f02000f;
+        public static int Woodbine = 0x7f020010;
     }
+
     public static final class attr {
-        /** <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>darker</code></td><td>0</td><td></td></tr>
-<tr><td><code>dark</code></td><td>1</td><td></td></tr>
-<tr><td><code>main</code></td><td>2</td><td></td></tr>
-<tr><td><code>light</code></td><td>3</td><td></td></tr>
-</table>
+        /**
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int g_backgroundColor=0x7f01001a;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int GeniusBalloonMarkerStyle = 0x7f010000;
+        /**
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int g_blockButtonEffectHeight=0x7f01000d;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int GeniusSeekBarStyle = 0x7f010001;
+        /**
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_borderWidth=0x7f010000;
-        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_allowTrackClickToDrag = 0x7f010027;
+        /**
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>darker</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>dark</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>main</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>3</td><td></td></tr>
+         * </table>
          */
-        public static int g_checked=0x7f010011;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_backgroundColor = 0x7f010030;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_circleRadius=0x7f010010;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_blockButtonEffectHeight = 0x7f010012;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_cornerRadii_A=0x7f010001;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_borderWidth = 0x7f010002;
+        /**
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_cornerRadii_B=0x7f010002;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_checked = 0x7f010016;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_cornerRadii_C=0x7f010003;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_circleRadius = 0x7f010015;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_cornerRadii_D=0x7f010004;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_cornerRadii_A = 0x7f010003;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_cornerRadius=0x7f010005;
-        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_cornerRadii_B = 0x7f010004;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_customBackgroundColor=0x7f01001b;
-        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_cornerRadii_C = 0x7f010005;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_delayClick=0x7f01000e;
-        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_cornerRadii_D = 0x7f010006;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_enabled=0x7f010012;
-        /** <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>fill</code></td><td>1</td><td></td></tr>
-<tr><td><code>box</code></td><td>2</td><td></td></tr>
-<tr><td><code>transparent</code></td><td>3</td><td></td></tr>
-<tr><td><code>line</code></td><td>4</td><td></td></tr>
-</table>
+        public static int g_cornerRadius = 0x7f010007;
+        /**
+         * <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_fieldStyle=0x7f010013;
-        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_customBackgroundColor = 0x7f010031;
+        /**
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_fontExtension=0x7f010006;
-        /** <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>roboto</code></td><td>0</td><td></td></tr>
-<tr><td><code>opensans</code></td><td>1</td><td></td></tr>
-</table>
+        public static int g_delayClick = 0x7f010013;
+        /**
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_fontFamily=0x7f010007;
-        /** <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>bold</code></td><td>0</td><td></td></tr>
-<tr><td><code>extrabold</code></td><td>1</td><td></td></tr>
-<tr><td><code>extralight</code></td><td>2</td><td></td></tr>
-<tr><td><code>light</code></td><td>3</td><td></td></tr>
-<tr><td><code>regular</code></td><td>4</td><td></td></tr>
-</table>
+        public static int g_enabled = 0x7f010017;
+        /**
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>fill</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>box</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>transparent</code></td><td>3</td><td></td></tr>
+         * <tr><td><code>line</code></td><td>4</td><td></td></tr>
+         * </table>
          */
-        public static int g_fontWeight=0x7f010008;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_fieldStyle = 0x7f010018;
+        /**
+         * <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_ringWidth=0x7f01000f;
-        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_fontExtension = 0x7f010008;
+        /**
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>roboto</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>opensans</code></td><td>1</td><td></td></tr>
+         * </table>
          */
-        public static int g_showTitle=0x7f010014;
-        /** <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>none</code></td><td>0</td><td></td></tr>
-<tr><td><code>dark</code></td><td>1</td><td></td></tr>
-<tr><td><code>light</code></td><td>2</td><td></td></tr>
-</table>
+        public static int g_fontFamily = 0x7f010009;
+        /**
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>bold</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>extrabold</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>extralight</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>3</td><td></td></tr>
+         * <tr><td><code>regular</code></td><td>4</td><td></td></tr>
+         * </table>
          */
-        public static int g_textAppearance=0x7f010009;
-        /** <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>darker</code></td><td>0</td><td></td></tr>
-<tr><td><code>dark</code></td><td>1</td><td></td></tr>
-<tr><td><code>main</code></td><td>2</td><td></td></tr>
-<tr><td><code>light</code></td><td>3</td><td></td></tr>
-</table>
+        public static int g_fontWeight = 0x7f01000a;
+        /**
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int g_textColor=0x7f010019;
-        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+        public static int g_indicatorBackgroundColor = 0x7f01002c;
+        /**
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static int g_theme=0x7f01000a;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_indicatorFormatter = 0x7f01002d;
+        /**
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int g_titlePaddingLeft=0x7f010018;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_indicatorTextAppearance = 0x7f01002e;
+        /**
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int g_titlePaddingTop=0x7f010017;
-        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+        public static int g_markerBackgroundColor = 0x7f01000e;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_titleTextColor=0x7f010015;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_markerElevation = 0x7f01000f;
+        /**
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int g_titleTextSize=0x7f010016;
-        /** <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>none</code></td><td>0</td><td></td></tr>
-<tr><td><code>ease</code></td><td>1</td><td></td></tr>
-<tr><td><code>ripple</code></td><td>2</td><td></td></tr>
-<tr><td><code>move</code></td><td>3</td><td></td></tr>
-<tr><td><code>press</code></td><td>4</td><td></td></tr>
-</table>
+        public static int g_markerTextAppearance = 0x7f01000d;
+        /**
+         * <p>Must be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_touchEffect=0x7f01000b;
-        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static int g_max = 0x7f01001f;
+        /**
+         * <p>Must be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
          */
-        public static int g_touchEffectColor=0x7f01000c;
+        public static int g_min = 0x7f01001e;
+        /**
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_mirrorForRtl = 0x7f010026;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_ringWidth = 0x7f010014;
+        /**
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int g_rippleColor = 0x7f010028;
+        /**
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int g_scrubberColor = 0x7f010029;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_scrubberStroke = 0x7f010025;
+        /**
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_showTitle = 0x7f010019;
+        /**
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>none</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>dark</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>2</td><td></td></tr>
+         * </table>
+         */
+        public static int g_textAppearance = 0x7f01000b;
+        /**
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>darker</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>dark</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>main</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>3</td><td></td></tr>
+         * </table>
+         */
+        public static int g_textColor = 0x7f01002f;
+        /**
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static int g_theme = 0x7f01000c;
+        /**
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int g_thumbColor = 0x7f01002b;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_thumbSize = 0x7f010022;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_tickSize = 0x7f010021;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_titlePaddingLeft = 0x7f01001d;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_titlePaddingTop = 0x7f01001c;
+        /**
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int g_titleTextColor = 0x7f01001a;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_titleTextSize = 0x7f01001b;
+        /**
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>none</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>ease</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>ripple</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>move</code></td><td>3</td><td></td></tr>
+         * <tr><td><code>press</code></td><td>4</td><td></td></tr>
+         * </table>
+         */
+        public static int g_touchEffect = 0x7f010010;
+        /**
+         * <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_touchEffectColor = 0x7f010011;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_touchSize = 0x7f010023;
+        /**
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int g_trackColor = 0x7f01002a;
+        /**
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_trackStroke = 0x7f010024;
+        /**
+         * <p>Must be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         */
+        public static int g_value = 0x7f010020;
     }
+
     public static final class color {
-        public static int Aquamarine_Dark=0x7f030000;
-        public static int Aquamarine_Darker=0x7f030001;
-        public static int Aquamarine_Light=0x7f030002;
-        public static int Aquamarine_Primary=0x7f030003;
-        public static int Aquamarine_Translucence=0x7f030004;
-        public static int Aquamarine_Transparent=0x7f030005;
-        public static int ClassicBlue_Dark=0x7f030006;
-        public static int ClassicBlue_Darker=0x7f030007;
-        public static int ClassicBlue_Light=0x7f030008;
-        public static int ClassicBlue_Primary=0x7f030009;
-        public static int ClassicBlue_Translucence=0x7f03000a;
-        public static int ClassicBlue_Transparent=0x7f03000b;
-        public static int Custard_Dark=0x7f03000c;
-        public static int Custard_Darker=0x7f03000d;
-        public static int Custard_Light=0x7f03000e;
-        public static int Custard_Primary=0x7f03000f;
-        public static int Custard_Translucence=0x7f030010;
-        public static int Custard_Transparent=0x7f030011;
-        public static int Dark_Dark=0x7f030012;
-        public static int Dark_Darker=0x7f030013;
-        public static int Dark_Light=0x7f030014;
-        public static int Dark_Primary=0x7f030015;
-        public static int Dark_Translucence=0x7f030016;
-        public static int Dark_Transparent=0x7f030017;
-        public static int DuskBlue_Dark=0x7f030018;
-        public static int DuskBlue_Darker=0x7f030019;
-        public static int DuskBlue_Light=0x7f03001a;
-        public static int DuskBlue_Primary=0x7f03001b;
-        public static int DuskBlue_Translucence=0x7f03001c;
-        public static int DuskBlue_Transparent=0x7f03001d;
-        public static int GlacierGray_Dark=0x7f03001e;
-        public static int GlacierGray_Darker=0x7f03001f;
-        public static int GlacierGray_Light=0x7f030020;
-        public static int GlacierGray_Primary=0x7f030021;
-        public static int GlacierGray_Translucence=0x7f030022;
-        public static int GlacierGray_Transparent=0x7f030023;
-        public static int LavenderHerb_Dark=0x7f030024;
-        public static int LavenderHerb_Darker=0x7f030025;
-        public static int LavenderHerb_Light=0x7f030026;
-        public static int LavenderHerb_Primary=0x7f030027;
-        public static int LavenderHerb_Translucence=0x7f030028;
-        public static int LavenderHerb_Transparent=0x7f030029;
-        public static int LuciteGreen_Dark=0x7f03002a;
-        public static int LuciteGreen_Darker=0x7f03002b;
-        public static int LuciteGreen_Light=0x7f03002c;
-        public static int LuciteGreen_Primary=0x7f03002d;
-        public static int LuciteGreen_Translucence=0x7f03002e;
-        public static int LuciteGreen_Transparent=0x7f03002f;
-        public static int Marsala_Dark=0x7f030030;
-        public static int Marsala_Darker=0x7f030031;
-        public static int Marsala_Light=0x7f030032;
-        public static int Marsala_Primary=0x7f030033;
-        public static int Marsala_Translucence=0x7f030034;
-        public static int Marsala_Transparent=0x7f030035;
-        public static int Sandstone_Dark=0x7f030036;
-        public static int Sandstone_Darker=0x7f030037;
-        public static int Sandstone_Light=0x7f030038;
-        public static int Sandstone_Primary=0x7f030039;
-        public static int Sandstone_Translucence=0x7f03003a;
-        public static int Sandstone_Transparent=0x7f03003b;
-        public static int ScubaBlue_Dark=0x7f03003c;
-        public static int ScubaBlue_Darker=0x7f03003d;
-        public static int ScubaBlue_Light=0x7f03003e;
-        public static int ScubaBlue_Primary=0x7f03003f;
-        public static int ScubaBlue_Translucence=0x7f030040;
-        public static int ScubaBlue_Transparent=0x7f030041;
-        public static int StrawberryIce_Dark=0x7f030042;
-        public static int StrawberryIce_Darker=0x7f030043;
-        public static int StrawberryIce_Light=0x7f030044;
-        public static int StrawberryIce_Primary=0x7f030045;
-        public static int StrawberryIce_Translucence=0x7f030046;
-        public static int StrawberryIce_Transparent=0x7f030047;
-        public static int Tangerine_Dark=0x7f030048;
-        public static int Tangerine_Darker=0x7f030049;
-        public static int Tangerine_Light=0x7f03004a;
-        public static int Tangerine_Primary=0x7f03004b;
-        public static int Tangerine_Translucence=0x7f03004c;
-        public static int Tangerine_Transparent=0x7f03004d;
-        public static int Titanium_Dark=0x7f03004e;
-        public static int Titanium_Darker=0x7f03004f;
-        public static int Titanium_Light=0x7f030050;
-        public static int Titanium_Primary=0x7f030051;
-        public static int Titanium_Translucence=0x7f030052;
-        public static int Titanium_Transparent=0x7f030053;
-        public static int ToastedAlmond_Dark=0x7f030054;
-        public static int ToastedAlmond_Darker=0x7f030055;
-        public static int ToastedAlmond_Light=0x7f030056;
-        public static int ToastedAlmond_Primary=0x7f030057;
-        public static int ToastedAlmond_Translucence=0x7f030058;
-        public static int ToastedAlmond_Transparent=0x7f030059;
-        public static int Treetop_Dark=0x7f03005a;
-        public static int Treetop_Darker=0x7f03005b;
-        public static int Treetop_Light=0x7f03005c;
-        public static int Treetop_Primary=0x7f03005d;
-        public static int Treetop_Translucence=0x7f03005e;
-        public static int Treetop_Transparent=0x7f03005f;
-        public static int Woodbine_Dark=0x7f030060;
-        public static int Woodbine_Darker=0x7f030061;
-        public static int Woodbine_Light=0x7f030062;
-        public static int Woodbine_Primary=0x7f030063;
-        public static int Woodbine_Translucence=0x7f030064;
-        public static int Woodbine_Transparent=0x7f030065;
+        public static int Aquamarine_Dark = 0x7f030000;
+        public static int Aquamarine_Darker = 0x7f030001;
+        public static int Aquamarine_Light = 0x7f030002;
+        public static int Aquamarine_Primary = 0x7f030003;
+        public static int Aquamarine_Translucence = 0x7f030004;
+        public static int Aquamarine_Transparent = 0x7f030005;
+        public static int ClassicBlue_Dark = 0x7f030006;
+        public static int ClassicBlue_Darker = 0x7f030007;
+        public static int ClassicBlue_Light = 0x7f030008;
+        public static int ClassicBlue_Primary = 0x7f030009;
+        public static int ClassicBlue_Translucence = 0x7f03000a;
+        public static int ClassicBlue_Transparent = 0x7f03000b;
+        public static int Custard_Dark = 0x7f03000c;
+        public static int Custard_Darker = 0x7f03000d;
+        public static int Custard_Light = 0x7f03000e;
+        public static int Custard_Primary = 0x7f03000f;
+        public static int Custard_Translucence = 0x7f030010;
+        public static int Custard_Transparent = 0x7f030011;
+        public static int Dark_Dark = 0x7f030012;
+        public static int Dark_Darker = 0x7f030013;
+        public static int Dark_Light = 0x7f030014;
+        public static int Dark_Primary = 0x7f030015;
+        public static int Dark_Translucence = 0x7f030016;
+        public static int Dark_Transparent = 0x7f030017;
+        public static int DuskBlue_Dark = 0x7f030018;
+        public static int DuskBlue_Darker = 0x7f030019;
+        public static int DuskBlue_Light = 0x7f03001a;
+        public static int DuskBlue_Primary = 0x7f03001b;
+        public static int DuskBlue_Translucence = 0x7f03001c;
+        public static int DuskBlue_Transparent = 0x7f03001d;
+        public static int GlacierGray_Dark = 0x7f03001e;
+        public static int GlacierGray_Darker = 0x7f03001f;
+        public static int GlacierGray_Light = 0x7f030020;
+        public static int GlacierGray_Primary = 0x7f030021;
+        public static int GlacierGray_Translucence = 0x7f030022;
+        public static int GlacierGray_Transparent = 0x7f030023;
+        public static int LavenderHerb_Dark = 0x7f030024;
+        public static int LavenderHerb_Darker = 0x7f030025;
+        public static int LavenderHerb_Light = 0x7f030026;
+        public static int LavenderHerb_Primary = 0x7f030027;
+        public static int LavenderHerb_Translucence = 0x7f030028;
+        public static int LavenderHerb_Transparent = 0x7f030029;
+        public static int LuciteGreen_Dark = 0x7f03002a;
+        public static int LuciteGreen_Darker = 0x7f03002b;
+        public static int LuciteGreen_Light = 0x7f03002c;
+        public static int LuciteGreen_Primary = 0x7f03002d;
+        public static int LuciteGreen_Translucence = 0x7f03002e;
+        public static int LuciteGreen_Transparent = 0x7f03002f;
+        public static int Marsala_Dark = 0x7f030030;
+        public static int Marsala_Darker = 0x7f030031;
+        public static int Marsala_Light = 0x7f030032;
+        public static int Marsala_Primary = 0x7f030033;
+        public static int Marsala_Translucence = 0x7f030034;
+        public static int Marsala_Transparent = 0x7f030035;
+        public static int Sandstone_Dark = 0x7f030036;
+        public static int Sandstone_Darker = 0x7f030037;
+        public static int Sandstone_Light = 0x7f030038;
+        public static int Sandstone_Primary = 0x7f030039;
+        public static int Sandstone_Translucence = 0x7f03003a;
+        public static int Sandstone_Transparent = 0x7f03003b;
+        public static int ScubaBlue_Dark = 0x7f03003c;
+        public static int ScubaBlue_Darker = 0x7f03003d;
+        public static int ScubaBlue_Light = 0x7f03003e;
+        public static int ScubaBlue_Primary = 0x7f03003f;
+        public static int ScubaBlue_Translucence = 0x7f030040;
+        public static int ScubaBlue_Transparent = 0x7f030041;
+        public static int StrawberryIce_Dark = 0x7f030042;
+        public static int StrawberryIce_Darker = 0x7f030043;
+        public static int StrawberryIce_Light = 0x7f030044;
+        public static int StrawberryIce_Primary = 0x7f030045;
+        public static int StrawberryIce_Translucence = 0x7f030046;
+        public static int StrawberryIce_Transparent = 0x7f030047;
+        public static int Tangerine_Dark = 0x7f030048;
+        public static int Tangerine_Darker = 0x7f030049;
+        public static int Tangerine_Light = 0x7f03004a;
+        public static int Tangerine_Primary = 0x7f03004b;
+        public static int Tangerine_Translucence = 0x7f03004c;
+        public static int Tangerine_Transparent = 0x7f03004d;
+        public static int Titanium_Dark = 0x7f03004e;
+        public static int Titanium_Darker = 0x7f03004f;
+        public static int Titanium_Light = 0x7f030050;
+        public static int Titanium_Primary = 0x7f030051;
+        public static int Titanium_Translucence = 0x7f030052;
+        public static int Titanium_Transparent = 0x7f030053;
+        public static int ToastedAlmond_Dark = 0x7f030054;
+        public static int ToastedAlmond_Darker = 0x7f030055;
+        public static int ToastedAlmond_Light = 0x7f030056;
+        public static int ToastedAlmond_Primary = 0x7f030057;
+        public static int ToastedAlmond_Translucence = 0x7f030058;
+        public static int ToastedAlmond_Transparent = 0x7f030059;
+        public static int Treetop_Dark = 0x7f03005a;
+        public static int Treetop_Darker = 0x7f03005b;
+        public static int Treetop_Light = 0x7f03005c;
+        public static int Treetop_Primary = 0x7f03005d;
+        public static int Treetop_Translucence = 0x7f03005e;
+        public static int Treetop_Transparent = 0x7f03005f;
+        public static int Woodbine_Dark = 0x7f030060;
+        public static int Woodbine_Darker = 0x7f030061;
+        public static int Woodbine_Light = 0x7f030062;
+        public static int Woodbine_Primary = 0x7f030063;
+        public static int Woodbine_Translucence = 0x7f030064;
+        public static int Woodbine_Transparent = 0x7f030065;
+        public static int g_disabled_color = 0x7f030066;
+        public static int g_progress_color = 0x7f030067;
+        public static int g_progress_color_list = 0x7f03006b;
+        public static int g_ripple_color_focused = 0x7f030068;
+        public static int g_ripple_color_list = 0x7f03006c;
+        public static int g_ripple_color_pressed = 0x7f030069;
+        public static int g_track_color = 0x7f03006a;
+        public static int g_track_color_list = 0x7f03006d;
     }
+
     public static final class dimen {
-        public static int genius_checkBox_ringWidth=0x7f040000;
-        public static int genius_editText_lineStyle_selectBorder=0x7f040001;
-        public static int genius_editText_titlePaddingLeft=0x7f040002;
-        public static int genius_editText_titlePaddingTop=0x7f040003;
-        public static int genius_editText_titleTextSize=0x7f040004;
+        public static int genius_balloonMarker_elevation = 0x7f040000;
+        public static int genius_balloonMarker_textAppearance_padding = 0x7f040001;
+        public static int genius_checkBox_ringWidth = 0x7f040002;
+        public static int genius_editText_lineStyle_selectBorder = 0x7f040003;
+        public static int genius_editText_titlePaddingLeft = 0x7f040004;
+        public static int genius_editText_titlePaddingTop = 0x7f040005;
+        public static int genius_editText_titleTextSize = 0x7f040006;
+        public static int genius_seekBar_scrubberStroke = 0x7f040007;
+        public static int genius_seekBar_thumbSize = 0x7f040008;
+        public static int genius_seekBar_tickSize = 0x7f040009;
+        public static int genius_seekBar_touchSize = 0x7f04000a;
+        public static int genius_seekBar_trackStroke = 0x7f04000b;
     }
+
     public static final class id {
-        public static int bold=0x7f050002;
-        public static int box=0x7f05000d;
-        public static int dark=0x7f050007;
-        public static int darker=0x7f050011;
-        public static int ease=0x7f050009;
-        public static int extrabold=0x7f050003;
-        public static int extralight=0x7f050004;
-        public static int fill=0x7f05000e;
-        public static int light=0x7f050005;
-        public static int line=0x7f05000f;
-        public static int main=0x7f050012;
-        public static int move=0x7f05000a;
-        public static int none=0x7f050008;
-        public static int opensans=0x7f050000;
-        public static int press=0x7f05000b;
-        public static int regular=0x7f050006;
-        public static int ripple=0x7f05000c;
-        public static int roboto=0x7f050001;
-        public static int transparent=0x7f050010;
+        public static int bold = 0x7f060002;
+        public static int box = 0x7f06000d;
+        public static int dark = 0x7f060007;
+        public static int darker = 0x7f060011;
+        public static int ease = 0x7f060009;
+        public static int extrabold = 0x7f060003;
+        public static int extralight = 0x7f060004;
+        public static int fill = 0x7f06000e;
+        public static int light = 0x7f060005;
+        public static int line = 0x7f06000f;
+        public static int main = 0x7f060012;
+        public static int move = 0x7f06000a;
+        public static int none = 0x7f060008;
+        public static int opensans = 0x7f060000;
+        public static int press = 0x7f06000b;
+        public static int regular = 0x7f060006;
+        public static int ripple = 0x7f06000c;
+        public static int roboto = 0x7f060001;
+        public static int transparent = 0x7f060010;
     }
+
+    public static final class style {
+        public static int DefaultBalloonMarkerStyle = 0x7f050000;
+        public static int DefaultBalloonMarkerTextAppearanceStyle = 0x7f050001;
+        public static int DefaultSeekBarStyle = 0x7f050002;
+    }
+
     public static final class styleable {
-        /** Attributes that can be used with a GeniusButton.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #GeniusButton_g_blockButtonEffectHeight net.qiujuer.genius:g_blockButtonEffectHeight}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_borderWidth net.qiujuer.genius:g_borderWidth}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_cornerRadii_A net.qiujuer.genius:g_cornerRadii_A}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_cornerRadii_B net.qiujuer.genius:g_cornerRadii_B}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_cornerRadii_C net.qiujuer.genius:g_cornerRadii_C}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_cornerRadii_D net.qiujuer.genius:g_cornerRadii_D}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_cornerRadius net.qiujuer.genius:g_cornerRadius}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_delayClick net.qiujuer.genius:g_delayClick}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_fontExtension net.qiujuer.genius:g_fontExtension}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_fontFamily net.qiujuer.genius:g_fontFamily}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_fontWeight net.qiujuer.genius:g_fontWeight}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_textAppearance net.qiujuer.genius:g_textAppearance}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_touchEffect net.qiujuer.genius:g_touchEffect}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusButton_g_touchEffectColor net.qiujuer.genius:g_touchEffectColor}</code></td><td></td></tr>
-           </table>
-           @see #GeniusButton_g_blockButtonEffectHeight
-           @see #GeniusButton_g_borderWidth
-           @see #GeniusButton_g_cornerRadii_A
-           @see #GeniusButton_g_cornerRadii_B
-           @see #GeniusButton_g_cornerRadii_C
-           @see #GeniusButton_g_cornerRadii_D
-           @see #GeniusButton_g_cornerRadius
-           @see #GeniusButton_g_delayClick
-           @see #GeniusButton_g_fontExtension
-           @see #GeniusButton_g_fontFamily
-           @see #GeniusButton_g_fontWeight
-           @see #GeniusButton_g_textAppearance
-           @see #GeniusButton_g_theme
-           @see #GeniusButton_g_touchEffect
-           @see #GeniusButton_g_touchEffectColor
+        /**
+         * Attributes that can be used with a GeniusBalloonMarker.
+         * <p>Includes the following attributes:</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Attribute</th><th>Description</th></tr>
+         * <tr><td><code>{@link #GeniusBalloonMarker_g_markerBackgroundColor net.qiujuer.genius:g_markerBackgroundColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusBalloonMarker_g_markerElevation net.qiujuer.genius:g_markerElevation}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusBalloonMarker_g_markerTextAppearance net.qiujuer.genius:g_markerTextAppearance}</code></td><td></td></tr>
+         * </table>
+         *
+         * @see #GeniusBalloonMarker_g_markerBackgroundColor
+         * @see #GeniusBalloonMarker_g_markerElevation
+         * @see #GeniusBalloonMarker_g_markerTextAppearance
+         */
+        public static final int[] GeniusBalloonMarker = {
+                0x7f01000d, 0x7f01000e, 0x7f01000f
+        };
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_markerBackgroundColor}
+         * attribute's value can be found in the {@link #GeniusBalloonMarker} array.
+         * <p/>
+         * <p/>
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_markerBackgroundColor
+         */
+        public static int GeniusBalloonMarker_g_markerBackgroundColor = 1;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_markerElevation}
+         * attribute's value can be found in the {@link #GeniusBalloonMarker} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_markerElevation
+         */
+        public static int GeniusBalloonMarker_g_markerElevation = 2;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_markerTextAppearance}
+         * attribute's value can be found in the {@link #GeniusBalloonMarker} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_markerTextAppearance
+         */
+        public static int GeniusBalloonMarker_g_markerTextAppearance = 0;
+        /**
+         * Attributes that can be used with a GeniusButton.
+         * <p>Includes the following attributes:</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Attribute</th><th>Description</th></tr>
+         * <tr><td><code>{@link #GeniusButton_g_blockButtonEffectHeight net.qiujuer.genius:g_blockButtonEffectHeight}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_borderWidth net.qiujuer.genius:g_borderWidth}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_cornerRadii_A net.qiujuer.genius:g_cornerRadii_A}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_cornerRadii_B net.qiujuer.genius:g_cornerRadii_B}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_cornerRadii_C net.qiujuer.genius:g_cornerRadii_C}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_cornerRadii_D net.qiujuer.genius:g_cornerRadii_D}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_cornerRadius net.qiujuer.genius:g_cornerRadius}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_delayClick net.qiujuer.genius:g_delayClick}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_fontExtension net.qiujuer.genius:g_fontExtension}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_fontFamily net.qiujuer.genius:g_fontFamily}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_fontWeight net.qiujuer.genius:g_fontWeight}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_textAppearance net.qiujuer.genius:g_textAppearance}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_touchEffect net.qiujuer.genius:g_touchEffect}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusButton_g_touchEffectColor net.qiujuer.genius:g_touchEffectColor}</code></td><td></td></tr>
+         * </table>
+         *
+         * @see #GeniusButton_g_blockButtonEffectHeight
+         * @see #GeniusButton_g_borderWidth
+         * @see #GeniusButton_g_cornerRadii_A
+         * @see #GeniusButton_g_cornerRadii_B
+         * @see #GeniusButton_g_cornerRadii_C
+         * @see #GeniusButton_g_cornerRadii_D
+         * @see #GeniusButton_g_cornerRadius
+         * @see #GeniusButton_g_delayClick
+         * @see #GeniusButton_g_fontExtension
+         * @see #GeniusButton_g_fontFamily
+         * @see #GeniusButton_g_fontWeight
+         * @see #GeniusButton_g_textAppearance
+         * @see #GeniusButton_g_theme
+         * @see #GeniusButton_g_touchEffect
+         * @see #GeniusButton_g_touchEffectColor
          */
         public static final int[] GeniusButton = {
-            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
-            0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b,
-            0x7f01000c, 0x7f01000d, 0x7f01000e
+                0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005,
+                0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009,
+                0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f010010,
+                0x7f010011, 0x7f010012, 0x7f010013
         };
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_blockButtonEffectHeight}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_blockButtonEffectHeight
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_blockButtonEffectHeight}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_blockButtonEffectHeight
+         */
         public static int GeniusButton_g_blockButtonEffectHeight = 13;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_borderWidth}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_borderWidth
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_borderWidth}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_borderWidth
+         */
         public static int GeniusButton_g_borderWidth = 0;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_A}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_A
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_A}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_A
+         */
         public static int GeniusButton_g_cornerRadii_A = 1;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_B}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_B
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_B}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_B
+         */
         public static int GeniusButton_g_cornerRadii_B = 2;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_C}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_C
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_C}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_C
+         */
         public static int GeniusButton_g_cornerRadii_C = 3;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_D}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_D
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_D}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_D
+         */
         public static int GeniusButton_g_cornerRadii_D = 4;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadius}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadius
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadius}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadius
+         */
         public static int GeniusButton_g_cornerRadius = 5;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_delayClick}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_delayClick
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_delayClick}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_delayClick
+         */
         public static int GeniusButton_g_delayClick = 14;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontExtension}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_fontExtension
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontExtension}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_fontExtension
+         */
         public static int GeniusButton_g_fontExtension = 6;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontFamily}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>roboto</code></td><td>0</td><td></td></tr>
-<tr><td><code>opensans</code></td><td>1</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_fontFamily
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontFamily}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>roboto</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>opensans</code></td><td>1</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_fontFamily
+         */
         public static int GeniusButton_g_fontFamily = 7;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontWeight}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>bold</code></td><td>0</td><td></td></tr>
-<tr><td><code>extrabold</code></td><td>1</td><td></td></tr>
-<tr><td><code>extralight</code></td><td>2</td><td></td></tr>
-<tr><td><code>light</code></td><td>3</td><td></td></tr>
-<tr><td><code>regular</code></td><td>4</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_fontWeight
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontWeight}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>bold</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>extrabold</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>extralight</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>3</td><td></td></tr>
+         * <tr><td><code>regular</code></td><td>4</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_fontWeight
+         */
         public static int GeniusButton_g_fontWeight = 8;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_textAppearance}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>none</code></td><td>0</td><td></td></tr>
-<tr><td><code>dark</code></td><td>1</td><td></td></tr>
-<tr><td><code>light</code></td><td>2</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_textAppearance
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_textAppearance}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>none</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>dark</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>2</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_textAppearance
+         */
         public static int GeniusButton_g_textAppearance = 9;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name net.qiujuer.genius:g_theme
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_theme
+         */
         public static int GeniusButton_g_theme = 10;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_touchEffect}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>none</code></td><td>0</td><td></td></tr>
-<tr><td><code>ease</code></td><td>1</td><td></td></tr>
-<tr><td><code>ripple</code></td><td>2</td><td></td></tr>
-<tr><td><code>move</code></td><td>3</td><td></td></tr>
-<tr><td><code>press</code></td><td>4</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_touchEffect
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_touchEffect}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>none</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>ease</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>ripple</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>move</code></td><td>3</td><td></td></tr>
+         * <tr><td><code>press</code></td><td>4</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_touchEffect
+         */
         public static int GeniusButton_g_touchEffect = 11;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_touchEffectColor}
-          attribute's value can be found in the {@link #GeniusButton} array.
-
-
-          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_touchEffectColor
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_touchEffectColor}
+         * attribute's value can be found in the {@link #GeniusButton} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_touchEffectColor
+         */
         public static int GeniusButton_g_touchEffectColor = 12;
-        /** Attributes that can be used with a GeniusCheckBox.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #GeniusCheckBox_g_checked net.qiujuer.genius:g_checked}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusCheckBox_g_circleRadius net.qiujuer.genius:g_circleRadius}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusCheckBox_g_enabled net.qiujuer.genius:g_enabled}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusCheckBox_g_ringWidth net.qiujuer.genius:g_ringWidth}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusCheckBox_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
-           </table>
-           @see #GeniusCheckBox_g_checked
-           @see #GeniusCheckBox_g_circleRadius
-           @see #GeniusCheckBox_g_enabled
-           @see #GeniusCheckBox_g_ringWidth
-           @see #GeniusCheckBox_g_theme
+        /**
+         * Attributes that can be used with a GeniusCheckBox.
+         * <p>Includes the following attributes:</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Attribute</th><th>Description</th></tr>
+         * <tr><td><code>{@link #GeniusCheckBox_g_checked net.qiujuer.genius:g_checked}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusCheckBox_g_circleRadius net.qiujuer.genius:g_circleRadius}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusCheckBox_g_enabled net.qiujuer.genius:g_enabled}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusCheckBox_g_ringWidth net.qiujuer.genius:g_ringWidth}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusCheckBox_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
+         * </table>
+         *
+         * @see #GeniusCheckBox_g_checked
+         * @see #GeniusCheckBox_g_circleRadius
+         * @see #GeniusCheckBox_g_enabled
+         * @see #GeniusCheckBox_g_ringWidth
+         * @see #GeniusCheckBox_g_theme
          */
         public static final int[] GeniusCheckBox = {
-            0x7f01000a, 0x7f01000f, 0x7f010010, 0x7f010011,
-            0x7f010012
+                0x7f01000c, 0x7f010014, 0x7f010015, 0x7f010016,
+                0x7f010017
         };
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_checked}
-          attribute's value can be found in the {@link #GeniusCheckBox} array.
-
-
-          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_checked
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_checked}
+         * attribute's value can be found in the {@link #GeniusCheckBox} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_checked
+         */
         public static int GeniusCheckBox_g_checked = 3;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_circleRadius}
-          attribute's value can be found in the {@link #GeniusCheckBox} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_circleRadius
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_circleRadius}
+         * attribute's value can be found in the {@link #GeniusCheckBox} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_circleRadius
+         */
         public static int GeniusCheckBox_g_circleRadius = 2;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_enabled}
-          attribute's value can be found in the {@link #GeniusCheckBox} array.
-
-
-          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_enabled
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_enabled}
+         * attribute's value can be found in the {@link #GeniusCheckBox} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_enabled
+         */
         public static int GeniusCheckBox_g_enabled = 4;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_ringWidth}
-          attribute's value can be found in the {@link #GeniusCheckBox} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_ringWidth
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_ringWidth}
+         * attribute's value can be found in the {@link #GeniusCheckBox} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_ringWidth
+         */
         public static int GeniusCheckBox_g_ringWidth = 1;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
-          attribute's value can be found in the {@link #GeniusCheckBox} array.
-
-
-          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name net.qiujuer.genius:g_theme
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
+         * attribute's value can be found in the {@link #GeniusCheckBox} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_theme
+         */
         public static int GeniusCheckBox_g_theme = 0;
-        /** Attributes that can be used with a GeniusEditText.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #GeniusEditText_g_borderWidth net.qiujuer.genius:g_borderWidth}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_cornerRadii_A net.qiujuer.genius:g_cornerRadii_A}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_cornerRadii_B net.qiujuer.genius:g_cornerRadii_B}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_cornerRadii_C net.qiujuer.genius:g_cornerRadii_C}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_cornerRadii_D net.qiujuer.genius:g_cornerRadii_D}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_cornerRadius net.qiujuer.genius:g_cornerRadius}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_fieldStyle net.qiujuer.genius:g_fieldStyle}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_fontExtension net.qiujuer.genius:g_fontExtension}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_fontFamily net.qiujuer.genius:g_fontFamily}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_fontWeight net.qiujuer.genius:g_fontWeight}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_showTitle net.qiujuer.genius:g_showTitle}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_textAppearance net.qiujuer.genius:g_textAppearance}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_titlePaddingLeft net.qiujuer.genius:g_titlePaddingLeft}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_titlePaddingTop net.qiujuer.genius:g_titlePaddingTop}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_titleTextColor net.qiujuer.genius:g_titleTextColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusEditText_g_titleTextSize net.qiujuer.genius:g_titleTextSize}</code></td><td></td></tr>
-           </table>
-           @see #GeniusEditText_g_borderWidth
-           @see #GeniusEditText_g_cornerRadii_A
-           @see #GeniusEditText_g_cornerRadii_B
-           @see #GeniusEditText_g_cornerRadii_C
-           @see #GeniusEditText_g_cornerRadii_D
-           @see #GeniusEditText_g_cornerRadius
-           @see #GeniusEditText_g_fieldStyle
-           @see #GeniusEditText_g_fontExtension
-           @see #GeniusEditText_g_fontFamily
-           @see #GeniusEditText_g_fontWeight
-           @see #GeniusEditText_g_showTitle
-           @see #GeniusEditText_g_textAppearance
-           @see #GeniusEditText_g_theme
-           @see #GeniusEditText_g_titlePaddingLeft
-           @see #GeniusEditText_g_titlePaddingTop
-           @see #GeniusEditText_g_titleTextColor
-           @see #GeniusEditText_g_titleTextSize
+        /**
+         * Attributes that can be used with a GeniusEditText.
+         * <p>Includes the following attributes:</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Attribute</th><th>Description</th></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_borderWidth net.qiujuer.genius:g_borderWidth}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_cornerRadii_A net.qiujuer.genius:g_cornerRadii_A}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_cornerRadii_B net.qiujuer.genius:g_cornerRadii_B}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_cornerRadii_C net.qiujuer.genius:g_cornerRadii_C}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_cornerRadii_D net.qiujuer.genius:g_cornerRadii_D}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_cornerRadius net.qiujuer.genius:g_cornerRadius}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_fieldStyle net.qiujuer.genius:g_fieldStyle}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_fontExtension net.qiujuer.genius:g_fontExtension}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_fontFamily net.qiujuer.genius:g_fontFamily}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_fontWeight net.qiujuer.genius:g_fontWeight}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_showTitle net.qiujuer.genius:g_showTitle}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_textAppearance net.qiujuer.genius:g_textAppearance}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_titlePaddingLeft net.qiujuer.genius:g_titlePaddingLeft}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_titlePaddingTop net.qiujuer.genius:g_titlePaddingTop}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_titleTextColor net.qiujuer.genius:g_titleTextColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusEditText_g_titleTextSize net.qiujuer.genius:g_titleTextSize}</code></td><td></td></tr>
+         * </table>
+         *
+         * @see #GeniusEditText_g_borderWidth
+         * @see #GeniusEditText_g_cornerRadii_A
+         * @see #GeniusEditText_g_cornerRadii_B
+         * @see #GeniusEditText_g_cornerRadii_C
+         * @see #GeniusEditText_g_cornerRadii_D
+         * @see #GeniusEditText_g_cornerRadius
+         * @see #GeniusEditText_g_fieldStyle
+         * @see #GeniusEditText_g_fontExtension
+         * @see #GeniusEditText_g_fontFamily
+         * @see #GeniusEditText_g_fontWeight
+         * @see #GeniusEditText_g_showTitle
+         * @see #GeniusEditText_g_textAppearance
+         * @see #GeniusEditText_g_theme
+         * @see #GeniusEditText_g_titlePaddingLeft
+         * @see #GeniusEditText_g_titlePaddingTop
+         * @see #GeniusEditText_g_titleTextColor
+         * @see #GeniusEditText_g_titleTextSize
          */
         public static final int[] GeniusEditText = {
-            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
-            0x7f010008, 0x7f010009, 0x7f01000a, 0x7f010013,
-            0x7f010014, 0x7f010015, 0x7f010016, 0x7f010017,
-            0x7f010018
+                0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005,
+                0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009,
+                0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f010018,
+                0x7f010019, 0x7f01001a, 0x7f01001b, 0x7f01001c,
+                0x7f01001d
         };
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_borderWidth}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_borderWidth
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_borderWidth}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_borderWidth
+         */
         public static int GeniusEditText_g_borderWidth = 0;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_A}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_A
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_A}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_A
+         */
         public static int GeniusEditText_g_cornerRadii_A = 1;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_B}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_B
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_B}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_B
+         */
         public static int GeniusEditText_g_cornerRadii_B = 2;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_C}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_C
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_C}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_C
+         */
         public static int GeniusEditText_g_cornerRadii_C = 3;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_D}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_D
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_D}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_D
+         */
         public static int GeniusEditText_g_cornerRadii_D = 4;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadius}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadius
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadius}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadius
+         */
         public static int GeniusEditText_g_cornerRadius = 5;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fieldStyle}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>fill</code></td><td>1</td><td></td></tr>
-<tr><td><code>box</code></td><td>2</td><td></td></tr>
-<tr><td><code>transparent</code></td><td>3</td><td></td></tr>
-<tr><td><code>line</code></td><td>4</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_fieldStyle
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fieldStyle}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>fill</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>box</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>transparent</code></td><td>3</td><td></td></tr>
+         * <tr><td><code>line</code></td><td>4</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_fieldStyle
+         */
         public static int GeniusEditText_g_fieldStyle = 11;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontExtension}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_fontExtension
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontExtension}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_fontExtension
+         */
         public static int GeniusEditText_g_fontExtension = 6;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontFamily}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>roboto</code></td><td>0</td><td></td></tr>
-<tr><td><code>opensans</code></td><td>1</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_fontFamily
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontFamily}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>roboto</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>opensans</code></td><td>1</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_fontFamily
+         */
         public static int GeniusEditText_g_fontFamily = 7;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontWeight}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>bold</code></td><td>0</td><td></td></tr>
-<tr><td><code>extrabold</code></td><td>1</td><td></td></tr>
-<tr><td><code>extralight</code></td><td>2</td><td></td></tr>
-<tr><td><code>light</code></td><td>3</td><td></td></tr>
-<tr><td><code>regular</code></td><td>4</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_fontWeight
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontWeight}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>bold</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>extrabold</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>extralight</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>3</td><td></td></tr>
+         * <tr><td><code>regular</code></td><td>4</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_fontWeight
+         */
         public static int GeniusEditText_g_fontWeight = 8;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_showTitle}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_showTitle
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_showTitle}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_showTitle
+         */
         public static int GeniusEditText_g_showTitle = 12;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_textAppearance}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>none</code></td><td>0</td><td></td></tr>
-<tr><td><code>dark</code></td><td>1</td><td></td></tr>
-<tr><td><code>light</code></td><td>2</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_textAppearance
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_textAppearance}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>none</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>dark</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>2</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_textAppearance
+         */
         public static int GeniusEditText_g_textAppearance = 9;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name net.qiujuer.genius:g_theme
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_theme
+         */
         public static int GeniusEditText_g_theme = 10;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_titlePaddingLeft}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_titlePaddingLeft
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_titlePaddingLeft}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_titlePaddingLeft
+         */
         public static int GeniusEditText_g_titlePaddingLeft = 16;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_titlePaddingTop}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_titlePaddingTop
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_titlePaddingTop}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_titlePaddingTop
+         */
         public static int GeniusEditText_g_titlePaddingTop = 15;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_titleTextColor}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-          @attr name net.qiujuer.genius:g_titleTextColor
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_titleTextColor}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_titleTextColor
+         */
         public static int GeniusEditText_g_titleTextColor = 13;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_titleTextSize}
-          attribute's value can be found in the {@link #GeniusEditText} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_titleTextSize
-        */
-        public static int GeniusEditText_g_titleTextSize = 14;
-        /** Attributes that can be used with a GeniusTextView.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #GeniusTextView_g_backgroundColor net.qiujuer.genius:g_backgroundColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_borderWidth net.qiujuer.genius:g_borderWidth}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_cornerRadii_A net.qiujuer.genius:g_cornerRadii_A}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_cornerRadii_B net.qiujuer.genius:g_cornerRadii_B}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_cornerRadii_C net.qiujuer.genius:g_cornerRadii_C}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_cornerRadii_D net.qiujuer.genius:g_cornerRadii_D}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_cornerRadius net.qiujuer.genius:g_cornerRadius}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_customBackgroundColor net.qiujuer.genius:g_customBackgroundColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_fontExtension net.qiujuer.genius:g_fontExtension}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_fontFamily net.qiujuer.genius:g_fontFamily}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_fontWeight net.qiujuer.genius:g_fontWeight}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_textColor net.qiujuer.genius:g_textColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #GeniusTextView_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
-           </table>
-           @see #GeniusTextView_g_backgroundColor
-           @see #GeniusTextView_g_borderWidth
-           @see #GeniusTextView_g_cornerRadii_A
-           @see #GeniusTextView_g_cornerRadii_B
-           @see #GeniusTextView_g_cornerRadii_C
-           @see #GeniusTextView_g_cornerRadii_D
-           @see #GeniusTextView_g_cornerRadius
-           @see #GeniusTextView_g_customBackgroundColor
-           @see #GeniusTextView_g_fontExtension
-           @see #GeniusTextView_g_fontFamily
-           @see #GeniusTextView_g_fontWeight
-           @see #GeniusTextView_g_textColor
-           @see #GeniusTextView_g_theme
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_titleTextSize}
+         * attribute's value can be found in the {@link #GeniusEditText} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_titleTextSize
          */
-        public static final int[] GeniusTextView = {
-            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
-            0x7f010008, 0x7f01000a, 0x7f010019, 0x7f01001a,
-            0x7f01001b
+        public static int GeniusEditText_g_titleTextSize = 14;
+        /**
+         * Attributes that can be used with a GeniusSeekBar.
+         * <p>Includes the following attributes:</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Attribute</th><th>Description</th></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_allowTrackClickToDrag net.qiujuer.genius:g_allowTrackClickToDrag}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_indicatorBackgroundColor net.qiujuer.genius:g_indicatorBackgroundColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_indicatorFormatter net.qiujuer.genius:g_indicatorFormatter}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_indicatorTextAppearance net.qiujuer.genius:g_indicatorTextAppearance}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_max net.qiujuer.genius:g_max}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_min net.qiujuer.genius:g_min}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_mirrorForRtl net.qiujuer.genius:g_mirrorForRtl}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_rippleColor net.qiujuer.genius:g_rippleColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_scrubberColor net.qiujuer.genius:g_scrubberColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_scrubberStroke net.qiujuer.genius:g_scrubberStroke}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_thumbColor net.qiujuer.genius:g_thumbColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_thumbSize net.qiujuer.genius:g_thumbSize}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_tickSize net.qiujuer.genius:g_tickSize}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_touchSize net.qiujuer.genius:g_touchSize}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_trackColor net.qiujuer.genius:g_trackColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_trackStroke net.qiujuer.genius:g_trackStroke}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusSeekBar_g_value net.qiujuer.genius:g_value}</code></td><td></td></tr>
+         * </table>
+         *
+         * @see #GeniusSeekBar_g_allowTrackClickToDrag
+         * @see #GeniusSeekBar_g_indicatorBackgroundColor
+         * @see #GeniusSeekBar_g_indicatorFormatter
+         * @see #GeniusSeekBar_g_indicatorTextAppearance
+         * @see #GeniusSeekBar_g_max
+         * @see #GeniusSeekBar_g_min
+         * @see #GeniusSeekBar_g_mirrorForRtl
+         * @see #GeniusSeekBar_g_rippleColor
+         * @see #GeniusSeekBar_g_scrubberColor
+         * @see #GeniusSeekBar_g_scrubberStroke
+         * @see #GeniusSeekBar_g_theme
+         * @see #GeniusSeekBar_g_thumbColor
+         * @see #GeniusSeekBar_g_thumbSize
+         * @see #GeniusSeekBar_g_tickSize
+         * @see #GeniusSeekBar_g_touchSize
+         * @see #GeniusSeekBar_g_trackColor
+         * @see #GeniusSeekBar_g_trackStroke
+         * @see #GeniusSeekBar_g_value
+         */
+        public static final int[] GeniusSeekBar = {
+                0x7f01000c, 0x7f01001e, 0x7f01001f, 0x7f010020,
+                0x7f010021, 0x7f010022, 0x7f010023, 0x7f010024,
+                0x7f010025, 0x7f010026, 0x7f010027, 0x7f010028,
+                0x7f010029, 0x7f01002a, 0x7f01002b, 0x7f01002c,
+                0x7f01002d, 0x7f01002e
         };
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_backgroundColor}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>darker</code></td><td>0</td><td></td></tr>
-<tr><td><code>dark</code></td><td>1</td><td></td></tr>
-<tr><td><code>main</code></td><td>2</td><td></td></tr>
-<tr><td><code>light</code></td><td>3</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_backgroundColor
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_allowTrackClickToDrag}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_allowTrackClickToDrag
+         */
+        public static int GeniusSeekBar_g_allowTrackClickToDrag = 10;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_indicatorBackgroundColor}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_indicatorBackgroundColor
+         */
+        public static int GeniusSeekBar_g_indicatorBackgroundColor = 15;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_indicatorFormatter}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+         *
+         * @attr name net.qiujuer.genius:g_indicatorFormatter
+         */
+        public static int GeniusSeekBar_g_indicatorFormatter = 16;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_indicatorTextAppearance}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_indicatorTextAppearance
+         */
+        public static int GeniusSeekBar_g_indicatorTextAppearance = 17;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_max}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_max
+         */
+        public static int GeniusSeekBar_g_max = 2;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_min}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_min
+         */
+        public static int GeniusSeekBar_g_min = 1;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_mirrorForRtl}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_mirrorForRtl
+         */
+        public static int GeniusSeekBar_g_mirrorForRtl = 9;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_rippleColor}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_rippleColor
+         */
+        public static int GeniusSeekBar_g_rippleColor = 11;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_scrubberColor}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_scrubberColor
+         */
+        public static int GeniusSeekBar_g_scrubberColor = 12;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_scrubberStroke}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_scrubberStroke
+         */
+        public static int GeniusSeekBar_g_scrubberStroke = 8;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_theme
+         */
+        public static int GeniusSeekBar_g_theme = 0;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_thumbColor}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_thumbColor
+         */
+        public static int GeniusSeekBar_g_thumbColor = 14;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_thumbSize}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_thumbSize
+         */
+        public static int GeniusSeekBar_g_thumbSize = 5;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_tickSize}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_tickSize
+         */
+        public static int GeniusSeekBar_g_tickSize = 4;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_touchSize}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_touchSize
+         */
+        public static int GeniusSeekBar_g_touchSize = 6;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_trackColor}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_trackColor
+         */
+        public static int GeniusSeekBar_g_trackColor = 13;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_trackStroke}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_trackStroke
+         */
+        public static int GeniusSeekBar_g_trackStroke = 7;
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_value}
+         * attribute's value can be found in the {@link #GeniusSeekBar} array.
+         * <p/>
+         * <p/>
+         * <p>Must be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_value
+         */
+        public static int GeniusSeekBar_g_value = 3;
+        /**
+         * Attributes that can be used with a GeniusTextView.
+         * <p>Includes the following attributes:</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Attribute</th><th>Description</th></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_backgroundColor net.qiujuer.genius:g_backgroundColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_borderWidth net.qiujuer.genius:g_borderWidth}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_cornerRadii_A net.qiujuer.genius:g_cornerRadii_A}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_cornerRadii_B net.qiujuer.genius:g_cornerRadii_B}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_cornerRadii_C net.qiujuer.genius:g_cornerRadii_C}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_cornerRadii_D net.qiujuer.genius:g_cornerRadii_D}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_cornerRadius net.qiujuer.genius:g_cornerRadius}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_customBackgroundColor net.qiujuer.genius:g_customBackgroundColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_fontExtension net.qiujuer.genius:g_fontExtension}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_fontFamily net.qiujuer.genius:g_fontFamily}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_fontWeight net.qiujuer.genius:g_fontWeight}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_textColor net.qiujuer.genius:g_textColor}</code></td><td></td></tr>
+         * <tr><td><code>{@link #GeniusTextView_g_theme net.qiujuer.genius:g_theme}</code></td><td></td></tr>
+         * </table>
+         *
+         * @see #GeniusTextView_g_backgroundColor
+         * @see #GeniusTextView_g_borderWidth
+         * @see #GeniusTextView_g_cornerRadii_A
+         * @see #GeniusTextView_g_cornerRadii_B
+         * @see #GeniusTextView_g_cornerRadii_C
+         * @see #GeniusTextView_g_cornerRadii_D
+         * @see #GeniusTextView_g_cornerRadius
+         * @see #GeniusTextView_g_customBackgroundColor
+         * @see #GeniusTextView_g_fontExtension
+         * @see #GeniusTextView_g_fontFamily
+         * @see #GeniusTextView_g_fontWeight
+         * @see #GeniusTextView_g_textColor
+         * @see #GeniusTextView_g_theme
+         */
+        public static final int[] GeniusTextView = {
+                0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005,
+                0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009,
+                0x7f01000a, 0x7f01000c, 0x7f01002f, 0x7f010030,
+                0x7f010031
+        };
+        /**
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_backgroundColor}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>darker</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>dark</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>main</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>3</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_backgroundColor
+         */
         public static int GeniusTextView_g_backgroundColor = 11;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_borderWidth}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_borderWidth
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_borderWidth}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_borderWidth
+         */
         public static int GeniusTextView_g_borderWidth = 0;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_A}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_A
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_A}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_A
+         */
         public static int GeniusTextView_g_cornerRadii_A = 1;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_B}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_B
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_B}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_B
+         */
         public static int GeniusTextView_g_cornerRadii_B = 2;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_C}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_C
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_C}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_C
+         */
         public static int GeniusTextView_g_cornerRadii_C = 3;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_D}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadii_D
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadii_D}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadii_D
+         */
         public static int GeniusTextView_g_cornerRadii_D = 4;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadius}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_cornerRadius
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_cornerRadius}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+         * Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+         * in (inches), mm (millimeters).
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_cornerRadius
+         */
         public static int GeniusTextView_g_cornerRadius = 5;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_customBackgroundColor}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_customBackgroundColor
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_customBackgroundColor}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+         * "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_customBackgroundColor
+         */
         public static int GeniusTextView_g_customBackgroundColor = 12;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontExtension}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name net.qiujuer.genius:g_fontExtension
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontExtension}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         *
+         * @attr name net.qiujuer.genius:g_fontExtension
+         */
         public static int GeniusTextView_g_fontExtension = 6;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontFamily}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>roboto</code></td><td>0</td><td></td></tr>
-<tr><td><code>opensans</code></td><td>1</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_fontFamily
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontFamily}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>roboto</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>opensans</code></td><td>1</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_fontFamily
+         */
         public static int GeniusTextView_g_fontFamily = 7;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontWeight}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>bold</code></td><td>0</td><td></td></tr>
-<tr><td><code>extrabold</code></td><td>1</td><td></td></tr>
-<tr><td><code>extralight</code></td><td>2</td><td></td></tr>
-<tr><td><code>light</code></td><td>3</td><td></td></tr>
-<tr><td><code>regular</code></td><td>4</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_fontWeight
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_fontWeight}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>bold</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>extrabold</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>extralight</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>3</td><td></td></tr>
+         * <tr><td><code>regular</code></td><td>4</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_fontWeight
+         */
         public static int GeniusTextView_g_fontWeight = 8;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_textColor}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>May be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-<p>May be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>darker</code></td><td>0</td><td></td></tr>
-<tr><td><code>dark</code></td><td>1</td><td></td></tr>
-<tr><td><code>main</code></td><td>2</td><td></td></tr>
-<tr><td><code>light</code></td><td>3</td><td></td></tr>
-</table>
-          @attr name net.qiujuer.genius:g_textColor
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_textColor}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>May be an integer value, such as "<code>100</code>".
+         * <p>This may also be a reference to a resource (in the form
+         * "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+         * theme attribute (in the form
+         * "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+         * containing a value of this type.
+         * <p>May be one of the following constant values.</p>
+         * <table>
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <colgroup align="left" />
+         * <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+         * <tr><td><code>darker</code></td><td>0</td><td></td></tr>
+         * <tr><td><code>dark</code></td><td>1</td><td></td></tr>
+         * <tr><td><code>main</code></td><td>2</td><td></td></tr>
+         * <tr><td><code>light</code></td><td>3</td><td></td></tr>
+         * </table>
+         *
+         * @attr name net.qiujuer.genius:g_textColor
+         */
         public static int GeniusTextView_g_textColor = 10;
         /**
-          <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
-          attribute's value can be found in the {@link #GeniusTextView} array.
-
-
-          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name net.qiujuer.genius:g_theme
-        */
+         * <p>This symbol is the offset where the {@link net.qiujuer.genius.R.attr#g_theme}
+         * attribute's value can be found in the {@link #GeniusTextView} array.
+         * <p/>
+         * <p/>
+         * <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+         * or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         *
+         * @attr name net.qiujuer.genius:g_theme
+         */
         public static int GeniusTextView_g_theme = 9;
-    };
+    }
+
+    ;
 }
