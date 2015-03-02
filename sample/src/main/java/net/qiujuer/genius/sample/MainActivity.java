@@ -1,10 +1,8 @@
 package net.qiujuer.genius.sample;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,12 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.qiujuer.genius.GeniusUI;
 import net.qiujuer.genius.app.BlurKit;
 import net.qiujuer.genius.widget.GeniusAbsSeekBar;
 import net.qiujuer.genius.widget.GeniusCheckBox;
 import net.qiujuer.genius.widget.GeniusSeekBar;
-import net.qiujuer.genius.widget.attribute.SeekBarAttributes;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
