@@ -1,6 +1,6 @@
 ﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
 
-## Version 2.3.1 Guide
+## Version 2.4.0 Guide
 
 [`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android)
 
@@ -33,14 +33,17 @@
 ###### EditText
 ![GeniusUI](art/ui_edittext.gif)
 
-###### All
-![GeniusUI](art/ui_all.png)
+###### SeekBar
+![GeniusUI](art/ui_seekbar.gif)
 
 ##### BlurKit
 ![BlurKit](art/blur_kit.png)
 
 ##### ThemeColors
 ![ThemeColors](art/theme_colors.png)
+
+###### All
+![GeniusUI](art/ui_all.png)
 
 
 ## Function modules
@@ -56,7 +59,7 @@
 * `widget`
   > *  Fonts `opensans` `roboto`
   > *  Colors `none` `dark` `darker` `light`
-  > *  Controls `GeniusButton` `GeniusCheckBox` `GeniusTextView` `GeniusEditText`
+  > *  Controls `GeniusButton` `GeniusCheckBox` `GeniusTextView` `GeniusEditText` `GeniusSeekBar`
 
 * `command`
   > *  Independent service command-line work process execution
@@ -88,7 +91,7 @@
 ```gradle
 // Adding to your project "build.gradle" file
 dependencies {
-  compile 'com.github.qiujuer:genius:2.3.1'
+  compile 'com.github.qiujuer:genius:2.4.0'
 }
 
 ```
@@ -96,8 +99,8 @@ dependencies {
 
 ## Update Log 
 
-* Version: `2.3.1`
-* Date: `2015-02-12`
+* Version: `2.4.0`
+* Date: `2015-03-02`
 * Log: [`Notes`](docs/NOTES.md)
 
 
@@ -203,6 +206,31 @@ Genius.dispose();
 // `g_titleTextSize`: Title font size
 // `g_titlePaddingTop`: Title padding to top
 // `g_titlePaddingLeft`: Title padding to left
+
+// ==================GeniusSeekBar==================
+<net.qiujuer.genius.widget.GeniusSeekBar
+    ...
+    genius:g_min="0"
+    genius:g_max="100"
+    genius:g_value="0"
+    genius:g_tickSize="0dp"
+    genius:g_thumbSize="6dp"
+    genius:g_touchSize="12dp"
+    genius:g_trackStroke="2dp"
+    genius:g_scrubberStroke="4dp"
+    genius:g_rippleColor="@color/color_value"
+    genius:g_scrubberColor="@color/color_value"
+    genius:g_trackColor="@color/color_value"
+    genius:g_thumbColor="@color/color_value"
+    genius:g_indicatorBackgroundColor="@color/color_value"
+    genius:g_indicatorFormatter="%04d"
+    genius:g_indicatorTextAppearance="@style/DefaultBalloonMarkerTextAppearanceStyle"
+    genius:g_allowTrackClickToDrag="true"/>
+
+// `g_indicatorBackgroundColor`: BalloonMarker background color
+// `g_indicatorFormatter`: BalloonMarker show int value's Formatter
+// `g_indicatorTextAppearance`: BalloonMarker text style
+// `g_allowTrackClickToDrag`: Any position allows you to control drag, default: True
 
 ```
 

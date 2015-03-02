@@ -1,6 +1,6 @@
 ﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
 
-## Version 2.3.1 Guide
+## Version 2.4.0 Guide
 
 [`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android)
 
@@ -33,14 +33,17 @@
 ###### EditText
 ![GeniusUI](art/ui_edittext.gif)
 
-###### All
-![GeniusUI](art/ui_all.png)
+###### SeekBar
+![GeniusUI](art/ui_seekbar.gif)
 
 ##### BlurKit
 ![BlurKit](art/blur_kit.png)
 
 ##### ThemeColors
 ![ThemeColors](art/theme_colors.png)
+
+###### All
+![GeniusUI](art/ui_all.png)
 
 
 ## 功能模块
@@ -56,7 +59,7 @@
 * `widget`
   > *  字体 `opensans` `roboto`
   > *  颜色 `none` `dark` `darker` `light`
-  > *  控件 `GeniusButton` `GeniusCheckBox` `GeniusTextView` `GeniusEditText`
+  > *  控件 `GeniusButton` `GeniusCheckBox` `GeniusTextView` `GeniusEditText` `GeniusSeekBar`
 
 * `command`
   > *  独立服务进程执行命令行工作
@@ -88,7 +91,7 @@
 ```gradle
 // 在项目 "build.gradle" 中添加
 dependencies {
-  compile 'com.github.qiujuer:genius:2.3.1'
+  compile 'com.github.qiujuer:genius:2.4.0'
 }
 
 ```
@@ -96,8 +99,8 @@ dependencies {
 
 ## 更新日志
 
-* 版本：`2.3.1`
-* 日期：`2015-02-12`
+* 版本：`2.4.0`
+* 日期：`2015-03-02`
 * 日志：[`更新日志`](docs/NOTES.md)
 
 
@@ -203,6 +206,31 @@ Genius.dispose();
 // `g_titleTextSize`: Title 字体大小
 // `g_titlePaddingTop`: Title 顶部间距
 // `g_titlePaddingLeft`: Title 左边间距
+
+// ==================GeniusSeekBar==================
+<net.qiujuer.genius.widget.GeniusSeekBar
+    ...
+    genius:g_min="0"
+    genius:g_max="100"
+    genius:g_value="0"
+    genius:g_tickSize="0dp"
+    genius:g_thumbSize="6dp"
+    genius:g_touchSize="12dp"
+    genius:g_trackStroke="2dp"
+    genius:g_scrubberStroke="4dp"
+    genius:g_rippleColor="@color/color_value"
+    genius:g_scrubberColor="@color/color_value"
+    genius:g_trackColor="@color/color_value"
+    genius:g_thumbColor="@color/color_value"
+    genius:g_indicatorBackgroundColor="@color/color_value"
+    genius:g_indicatorFormatter="%04d"
+    genius:g_indicatorTextAppearance="@style/DefaultBalloonMarkerTextAppearanceStyle"
+    genius:g_allowTrackClickToDrag="true"/>
+
+// `g_indicatorBackgroundColor`: 浮动气泡标记背景色
+// `g_indicatorFormatter`: 浮动气泡显示 int 值的 Formatter
+// `g_indicatorTextAppearance`: 浮动气泡字体样式
+// `g_allowTrackClickToDrag`: 允许在控件任意部位拖动，默认：True
 
 ```
 
