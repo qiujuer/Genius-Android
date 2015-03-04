@@ -1,13 +1,11 @@
 ﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
 
-## Genius-Android Guide
-
 [`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android) [`中文`](README-ZH.md) [`English`](README.md) 
 
 
 ## Genius-Android是什么?
 
-![icon](art/launcher.png)
+![icon](https://raw.githubusercontent.com/qiujuer/Genius-Android/gh-pages/assets/images/logo.png)
 
 **Genius-Android** 是 **Android** 中一些常用的的方法集合, **Genius** 提供6个基本板块：
 
@@ -22,8 +20,8 @@
 
 ## 版本
 
-V-II：[`Second`](https://github.com/qiujuer/Genius-Android/tree/develop-second/develop-second) 
-V-III：[`Third`](https://github.com/qiujuer/Genius-Android/tree/develop-third/develop-third) 
+* V-II：[Second](https://github.com/qiujuer/Genius-Android/tree/develop-second/develop-second) 
+* V-III：[Third](https://github.com/qiujuer/Genius-Android/tree/develop-third/develop-third) 
 
 
 ## 反馈
