@@ -20,8 +20,8 @@
 
 ## 版本
 
-* V-II：[Second](https://github.com/qiujuer/Genius-Android/tree/develop-second/develop-second) 
-* V-III：[Third](https://github.com/qiujuer/Genius-Android/tree/develop-third/develop-third) 
+* V-II: [Second Version](develop-second) 
+* V-III: [Third Version](develop-third) 
 
 
 ## 反馈
