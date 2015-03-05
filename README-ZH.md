@@ -18,22 +18,15 @@
 * `util` （**常用方法,类**）
 
 
-## 版本
+## 版块
 
-* V-II: [Second Version](develop-second) 
-* V-III: [Third Version](develop-third) 
+* II: [Second](develop-second) 
+* III: [Third](develop-third)  
 
 
-## 反馈
+## 更多
 
-在使用中有任何问题，欢迎能及时反馈给我，可以用以下联系方式跟我交流
-
-* 项目：[`提交Bug或想法`](https://github.com/qiujuer/Genius-Android/issues)
-* 邮件：[`qiujuer@live.cn`](mailto:qiujuer@live.cn)
-* QQ： `756069544`
-* QQ群：[`387403637`](http://shang.qq.com/wpa/qunwpa?idkey=3f1ed8e41ed84b07775ca593032c5d956fbd8c3320ce94817bace00549d58a8f)
-* Weibo： [`@qiujuer`](http://weibo.com/qiujuer)
-* 网站：[`www.qiujuer.net`](http://www.qiujuer.net)
+[`http://genius.qiujuer.net`](http://genius.qiujuer.net)
 
 
 ## 关于我
