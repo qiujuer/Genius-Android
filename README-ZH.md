@@ -17,14 +17,15 @@
 * `net tool` （**Ping、Dns...**）
 * `util` （**常用方法,类**）
 
-
-## 版块
-
-* II: [Second](develop-second) 
-* III: [Third](develop-third)  
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/172755E3.png)
 
 
-## 更多
+## 简要说明
+
+[Wiki Link](https://github.com/qiujuer/Genius-Android/wiki) 
+
+
+## 使用帮助
 
 [`http://genius.qiujuer.net`](http://genius.qiujuer.net)
 

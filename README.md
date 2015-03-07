@@ -17,14 +17,15 @@
 * `net tool` (**Ping、Dns...**)
 * `util` (**Common Method,Class**)
 
-
-## Section
-
-* II: [Second](develop-second) 
-* III: [Third](develop-third) 
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/172755E3.png)
 
 
-## More
+## Wiki Page
+
+[Wiki Link](https://github.com/qiujuer/Genius-Android/wiki) 
+
+
+## Using and Develop
 
 [`http://genius.qiujuer.net`](http://genius.qiujuer.net)
 
