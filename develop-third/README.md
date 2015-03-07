@@ -1,8 +1,7 @@
-﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
-
-## Version 3.*.* Guide
+﻿## Version 3.*.* Guide
 
 The new version is in the form...
+
 The recent will launch a new model, please look!
 
 
