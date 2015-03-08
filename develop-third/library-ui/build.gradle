@@ -9,6 +9,13 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            moduleName "genius_ui"
+            cFlags "-DANDROID_NDK -D_RELEASE"
+            ldLibs "m", "log", "jnigraphics"
+            abiFilters "all"
+        }
     }
     buildTypes {
         release {
@@ -20,5 +27,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:21.0.3'
     compile 'com.android.support:appcompat-v7:21.0.3'
 }
