@@ -8,9 +8,9 @@
 
 /develop-third/build/
 /develop-third/library-ui/build/
-/develop-third/library-util/build/
+/develop-third/library-kit/build/
 /develop-third/sample-ui/build/
-/develop-third/sample-util/build/
+/develop-third/sample-kit/build/
 /develop-third/.idea/
 /develop-third/.gradle/
 /develop-third/local.properties
