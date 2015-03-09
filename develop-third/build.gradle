@@ -13,7 +13,18 @@ buildscript {
 }
 
 allprojects {
+    //version = VERSION_NAME
+    group = POM_GROUP_ID
+
     repositories {
         jcenter()
+        mavenCentral()
     }
 }
+
+ext {
+    compileSdkVersion = 21
+    buildToolsVersion = "21.1.2"
+}
+
+apply plugin: 'android-reporting'

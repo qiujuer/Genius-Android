@@ -20,15 +20,14 @@
 package net.qiujuer.genius.kit.util;
 
 /**
- * Created by QiuJu
- * on 2014/11/24.
+ * UiKitSyncPost
  */
-final class UIKitSyncPost {
+final class UiKitSyncPost {
     private Runnable mRunnable;
     private boolean isEnd = false;
 
 
-    UIKitSyncPost(Runnable runnable) {
+    UiKitSyncPost(Runnable runnable) {
         this.mRunnable = runnable;
     }
 

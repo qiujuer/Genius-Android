@@ -22,17 +22,20 @@ package net.qiujuer.genius.kit.util;
 import android.os.Looper;
 
 /**
- * Created by QiuJu
- * on 2014/11/24.
+ * This is UI operation class
+ * You can run thread on MainThread By Async and Sync
+ * <p/>
+ * You don't need initialize, but when you don't need run
+ * You should call {@link #dispose()} operation for destruction.
  */
-final public class UIKit {
-    private static UIKitHandlerPoster mainPoster = null;
+final public class UiKit {
+    private static UiKitHandlerPoster mainPoster = null;
 
-    private static UIKitHandlerPoster getMainPoster() {
+    private static UiKitHandlerPoster getMainPoster() {
         if (mainPoster == null) {
-            synchronized (UIKit.class) {
+            synchronized (UiKit.class) {
                 if (mainPoster == null) {
-                    mainPoster = new UIKitHandlerPoster(Looper.getMainLooper(), 20);
+                    mainPoster = new UiKitHandlerPoster(Looper.getMainLooper(), 20);
                 }
             }
         }
@@ -67,7 +70,7 @@ final public class UIKit {
             runnable.run();
             return;
         }
-        UIKitSyncPost poster = new UIKitSyncPost(runnable);
+        UiKitSyncPost poster = new UiKitSyncPost(runnable);
         getMainPoster().sync(poster);
         poster.waitRun();
     }
@@ -88,7 +91,7 @@ final public class UIKit {
             runnable.run();
             return;
         }
-        UIKitSyncPost poster = new UIKitSyncPost(runnable);
+        UiKitSyncPost poster = new UiKitSyncPost(runnable);
         getMainPoster().sync(poster);
         poster.waitRun(waitTime, cancel);
     }
