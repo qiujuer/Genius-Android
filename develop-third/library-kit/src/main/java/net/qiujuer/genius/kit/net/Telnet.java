@@ -26,8 +26,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 /**
- * Created by QiuJu
- * on 2014/9/21.
+ * Telnet class extends {@link net.qiujuer.genius.kit.net.NetModel}
+ * Telnet ip port
  */
 public class Telnet extends NetModel {
     private static final int TIME_OUT = 3000;
@@ -36,6 +36,12 @@ public class Telnet extends NetModel {
     private long mDelay;
     private boolean isConnected;
 
+    /**
+     * Telnet service
+     *
+     * @param host Service host
+     * @param port Service port
+     */
     public Telnet(String host, int port) {
         this.mHost = host;
         this.mPort = port;
@@ -76,10 +82,20 @@ public class Telnet extends NetModel {
 
     }
 
+    /**
+     * Is connected service port
+     *
+     * @return Is Connected
+     */
     public boolean isConnected() {
         return isConnected;
     }
 
+    /**
+     * Get connected delay time
+     *
+     * @return Connected delay
+     */
     public long getDelay() {
         return mDelay;
     }

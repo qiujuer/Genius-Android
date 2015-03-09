@@ -33,12 +33,15 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by QiuJu
- * on 2014/9/17.
+ * Command Service
+ * Command run in process of independent
  */
 public class CommandService extends Service {
     private CommandServiceImpl mImpl;
 
+    /**
+     * On create we new {@link net.qiujuer.genius.kit.command.CommandService.CommandServiceImpl}
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -59,6 +62,9 @@ public class CommandService extends Service {
         return false;
     }
 
+    /**
+     * Kill process when destroy
+     */
     @Override
     public void onDestroy() {
         if (mImpl != null) {
@@ -70,7 +76,9 @@ public class CommandService extends Service {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-
+    /**
+     * CommandServiceImpl extends {@link ICommandInterface.Stub} with a aidl Interface
+     */
     private class CommandServiceImpl extends ICommandInterface.Stub {
         private Map<String, CommandExecutor> mCommandExecutorMap = new HashMap<String, CommandExecutor>();
         private Lock mMapLock = new ReentrantLock();

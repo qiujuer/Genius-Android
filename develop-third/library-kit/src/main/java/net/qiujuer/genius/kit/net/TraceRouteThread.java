@@ -23,8 +23,7 @@ import net.qiujuer.genius.kit.command.Command;
 
 /**
  * This is run in thread to get ping by ip and ttl values
- * Created by Qiujuer
- * on 2015/1/14.
+ * extends {@link #Thread}
  */
 class TraceRouteThread extends Thread {
     private int mTTL;

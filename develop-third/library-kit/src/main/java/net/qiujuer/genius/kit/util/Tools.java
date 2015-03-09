@@ -28,9 +28,15 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
- * Created by QiuJu
- * on 2014/8/13.
  * This is a util tools kit
+ *
+ * @see #sleepIgnoreInterrupt(long)
+ * @see #copyFile(java.io.File, java.io.File)
+ * @see #getAndroidId(android.content.Context)
+ * @see #getSerialNumber()
+ * @see #modulateAlpha(int, int)
+ * @see #modulateColorAlpha(int, int)
+ * @see #setColorAlpha(int, int)
  */
 public final class Tools {
     /**
@@ -129,17 +135,48 @@ public final class Tools {
         return serialNumber;
     }
 
+
     /**
-     * Get a new color ,the color's alpha is new set
+     * Modulate the colorAlpha to new alpha
+     *
+     * @param colorAlpha Color's alpha
+     * @param alpha      Modulate alpha
+     * @return Modulate alpha
+     */
+    public static int modulateAlpha(int colorAlpha, int alpha) {
+        int scale = alpha + (alpha >> 7);
+        return colorAlpha * scale >> 8;
+    }
+
+    /**
+     * Modulate the color to new alpha
+     *
+     * @param color Color
+     * @param alpha Modulate alpha
+     * @return Modulate alpha color
+     */
+    public static int modulateColorAlpha(int color, int alpha) {
+        int colorAlpha = color >>> 24;
+        int scale = alpha + (alpha >> 7);
+        int newAlpha = colorAlpha * scale >> 8;
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+        return newAlpha << 24 | r << 16 | g << 8 | b;
+    }
+
+
+    /**
+     * Set the color to new alpha
      *
      * @param color Color
      * @param alpha New alpha
      * @return New alpha color
      */
-    public static int getNewAlphaColor(int color, int alpha) {
-        int r = (color >> 16) & 0xff;
-        int g = (color >> 8) & 0xff;
-        int b = color & 0xff;
+    public static int setColorAlpha(int color, int alpha) {
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
         return alpha << 24 | r << 16 | g << 8 | b;
     }
 }

@@ -20,8 +20,7 @@
 package net.qiujuer.genius.kit.net;
 
 /**
- * Created by QiuJu
- * on 2014/9/20.
+ * This is NetModel to internet
  */
 public abstract class NetModel {
     public static final int SUCCEED = 0;
@@ -60,14 +59,31 @@ public abstract class NetModel {
 
     protected int mError = SUCCEED;
 
+    /**
+     * Run to doing
+     */
     public abstract void start();
 
+    /**
+     * Cancel do
+     */
     public abstract void cancel();
 
+    /**
+     * Get error code
+     *
+     * @return errorCode
+     */
     public int getError() {
         return mError;
     }
 
+    /**
+     * Convert IP string to byte
+     *
+     * @param ip IP
+     * @return IP Byte
+     */
     protected static byte[] convertIpToByte(String ip) {
         String str[] = ip.split("\\.");
         byte[] bIp = new byte[str.length];

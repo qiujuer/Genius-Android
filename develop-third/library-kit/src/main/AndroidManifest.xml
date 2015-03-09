@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.qiujuer.genius.kit">
 
-    <application
-        android:allowBackup="true">
+    <application android:allowBackup="true">
         <service
             android:name=".command.CommandService"
             android:enabled="true"

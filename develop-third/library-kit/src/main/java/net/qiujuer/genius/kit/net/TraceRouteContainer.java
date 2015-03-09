@@ -22,10 +22,7 @@ package net.qiujuer.genius.kit.net;
 import java.util.Comparator;
 
 /**
- * Routing information
- * <p/>
- * Created by Qiujuer
- * on 2015/1/14.
+ * Routing information to {@link net.qiujuer.genius.kit.net.TraceRoute}
  */
 class TraceRouteContainer {
     public String mIP;

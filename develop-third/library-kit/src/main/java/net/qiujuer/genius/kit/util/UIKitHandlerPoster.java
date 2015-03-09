@@ -28,8 +28,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by QiuJu
- * on 2014/11/24.
+ * UiKit Handler Poster extends Handler
+ * <p/>
+ * In class have two queue with {@link #mAsyncPool,#mSyncPool}
  */
 final class UiKitHandlerPoster extends Handler {
     private static final int ASYNC = 0x1;
@@ -40,6 +41,12 @@ final class UiKitHandlerPoster extends Handler {
     private boolean isAsyncActive;
     private boolean isSyncActive;
 
+    /**
+     * Init this
+     *
+     * @param looper                       Handler Looper
+     * @param maxMillisInsideHandleMessage The maximum time occupied the main thread each cycle
+     */
     UiKitHandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
         super(looper);
         this.mMaxMillisInsideHandleMessage = maxMillisInsideHandleMessage;
@@ -47,11 +54,15 @@ final class UiKitHandlerPoster extends Handler {
         mSyncPool = new LinkedList<>();
     }
 
+    /**
+     * Pool clear
+     */
     void dispose() {
         this.removeCallbacksAndMessages(null);
         this.mAsyncPool.clear();
         this.mSyncPool.clear();
     }
+
 
     void async(Runnable runnable) {
         synchronized (mAsyncPool) {
@@ -77,6 +88,11 @@ final class UiKitHandlerPoster extends Handler {
         }
     }
 
+    /**
+     * Run in main thread
+     *
+     * @param msg call messages
+     */
     @Override
     public void handleMessage(Message msg) {
         if (msg.what == ASYNC) {

@@ -34,14 +34,27 @@ import net.qiujuer.genius.kit.util.UiKit;
 public final class GeniusKit {
     private static Application application;
 
+    /**
+     * Get this Application
+     *
+     * @return Application
+     */
     public static Application getApplication() {
         return application;
     }
 
+    /**
+     * Init this Application
+     *
+     * @param application Application
+     */
     public static void initialize(Application application) {
         GeniusKit.application = application;
     }
 
+    /**
+     * When you app exit you should call this
+     */
     public static void dispose() {
         Command.dispose();
         Log.dispose();
