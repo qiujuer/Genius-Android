@@ -20,18 +20,22 @@
 package net.qiujuer.genius.kit.util;
 
 /**
- * Created by QiuJu
- * on 2014/11/24.
+ * UiKitSyncPost use to {@link net.qiujuer.genius.kit.util.UiKitHandlerPoster}
+ * <p/>
+ * See {@link net.qiujuer.genius.kit.util.UiKit}
  */
-final class UIKitSyncPost {
+final class UiKitSyncPost {
     private Runnable mRunnable;
     private boolean isEnd = false;
 
 
-    UIKitSyncPost(Runnable runnable) {
+    UiKitSyncPost(Runnable runnable) {
         this.mRunnable = runnable;
     }
 
+    /**
+     * Run to doing something
+     */
     public void run() {
         if (!isEnd) {
             synchronized (this) {
@@ -48,6 +52,9 @@ final class UIKitSyncPost {
         }
     }
 
+    /**
+     * Wait to run end
+     */
     public void waitRun() {
         if (!isEnd) {
             synchronized (this) {
@@ -62,6 +69,12 @@ final class UIKitSyncPost {
         }
     }
 
+    /**
+     * Wait for a period of time to run end
+     *
+     * @param time   wait time
+     * @param cancel when wait end cancel the run
+     */
     public void waitRun(int time, boolean cancel) {
         if (!isEnd) {
             synchronized (this) {

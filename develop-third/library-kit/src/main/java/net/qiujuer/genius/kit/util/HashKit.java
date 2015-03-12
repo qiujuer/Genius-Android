@@ -27,10 +27,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by QiuJu
- * on 2014/9/22.
+ * This is HashKit
+ * Calculate the HashCode file or string
  */
-public class HashUtils {
+public class HashKit {
     private static final char HEX_DIGITS[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f'};
 

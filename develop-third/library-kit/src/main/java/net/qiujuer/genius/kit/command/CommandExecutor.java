@@ -30,8 +30,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by QiuJu
- * on 2014/9/17.
+ * Command line run executor
+ * Executed command line and return the final result
  */
 class CommandExecutor {
     // TAG

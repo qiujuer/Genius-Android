@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-    enforceUniquePackageName = false
 
     defaultConfig {
         applicationId "net.qiujuer.genius.sample_ui"

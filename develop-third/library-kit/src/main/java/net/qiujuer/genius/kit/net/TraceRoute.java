@@ -26,8 +26,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by QiuJu
- * on 2014/9/21.
+ * TraceRoute class
+ * extends {@link net.qiujuer.genius.kit.net.NetModel}
+ * implements {@link TraceRouteThread.TraceThreadInterface}
+ * <p/>
+ * TraceRoute url or ip
  */
 public class TraceRoute extends NetModel implements TraceRouteThread.TraceThreadInterface {
     private final static int ONCE_COUNT = Runtime.getRuntime().availableProcessors();

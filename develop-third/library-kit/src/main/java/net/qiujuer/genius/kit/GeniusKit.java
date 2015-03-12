@@ -22,28 +22,43 @@ package net.qiujuer.genius.kit;
 import android.app.Application;
 
 import net.qiujuer.genius.kit.command.Command;
-import net.qiujuer.genius.kit.util.UIKit;
 import net.qiujuer.genius.kit.util.Log;
+import net.qiujuer.genius.kit.util.UiKit;
 
 /**
- * Created by QiuJu
- * on 2014/9/17.
+ * This is Genius-Android Kit class
+ * If use Command/Log
+ * You should call {@link #initialize(android.app.Application)}
+ * The End should call {@link #dispose()}  }
  */
 public final class GeniusKit {
     private static Application application;
 
+    /**
+     * Get this Application
+     *
+     * @return Application
+     */
     public static Application getApplication() {
         return application;
     }
 
+    /**
+     * Init this Application
+     *
+     * @param application Application
+     */
     public static void initialize(Application application) {
         GeniusKit.application = application;
     }
 
+    /**
+     * When you app exit you should call this
+     */
     public static void dispose() {
         Command.dispose();
         Log.dispose();
-        UIKit.dispose();
+        UiKit.dispose();
         GeniusKit.application = null;
     }
 }

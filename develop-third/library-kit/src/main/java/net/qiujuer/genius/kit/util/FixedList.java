@@ -31,8 +31,6 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 /**
- * Created by QiuJu
- * on 2014/10/3.
  * The queue of fixed storage size
  * Queue length is fixed
  * The tail to add data beyond the specified size to delete header data

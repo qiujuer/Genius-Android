@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by QiuJu
- * on 2014/9/20.
+ * DnsResolve class extends {@link net.qiujuer.genius.kit.net.NetModel}
+ * Resolve url to ip string
  */
 public class DnsResolve extends NetModel {
     private static final byte[] ID = new byte[]{(byte) 2, (byte) 6};
@@ -239,10 +239,20 @@ public class DnsResolve extends NetModel {
 
     }
 
+    /**
+     * Get the resolve url address
+     *
+     * @return IP address
+     */
     public List<String> getAddresses() {
         return mIPs;
     }
 
+    /**
+     * Get resolve delay time
+     *
+     * @return Delay time
+     */
     public long getDelay() {
         return mDelay;
     }

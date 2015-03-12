@@ -41,8 +41,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by QiuJu
- * on 2014/9/2.
+ * This Log class {@link net.qiujuer.genius.kit.util.Log} to writer file class
  */
 class LogWriter extends Thread {
     private final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd_HHmmss");

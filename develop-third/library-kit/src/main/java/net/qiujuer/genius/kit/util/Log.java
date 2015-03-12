@@ -33,8 +33,13 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by QiuJu
- * on 2014/9/16.
+ * This is Log
+ * Using methods like the system Log class
+ * <p/>
+ * Have {@link #Level} to show custom
+ * Have {@link #IsCallLog} to call system log class
+ * <p/>
+ * Can callback to interface {@link net.qiujuer.genius.kit.util.Log.LogCallbackListener}
  */
 public final class Log {
 

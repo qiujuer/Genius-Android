@@ -20,8 +20,8 @@
 package net.qiujuer.genius.kit.util;
 
 /**
- * Created by QiuJu
- * on 2014/11/24.
+ * GeniusException in this lib
+ * extends {@link #RuntimeException}
  */
 public class GeniusException extends RuntimeException {
 

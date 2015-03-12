@@ -28,30 +28,41 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by QiuJu
- * on 2014/11/24.
+ * UiKit Handler Poster extends Handler
+ * <p/>
+ * In class have two queue with {@link #mAsyncPool,#mSyncPool}
  */
-final class UIKitHandlerPoster extends Handler {
+final class UiKitHandlerPoster extends Handler {
     private static final int ASYNC = 0x1;
     private static final int SYNC = 0x2;
     private final Queue<Runnable> mAsyncPool;
-    private final Queue<UIKitSyncPost> mSyncPool;
+    private final Queue<UiKitSyncPost> mSyncPool;
     private final int mMaxMillisInsideHandleMessage;
     private boolean isAsyncActive;
     private boolean isSyncActive;
 
-    UIKitHandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
+    /**
+     * Init this
+     *
+     * @param looper                       Handler Looper
+     * @param maxMillisInsideHandleMessage The maximum time occupied the main thread each cycle
+     */
+    UiKitHandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
         super(looper);
         this.mMaxMillisInsideHandleMessage = maxMillisInsideHandleMessage;
         mAsyncPool = new LinkedList<>();
         mSyncPool = new LinkedList<>();
     }
 
+    /**
+     * Pool clear
+     */
     void dispose() {
         this.removeCallbacksAndMessages(null);
         this.mAsyncPool.clear();
         this.mSyncPool.clear();
     }
+
 
     void async(Runnable runnable) {
         synchronized (mAsyncPool) {
@@ -65,7 +76,7 @@ final class UIKitHandlerPoster extends Handler {
         }
     }
 
-    void sync(UIKitSyncPost post) {
+    void sync(UiKitSyncPost post) {
         synchronized (mSyncPool) {
             mSyncPool.offer(post);
             if (!isSyncActive) {
@@ -77,6 +88,11 @@ final class UIKitHandlerPoster extends Handler {
         }
     }
 
+    /**
+     * Run in main thread
+     *
+     * @param msg call messages
+     */
     @Override
     public void handleMessage(Message msg) {
         if (msg.what == ASYNC) {
@@ -113,7 +129,7 @@ final class UIKitHandlerPoster extends Handler {
             try {
                 long started = SystemClock.uptimeMillis();
                 while (true) {
-                    UIKitSyncPost post = mSyncPool.poll();
+                    UiKitSyncPost post = mSyncPool.poll();
                     if (post == null) {
                         synchronized (mSyncPool) {
                             // Check again, this time in synchronized

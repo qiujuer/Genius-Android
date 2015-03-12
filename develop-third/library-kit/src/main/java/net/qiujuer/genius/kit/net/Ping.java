@@ -22,8 +22,8 @@ package net.qiujuer.genius.kit.net;
 import net.qiujuer.genius.kit.command.Command;
 
 /**
- * Created by QiuJu
- * on 2014/9/21.
+ * Ping class extends {@link net.qiujuer.genius.kit.net.NetModel}
+ * Ping url or ip
  */
 public class Ping extends NetModel {
     private String mTarget;
@@ -190,18 +190,39 @@ public class Ping extends NetModel {
             Command.cancel(mCommand);
     }
 
+    /**
+     * Get ping return ip
+     *
+     * @return AnalysisIp
+     * @see #isAnalysisIp if this is false renturn null
+     */
     public String getIp() {
         return mIp;
     }
 
+    /**
+     * Get loss rate
+     *
+     * @return LossRate
+     */
     public float getLossRate() {
         return mLossRate;
     }
 
+    /**
+     * Get delay time
+     *
+     * @return Delay time
+     */
     public float getDelay() {
         return mDelay;
     }
 
+    /**
+     * Use total time
+     *
+     * @return Total time
+     */
     public float getTotalTime() {
         return mTotalTime;
     }
