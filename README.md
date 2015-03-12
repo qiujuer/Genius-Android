@@ -3,31 +3,59 @@
 [`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android) [`中文`](README-ZH.md) [`English`](README.md) 
 
 
-##What is Genius-Android?
+## Genius-Android
 
-![icon](https://raw.githubusercontent.com/qiujuer/Genius-Android/gh-pages/assets/images/logo.png)
+![branchs](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/global/06C15426.png)
 
-**Genius-Android** is some of the commonly used method in **Android** collection, **Genius** library provide five basic plate :
+**Genius-Android:** by `Material Design` style and some commonly used packages.  Starting in 2015, The divided into two branches: `STEADY` and `CAPRICE`.
+* `STEADY` will continue to research and development in a `Theme-Drive` style
+	> *  **app:** UiKit、BlurKit
+	> * **animation:** TouchEffectAnimator
+	> * **drawable:** Material Design Draw
+	> * **widget:** Material Design
+	> * **command:** Run Command In Process
+	> * **net tool:** Ping、Dns、Telnet、Tracert
+	> * **util:** Log、Hash、Tools、FixedList
+	
+* `CAPRICE` a new branch in the branch, containing `Ui` and `Kit` libraries
+	> * **Ui Lib:** research and development in `Color-Drive` and `Material Design` style
+	> * **Kit Lib:** Include `command`、`net`、`util`
 
-* `app` (**Ui**)
-* `animation` (**Animation**)
-* `drawable` （**Material Draw**）
-* `widget` (**Material Widget**)
-* `command` (**Command Line**)
-* `net tool` (**Ping、Dns...**)
-* `util` (**Common Method,Class**)
+**`Please Note:` `STEADY` with `CAPRICE` libraries are not compatible, is completely independent branch!**
 
 ![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/172755E3.png)
 
 
-## Wiki Page
+## Add Library To Your Project
 
-[Wiki Link](https://github.com/qiujuer/Genius-Android/wiki) 
+### `STEADY` 
+
+*  Gradle:
+```
+dependencies {
+  compile 'com.github.qiujuer:genius:2.4.0'
+}
+```
+
+*  Maven:
+```
+<dependency>
+    <groupId>com.github.qiujuer</groupId>
+    <artifactId>genius</artifactId>
+    <version>2.4.0</version>
+</dependency>
+```
+	
+### `CAPRICE` 
+
+No release, please wait...
 
 
-## Using and Develop
 
-[`http://genius.qiujuer.net`](http://genius.qiujuer.net)
+## More Documents And Develop
+
+*  [`http://genius.qiujuer.net`](http://genius.qiujuer.net)
+*  [`Wiki`](https://github.com/qiujuer/Genius-Android/wiki) 
 
 
 ## About me
@@ -43,7 +71,7 @@
 License
 --------
 
-    Copyright 2014 CengaLabs.
+    Copyright 2014-2015 Qiujuer.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -1,12 +1,12 @@
-﻿## Version Second Develop
+﻿## STEADY Branch
 
-This is the second version of the sources file development.
+This is `STEADY` Branch development sources files.
 
 
 License
 --------
 
-    Copyright 2014 CengaLabs.
+    Copyright 2014-2015 Qiujuer.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

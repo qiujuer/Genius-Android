@@ -1,14 +1,12 @@
-﻿## Version 3.*.* Guide
+﻿## CAPRICE Branch
 
-The new version is in the form...
-
-The recent will launch a new model, please look!
+This is `CAPRICE` Branch development sources files.
 
 
 License
 --------
 
-    Copyright 2014 CengaLabs.
+    Copyright 2014-2015 Qiujuer.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
