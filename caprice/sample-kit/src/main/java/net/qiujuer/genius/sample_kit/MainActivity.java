@@ -34,19 +34,19 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Init to use
-        // ³õÊ¼»¯Ê¹ÓÃ
+        // åˆå§‹åŒ–ä½¿ç”¨
         GeniusKit.initialize(getApplication());
 
         mText = (TextView) findViewById(R.id.text);
 
         // Add callback
-        // Ìí¼Ó»Øµ÷ÏÔÊ¾
+        // æ·»åŠ å›è°ƒæ˜¾ç¤º
         Log.addCallbackListener(new Log.LogCallbackListener() {
             @Override
             public void onLogArrived(final Log data) {
                 try {
                     // Async to show
-                    // Òì²½ÏÔÊ¾µ½½çÃæ
+                    // å¼‚æ­¥æ˜¾ç¤ºåˆ°ç•Œé¢
                     UiKit.runOnMainThreadAsync(new Runnable() {
                         @Override
                         public void run() {
@@ -84,10 +84,10 @@ public class MainActivity extends ActionBarActivity {
     private void testToolKit() {
         // Synchronous mode in the main thread when operating the child thread will enter the waiting,
         // until the main thread processing is completed
-        // Í¬²½Ä£Ê½ÔÚÖ÷Ïß³Ì²Ù×÷Ê±×ÓÏß³Ì½«½øÈëµÈ´ı£¬Ö±µ½Ö÷Ïß³Ì´¦ÀíÍê³É
+        // åŒæ­¥æ¨¡å¼åœ¨ä¸»çº¿ç¨‹æ“ä½œæ—¶å­çº¿ç¨‹å°†è¿›å…¥ç­‰å¾…ï¼Œç›´åˆ°ä¸»çº¿ç¨‹å¤„ç†å®Œæˆ
 
         // Asynchronous mode the child thread parallel operation with the main thread, don't depend on each other
-        // Òì²½Ä£Ê½×ÓÏß³ÌÓëÖ÷Ïß³Ì²¢ĞĞ²Ù×÷£¬²»Ïà»¥ÒÀÀµµÈ´ı
+        // å¼‚æ­¥æ¨¡å¼å­çº¿ç¨‹ä¸ä¸»çº¿ç¨‹å¹¶è¡Œæ“ä½œï¼Œä¸ç›¸äº’ä¾èµ–ç­‰å¾…
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -96,8 +96,8 @@ public class MainActivity extends ActionBarActivity {
 
                 // Test synchronization mode,
                 // in this mode method first to execute commands on the queue, waiting for the main thread
-                // ²âÊÔÍ¬²½Ä£Ê½£¬ÔÚ¸ÃÄ£Ê½ÏÂ
-                // ¸Ã·½·¨Ê×ÏÈ»á½«ÒªÖ´ĞĞµÄÃüÁî·Åµ½¶ÓÁĞÖĞ£¬µÈ´ıÖ÷Ïß³ÌÖ´ĞĞ
+                // æµ‹è¯•åŒæ­¥æ¨¡å¼ï¼Œåœ¨è¯¥æ¨¡å¼ä¸‹
+                // è¯¥æ–¹æ³•é¦–å…ˆä¼šå°†è¦æ‰§è¡Œçš„å‘½ä»¤æ”¾åˆ°é˜Ÿåˆ—ä¸­ï¼Œç­‰å¾…ä¸»çº¿ç¨‹æ‰§è¡Œ
                 UiKit.runOnMainThreadSync(new Runnable() {
                     @Override
                     public void run() {
@@ -110,8 +110,8 @@ public class MainActivity extends ActionBarActivity {
 
                 // Test asynchronous mode,
                 // in this mode the child thread calls the method added to the queue, can continue to go down, will not be blocked
-                // ²âÊÔÒì²½Ä£Ê½£¬ÔÚ¸ÃÄ£Ê½ÏÂ
-                // ×ÓÏß³Ìµ÷ÓÃ¸Ã·½·¨¼ÓÈëµ½¶ÓÁĞºó£¬¿É¼ÌĞøÍùÏÂ×ß£¬²¢²»»á×èÈû
+                // æµ‹è¯•å¼‚æ­¥æ¨¡å¼ï¼Œåœ¨è¯¥æ¨¡å¼ä¸‹
+                // å­çº¿ç¨‹è°ƒç”¨è¯¥æ–¹æ³•åŠ å…¥åˆ°é˜Ÿåˆ—åï¼Œå¯ç»§ç»­å¾€ä¸‹èµ°ï¼Œå¹¶ä¸ä¼šé˜»å¡
                 UiKit.runOnMainThreadAsync(new Runnable() {
                     @Override
                     public void run() {
@@ -135,31 +135,31 @@ public class MainActivity extends ActionBarActivity {
      */
     private void testLog() {
         // Whether to call system Android Log, release can be set to false
-        // ÊÇ·ñµ÷ÓÃÏµÍ³Android Log£¬·¢²¼Ê±¿ÉÉèÖÃÎªfalse
+        // æ˜¯å¦è°ƒç”¨ç³»ç»ŸAndroid Logï¼Œå‘å¸ƒæ—¶å¯è®¾ç½®ä¸ºfalse
         Log.setCallLog(true);
 
         // Clear the storage file
-        // ÇåÀí´æ´¢µÄÎÄ¼ş
+        // æ¸…ç†å­˜å‚¨çš„æ–‡ä»¶
         Log.clearLogFile();
 
         // Whether open is written to the file, stored maximum number of files, a single file size (Mb)
-        // ÊÇ·ñ¿ªÆôĞ´ÈëÎÄ¼ş£¬´æ´¢×î´óÎÄ¼şÊıÁ¿£¬µ¥¸öÎÄ¼ş´óĞ¡£¨Mb£©
+        // æ˜¯å¦å¼€å¯å†™å…¥æ–‡ä»¶ï¼Œå­˜å‚¨æœ€å¤§æ–‡ä»¶æ•°é‡ï¼Œå•ä¸ªæ–‡ä»¶å¤§å°ï¼ˆMbï¼‰
         Log.setSaveLog(true, 10, 1);
 
         // Set whether to monitor external storage inserts
-        // ÉèÖÃÊÇ·ñ¼àÌıÍâ²¿´æ´¢²åÈë²Ù×÷
+        // è®¾ç½®æ˜¯å¦ç›‘å¬å¤–éƒ¨å­˜å‚¨æ’å…¥æ“ä½œ
         // Open when inserting an external device (SD) to store the log file copy to external storage devices
-        // ¿ªÆôÊ±²åÈëÍâ²¿Éè±¸£¨SD£©Ê±½«¿½±´´æ´¢µÄÈÕÖ¾ÎÄ¼şµ½Íâ²¿´æ´¢Éè±¸
+        // å¼€å¯æ—¶æ’å…¥å¤–éƒ¨è®¾å¤‡ï¼ˆSDï¼‰æ—¶å°†æ‹·è´å­˜å‚¨çš„æ—¥å¿—æ–‡ä»¶åˆ°å¤–éƒ¨å­˜å‚¨è®¾å¤‡
         // This operation depends on whether written to the file open function, the method is invalid when not open
-        // ´Ë²Ù×÷ÒÀÀµÓÚÊÇ·ñ¿ªÆôĞ´ÈëÎÄ¼ş¹¦ÄÜ£¬Î´¿ªÆôÔò´Ë·½·¨ÎŞĞ§
+        // æ­¤æ“ä½œä¾èµ–äºæ˜¯å¦å¼€å¯å†™å…¥æ–‡ä»¶åŠŸèƒ½ï¼Œæœªå¼€å¯åˆ™æ­¤æ–¹æ³•æ— æ•ˆ
         // Parameters: whether open, SD card catalog
-        // ²ÎÊı: ÊÇ·ñ¿ªÆô£¬SD¿¨Ä¿Â¼
+        // å‚æ•°: æ˜¯å¦å¼€å¯ï¼ŒSDå¡ç›®å½•
         Log.setCopyExternalStorage(true, "Test/Logs");
 
         // Set show log level
-        // ÉèÖÃÏÔÊ¾ÈÕÖ¾µÈ¼¶
+        // è®¾ç½®æ˜¾ç¤ºæ—¥å¿—ç­‰çº§
         // VERBOSE: 5  ERROR:1, decline in turn
-        // VERBOSEÎª5µ½ERRORÎª1ÒÀ´Îµİ¼õ
+        // VERBOSEä¸º5åˆ°ERRORä¸º1ä¾æ¬¡é€’å‡
         Log.setLevel(Log.ALL);
 
         Log.v(TAG, "LOG VERBOSE Level");
@@ -188,40 +188,40 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * FixedList
-     * ¹Ì¶¨³¤¶È¶ÓÁĞ
+     * å›ºå®šé•¿åº¦é˜Ÿåˆ—
      */
     private void testFixedList() {
         // Init max length 5
-        // ³õÊ¼»¯×î´ó³¤¶ÈÎª5
+        // åˆå§‹åŒ–æœ€å¤§é•¿åº¦ä¸º5
         FixedList<Integer> list = new FixedList<Integer>(5);
         Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         // Add
-        // Ìí¼Ó4¸öÔªËØ
+        // æ·»åŠ 4ä¸ªå…ƒç´ 
         list.add(1);
         list.add(2);
         list.add(3);
         list.add(4);
         Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
 
-        // ¼ÌĞø×·¼Ó2¸ö
+        // ç»§ç»­è¿½åŠ 2ä¸ª
         list.add(5);
         list.add(6);
         Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         // Changed MaxSize
-        // µ÷Õû×î´ó³¤¶È
+        // è°ƒæ•´æœ€å¤§é•¿åº¦
         list.setMaxSize(6);
         list.add(7);
         Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         list.add(8);
         Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         // Narrow length, automatically deletes the spare parts
-        // ËõĞ¡³¤¶È£¬×Ô¶¯É¾³ıÇ°Ãæ¶àÓà²¿·Ö
+        // ç¼©å°é•¿åº¦ï¼Œè‡ªåŠ¨åˆ é™¤å‰é¢å¤šä½™éƒ¨åˆ†
         list.setMaxSize(3);
         Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         list.add(9);
         Log.i(TAG, "FixedList:" + list.size() + " ," + list.getMaxSize());
         // Add a list, automatically remove unwanted parts
-        // Ìí¼ÓÒ»¸öÁĞ±í½øÈ¥£¬×Ô¶¯É¾³ı¶àÓà²¿·Ö
+        // æ·»åŠ ä¸€ä¸ªåˆ—è¡¨è¿›å»ï¼Œè‡ªåŠ¨åˆ é™¤å¤šä½™éƒ¨åˆ†
         List<Integer> addList = new ArrayList<Integer>();
         addList.add(10);
         addList.add(11);
@@ -230,12 +230,12 @@ public class MainActivity extends ActionBarActivity {
         list.addAll(addList);
         Log.i(TAG, "FixedList:AddList:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         // Using poll pop-up elements
-        // ²ÉÓÃpoll·½Ê½µ¯³öÔªËØ
+        // é‡‡ç”¨pollæ–¹å¼å¼¹å‡ºå…ƒç´ 
         Log.i(TAG, "FixedList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
         Log.i(TAG, "FixedList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
         Log.i(TAG, "FixedList:Poll:[" + list.poll() + "] " + list.size() + " ," + list.getMaxSize());
         // Add to end insert
-        // Ä©Î²²åÈëÔªËØÓëaddÒ»Ñù
+        // æœ«å°¾æ’å…¥å…ƒç´ ä¸addä¸€æ ·
         list.addLast(14);
         list.addLast(15);
         list.addLast(16);
@@ -243,18 +243,18 @@ public class MainActivity extends ActionBarActivity {
         list.addLast(18);
         Log.i(TAG, "FixedList:AddLast:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
         // From the head insert, delete the default tail beyond part
-        // ´ÓÍ·²¿²åÈë£¬Ä¬ÈÏÉ¾³ıÎ²²¿³¬³ö²¿·Ö
+        // ä»å¤´éƒ¨æ’å…¥ï¼Œé»˜è®¤åˆ é™¤å°¾éƒ¨è¶…å‡ºéƒ¨åˆ†
         list.addFirst(19);
         list.addFirst(20);
         Log.i(TAG, "FixedList:AddFirst:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
 
         // Clear
-        // Çå¿Õ²Ù×÷
+        // æ¸…ç©ºæ“ä½œ
         list.clear();
         Log.i(TAG, "FixedList:Clear:" + list.toString() + " " + list.size() + " ," + list.getMaxSize());
 
         // List
-        // Ê¹ÓÃList²Ù×÷,×î´ó³¤¶È2
+        // ä½¿ç”¨Listæ“ä½œ,æœ€å¤§é•¿åº¦2
         List<Integer> list1 = new FixedList<Integer>(2);
         list1.add(1);
         list1.add(2);
@@ -269,15 +269,15 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * Command
-     * ²âÊÔÃüÁîĞĞÖ´ĞĞ
+     * æµ‹è¯•å‘½ä»¤è¡Œæ‰§è¡Œ
      */
     private void testCommand() {
         // Sync
-        // Í¬²½
+        // åŒæ­¥
         Thread thread = new Thread() {
             public void run() {
                 // The same way call way and the ProcessBuilder mass participation
-                // µ÷ÓÃ·½Ê½ÓëProcessBuilder´«²Î·½Ê½Ò»Ñù
+                // è°ƒç”¨æ–¹å¼ä¸ProcessBuilderä¼ å‚æ–¹å¼ä¸€æ ·
                 Command command = new Command(Command.TIMEOUT, "/system/bin/ping",
                         "-c", "4", "-s", "100",
                         "www.baidu.com");
@@ -290,7 +290,7 @@ public class MainActivity extends ActionBarActivity {
         thread.start();
 
         // Async
-        // Òì²½
+        // å¼‚æ­¥
         Command command = new Command("/system/bin/ping",
                 "-c", "4", "-s", "100",
                 "www.baidu.com");
@@ -298,9 +298,9 @@ public class MainActivity extends ActionBarActivity {
         // Asynchronous execution using callback methods,
         // do not need to build a thread
         // callback by listener
-        // Òì²½·½Ê½Ö´ĞĞ
-        // ²ÉÓÃ»Øµ÷·½Ê½£¬ÎŞĞè×Ô¼º½¨Á¢Ïß³Ì
-        // ´«Èë»Øµ÷ºó×Ô¶¯²ÉÓÃ´ËÖÖ·½Ê½
+        // å¼‚æ­¥æ–¹å¼æ‰§è¡Œ
+        // é‡‡ç”¨å›è°ƒæ–¹å¼ï¼Œæ— éœ€è‡ªå·±å»ºç«‹çº¿ç¨‹
+        // ä¼ å…¥å›è°ƒåè‡ªåŠ¨é‡‡ç”¨æ­¤ç§æ–¹å¼
         Command.command(command, new Command.CommandListener() {
             @Override
             public void onCompleted(String str) {
@@ -322,22 +322,22 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * NetTool
-     * »ù±¾ÍøÂç¹¦ÄÜ²âÊÔ
+     * åŸºæœ¬ç½‘ç»œåŠŸèƒ½æµ‹è¯•
      */
     public void testNetTool() {
         Thread thread = new Thread() {
             public void run() {
-                // Packets£¬ Packet size£¬The target£¬Whether parsing IP
-                // °üÊı£¬°ü´óĞ¡£¬Ä¿±ê£¬ÊÇ·ñ½âÎöIP
+                // Packetsï¼Œ Packet sizeï¼ŒThe targetï¼ŒWhether parsing IP
+                // åŒ…æ•°ï¼ŒåŒ…å¤§å°ï¼Œç›®æ ‡ï¼Œæ˜¯å¦è§£æIP
                 Ping ping = new Ping(4, 32, "www.baidu.com", true);
                 ping.start();
                 Log.i(TAG, "Ping: " + ping.toString());
                 // target
-                // Ä¿±ê£¬¿ÉÖ¸¶¨½âÎö·şÎñÆ÷
+                // ç›®æ ‡ï¼Œå¯æŒ‡å®šè§£ææœåŠ¡å™¨
                 DnsResolve dns = null;
                 try {
                     // Add DNS service
-                    // Ìí¼ÓDNS·şÎñÆ÷
+                    // æ·»åŠ DNSæœåŠ¡å™¨
                     dns = new DnsResolve("www.baidu.com", InetAddress.getByName("202.96.128.166"));
                     dns.start();
                     Log.i(TAG, "DnsResolve: " + dns.toString());
@@ -345,12 +345,12 @@ public class MainActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
                 // target port
-                // Ä¿±ê£¬¶Ë¿Ú
+                // ç›®æ ‡ï¼Œç«¯å£
                 Telnet telnet = new Telnet("www.baidu.com", 80);
                 telnet.start();
                 Log.i(TAG, "Telnet: " + telnet.toString());
                 // target
-                // Ä¿±ê
+                // ç›®æ ‡
                 TraceRoute traceRoute = new TraceRoute("www.baidu.com");
                 traceRoute.start();
                 Log.i(TAG, "\n\nTraceRoute: " + traceRoute.toString());
