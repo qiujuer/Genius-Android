@@ -45,6 +45,12 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
  * You should in your View onMeasure() call to this class.
  */
 public class TouchEffectAnimator {
+    // Touch Enum
+    public static final int EASE = 1;
+    public static final int RIPPLE = 2;
+    public static final int MOVE = 3;
+    public static final int PRESS = 4;
+    // Base Values
     private static final Interpolator DECELERATE_INTERPOLATOR = new DecelerateInterpolator(2.8f);
     private static final Interpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
     private static final int IN_ANIM_DURATION = 250;
@@ -58,7 +64,7 @@ public class TouchEffectAnimator {
     private float mAnimDurationFactor = 1;
     private int mFadeInAnimDuration = IN_ANIM_DURATION;
     private int mFadeOutAnimDuration = OUT_ANIM_DURATION;
-    private TouchEffect mTouchEffect = TouchEffect.Move;
+    private int mTouchEffect = MOVE;
     private Animation mFadeInAnimation = null;
     private Animation mFadeOutAnimation = null;
 
@@ -103,16 +109,16 @@ public class TouchEffectAnimator {
         setTouchEffect(mTouchEffect);
     }
 
-    public TouchEffect getTouchEffect() {
+    public int getTouchEffect() {
         return mTouchEffect;
     }
 
-    public void setTouchEffect(TouchEffect touchEffect) {
+    public void setTouchEffect(int touchEffect) {
         mTouchEffect = touchEffect;
-        if (mTouchEffect == TouchEffect.Ease) {
+        if (mTouchEffect == EASE) {
             mFadeInAnimDuration = OUT_ANIM_DURATION;
             mFadeOutAnimDuration = OUT_ANIM_DURATION;
-        } else if (mTouchEffect == TouchEffect.Press) {
+        } else if (mTouchEffect == PRESS) {
             mFadeInAnimDuration = (int) (IN_ANIM_DURATION * 0.6);
             mFadeOutAnimDuration = (int) (OUT_ANIM_DURATION * 1.3);
         } else {
@@ -189,16 +195,16 @@ public class TouchEffectAnimator {
 
             // This circle radius is 78% 90% or fill all
             switch (mTouchEffect) {
-                case Ripple:
+                case RIPPLE:
                     float x = mDownX < mCenterX ? 2 * mCenterX : 0;
                     float y = mDownY < mCenterY ? 2 * mCenterY : 0;
                     mEndRadius = (float) Math.sqrt((x - mDownX) * (x - mDownX) + (y - mDownY) * (y - mDownY));
                     break;
-                case Move:
+                case MOVE:
                     mStartRadius = 0;
                     mEndRadius *= 0.78;
                     break;
-                case Press:
+                case PRESS:
                     mStartRadius = mEndRadius * 0.68f;
                     mEndRadius *= 0.98;
                     mPaintX = mCenterX;
@@ -214,7 +220,7 @@ public class TouchEffectAnimator {
 
     public void onDraw(final Canvas canvas) {
         // Draw Background
-        if (mTouchEffect != TouchEffect.Press && mBackAlpha != 0) {
+        if (mTouchEffect != PRESS && mBackAlpha != 0) {
             mPaint.setAlpha(mBackAlpha);
             canvas.drawPath(mRectPath, mPaint);
         }
@@ -256,20 +262,20 @@ public class TouchEffectAnimator {
                 @Override
                 protected void applyTransformation(float interpolatedTime, Transformation t) {
                     switch (mTouchEffect) {
-                        case Ease:
+                        case EASE:
                             mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
                             break;
-                        case Ripple:
+                        case RIPPLE:
                             mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
                             mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
                             break;
-                        case Move:
+                        case MOVE:
                             mBackAlpha = (int) (interpolatedTime * mEndBackAlpha);
                             mRadius = mEndRadius * interpolatedTime;
                             mPaintX = mDownX + (mCenterX - mDownX) * interpolatedTime;
                             mPaintY = mDownY + (mCenterY - mDownY) * interpolatedTime;
                             break;
-                        case Press:
+                        case PRESS:
                             mRadius = mStartRadius + (mEndRadius - mStartRadius) * interpolatedTime;
                             mRippleAlpha = (int) (interpolatedTime * mEndRippleAlpha);
                             break;
@@ -302,7 +308,7 @@ public class TouchEffectAnimator {
                 @Override
                 protected void applyTransformation(float interpolatedTime, Transformation t) {
                     mBackAlpha = (int) (mEndBackAlpha - (mEndBackAlpha * interpolatedTime));
-                    if (mTouchEffect == TouchEffect.Press) {
+                    if (mTouchEffect == PRESS) {
                         mRippleAlpha = (int) (mEndRippleAlpha - (mEndRippleAlpha * interpolatedTime));
                         mRadius = mEndRadius + (mStartRadius - mEndRadius) * interpolatedTime;
                     } else {
