@@ -24,7 +24,7 @@ import android.os.Looper;
 /**
  * This is UI operation class
  * You can run thread on MainThread By Async and Sync
- * <p/>
+ * <p>
  * You don't need initialize, but when you don't need run
  * You should call {@link #dispose()} operation for destruction.
  */
@@ -35,7 +35,8 @@ final public class UiKit {
         if (mainPoster == null) {
             synchronized (UiKit.class) {
                 if (mainPoster == null) {
-                    mainPoster = new UiKitHandlerPoster(Looper.getMainLooper(), 20);
+                    // This time is 1000/60 (60fps)
+                    mainPoster = new UiKitHandlerPoster(Looper.getMainLooper(), 16);
                 }
             }
         }
