@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/25/2014
- * Changed 12/25/2014
+ * Changed 04/20/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,7 @@ android {
             moduleName "genius"
             cFlags "-DANDROID_NDK -D_RELEASE"
             ldLibs "m", "log", "jnigraphics"
-            abiFilters "all"
+            abiFilters "armeabi-v7a armeabi x86"
         }
     }
 
