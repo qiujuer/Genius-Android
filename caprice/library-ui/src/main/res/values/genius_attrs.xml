@@ -19,22 +19,6 @@
 * limitations under the License.
 -->
 <resources>
-    <!-- All -->
-    <attr name="fontFamily" format="integer">
-        <enum name="roboto" value="0" />
-        <enum name="opensans" value="1" />
-    </attr>
-    <attr name="fontWeight" format="integer">
-        <enum name="bold" value="0" />
-        <enum name="extrabold" value="1" />
-        <enum name="extralight" value="2" />
-        <enum name="light" value="3" />
-        <enum name="regular" value="4" />
-    </attr>
-    <attr name="fontExtension" format="string" />
-    <attr name="fontPath" format="string" />
-
-
     <attr name="g_theme" format="reference" />
     <attr name="g_fontFamily" format="integer">
         <enum name="roboto" value="0" />
@@ -99,14 +83,6 @@
 
         <attr name="g_checked" format="boolean" />
         <attr name="g_enabled" format="boolean" />
-    </declare-styleable>
-
-    <!-- TextView -->
-    <declare-styleable name="TextView">
-        <attr name="fontFamily" />
-        <attr name="fontWeight" />
-        <attr name="fontExtension" />
-        <attr name="fontPath" />
     </declare-styleable>
 
     <!-- GeniusEditText -->
