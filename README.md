@@ -33,7 +33,7 @@
 *  Gradle:
 ```
 dependencies {
-  compile 'com.github.qiujuer:genius:2.4.0'
+  compile 'com.github.qiujuer:genius:2.4.1'
 }
 ```
 
@@ -42,7 +42,7 @@ dependencies {
 <dependency>
     <groupId>com.github.qiujuer</groupId>
     <artifactId>genius</artifactId>
-    <version>2.4.0</version>
+    <version>2.4.1</version>
 </dependency>
 ```
 	
