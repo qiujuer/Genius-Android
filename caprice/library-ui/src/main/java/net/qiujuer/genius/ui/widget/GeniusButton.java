@@ -142,8 +142,8 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
 
         // Check for IDE preview render
         if (!this.isInEditMode()) {
-            Typeface typeface = GeniusUi.getFont(getContext(), mAttributes);
-            if (typeface != null) setTypeface(typeface);
+            //Typeface typeface = GeniusUi.getFont(getContext(), mAttributes);
+            //if (typeface != null) setTypeface(typeface);
         }
     }
 

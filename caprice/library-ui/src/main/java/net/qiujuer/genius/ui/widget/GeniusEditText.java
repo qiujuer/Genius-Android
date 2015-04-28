@@ -137,8 +137,8 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
 
         // check for IDE preview render
         if (!this.isInEditMode()) {
-            Typeface typeface = GeniusUi.getFont(getContext(), mAttributes);
-            if (typeface != null) setTypeface(typeface);
+            //Typeface typeface = GeniusUi.getFont(getContext(), mAttributes);
+            //if (typeface != null) setTypeface(typeface);
         }
     }
 
