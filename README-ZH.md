@@ -48,7 +48,42 @@ dependencies {
 	
 ### `CAPRICE` 
 
-暂未发布，请等候...
+#### `Blur`
+
+*  Gradle:
+```
+dependencies {
+  compile 'net.qiujuer.genius:blur:1.0.0'
+}
+```
+
+*  Maven:
+```
+<dependency>
+    <groupId>net.qiujuer.genius</groupId>
+    <artifactId>blur</artifactId>
+    <version>1.0.0</version>
+</dependenc
+```
+
+
+#### `Kit`
+
+*  Gradle:
+```
+dependencies {
+  compile 'net.qiujuer.genius:kit:1.0.0'
+}
+```
+
+*  Maven:
+```
+<dependency>
+    <groupId>net.qiujuer.genius</groupId>
+    <artifactId>kit</artifactId>
+    <version>1.0.0</version>
+</dependenc
+```
 
 
 ## 更多说明

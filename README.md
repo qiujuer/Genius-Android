@@ -48,8 +48,42 @@ dependencies {
 	
 ### `CAPRICE` 
 
-No release, please wait...
+#### `Blur`
 
+*  Gradle:
+```
+dependencies {
+  compile 'net.qiujuer.genius:blur:1.0.0'
+}
+```
+
+*  Maven:
+```
+<dependency>
+    <groupId>net.qiujuer.genius</groupId>
+    <artifactId>blur</artifactId>
+    <version>1.0.0</version>
+</dependenc
+```
+
+
+#### `Kit`
+
+*  Gradle:
+```
+dependencies {
+  compile 'net.qiujuer.genius:kit:1.0.0'
+}
+```
+
+*  Maven:
+```
+<dependency>
+    <groupId>net.qiujuer.genius</groupId>
+    <artifactId>kit</artifactId>
+    <version>1.0.0</version>
+</dependenc
+```
 
 
 ## More Documents And Develop
