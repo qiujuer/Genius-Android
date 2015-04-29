@@ -40,7 +40,8 @@ public class TextView extends android.widget.TextView {
     }
 
     public TextView(Context context, AttributeSet attrs) {
-        this(context, attrs, com.android.internal.R.attr.textViewStyle);
+        //com.android.internal.R.attr.textViewStyle
+        this(context, attrs, 0);
     }
 
     public TextView(Context context, AttributeSet attrs, int defStyleAttr) {

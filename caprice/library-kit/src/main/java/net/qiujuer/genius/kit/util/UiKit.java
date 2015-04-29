@@ -24,7 +24,7 @@ import android.os.Looper;
 /**
  * This is UI operation class
  * You can run thread on MainThread By Async and Sync
- * <p>
+ * <p/>
  * You don't need initialize, but when you don't need run
  * You should call {@link #dispose()} operation for destruction.
  */
