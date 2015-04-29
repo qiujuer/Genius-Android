@@ -20,6 +20,7 @@
 * `CAPRICE` 一个新的分支，在该分支中包含 `Ui` 与 `Kit` 库
 	> * **Ui Lib** 主打颜色驱动`Material Design`风格进行研发 
 	> * **Kit Lib** 包含：`command`、`net`、`util` 等包
+	> * **Blur Lib** 包含：`StackBlr` 对图片进行模糊
 
 **`请注意：` `STEADY` 与 `CAPRICE` 库并不兼容，是完全独立的两个分支！**
 

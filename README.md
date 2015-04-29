@@ -20,8 +20,9 @@
 * `CAPRICE` a new branch in the branch, containing `Ui` and `Kit` libraries
 	> * **Ui Lib:** research and development in `Color-Drive` and `Material Design` style
 	> * **Kit Lib:** Include `command`、`net`、`util`
+	> * **Blur Lib:** Include `blur`
 
-**`Please Note:` `STEADY` with `CAPRICE` libraries are not compatible, is completely independent branch!**
+**`Note:` `STEADY` with `CAPRICE` libraries are not compatible, is completely independent branch!**
 
 ![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/172755E3.png)
 
