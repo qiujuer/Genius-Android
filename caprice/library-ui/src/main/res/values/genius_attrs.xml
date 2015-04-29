@@ -19,7 +19,6 @@
 * limitations under the License.
 -->
 <resources>
-    <!-- All -->
     <attr name="g_theme" format="reference" />
     <attr name="g_fontFamily" format="integer">
         <enum name="roboto" value="0" />
@@ -84,35 +83,6 @@
 
         <attr name="g_checked" format="boolean" />
         <attr name="g_enabled" format="boolean" />
-    </declare-styleable>
-
-    <!-- GeniusTextView -->
-    <declare-styleable name="GeniusTextView">
-        <attr name="g_theme" />
-        <attr name="g_fontFamily" />
-        <attr name="g_fontWeight" />
-        <attr name="g_fontExtension" />
-        <attr name="g_cornerRadius" />
-        <attr name="g_borderWidth" />
-
-        <attr name="g_cornerRadii_A" />
-        <attr name="g_cornerRadii_B" />
-        <attr name="g_cornerRadii_C" />
-        <attr name="g_cornerRadii_D" />
-
-        <attr name="g_textColor" format="integer">
-            <enum name="darker" value="0" />
-            <enum name="dark" value="1" />
-            <enum name="main" value="2" />
-            <enum name="light" value="3" />
-        </attr>
-        <attr name="g_backgroundColor" format="integer">
-            <enum name="darker" value="0" />
-            <enum name="dark" value="1" />
-            <enum name="main" value="2" />
-            <enum name="light" value="3" />
-        </attr>
-        <attr name="g_customBackgroundColor" format="color" />
     </declare-styleable>
 
     <!-- GeniusEditText -->

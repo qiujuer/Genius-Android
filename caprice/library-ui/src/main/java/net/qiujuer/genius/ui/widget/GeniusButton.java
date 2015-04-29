@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -36,9 +35,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
 
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
-import net.qiujuer.genius.ui.animation.TouchEffect;
 import net.qiujuer.genius.ui.animation.TouchEffectAnimator;
 import net.qiujuer.genius.ui.widget.attribute.Attributes;
 import net.qiujuer.genius.ui.widget.attribute.BaseAttributes;
@@ -143,8 +140,8 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
 
         // Check for IDE preview render
         if (!this.isInEditMode()) {
-            Typeface typeface = GeniusUi.getFont(getContext(), mAttributes);
-            if (typeface != null) setTypeface(typeface);
+            //Typeface typeface = GeniusUi.getFont(getContext(), mAttributes);
+            //if (typeface != null) setTypeface(typeface);
         }
     }
 
@@ -232,30 +229,8 @@ public class GeniusButton extends Button implements Attributes.AttributeChangeLi
         return background;
     }
 
-    private void setTouchEffect(int value) {
-        TouchEffect touchEffect = TouchEffect.Move;
-        switch (value) {
-            case 0:
-                touchEffect = TouchEffect.None;
-                break;
-            case 1:
-                touchEffect = TouchEffect.Ease;
-                break;
-            case 2:
-                touchEffect = TouchEffect.Ripple;
-                break;
-            case 3:
-                touchEffect = TouchEffect.Move;
-                break;
-            case 4:
-                touchEffect = TouchEffect.Press;
-                break;
-        }
-        setTouchEffect(touchEffect);
-    }
-
-    public void setTouchEffect(TouchEffect touchEffect) {
-        if (touchEffect == TouchEffect.None)
+    public void setTouchEffect(int touchEffect) {
+        if (touchEffect == 0)
             mTouchEffectAnimator = null;
         else {
             if (mTouchEffectAnimator == null) {

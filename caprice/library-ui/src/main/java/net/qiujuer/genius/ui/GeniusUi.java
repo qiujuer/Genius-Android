@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/13/2014
- * Changed 03/08/2015
- * Version 3.0.0
+ * Created 03/23/2014
+ * Changed 03/23/2015
+ * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +30,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 
-import net.qiujuer.genius.ui.widget.attribute.Attributes;
-import net.qiujuer.genius.ui.widget.attribute.BaseAttributes;
-
 /**
  * Created by QiuJu
  * on 2014/9/3.
@@ -40,39 +37,23 @@ import net.qiujuer.genius.ui.widget.attribute.BaseAttributes;
 public class GeniusUi {
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
 
-    public static final int AQUAMARINE = net.qiujuer.genius.ui.R.array.Aquamarine;
-    public static final int SCUBA_BLUE = net.qiujuer.genius.ui.R.array.ScubaBlue;
-    public static final int LUCITE_GREEN = net.qiujuer.genius.ui.R.array.LuciteGreen;
-    public static final int CLASSIC_BLUE = net.qiujuer.genius.ui.R.array.ClassicBlue;
-    public static final int TOASTED_ALMOND = net.qiujuer.genius.ui.R.array.ToastedAlmond;
-    public static final int STRAWBERRY_ICE = net.qiujuer.genius.ui.R.array.StrawberryIce;
-    public static final int TANGERINE = net.qiujuer.genius.ui.R.array.Tangerine;
-    public static final int CUSTARD = net.qiujuer.genius.ui.R.array.Custard;
-    public static final int MARSALA = net.qiujuer.genius.ui.R.array.Marsala;
-    public static final int GLACIER_GRAY = net.qiujuer.genius.ui.R.array.GlacierGray;
-    public static final int DUSK_BLUE = net.qiujuer.genius.ui.R.array.DuskBlue;
-    public static final int TREETOP = net.qiujuer.genius.ui.R.array.Treetop;
-    public static final int WOODBINE = net.qiujuer.genius.ui.R.array.Woodbine;
-    public static final int SANDSTONE = net.qiujuer.genius.ui.R.array.Sandstone;
-    public static final int TITANIUM = net.qiujuer.genius.ui.R.array.Titanium;
-    public static final int LAVENDER_HERB = net.qiujuer.genius.ui.R.array.LavenderHerb;
-    public static final int DARK = net.qiujuer.genius.ui.R.array.Dark;
-
     /**
      * Creates and returns the font file from given attributes.
      *
-     * @param context    Context
-     * @param attributes Attributes
+     * @param context       Context
+     * @param fontFamily    FontFamily
+     * @param fontWeight    FontWeight
+     * @param fontExtension FontExtension
      * @return Typeface
      */
-    public static Typeface getFont(Context context, BaseAttributes attributes) {
-        String fontPath = "fonts/" + attributes.getFontFamily()
-                + "_" + attributes.getFontWeight()
-                + "." + attributes.getFontExtension();
+    public static Typeface getFont(Context context, String fontFamily, String fontWeight, String fontExtension) {
+        String fontPath = "fonts/" + fontFamily
+                + "_" + fontWeight
+                + "." + fontExtension;
         try {
             return Typeface.createFromAsset(context.getAssets(), fontPath);
         } catch (Exception e) {
-            Log.e("GeniusUI", "Font file at " + fontPath + " cannot be found or the file is " +
+            Log.e("GeniusUi", "Font file at " + fontPath + " cannot be found or the file is " +
                     "not a valid font file. Please be sure that library assets are included " +
                     "to project. If not, copy assets/fonts folder of the library to your " +
                     "projects assets folder.");
@@ -120,17 +101,6 @@ public class GeniusUi {
         return drawable;
     }
 
-    /**
-     * Sets the default theme of the application. The views which doesn't have any theme attribute
-     * will have this defined default theme.
-     * <p/>
-     * IMPORTANT: This method should be called before setContentView method of the activity.
-     *
-     * @param theme Theme Id
-     */
-    public static void setDefaultTheme(int theme) {
-        Attributes.DEFAULT_THEME = theme;
-    }
 
     /**
      * Change Dip to PX
@@ -186,11 +156,43 @@ public class GeniusUi {
      * Modulate the colorAlpha to new alpha
      *
      * @param colorAlpha Color's alpha
-     * @param alpha      You alpha
+     * @param alpha      Modulate alpha
      * @return Modulate alpha
      */
     public static int modulateAlpha(int colorAlpha, int alpha) {
         int scale = alpha + (alpha >> 7);
         return colorAlpha * scale >> 8;
+    }
+
+    /**
+     * Modulate the color to new alpha
+     *
+     * @param color Color
+     * @param alpha Modulate alpha
+     * @return Modulate alpha color
+     */
+    public static int modulateColorAlpha(int color, int alpha) {
+        int colorAlpha = color >>> 24;
+        int scale = alpha + (alpha >> 7);
+        int newAlpha = colorAlpha * scale >> 8;
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+        return newAlpha << 24 | r << 16 | g << 8 | b;
+    }
+
+
+    /**
+     * Change the color to new alpha
+     *
+     * @param color Color
+     * @param alpha New alpha
+     * @return New alpha color
+     */
+    public static int changeColorAlpha(int color, int alpha) {
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+        return alpha << 24 | r << 16 | g << 8 | b;
     }
 }

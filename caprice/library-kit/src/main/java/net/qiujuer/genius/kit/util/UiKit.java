@@ -35,7 +35,8 @@ final public class UiKit {
         if (mainPoster == null) {
             synchronized (UiKit.class) {
                 if (mainPoster == null) {
-                    mainPoster = new UiKitHandlerPoster(Looper.getMainLooper(), 20);
+                    // This time is 1000/60 (60fps)
+                    mainPoster = new UiKitHandlerPoster(Looper.getMainLooper(), 16);
                 }
             }
         }
