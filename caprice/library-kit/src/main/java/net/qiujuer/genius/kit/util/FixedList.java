@@ -46,204 +46,6 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
 
     transient Link<E> voidLink;
 
-    private static final class Link<ET> {
-        ET data;
-
-        Link<ET> previous, next;
-
-        Link(ET o, Link<ET> p, Link<ET> n) {
-            data = o;
-            previous = p;
-            next = n;
-        }
-    }
-
-    private static final class LinkIterator<ET> implements ListIterator<ET> {
-        int pos, expectedModCount;
-
-        final FixedList<ET> list;
-
-        Link<ET> link, lastLink;
-
-        LinkIterator(FixedList<ET> object, int location) {
-            list = object;
-            expectedModCount = list.modCount;
-            if (location >= 0 && location <= list.size) {
-                // pos ends up as -1 if list is empty, it ranges from -1 to
-                // list.size - 1
-                // if link == voidLink then pos must == -1
-                link = list.voidLink;
-                if (location < list.size / 2) {
-                    for (pos = -1; pos + 1 < location; pos++) {
-                        link = link.next;
-                    }
-                } else {
-                    for (pos = list.size; pos >= location; pos--) {
-                        link = link.previous;
-                    }
-                }
-            } else {
-                throw new IndexOutOfBoundsException();
-            }
-        }
-
-        public void add(ET object) {
-            if (expectedModCount == list.modCount) {
-                Link<ET> next = link.next;
-                Link<ET> newLink = new Link<ET>(object, link, next);
-                link.next = newLink;
-                next.previous = newLink;
-                link = newLink;
-                lastLink = null;
-                pos++;
-                expectedModCount++;
-                list.size++;
-                list.modCount++;
-                // Remove
-                if (++list.size > list.maxSize) {
-                    list.removeFirstImpl();
-                    expectedModCount++;
-                }
-            } else {
-                throw new ConcurrentModificationException();
-            }
-        }
-
-        public boolean hasNext() {
-            return link.next != list.voidLink;
-        }
-
-        public boolean hasPrevious() {
-            return link != list.voidLink;
-        }
-
-        public ET next() {
-            if (expectedModCount == list.modCount) {
-                Link<ET> next = link.next;
-                if (next != list.voidLink) {
-                    lastLink = link = next;
-                    pos++;
-                    return link.data;
-                }
-                throw new NoSuchElementException();
-            }
-            throw new ConcurrentModificationException();
-        }
-
-        public int nextIndex() {
-            return pos + 1;
-        }
-
-        public ET previous() {
-            if (expectedModCount == list.modCount) {
-                if (link != list.voidLink) {
-                    lastLink = link;
-                    link = link.previous;
-                    pos--;
-                    return lastLink.data;
-                }
-                throw new NoSuchElementException();
-            }
-            throw new ConcurrentModificationException();
-        }
-
-        public int previousIndex() {
-            return pos;
-        }
-
-        public void remove() {
-            if (expectedModCount == list.modCount) {
-                if (lastLink != null) {
-                    Link<ET> next = lastLink.next;
-                    Link<ET> previous = lastLink.previous;
-                    next.previous = previous;
-                    previous.next = next;
-                    if (lastLink == link) {
-                        pos--;
-                    }
-                    link = previous;
-                    lastLink = null;
-                    expectedModCount++;
-                    list.size--;
-                    list.modCount++;
-                } else {
-                    throw new IllegalStateException();
-                }
-            } else {
-                throw new ConcurrentModificationException();
-            }
-        }
-
-        public void set(ET object) {
-            if (expectedModCount == list.modCount) {
-                if (lastLink != null) {
-                    lastLink.data = object;
-                } else {
-                    throw new IllegalStateException();
-                }
-            } else {
-                throw new ConcurrentModificationException();
-            }
-        }
-    }
-
-    /*
-     * NOTES:descendingIterator is not fail-fast, according to the documentation
-     * and test case.
-     */
-    private class ReverseLinkIterator<ET> implements Iterator<ET> {
-        private int expectedModCount;
-
-        private final FixedList<ET> list;
-
-        private Link<ET> link;
-
-        private boolean canRemove;
-
-        ReverseLinkIterator(FixedList<ET> linkedList) {
-            list = linkedList;
-            expectedModCount = list.modCount;
-            link = list.voidLink;
-            canRemove = false;
-        }
-
-        public boolean hasNext() {
-            return link.previous != list.voidLink;
-        }
-
-        public ET next() {
-            if (expectedModCount == list.modCount) {
-                if (hasNext()) {
-                    link = link.previous;
-                    canRemove = true;
-                    return link.data;
-                }
-                throw new NoSuchElementException();
-            }
-            throw new ConcurrentModificationException();
-
-        }
-
-        public void remove() {
-            if (expectedModCount == list.modCount) {
-                if (canRemove) {
-                    Link<ET> next = link.previous;
-                    Link<ET> previous = link.next;
-                    next.next = previous;
-                    previous.previous = next;
-                    link = previous;
-                    list.size--;
-                    list.modCount++;
-                    expectedModCount++;
-                    canRemove = false;
-                    return;
-                }
-                throw new IllegalStateException();
-            }
-            throw new ConcurrentModificationException();
-        }
-    }
-
     /**
      * Constructs a new empty instance of {@code FixedLenList}.
      */
@@ -884,14 +686,14 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
         return size;
     }
 
+    public int getMaxSize() {
+        return maxSize;
+    }
+
     public void setMaxSize(int maxSize) {
         this.maxSize = maxSize;
         if (size > maxSize)
             removeExcess();
-    }
-
-    public int getMaxSize() {
-        return maxSize;
     }
 
     public boolean offer(E o) {
@@ -992,5 +794,199 @@ public class FixedList<E> extends java.util.AbstractSequentialList<E> implements
         }
         link.next = voidLink;
         voidLink.previous = link;
+    }
+
+    private static final class Link<ET> {
+        ET data;
+
+        Link<ET> previous, next;
+
+        Link(ET o, Link<ET> p, Link<ET> n) {
+            data = o;
+            previous = p;
+            next = n;
+        }
+    }
+
+    private static final class LinkIterator<ET> implements ListIterator<ET> {
+        final FixedList<ET> list;
+        int pos, expectedModCount;
+        Link<ET> link, lastLink;
+
+        LinkIterator(FixedList<ET> object, int location) {
+            list = object;
+            expectedModCount = list.modCount;
+            if (location >= 0 && location <= list.size) {
+                // pos ends up as -1 if list is empty, it ranges from -1 to
+                // list.size - 1
+                // if link == voidLink then pos must == -1
+                link = list.voidLink;
+                if (location < list.size / 2) {
+                    for (pos = -1; pos + 1 < location; pos++) {
+                        link = link.next;
+                    }
+                } else {
+                    for (pos = list.size; pos >= location; pos--) {
+                        link = link.previous;
+                    }
+                }
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        public void add(ET object) {
+            if (expectedModCount == list.modCount) {
+                Link<ET> next = link.next;
+                Link<ET> newLink = new Link<ET>(object, link, next);
+                link.next = newLink;
+                next.previous = newLink;
+                link = newLink;
+                lastLink = null;
+                pos++;
+                expectedModCount++;
+                list.size++;
+                list.modCount++;
+                // Remove
+                if (++list.size > list.maxSize) {
+                    list.removeFirstImpl();
+                    expectedModCount++;
+                }
+            } else {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        public boolean hasNext() {
+            return link.next != list.voidLink;
+        }
+
+        public boolean hasPrevious() {
+            return link != list.voidLink;
+        }
+
+        public ET next() {
+            if (expectedModCount == list.modCount) {
+                Link<ET> next = link.next;
+                if (next != list.voidLink) {
+                    lastLink = link = next;
+                    pos++;
+                    return link.data;
+                }
+                throw new NoSuchElementException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public int nextIndex() {
+            return pos + 1;
+        }
+
+        public ET previous() {
+            if (expectedModCount == list.modCount) {
+                if (link != list.voidLink) {
+                    lastLink = link;
+                    link = link.previous;
+                    pos--;
+                    return lastLink.data;
+                }
+                throw new NoSuchElementException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public int previousIndex() {
+            return pos;
+        }
+
+        public void remove() {
+            if (expectedModCount == list.modCount) {
+                if (lastLink != null) {
+                    Link<ET> next = lastLink.next;
+                    Link<ET> previous = lastLink.previous;
+                    next.previous = previous;
+                    previous.next = next;
+                    if (lastLink == link) {
+                        pos--;
+                    }
+                    link = previous;
+                    lastLink = null;
+                    expectedModCount++;
+                    list.size--;
+                    list.modCount++;
+                } else {
+                    throw new IllegalStateException();
+                }
+            } else {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        public void set(ET object) {
+            if (expectedModCount == list.modCount) {
+                if (lastLink != null) {
+                    lastLink.data = object;
+                } else {
+                    throw new IllegalStateException();
+                }
+            } else {
+                throw new ConcurrentModificationException();
+            }
+        }
+    }
+
+    /*
+     * NOTES:descendingIterator is not fail-fast, according to the documentation
+     * and test case.
+     */
+    private class ReverseLinkIterator<ET> implements Iterator<ET> {
+        private final FixedList<ET> list;
+        private int expectedModCount;
+        private Link<ET> link;
+
+        private boolean canRemove;
+
+        ReverseLinkIterator(FixedList<ET> linkedList) {
+            list = linkedList;
+            expectedModCount = list.modCount;
+            link = list.voidLink;
+            canRemove = false;
+        }
+
+        public boolean hasNext() {
+            return link.previous != list.voidLink;
+        }
+
+        public ET next() {
+            if (expectedModCount == list.modCount) {
+                if (hasNext()) {
+                    link = link.previous;
+                    canRemove = true;
+                    return link.data;
+                }
+                throw new NoSuchElementException();
+            }
+            throw new ConcurrentModificationException();
+
+        }
+
+        public void remove() {
+            if (expectedModCount == list.modCount) {
+                if (canRemove) {
+                    Link<ET> next = link.previous;
+                    Link<ET> previous = link.next;
+                    next.next = previous;
+                    previous.previous = next;
+                    link = previous;
+                    list.size--;
+                    list.modCount++;
+                    expectedModCount++;
+                    canRemove = false;
+                    return;
+                }
+                throw new IllegalStateException();
+            }
+            throw new ConcurrentModificationException();
+        }
     }
 }

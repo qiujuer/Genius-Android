@@ -42,7 +42,9 @@ public class BalloonMarkerDrawable extends PaintStateDrawable implements Animata
 
     private static final long FRAME_DURATION = 1000 / 60;
     private static final int ANIMATION_DURATION = 250;
-
+    Path mPath = new Path();
+    RectF mRect = new RectF();
+    Matrix mMatrix = new Matrix();
     private float mCurrentScale = 0f;
     private Interpolator mInterpolator;
     private long mStartTime;
@@ -59,11 +61,26 @@ public class BalloonMarkerDrawable extends PaintStateDrawable implements Animata
     //colors for interpolation
     private int mStartColor;
     private int mEndColor;
-
-    Path mPath = new Path();
-    RectF mRect = new RectF();
-    Matrix mMatrix = new Matrix();
     private MarkerAnimationListener mMarkerListener;
+    private final Runnable mUpdater = new Runnable() {
+
+        @Override
+        public void run() {
+
+            long currentTime = SystemClock.uptimeMillis();
+            long diff = currentTime - mStartTime;
+            if (diff < mDuration) {
+                float interpolation = mInterpolator.getInterpolation((float) diff / (float) mDuration);
+                scheduleSelf(mUpdater, currentTime + FRAME_DURATION);
+                updateAnimation(interpolation);
+            } else {
+                unscheduleSelf(mUpdater);
+                mRunning = false;
+                updateAnimation(1f);
+                notifyFinishedToListener();
+            }
+        }
+    };
 
     public BalloonMarkerDrawable(ColorStateList tintList, int closedSize) {
         super(tintList);
@@ -71,6 +88,15 @@ public class BalloonMarkerDrawable extends PaintStateDrawable implements Animata
         mClosedStateSize = closedSize;
 
         getPaint().setStyle(Paint.Style.FILL);
+    }
+
+    private static int blendColors(int color1, int color2, float factor) {
+        final float inverseFactor = 1f - factor;
+        float a = (Color.alpha(color1) * factor) + (Color.alpha(color2) * inverseFactor);
+        float r = (Color.red(color1) * factor) + (Color.red(color2) * inverseFactor);
+        float g = (Color.green(color1) * factor) + (Color.green(color2) * inverseFactor);
+        float b = (Color.blue(color1) * factor) + (Color.blue(color2) * inverseFactor);
+        return Color.argb((int) a, (int) r, (int) g, (int) b);
     }
 
     public void setExternalOffset(int offset) {
@@ -181,26 +207,6 @@ public class BalloonMarkerDrawable extends PaintStateDrawable implements Animata
         }
     }
 
-    private final Runnable mUpdater = new Runnable() {
-
-        @Override
-        public void run() {
-
-            long currentTime = SystemClock.uptimeMillis();
-            long diff = currentTime - mStartTime;
-            if (diff < mDuration) {
-                float interpolation = mInterpolator.getInterpolation((float) diff / (float) mDuration);
-                scheduleSelf(mUpdater, currentTime + FRAME_DURATION);
-                updateAnimation(interpolation);
-            } else {
-                unscheduleSelf(mUpdater);
-                mRunning = false;
-                updateAnimation(1f);
-                notifyFinishedToListener();
-            }
-        }
-    };
-
     public void setMarkerListener(MarkerAnimationListener listener) {
         mMarkerListener = listener;
     }
@@ -228,15 +234,6 @@ public class BalloonMarkerDrawable extends PaintStateDrawable implements Animata
     @Override
     public boolean isRunning() {
         return mRunning;
-    }
-
-    private static int blendColors(int color1, int color2, float factor) {
-        final float inverseFactor = 1f - factor;
-        float a = (Color.alpha(color1) * factor) + (Color.alpha(color2) * inverseFactor);
-        float r = (Color.red(color1) * factor) + (Color.red(color2) * inverseFactor);
-        float g = (Color.green(color1) * factor) + (Color.green(color2) * inverseFactor);
-        float b = (Color.blue(color1) * factor) + (Color.blue(color2) * inverseFactor);
-        return Color.argb((int) a, (int) r, (int) g, (int) b);
     }
 
 

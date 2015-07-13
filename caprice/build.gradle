@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'com.android.tools.build:gradle:1.2.3'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -23,8 +23,8 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 22
-    buildToolsVersion = "22.0.1"
+    compileSdkVersion = ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion = ANDROID_BUILD_TOOLS_VERSION
 }
 
 apply plugin: 'android-reporting'

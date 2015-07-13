@@ -35,43 +35,43 @@ public class SeekBarAttributes extends Attributes {
         super(attributeChangeListener, resources);
     }
 
-    public void setThumbColor(ColorStateList thumbColor) {
-        this.thumbColor = thumbColor;
-    }
-
-    public void setTrackColor(ColorStateList trackColor) {
-        this.trackColor = trackColor;
-    }
-
-    public void setScrubberColor(ColorStateList scrubberColor) {
-        this.scrubberColor = scrubberColor;
-    }
-
-    public void setRippleColor(ColorStateList rippleColor) {
-        this.rippleColor = rippleColor;
+    public ColorStateList getIndicatorColor() {
+        return indicatorColor;
     }
 
     public void setIndicatorColor(ColorStateList indicatorColor) {
         this.indicatorColor = indicatorColor;
     }
 
-    public ColorStateList getIndicatorColor() {
-        return indicatorColor;
-    }
-
     public ColorStateList getRippleColor() {
         return rippleColor;
+    }
+
+    public void setRippleColor(ColorStateList rippleColor) {
+        this.rippleColor = rippleColor;
     }
 
     public ColorStateList getScrubberColor() {
         return scrubberColor;
     }
 
+    public void setScrubberColor(ColorStateList scrubberColor) {
+        this.scrubberColor = scrubberColor;
+    }
+
     public ColorStateList getThumbColor() {
         return thumbColor;
     }
 
+    public void setThumbColor(ColorStateList thumbColor) {
+        this.thumbColor = thumbColor;
+    }
+
     public ColorStateList getTrackColor() {
         return trackColor;
+    }
+
+    public void setTrackColor(ColorStateList trackColor) {
+        this.trackColor = trackColor;
     }
 }

@@ -44,12 +44,12 @@ public class FontAttribute {
             this.fontExtension = fontExtension;
     }
 
-    public void setFontPath(String fontPath) {
-        this.fontPath = fontPath;
-    }
-
     public String getFontPath() {
         return fontPath;
+    }
+
+    public void setFontPath(String fontPath) {
+        this.fontPath = fontPath;
     }
 
     /**

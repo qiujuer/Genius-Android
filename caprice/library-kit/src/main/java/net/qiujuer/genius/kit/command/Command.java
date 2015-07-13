@@ -38,13 +38,14 @@ import java.util.concurrent.Executors;
 public final class Command {
     // Time Out is 90 seconds
     public static final int TIMEOUT = 90000;
+    // IService Lock
+    private static final Object I_LOCK = new Object();
     // Threads
     private static ExecutorService EXECUTORSERVICE = null;
     // ICommandInterface
     private static ICommandInterface I_COMMAND = null;
-    // IService Lock
-    private static final Object I_LOCK = new Object();
-
+    // Mark If Bind Service
+    private static boolean IS_BIND = false;
     // Service link class, used to instantiate the service interface
     private static ServiceConnection I_CONN = new ServiceConnection() {
         @Override
@@ -68,12 +69,56 @@ public final class Command {
             dispose();
         }
     };
-
-    // Mark If Bind Service
-    private static boolean IS_BIND = false;
-
     // Destroy Service Thread
     private static Thread DESTROY_THREAD = null;
+    /**
+     * *********************************************************************************************
+     * Class
+     * *********************************************************************************************
+     */
+    private int mTimeout = TIMEOUT;
+    private String mId = null;
+    private String mParameters = null;
+    private String mResult = null;
+
+    /**
+     * *********************************************************************************************
+     * Static public
+     * *********************************************************************************************
+     */
+    private CommandListener mListener = null;
+    private boolean isCancel = false;
+
+    /**
+     * Get a Command
+     *
+     * @param params params eg: "/system/bin/ping", "-c", "4", "-s", "100","www.qiujuer.net"
+     */
+    public Command(String... params) {
+        this(TIMEOUT, params);
+    }
+
+    /**
+     * Get a Command
+     *
+     * @param timeout set this run timeOut
+     * @param params  params eg: "/system/bin/ping", "-c", "4", "-s", "100","www.qiujuer.net"
+     */
+    public Command(int timeout, String... params) {
+        // Check params
+        if (params == null)
+            throw new NullPointerException("params is not null.");
+
+        // Run
+        StringBuilder sb = new StringBuilder();
+        for (String str : params) {
+            sb.append(str);
+            sb.append(" ");
+        }
+        this.mParameters = sb.toString();
+        this.mId = UUID.randomUUID().toString();
+        this.mTimeout = timeout;
+    }
 
     // Destroy Service After 5 seconds run
     private static void destroyService() {
@@ -184,12 +229,6 @@ public final class Command {
     }
 
     /**
-     * *********************************************************************************************
-     * Static public
-     * *********************************************************************************************
-     */
-
-    /**
      * Command the test
      *
      * @param command Command
@@ -287,50 +326,6 @@ public final class Command {
                 IS_BIND = false;
             }
         }
-    }
-
-    /**
-     * *********************************************************************************************
-     * Class
-     * *********************************************************************************************
-     */
-    private int mTimeout = TIMEOUT;
-    private String mId = null;
-    private String mParameters = null;
-    private String mResult = null;
-    private CommandListener mListener = null;
-    private boolean isCancel = false;
-
-
-    /**
-     * Get a Command
-     *
-     * @param params params eg: "/system/bin/ping", "-c", "4", "-s", "100","www.qiujuer.net"
-     */
-    public Command(String... params) {
-        this(TIMEOUT, params);
-    }
-
-    /**
-     * Get a Command
-     *
-     * @param timeout set this run timeOut
-     * @param params  params eg: "/system/bin/ping", "-c", "4", "-s", "100","www.qiujuer.net"
-     */
-    public Command(int timeout, String... params) {
-        // Check params
-        if (params == null)
-            throw new NullPointerException("params is not null.");
-
-        // Run
-        StringBuilder sb = new StringBuilder();
-        for (String str : params) {
-            sb.append(str);
-            sb.append(" ");
-        }
-        this.mParameters = sb.toString();
-        this.mId = UUID.randomUUID().toString();
-        this.mTimeout = timeout;
     }
 
     /**

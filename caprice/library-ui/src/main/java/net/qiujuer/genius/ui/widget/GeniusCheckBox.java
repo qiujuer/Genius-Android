@@ -54,17 +54,24 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
     // Animator
     private ObjectAnimator mAnimator;
     private AnimatorProperty mCurProperty = new AnimatorProperty();
+    private final static Property<GeniusCheckBox, AnimatorProperty> ANIM_VALUE = new Property<GeniusCheckBox, AnimatorProperty>(AnimatorProperty.class, "animValue") {
+        @Override
+        public AnimatorProperty get(GeniusCheckBox object) {
+            return object.mCurProperty;
+        }
 
+        @Override
+        public void set(GeniusCheckBox object, AnimatorProperty value) {
+            object.setAnimatorValue(value);
+        }
+    };
     private int mUnCheckedPaintColor = Attributes.DEFAULT_COLORS[4];
     private int mCheckedPaintColor = Attributes.DEFAULT_COLORS[2];
-
     private Paint mCirclePaint;
     private Paint mRingPaint;
     private RectF mOval;
     private float mCenterX, mCenterY;
-
     private CheckBoxAttributes mAttributes;
-
     private boolean mChecked;
     private boolean mIsAttachWindow;
     private boolean mBroadcasting;
@@ -270,23 +277,6 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
         return mChecked;
     }
 
-    @Override
-    public void toggle() {
-        setChecked(!mChecked);
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        mIsAttachWindow = true;
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        mIsAttachWindow = false;
-    }
-
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void setChecked(boolean checked) {
@@ -312,6 +302,23 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
             }
             mBroadcasting = false;
         }
+    }
+
+    @Override
+    public void toggle() {
+        setChecked(!mChecked);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mIsAttachWindow = true;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mIsAttachWindow = false;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -366,6 +373,20 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
     }
 
     /**
+     * Interface definition for a callback to be invoked when the checked state
+     * of a compound button changed.
+     */
+    public static interface OnCheckedChangeListener {
+        /**
+         * Called when the checked state of a compound button has changed.
+         *
+         * @param checkBox  The compound button view whose state has changed.
+         * @param isChecked The new checked state of buttonView.
+         */
+        void onCheckedChanged(GeniusCheckBox checkBox, boolean isChecked);
+    }
+
+    /**
      * =============================================================================================
      * The custom properties
      * =============================================================================================
@@ -406,31 +427,5 @@ public class GeniusCheckBox extends View implements Checkable, Attributes.Attrib
 
             return mProperty;
         }
-    }
-
-    private final static Property<GeniusCheckBox, AnimatorProperty> ANIM_VALUE = new Property<GeniusCheckBox, AnimatorProperty>(AnimatorProperty.class, "animValue") {
-        @Override
-        public AnimatorProperty get(GeniusCheckBox object) {
-            return object.mCurProperty;
-        }
-
-        @Override
-        public void set(GeniusCheckBox object, AnimatorProperty value) {
-            object.setAnimatorValue(value);
-        }
-    };
-
-    /**
-     * Interface definition for a callback to be invoked when the checked state
-     * of a compound button changed.
-     */
-    public static interface OnCheckedChangeListener {
-        /**
-         * Called when the checked state of a compound button has changed.
-         *
-         * @param checkBox  The compound button view whose state has changed.
-         * @param isChecked The new checked state of buttonView.
-         */
-        void onCheckedChanged(GeniusCheckBox checkBox, boolean isChecked);
     }
 }

@@ -40,6 +40,7 @@ import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
  */
 public class GeniusPopupIndicator {
     private final WindowManager mWindowManager;
+    Point screenSize = new Point();
     private boolean mShowing;
     private Floater mPopupView;
     //Outside listener for the DiscreteSeekBar to get MarkerDrawable animation events.
@@ -48,7 +49,6 @@ public class GeniusPopupIndicator {
     //... phew!
     private BalloonMarkerDrawable.MarkerAnimationListener mListener;
     private int[] mDrawingLocation = new int[2];
-    Point screenSize = new Point();
 
     public GeniusPopupIndicator(Context context) {
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

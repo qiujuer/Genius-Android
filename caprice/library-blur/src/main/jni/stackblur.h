@@ -1,1 +1,1 @@
-int* blur(int*, int, int, int);
+int *blur(int *, int, int, int);

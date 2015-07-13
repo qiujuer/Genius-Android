@@ -62,74 +62,29 @@ import java.util.Locale;
  * This abstract class use to SeekBar
  */
 public abstract class GeniusAbsSeekBar extends View implements Attributes.AttributeChangeListener {
-    /**
-     * Interface to transform the current internal value of this GeniusSeekBar to anther one for the visualization.
-     * <p/>
-     * This will be used on the floating bubble to display a different value if needed.
-     * <p/>
-     * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
-     * value seen by the user
-     *
-     * @see #setIndicatorFormatter(String)
-     * @see #setNumericTransformer(GeniusAbsSeekBar.NumericTransformer)
-     */
-    public static abstract class NumericTransformer {
-        /**
-         * Return the desired value to be shown to the user.
-         * This value will be formatted using the format specified by {@link #setIndicatorFormatter} before displaying it
-         *
-         * @param value The value to be transformed
-         * @return The transformed int
-         */
-        public abstract int transform(int value);
-
-        /**
-         * Return the desired value to be shown to the user.
-         * This value will be displayed 'as is' without further formatting.
-         *
-         * @param value The value to be transformed
-         * @return A formatted string
-         */
-        public String transformToString(int value) {
-            return String.valueOf(value);
-        }
-
-        /**
-         * Used to indicate which transform will be used. If this method returns true,
-         * {@link #transformToString(int)} will be used, otherwise {@link #transform(int)}
-         * will be used
-         */
-        public boolean useStringTransform() {
-            return false;
-        }
-    }
-
-
-    // Default  NumericTransformer class
-    private static class DefaultNumericTransformer extends NumericTransformer {
-
-        @Override
-        public int transform(int value) {
-            return value;
-        }
-    }
-
-
     //We want to always use a formatter so the indicator numbers are "translated" to specific locales.
     private static final String DEFAULT_FORMATTER = "%d";
-
     private static final int PRESSED_STATE = android.R.attr.state_pressed;
     private static final int FOCUSED_STATE = android.R.attr.state_focused;
     private static final int PROGRESS_ANIMATION_DURATION = 250;
     private static final int INDICATOR_DELAY_FOR_TAPS = 150;
-
     private AlmostRippleDrawable mRipple;
     private SeekBarDrawable mSeekBarDrawable;
+    private final BalloonMarkerDrawable.MarkerAnimationListener mFloaterListener = new BalloonMarkerDrawable.MarkerAnimationListener() {
+        @Override
+        public void onClosingComplete() {
+            mSeekBarDrawable.animateToNormal();
+        }
 
+        @Override
+        public void onOpeningComplete() {
+
+        }
+
+    };
     private int mMax = 100;
     private int mMin = 0;
     private int mValue = 0;
-
     private int mKeyProgressIncrement = 1;
     private boolean mMirrorForRtl = false;
     private boolean mAllowTrackClick = true;
@@ -140,7 +95,6 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     private StringBuilder mFormatBuilder;
     private boolean mIsDragging;
     private int mDragOffset;
-
     private Rect mInvalidateRect = new Rect();
     private Rect mTempRect = new Rect();
     private GeniusPopupIndicator mIndicator;
@@ -149,8 +103,13 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     private int mAnimationTarget;
     private float mDownX;
     private float mTouchSlop;
-
     private SeekBarAttributes mAttributes;
+    private Runnable mShowIndicatorRunnable = new Runnable() {
+        @Override
+        public void run() {
+            showFloater();
+        }
+    };
 
     public GeniusAbsSeekBar(Context context) {
         this(context, null);
@@ -358,6 +317,16 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
+     * Retrieves the current {@link GeniusAbsSeekBar.NumericTransformer}
+     *
+     * @return NumericTransformer
+     * @see #setNumericTransformer
+     */
+    public NumericTransformer getNumericTransformer() {
+        return mNumericTransformer;
+    }
+
+    /**
      * Sets the current {@link GeniusAbsSeekBar.NumericTransformer}
      *
      * @param transformer NumericTransformer transformer
@@ -377,13 +346,12 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * Retrieves the current {@link GeniusAbsSeekBar.NumericTransformer}
+     * Get the max value
      *
-     * @return NumericTransformer
-     * @see #setNumericTransformer
+     * @return Progress max value
      */
-    public NumericTransformer getNumericTransformer() {
-        return mNumericTransformer;
+    public int getMax() {
+        return mMax;
     }
 
     /**
@@ -413,12 +381,12 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * Get the max value
+     * Get the min value
      *
-     * @return Progress max value
+     * @return Progress min value
      */
-    public int getMax() {
-        return mMax;
+    public int getMin() {
+        return mMin;
     }
 
     /**
@@ -447,12 +415,12 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * Get the min value
+     * Get the current progress
      *
-     * @return Progress min value
+     * @return the current progress :-P
      */
-    public int getMin() {
-        return mMin;
+    public int getProgress() {
+        return mValue;
     }
 
     /**
@@ -466,16 +434,6 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     public void setProgress(int progress) {
         setProgress(progress, false, -1);
     }
-
-    /**
-     * Get the current progress
-     *
-     * @return the current progress :-P
-     */
-    public int getProgress() {
-        return mValue;
-    }
-
 
     /**
      * Sets the color of the seek thumb, as well as the color of the popup indicator.
@@ -898,27 +856,6 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
         }
     }
 
-    private Runnable mShowIndicatorRunnable = new Runnable() {
-        @Override
-        public void run() {
-            showFloater();
-        }
-    };
-
-    private final BalloonMarkerDrawable.MarkerAnimationListener mFloaterListener = new BalloonMarkerDrawable.MarkerAnimationListener() {
-        @Override
-        public void onClosingComplete() {
-            mSeekBarDrawable.animateToNormal();
-        }
-
-        @Override
-        public void onOpeningComplete() {
-
-        }
-
-    };
-
-
     /**
      * When the {@link GeniusAbsSeekBar} enters pressed or focused state
      * the bubble with the value will be shown, and this method called
@@ -991,7 +928,71 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
         super.onRestoreInstanceState(customState.getSuperState());
     }
 
+    /**
+     * Interface to transform the current internal value of this GeniusSeekBar to anther one for the visualization.
+     * <p/>
+     * This will be used on the floating bubble to display a different value if needed.
+     * <p/>
+     * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
+     * value seen by the user
+     *
+     * @see #setIndicatorFormatter(String)
+     * @see #setNumericTransformer(GeniusAbsSeekBar.NumericTransformer)
+     */
+    public static abstract class NumericTransformer {
+        /**
+         * Return the desired value to be shown to the user.
+         * This value will be formatted using the format specified by {@link #setIndicatorFormatter} before displaying it
+         *
+         * @param value The value to be transformed
+         * @return The transformed int
+         */
+        public abstract int transform(int value);
+
+        /**
+         * Return the desired value to be shown to the user.
+         * This value will be displayed 'as is' without further formatting.
+         *
+         * @param value The value to be transformed
+         * @return A formatted string
+         */
+        public String transformToString(int value) {
+            return String.valueOf(value);
+        }
+
+        /**
+         * Used to indicate which transform will be used. If this method returns true,
+         * {@link #transformToString(int)} will be used, otherwise {@link #transform(int)}
+         * will be used
+         */
+        public boolean useStringTransform() {
+            return false;
+        }
+    }
+
+    // Default  NumericTransformer class
+    private static class DefaultNumericTransformer extends NumericTransformer {
+
+        @Override
+        public int transform(int value) {
+            return value;
+        }
+    }
+
     static class CustomState extends BaseSavedState {
+        public static final Creator<CustomState> CREATOR =
+                new Creator<CustomState>() {
+
+                    @Override
+                    public CustomState[] newArray(int size) {
+                        return new CustomState[size];
+                    }
+
+                    @Override
+                    public CustomState createFromParcel(Parcel incoming) {
+                        return new CustomState(incoming);
+                    }
+                };
         private int progress;
         private int max;
         private int min;
@@ -1014,20 +1015,6 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
             dest.writeInt(max);
             dest.writeInt(min);
         }
-
-        public static final Creator<CustomState> CREATOR =
-                new Creator<CustomState>() {
-
-                    @Override
-                    public CustomState[] newArray(int size) {
-                        return new CustomState[size];
-                    }
-
-                    @Override
-                    public CustomState createFromParcel(Parcel incoming) {
-                        return new CustomState(incoming);
-                    }
-                };
     }
 
 }

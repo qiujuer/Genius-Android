@@ -105,6 +105,30 @@ class CommandExecutor {
     }
 
     /**
+     * Run
+     *
+     * @param param param eg: "/system/bin/ping -c 4 -s 100 www.qiujuer.net"
+     */
+    protected static CommandExecutor create(int timeout, String param) {
+        String[] params = param.split(" ");
+        CommandExecutor processModel = null;
+        try {
+            LOCK.lock();
+            Process process = PRC.command(params)
+                    .redirectErrorStream(true)
+                    .start();
+            processModel = new CommandExecutor(process, timeout);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // Sleep 10 to create next
+            Tools.sleepIgnoreInterrupt(10);
+            LOCK.unlock();
+        }
+        return processModel;
+    }
+
+    /**
      * Read
      */
     private void read() {
@@ -159,6 +183,13 @@ class CommandExecutor {
 
     }
 
+
+    /**
+     * *********************************************************************************************
+     * protected methods
+     * *********************************************************************************************
+     */
+
     /**
      * Close
      */
@@ -206,36 +237,6 @@ class CommandExecutor {
             }
             mInStreamBuffer = null;
         }
-    }
-
-
-    /**
-     * *********************************************************************************************
-     * protected methods
-     * *********************************************************************************************
-     */
-    /**
-     * Run
-     *
-     * @param param param eg: "/system/bin/ping -c 4 -s 100 www.qiujuer.net"
-     */
-    protected static CommandExecutor create(int timeout, String param) {
-        String[] params = param.split(" ");
-        CommandExecutor processModel = null;
-        try {
-            LOCK.lock();
-            Process process = PRC.command(params)
-                    .redirectErrorStream(true)
-                    .start();
-            processModel = new CommandExecutor(process, timeout);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // Sleep 10 to create next
-            Tools.sleepIgnoreInterrupt(10);
-            LOCK.unlock();
-        }
-        return processModel;
     }
 
     /**
