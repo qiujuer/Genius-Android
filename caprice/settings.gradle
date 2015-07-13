@@ -1,1 +1,1 @@
-include ':library-ui', ':library-kit', ':library-blur', ':sample'
+include ':library-ui', ':library-kit', ':library-blur', ':sample', ':library-res'

@@ -25,4 +25,5 @@ dependencies {
     compile project(':library-blur')
     compile project(':library-kit')
     compile project(':library-ui')
+    compile project(':library-res')
 }
