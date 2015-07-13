@@ -140,14 +140,6 @@ public class BaseAttributes extends Attributes {
             this.fontExtension = fontExtension;
     }
 
-    public void setRadius(float radius) {
-        if (radius < 0) {
-            radius = 0;
-        }
-        this.radius = radius;
-        this.radiusArray = null;
-    }
-
     public void setRadii(float[] radii) {
         radiusArray = radii;
         if (radii == null) {
@@ -157,6 +149,14 @@ public class BaseAttributes extends Attributes {
 
     public float getRadius() {
         return radius;
+    }
+
+    public void setRadius(float radius) {
+        if (radius < 0) {
+            radius = 0;
+        }
+        this.radius = radius;
+        this.radiusArray = null;
     }
 
     public float[] getOuterRadii() {
@@ -203,27 +203,27 @@ public class BaseAttributes extends Attributes {
         this.textAppearance = textAppearance;
     }
 
-    public void setHasOwnBackground(boolean isHave) {
-        hasOwnBackground = isHave;
-    }
-
-    public void setHasOwnTextColor(boolean isHave) {
-        hasOwnTextColor = isHave;
-    }
-
-    public void setHasOwnHintTextColor(boolean isHave) {
-        hasHintTextColor = isHave;
-    }
-
     public boolean isHasOwnBackground() {
         return hasOwnBackground;
+    }
+
+    public void setHasOwnBackground(boolean isHave) {
+        hasOwnBackground = isHave;
     }
 
     public boolean isHasOwnTextColor() {
         return hasOwnTextColor;
     }
 
+    public void setHasOwnTextColor(boolean isHave) {
+        hasOwnTextColor = isHave;
+    }
+
     public boolean isHasOwnHintTextColor() {
         return hasHintTextColor;
+    }
+
+    public void setHasOwnHintTextColor(boolean isHave) {
+        hasHintTextColor = isHave;
     }
 }

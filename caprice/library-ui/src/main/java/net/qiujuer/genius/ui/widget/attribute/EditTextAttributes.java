@@ -48,55 +48,55 @@ public class EditTextAttributes extends BaseAttributes {
         mTitleTextPaddingLeft = resources.getDimensionPixelSize(R.dimen.genius_editText_titlePaddingLeft);
     }
 
-    public void setStyle(int style) {
-        this.mStyle = style;
-    }
-
     public void setTitleTextColor(int color) {
         this.mTitleTextColor = ColorStateList.valueOf(color);
-    }
-
-    public void setTitleTextColor(ColorStateList titleTextColor) {
-        this.mTitleTextColor = titleTextColor;
-    }
-
-    public void setTitleTextSize(int titleTextSize) {
-        this.mTitleTextSize = titleTextSize;
-    }
-
-    public void setTitleTextPaddingLeft(int titleTextPaddingLeft) {
-        this.mTitleTextPaddingLeft = titleTextPaddingLeft;
-    }
-
-    public void setTitleTextPaddingTop(int titleTextPaddingTop) {
-        this.mTitleTextPaddingTop = titleTextPaddingTop;
-    }
-
-    public void setShowTitle(boolean isShowTitle) {
-        this.isShowTitle = isShowTitle;
     }
 
     public int getStyle() {
         return mStyle;
     }
 
+    public void setStyle(int style) {
+        this.mStyle = style;
+    }
+
     public ColorStateList getTitleTextColor() {
         return mTitleTextColor;
+    }
+
+    public void setTitleTextColor(ColorStateList titleTextColor) {
+        this.mTitleTextColor = titleTextColor;
     }
 
     public int getTitleTextSize() {
         return mTitleTextSize;
     }
 
+    public void setTitleTextSize(int titleTextSize) {
+        this.mTitleTextSize = titleTextSize;
+    }
+
     public int getTitleTextPaddingLeft() {
         return mTitleTextPaddingLeft;
+    }
+
+    public void setTitleTextPaddingLeft(int titleTextPaddingLeft) {
+        this.mTitleTextPaddingLeft = titleTextPaddingLeft;
     }
 
     public int getTitleTextPaddingTop() {
         return mTitleTextPaddingTop;
     }
 
+    public void setTitleTextPaddingTop(int titleTextPaddingTop) {
+        this.mTitleTextPaddingTop = titleTextPaddingTop;
+    }
+
     public boolean isShowTitle() {
         return isShowTitle;
+    }
+
+    public void setShowTitle(boolean isShowTitle) {
+        this.isShowTitle = isShowTitle;
     }
 }

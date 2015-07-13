@@ -27,11 +27,11 @@ import net.qiujuer.genius.ui.R;
 
 public class Attributes {
     public static final int INVALID = -1;
-    public static int DEFAULT_THEME = R.array.StrawberryIce;
     public static final int[] DEFAULT_COLORS = new int[]{
             Color.parseColor("#ffc26165"), Color.parseColor("#ffdb6e77"),
             Color.parseColor("#ffef7e8b"), Color.parseColor("#fff7c2c8"),
             Color.parseColor("#aaef7e8b"), Color.parseColor("#55ef7e8b")};
+    public static int DEFAULT_THEME = R.array.StrawberryIce;
     /**
      * Color related fields
      */
@@ -62,14 +62,14 @@ public class Attributes {
         }
     }
 
+    public int[] getColors() {
+        return colors;
+    }
+
     public void setColors(int[] colors) {
         if (colors == null || colors.length < 6)
             throw new ArrayIndexOutOfBoundsException("colors mast have >= 6 values");
         this.colors = colors;
-    }
-
-    public int[] getColors() {
-        return colors;
     }
 
     public int getColor(int colorPos) {

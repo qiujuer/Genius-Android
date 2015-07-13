@@ -31,20 +31,20 @@ public class ButtonAttributes extends BaseAttributes {
         super(attributeChangeListener, resources);
     }
 
+    public int getBottom() {
+        return mBottom;
+    }
+
     public void setBottom(int bottom) {
         this.mBottom = bottom;
 
     }
 
-    public void setDelayClick(boolean delayClick) {
-        this.mDelayClick = delayClick;
-    }
-
-    public int getBottom() {
-        return mBottom;
-    }
-
     public boolean isDelayClick() {
         return mDelayClick;
+    }
+
+    public void setDelayClick(boolean delayClick) {
+        this.mDelayClick = delayClick;
     }
 }

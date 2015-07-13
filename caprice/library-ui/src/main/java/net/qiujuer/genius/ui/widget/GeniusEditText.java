@@ -62,8 +62,18 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
     private TextPaint mTitlePaint;
     private TextWatcher mTextWatcher;
     private TitleProperty mCurTitleProperty;
-    private ObjectAnimator mAnimator;
+    private final static Property<GeniusEditText, TitleProperty> TITLE_PROPERTY = new Property<GeniusEditText, TitleProperty>(TitleProperty.class, "titleProperty") {
+        @Override
+        public TitleProperty get(GeniusEditText object) {
+            return object.mCurTitleProperty;
+        }
 
+        @Override
+        public void set(GeniusEditText object, TitleProperty value) {
+            object.setTitleProperty(value);
+        }
+    };
+    private ObjectAnimator mAnimator;
     private boolean isHaveText;
     private boolean isAttachWindow;
 
@@ -533,17 +543,5 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
             return mProperty;
         }
     }
-
-    private final static Property<GeniusEditText, TitleProperty> TITLE_PROPERTY = new Property<GeniusEditText, TitleProperty>(TitleProperty.class, "titleProperty") {
-        @Override
-        public TitleProperty get(GeniusEditText object) {
-            return object.mCurTitleProperty;
-        }
-
-        @Override
-        public void set(GeniusEditText object, TitleProperty value) {
-            object.setTitleProperty(value);
-        }
-    };
 
 }

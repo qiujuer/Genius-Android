@@ -59,10 +59,74 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
     private boolean isRtl;
     private boolean isOpen;
     private boolean isRunning;
+    private Runnable mOpener = new Runnable() {
+        @Override
+        public void run() {
+            isOpen = true;
+            invalidateSelf();
+            isRunning = false;
+        }
+    };
 
     public SeekBarDrawable(ColorStateList trackStateList, ColorStateList scrubberStateList, ColorStateList thumbStateList) {
         super(trackStateList, scrubberStateList, thumbStateList);
         mPoint = new Point();
+    }
+
+    public void setRtl(boolean isRtl) {
+        this.isRtl = isRtl;
+    }
+
+    public void setNumSegments(int numSegments) {
+        this.mNumSegments = numSegments;
+    }
+
+    public int getTickRadius() {
+        return mTickRadius;
+    }
+
+    public void setTickRadius(int tickRadius) {
+        this.mTickRadius = tickRadius;
+    }
+
+    public int getThumbRadius() {
+        return mThumbRadius;
+    }
+
+    public void setThumbRadius(int thumbRadius) {
+        this.mThumbRadius = thumbRadius;
+    }
+
+    public int getTouchRadius() {
+        return mTouchRadius;
+    }
+
+    public void setTouchRadius(int touchRadius) {
+        this.mTouchRadius = touchRadius;
+    }
+
+    public int getScrubberStroke() {
+        return mScrubberStroke;
+    }
+
+    public void setScrubberStroke(int scrubberStroke) {
+        if (scrubberStroke < 0)
+            scrubberStroke = 0;
+        this.mScrubberStroke = scrubberStroke;
+    }
+
+    public int getTrackStroke() {
+        return mTrackStroke;
+    }
+
+    public void setTrackStroke(int trackStroke) {
+        if (trackStroke < 0)
+            trackStroke = 0;
+        this.mTrackStroke = trackStroke;
+    }
+
+    public float getHotScale() {
+        return mHotScale;
     }
 
     public void setHotScale(float scale) {
@@ -76,62 +140,6 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
             x = bounds.left + mTouchRadius + hotWidth;
         }
         mPoint.set(x, bounds.centerY());
-    }
-
-    public void setRtl(boolean isRtl) {
-        this.isRtl = isRtl;
-    }
-
-    public void setTrackStroke(int trackStroke) {
-        if (trackStroke < 0)
-            trackStroke = 0;
-        this.mTrackStroke = trackStroke;
-    }
-
-    public void setScrubberStroke(int scrubberStroke) {
-        if (scrubberStroke < 0)
-            scrubberStroke = 0;
-        this.mScrubberStroke = scrubberStroke;
-    }
-
-    public void setThumbRadius(int thumbRadius) {
-        this.mThumbRadius = thumbRadius;
-    }
-
-    public void setTouchRadius(int touchRadius) {
-        this.mTouchRadius = touchRadius;
-    }
-
-    public void setTickRadius(int tickRadius) {
-        this.mTickRadius = tickRadius;
-    }
-
-    public void setNumSegments(int numSegments) {
-        this.mNumSegments = numSegments;
-    }
-
-    public int getTickRadius() {
-        return mTickRadius;
-    }
-
-    public int getThumbRadius() {
-        return mThumbRadius;
-    }
-
-    public int getTouchRadius() {
-        return mTouchRadius;
-    }
-
-    public int getScrubberStroke() {
-        return mScrubberStroke;
-    }
-
-    public int getTrackStroke() {
-        return mTrackStroke;
-    }
-
-    public float getHotScale() {
-        return mHotScale;
     }
 
     public boolean isHaveTick() {
@@ -167,15 +175,6 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         unscheduleSelf(mOpener);
         invalidateSelf();
     }
-
-    private Runnable mOpener = new Runnable() {
-        @Override
-        public void run() {
-            isOpen = true;
-            invalidateSelf();
-            isRunning = false;
-        }
-    };
 
     @Override
     public void start() {

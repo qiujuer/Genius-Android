@@ -4,7 +4,7 @@
     tools:context="net.qiujuer.sample.genius.KitActivity">
     <item
         android:id="@+id/action_back"
-        android:title="@string/action_back"
         android:orderInCategory="100"
+        android:title="@string/action_back"
         app:showAsAction="never" />
 </menu>

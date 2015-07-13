@@ -75,12 +75,6 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     }
 
     @Override
-    public void setAlpha(int alpha) {
-        mAlpha = alpha;
-        invalidateSelf();
-    }
-
-    @Override
     public boolean setState(int[] stateSet) {
         boolean changed = super.setState(stateSet);
         changed = updateTintColor(stateSet) || changed;
@@ -95,6 +89,12 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     @Override
     public int getAlpha() {
         return mAlpha;
+    }
+
+    @Override
+    public void setAlpha(int alpha) {
+        mAlpha = alpha;
+        invalidateSelf();
     }
 
     @Override

@@ -78,20 +78,45 @@ public final class Log {
      * Set this class
      * *********************************************************************************************
      */
+
     /**
-     * Set Level:
-     * NOTHING = 6
-     * ERROR = 5
-     * WARN = 4
-     * INFO = 3
-     * DEBUG = 3
-     * VERBOSE = 1
-     * ALL = 0
+     * Class
+     */
+    private Date mDate;
+    private int mLevel;
+    private String mTag;
+    private String mMsg;
+
+    /**
+     * Get a Log,Auto time
      *
      * @param level Level
+     * @param tag   Tag
+     * @param msg   Msg
      */
-    public static void setLevel(int level) {
-        Level = level;
+    public Log(int level, String tag, String msg) {
+        this(new Date(), level, tag, msg);
+    }
+
+    /**
+     * *********************************************************************************************
+     * Public methods
+     * *********************************************************************************************
+     */
+
+    /**
+     * Get a Log
+     *
+     * @param date  Time
+     * @param level Level
+     * @param tag   Tag
+     * @param msg   Msg
+     */
+    public Log(Date date, int level, String tag, String msg) {
+        mDate = date;
+        mLevel = level;
+        mTag = tag;
+        mMsg = msg;
     }
 
     /**
@@ -102,7 +127,6 @@ public final class Log {
     public static void setCallLog(boolean isCall) {
         IsCallLog = isCall;
     }
-
 
     /**
      * Set whether to open the log storage;
@@ -144,6 +168,13 @@ public final class Log {
         }
     }
 
+
+    /**
+     * *********************************************************************************************
+     * Public Log methods
+     * *********************************************************************************************
+     */
+
     /**
      * dispose
      */
@@ -155,12 +186,6 @@ public final class Log {
         }
         removeCallbackListener(null);
     }
-
-    /**
-     * *********************************************************************************************
-     * Public methods
-     * *********************************************************************************************
-     */
 
     /**
      * Copy log to ExternalStorage
@@ -212,12 +237,6 @@ public final class Log {
         }
     }
 
-
-    /**
-     * *********************************************************************************************
-     * Public Log methods
-     * *********************************************************************************************
-     */
     /**
      * Send a {@link #VERBOSE} log message.
      *
@@ -301,6 +320,12 @@ public final class Log {
     public static int i(String tag, String msg) {
         return i(tag, msg, null);
     }
+
+    /**
+     * *********************************************************************************************
+     * Private methods
+     * *********************************************************************************************
+     */
 
     /**
      * Send a {@link #INFO} log message and log the exception.
@@ -399,11 +424,6 @@ public final class Log {
     }
 
     /**
-     * *********************************************************************************************
-     * Private methods
-     * *********************************************************************************************
-     */
-    /**
      * Save File
      *
      * @param log Log
@@ -437,40 +457,6 @@ public final class Log {
     private static void arriveLog(Log log) {
         if (callBackManager != null)
             callBackManager.notifyLog(log);
-    }
-
-    /**
-     * Class
-     */
-    private Date mDate;
-    private int mLevel;
-    private String mTag;
-    private String mMsg;
-
-    /**
-     * Get a Log,Auto time
-     *
-     * @param level Level
-     * @param tag   Tag
-     * @param msg   Msg
-     */
-    public Log(int level, String tag, String msg) {
-        this(new Date(), level, tag, msg);
-    }
-
-    /**
-     * Get a Log
-     *
-     * @param date  Time
-     * @param level Level
-     * @param tag   Tag
-     * @param msg   Msg
-     */
-    public Log(Date date, int level, String tag, String msg) {
-        mDate = date;
-        mLevel = level;
-        mTag = tag;
-        mMsg = msg;
     }
 
     /**
@@ -510,6 +496,22 @@ public final class Log {
     }
 
     /**
+     * Set Level:
+     * NOTHING = 6
+     * ERROR = 5
+     * WARN = 4
+     * INFO = 3
+     * DEBUG = 3
+     * VERBOSE = 1
+     * ALL = 0
+     *
+     * @param level Level
+     */
+    public static void setLevel(int level) {
+        Level = level;
+    }
+
+    /**
      * Get Tag
      *
      * @return Tag
@@ -543,9 +545,9 @@ public final class Log {
      * CallBack Manager class
      */
     static class CallBackManager extends Thread {
-        private Queue<Log> logQueue;
         private final Lock queueLock;
         private final Condition queueNotify;
+        private Queue<Log> logQueue;
         private boolean isActive;
 
         public CallBackManager() {

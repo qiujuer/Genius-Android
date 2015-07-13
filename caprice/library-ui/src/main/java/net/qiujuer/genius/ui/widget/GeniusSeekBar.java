@@ -30,42 +30,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 @SuppressWarnings("UnusedDeclaration")
 public class GeniusSeekBar extends GeniusAbsSeekBar {
 
-    /**
-     * A callback that notifies clients when the progress level has been
-     * changed. This includes changes that were initiated by the user through a
-     * touch gesture or arrow key/trackball as well as changes that were initiated
-     * programmatically.
-     */
-    public interface OnSeekBarChangeListener {
-
-        /**
-         * Notification that the progress level has changed. Clients can use the fromUser parameter
-         * to distinguish user-initiated changes from those that occurred programmatically.
-         *
-         * @param seekBar  The GeniusSeekBar
-         * @param progress The current progress level. This will be in the range 0..max where max
-         *                 was set by {@link GeniusAbsSeekBar#setMax(int)}. (The default value for max is 100.)
-         * @param fromUser True if the progress change was initiated by the user.
-         */
-        void onProgressChanged(GeniusSeekBar seekBar, int progress, boolean fromUser);
-
-        /**
-         * Notification that the user has started a touch gesture. Clients may want to use this
-         * to disable advancing the SeekBar.
-         *
-         * @param seekBar The SeekBar in which the touch gesture began
-         */
-        void onStartTrackingTouch(GeniusSeekBar seekBar);
-
-        /**
-         * Notification that the user has finished a touch gesture. Clients may want to use this
-         * to re-enable advancing the SeekBar.
-         *
-         * @param seekBar The SeekBar in which the touch gesture began
-         */
-        void onStopTrackingTouch(GeniusSeekBar seekBar);
-    }
-
     private OnSeekBarChangeListener mOnSeekBarChangeListener;
 
     public GeniusSeekBar(Context context, AttributeSet attrs) {
@@ -127,5 +91,41 @@ public class GeniusSeekBar extends GeniusAbsSeekBar {
     public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(GeniusSeekBar.class.getName());
+    }
+
+    /**
+     * A callback that notifies clients when the progress level has been
+     * changed. This includes changes that were initiated by the user through a
+     * touch gesture or arrow key/trackball as well as changes that were initiated
+     * programmatically.
+     */
+    public interface OnSeekBarChangeListener {
+
+        /**
+         * Notification that the progress level has changed. Clients can use the fromUser parameter
+         * to distinguish user-initiated changes from those that occurred programmatically.
+         *
+         * @param seekBar  The GeniusSeekBar
+         * @param progress The current progress level. This will be in the range 0..max where max
+         *                 was set by {@link GeniusAbsSeekBar#setMax(int)}. (The default value for max is 100.)
+         * @param fromUser True if the progress change was initiated by the user.
+         */
+        void onProgressChanged(GeniusSeekBar seekBar, int progress, boolean fromUser);
+
+        /**
+         * Notification that the user has started a touch gesture. Clients may want to use this
+         * to disable advancing the SeekBar.
+         *
+         * @param seekBar The SeekBar in which the touch gesture began
+         */
+        void onStartTrackingTouch(GeniusSeekBar seekBar);
+
+        /**
+         * Notification that the user has finished a touch gesture. Clients may want to use this
+         * to re-enable advancing the SeekBar.
+         *
+         * @param seekBar The SeekBar in which the touch gesture began
+         */
+        void onStopTrackingTouch(GeniusSeekBar seekBar);
     }
 }

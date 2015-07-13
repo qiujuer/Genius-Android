@@ -49,6 +49,7 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
     private static final int PADDING_DP = 4;
     private static final int ELEVATION_DP = 8;
     private static final int SEPARATION_DP = 22;
+    BalloonMarkerDrawable mBalloonMarkerDrawable;
     //The TextView to show the info
     private TextView mNumber;
     //The max width of this View
@@ -56,7 +57,6 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
     //some distance between the thumb and our bubble marker.
     //This will be added to our measured height
     private int mSeparation;
-    BalloonMarkerDrawable mBalloonMarkerDrawable;
 
     public GeniusBalloonMarker(Context context) {
         this(context, null);
@@ -197,12 +197,12 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
         animateOpen();
     }
 
-    public void setValue(CharSequence value) {
-        mNumber.setText(value);
-    }
-
     public CharSequence getValue() {
         return mNumber.getText();
+    }
+
+    public void setValue(CharSequence value) {
+        mNumber.setText(value);
     }
 
     public void animateOpen() {

@@ -94,6 +94,14 @@ class LogWriter extends Thread {
      * private methods
      * *********************************************************************************************
      */
+
+    /**
+     * get log file path
+     */
+    protected static String getDefaultLogPath() {
+        return GeniusKit.getApplication().getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "Genius" + File.separator + "Logs";
+    }
+
     /**
      * init
      *
@@ -227,6 +235,13 @@ class LogWriter extends Thread {
         }
     }
 
+
+    /**
+     * *********************************************************************************************
+     * Public methods
+     * *********************************************************************************************
+     */
+
     /**
      * appendLogsTo File
      *
@@ -253,13 +268,6 @@ class LogWriter extends Thread {
             deleteOldLogFile();
         }
     }
-
-
-    /**
-     * *********************************************************************************************
-     * Public methods
-     * *********************************************************************************************
-     */
 
     /**
      * register Usb BroadCast
@@ -330,13 +338,6 @@ class LogWriter extends Thread {
             }
         }
         return bFlag;
-    }
-
-    /**
-     * get log file path
-     */
-    protected static String getDefaultLogPath() {
-        return GeniusKit.getApplication().getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "Genius" + File.separator + "Logs";
     }
 
     /**

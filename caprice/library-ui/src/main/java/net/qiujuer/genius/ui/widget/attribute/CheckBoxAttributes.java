@@ -36,8 +36,16 @@ public class CheckBoxAttributes extends Attributes {
         mRingWidth = resources.getDimensionPixelSize(R.dimen.genius_checkBox_ringWidth);
     }
 
+    public int getRingWidth() {
+        return mRingWidth;
+    }
+
     public void setRingWidth(int ringWidth) {
         this.mRingWidth = ringWidth;
+    }
+
+    public int getCircleRadius() {
+        return mCircleRadius;
     }
 
     public void setCircleRadius(int circleRadius) {
@@ -51,19 +59,11 @@ public class CheckBoxAttributes extends Attributes {
         }
     }
 
-    public void setCustomCircleRadius(boolean isCustomCircleRadius) {
-        this.isCustomCircleRadius = isCustomCircleRadius;
-    }
-
-    public int getRingWidth() {
-        return mRingWidth;
-    }
-
-    public int getCircleRadius() {
-        return mCircleRadius;
-    }
-
     public boolean isCustomCircleRadius() {
         return isCustomCircleRadius;
+    }
+
+    public void setCustomCircleRadius(boolean isCustomCircleRadius) {
+        this.isCustomCircleRadius = isCustomCircleRadius;
     }
 }

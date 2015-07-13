@@ -40,20 +40,20 @@ public class TextViewAttributes extends BaseAttributes {
         return mTextColorStyle;
     }
 
-    public int getBackgroundColorStyle() {
-        return mBackgroundColorStyle;
-    }
-
-    public int getCustomBackgroundColor() {
-        return mCustomBackgroundColor;
-    }
-
     public void setTextColorStyle(int textColorStyle) {
         this.mTextColorStyle = textColorStyle;
     }
 
+    public int getBackgroundColorStyle() {
+        return mBackgroundColorStyle;
+    }
+
     public void setBackgroundColorStyle(int backgroundColorStyle) {
         this.mBackgroundColorStyle = backgroundColorStyle;
+    }
+
+    public int getCustomBackgroundColor() {
+        return mCustomBackgroundColor;
     }
 
     public void setCustomBackgroundColor(int customBackgroundColor) {

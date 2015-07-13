@@ -60,25 +60,6 @@ public abstract class NetModel {
     protected int mError = SUCCEED;
 
     /**
-     * Run to doing
-     */
-    public abstract void start();
-
-    /**
-     * Cancel do
-     */
-    public abstract void cancel();
-
-    /**
-     * Get error code
-     *
-     * @return errorCode
-     */
-    public int getError() {
-        return mError;
-    }
-
-    /**
      * Convert IP string to byte
      *
      * @param ip IP
@@ -95,5 +76,24 @@ public abstract class NetModel {
             e.printStackTrace();
         }
         return bIp;
+    }
+
+    /**
+     * Run to doing
+     */
+    public abstract void start();
+
+    /**
+     * Cancel do
+     */
+    public abstract void cancel();
+
+    /**
+     * Get error code
+     *
+     * @return errorCode
+     */
+    public int getError() {
+        return mError;
     }
 }

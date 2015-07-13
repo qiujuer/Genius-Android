@@ -46,6 +46,24 @@ public class AlmostRippleDrawable extends PaintStateDrawable implements Animatab
     private boolean mRunning = false;
     private int mDuration = ANIMATION_DURATION;
     private float mAnimationInitialValue;
+    private final Runnable mUpdater = new Runnable() {
+
+        @Override
+        public void run() {
+
+            long currentTime = SystemClock.uptimeMillis();
+            long diff = currentTime - mStartTime;
+            if (diff < mDuration) {
+                float interpolation = mInterpolator.getInterpolation((float) diff / (float) mDuration);
+                scheduleSelf(mUpdater, currentTime + FRAME_DURATION);
+                updateAnimation(interpolation);
+            } else {
+                unscheduleSelf(mUpdater);
+                mRunning = false;
+                updateAnimation(1f);
+            }
+        }
+    };
     //We don't use colors just with our drawable state because of animations
     private int mPressedColor;
     private int mFocusedColor;
@@ -180,25 +198,6 @@ public class AlmostRippleDrawable extends PaintStateDrawable implements Animatab
         mCurrentScale = initial + (destination - initial) * factor;
         invalidateSelf();
     }
-
-    private final Runnable mUpdater = new Runnable() {
-
-        @Override
-        public void run() {
-
-            long currentTime = SystemClock.uptimeMillis();
-            long diff = currentTime - mStartTime;
-            if (diff < mDuration) {
-                float interpolation = mInterpolator.getInterpolation((float) diff / (float) mDuration);
-                scheduleSelf(mUpdater, currentTime + FRAME_DURATION);
-                updateAnimation(interpolation);
-            } else {
-                unscheduleSelf(mUpdater);
-                mRunning = false;
-                updateAnimation(1f);
-            }
-        }
-    };
 
     @Override
     public void start() {
