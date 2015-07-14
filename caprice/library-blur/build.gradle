@@ -44,5 +44,5 @@ android {
     }
 }
 
-apply from: '../gradle/maven_push.gradle'
-apply from: '../gradle/make_jar.gradle'
+apply from: '../script/maven_push.gradle'
+apply from: '../script/make_jar.gradle'

@@ -47,5 +47,5 @@ dependencies {
     compile 'com.android.support:support-v4:22.2.0'
 }
 
-apply from: '../gradle/maven_push.gradle'
-apply from: '../gradle/make_jar.gradle'
+apply from: '../script/maven_push.gradle'
+apply from: '../script/make_jar.gradle'

@@ -1,0 +1,11 @@
+task clearJar(type: Delete) {
+    delete 'release/' + POM_ARTIFACT_ID + '_' + VERSION_NAME + '.jar'
+}
+
+task makeJar(type: Copy) {
+    from('build/intermediates/bundles/release/')
+    into('release/')
+    include('classes.jar')
+    rename('classes.jar', POM_ARTIFACT_ID + '_' + VERSION_NAME + '.jar')
+}
+makeJar.dependsOn(clearJar, build)
