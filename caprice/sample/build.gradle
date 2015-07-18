@@ -25,5 +25,5 @@ dependencies {
     compile project(':library-blur')
     compile project(':library-kit')
     compile project(':library-ui')
-    compile project(':library-res')
+    compile 'net.qiujuer.genius:res:1.0.0'
 }

@@ -2,11 +2,13 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/scubaBlue_500</item>
-        <item name="colorPrimaryDark">@color/scubaBlue_700</item>
+        <item name="colorPrimary">@color/cyan_500</item>
+        <item name="colorPrimaryDark">@color/cyan_700</item>
         <item name="colorAccent">@color/cyan_500</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-
+    <style name="Jag">
+        <item name="type">3</item>
+    </style>
 </resources>

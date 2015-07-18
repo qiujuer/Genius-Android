@@ -56,4 +56,8 @@
         <item name="android:padding">@dimen/genius_balloonMarker_textAppearance_padding</item>
     </style>
 
+    <style name="Jag">
+        <item name="type">3</item>
+    </style>
+
 </resources>

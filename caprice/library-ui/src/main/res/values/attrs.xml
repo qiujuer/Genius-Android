@@ -42,4 +42,8 @@
         <attr name="fontPath" />
     </declare-styleable>
 
+    <declare-styleable name="JagStates">
+        <attr name="type" format="integer" />
+    </declare-styleable>
+
 </resources>
