@@ -11,10 +11,8 @@ import net.qiujuer.genius.res.Resource;
 import net.qiujuer.genius.ui.drawable.RipAnimDrawable;
 import net.qiujuer.genius.ui.drawable.RipDrawable;
 
-import java.util.Random;
 
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +23,15 @@ public class MainActivity extends ActionBarActivity {
 
         View topLay = findViewById(R.id.lay_main_top);
         RipAnimDrawable ripAnim = new RipAnimDrawable();
-        ripAnim.setColor(color);
+        ripAnim.setColor(getResources().getColor(R.color.cyan_600));
         ripAnim.setFluCount(0, 0, 0, 36);
         topLay.setBackgroundDrawable(ripAnim);
+        topLay.setOnClickListener(this);
 
         View topText = findViewById(R.id.txt_main_top);
         RipDrawable rip = new RipDrawable();
-        rip.setColor(color);
-        rip.setAlpha(192);
+        rip.setColor(Resource.Color.WHITE);
+        rip.setAlpha(128);
         rip.setFluCount(16, 0, 16, 0);
         rip.setDeepness(5, 16);
         rip.setSmooth(false);
@@ -62,11 +61,11 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Random mRandom = new Random();
-
-    private int getRandomColor() {
-        int[] colors = Resource.Color.COLORS;
-        int index = mRandom.nextInt(colors.length - 2);
-        return colors[index + 1];
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.lay_main_top) {
+            RipAnimDrawable drawable = (RipAnimDrawable) v.getBackground();
+            drawable.startAnim();
+        }
     }
 }

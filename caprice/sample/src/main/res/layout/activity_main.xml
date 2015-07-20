@@ -18,7 +18,8 @@
             android:layout_gravity="center"
             android:padding="@dimen/lay_16"
             android:text="@string/hello_world"
-            android:textColor="@color/white_alpha_224" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_14" />
     </FrameLayout>
 
     <TextView
