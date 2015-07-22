@@ -1,7 +1,7 @@
 package net.qiujuer.sample.genius;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class KitActivity extends ActionBarActivity {
+public class KitActivity extends AppCompatActivity {
     private static final String TAG = KitActivity.class.getSimpleName();
     TextView mText = null;
 

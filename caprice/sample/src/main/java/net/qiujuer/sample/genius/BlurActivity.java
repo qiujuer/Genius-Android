@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import net.qiujuer.genius.blur.StackBlur;
 
 
-public class BlurActivity extends ActionBarActivity {
+public class BlurActivity extends AppCompatActivity {
     private static final int SCALE_FACTOR = 6;
     private boolean mCompress;
     private TextView mTime;

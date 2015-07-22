@@ -36,6 +36,12 @@ import android.util.TypedValue;
  */
 public class GeniusUi {
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
+    public static final int KEY_SHADOW_COLOR = 0x4E000000; //0x1E000000;
+    public static final int FILL_SHADOW_COLOR = 0x6D000000; //0x3D000000;
+    public static final float X_OFFSET = 0f;
+    public static final float Y_OFFSET = 1.75f;
+    public static final float SHADOW_RADIUS = 3.5f;
+    public static final int SHADOW_ELEVATION = 4;
 
     /**
      * Creates and returns the font file from given attributes.
@@ -53,7 +59,7 @@ public class GeniusUi {
         try {
             return Typeface.createFromAsset(context.getAssets(), fontPath);
         } catch (Exception e) {
-            Log.e("GeniusUi", "Font file at " + fontPath + " cannot be found or the file is " +
+            Log.e("IUi", "Font file at " + fontPath + " cannot be found or the file is " +
                     "not a valid font file. Please be sure that library assets are included " +
                     "to project. If not, copy assets/fonts folder of the library to your " +
                     "projects assets folder.");
@@ -160,8 +166,8 @@ public class GeniusUi {
      * @return Modulate alpha
      */
     public static int modulateAlpha(int colorAlpha, int alpha) {
-        int scale = alpha + (alpha >> 7);
-        return colorAlpha * scale >> 8;
+        int scale = alpha + (alpha >>> 7);  // convert to 0..256
+        return colorAlpha * scale >>> 8;
     }
 
     /**

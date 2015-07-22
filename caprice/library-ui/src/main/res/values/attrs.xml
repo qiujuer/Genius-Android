@@ -19,6 +19,8 @@
 * limitations under the License.
 -->
 <resources>
+    <attr name="gColor" format="color" />
+    <attr name="gTouchColor" format="color" />
     <!-- All -->
     <attr name="fontFamily" format="integer">
         <enum name="roboto" value="0" />
@@ -42,8 +44,12 @@
         <attr name="fontPath" />
     </declare-styleable>
 
-    <declare-styleable name="JagStates">
+    <declare-styleable name="TouchEffectDrawable">
         <attr name="type" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="FloatActionButton">
+        <attr name="gColor" />
+        <attr name="gTouchColor" />
+    </declare-styleable>
 </resources>
