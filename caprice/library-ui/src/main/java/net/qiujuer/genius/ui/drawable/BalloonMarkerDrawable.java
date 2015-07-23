@@ -38,7 +38,7 @@ import android.view.animation.Interpolator;
  *
  * @hide
  */
-public class BalloonMarkerDrawable extends PaintStateDrawable implements Animatable {
+public class BalloonMarkerDrawable extends StatePaintDrawable implements Animatable {
 
     private static final long FRAME_DURATION = 1000 / 60;
     private static final int ANIMATION_DURATION = 250;

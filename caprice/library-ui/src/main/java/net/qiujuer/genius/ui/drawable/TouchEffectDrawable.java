@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 07/24/2015
+ * Changed 07/24/2015
+ * Version 2.1.0
+ * Author Qiujuer
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.qiujuer.genius.ui.drawable;
 
 import android.annotation.TargetApi;
@@ -5,14 +25,10 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
@@ -25,17 +41,15 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.drawable.effect.Effect;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
 
 /**
  * This is touch effect drawable
  * This drawable is can use background or other draw call
  */
-public class TouchEffectDrawable extends Drawable {
+public class TouchEffectDrawable extends StatePaintDrawable {
     /**
      * This is drawable animation
      */
@@ -43,11 +57,9 @@ public class TouchEffectDrawable extends Drawable {
     // Time
     static final int IN_ANIM_DURATION = 280;
     static final int OUT_ANIM_DURATION = 160;
-    static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
 
     // Base
     private TouchEffectState mState;
-    private PorterDuffColorFilter mTintFilter;
     private boolean mMutated;
 
     // Touch
@@ -67,13 +79,16 @@ public class TouchEffectDrawable extends Drawable {
 
 
     public TouchEffectDrawable() {
-        this(new TouchEffectState(null), null);
+        this(new TouchEffectState(null), null, null);
     }
 
-
     public TouchEffectDrawable(Effect s) {
-        this(new TouchEffectState(null), null);
+        this(new TouchEffectState(null), null, null);
+        mState.mEffect = s;
+    }
 
+    public TouchEffectDrawable(Effect s, ColorStateList color) {
+        this(new TouchEffectState(null), null, color);
         mState.mEffect = s;
     }
 
@@ -108,13 +123,6 @@ public class TouchEffectDrawable extends Drawable {
      */
     public ShaderFactory getShaderFactory() {
         return mState.mShaderFactory;
-    }
-
-    /**
-     * Returns the Paint used to draw the shape.
-     */
-    public Paint getPaint() {
-        return mState.mPaint;
     }
 
     /**
@@ -193,12 +201,6 @@ public class TouchEffectDrawable extends Drawable {
         }
     }
 
-
-    private static int modulateAlpha(int paintAlpha, int alpha) {
-        int scale = alpha + (alpha >>> 7); // convert to 0..256
-        return paintAlpha * scale >>> 8;
-    }
-
     /**
      * Called from the drawable's draw() method after the canvas has been set to
      * draw the shape at (0,0). Subclasses can override for special effects such
@@ -209,46 +211,24 @@ public class TouchEffectDrawable extends Drawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, Paint paint) {
         final Rect r = getBounds();
         final TouchEffectState state = mState;
-        final Paint paint = state.mPaint;
 
-        final int prevAlpha = paint.getAlpha();
-        paint.setAlpha(GeniusUi.modulateAlpha(prevAlpha, state.mAlpha));
-
-        // only draw shape if it may affect output
-        if (paint.getAlpha() != 0 || paint.getXfermode() != null /*|| paint.hasShadowLayer()*/) {
-            final boolean clearColorFilter;
-            if (mTintFilter != null && paint.getColorFilter() == null) {
-                paint.setColorFilter(mTintFilter);
-                clearColorFilter = true;
-            } else {
-                clearColorFilter = false;
-            }
-
-            if (state.mEffect != null) {
-                // need the save both for the translate, and for the (unknown)
-                // Effect
-                final int count = canvas.save();
-                // Translate
-                canvas.translate(r.left, r.top);
-                // Clip the canvas
-                if (state.mClipPath != null)
-                    canvas.clipPath(state.mClipPath);
-                onDraw(state.mEffect, canvas, paint);
-                canvas.restoreToCount(count);
-            } else {
-                canvas.drawRect(r, paint);
-            }
-
-            if (clearColorFilter) {
-                paint.setColorFilter(null);
-            }
+        if (state.mEffect != null) {
+            // need the save both for the translate, and for the (unknown)
+            // Effect
+            final int count = canvas.save();
+            // Translate
+            canvas.translate(r.left, r.top);
+            // Clip the canvas
+            if (state.mClipPath != null)
+                canvas.clipPath(state.mClipPath);
+            onDraw(state.mEffect, canvas, paint);
+            canvas.restoreToCount(count);
+        } else {
+            canvas.drawRect(r, paint);
         }
-
-        // restore
-        paint.setAlpha(prevAlpha);
     }
 
     @Override
@@ -257,68 +237,13 @@ public class TouchEffectDrawable extends Drawable {
                 | mState.mChangingConfigurations;
     }
 
-
-    /**
-     * Set the alpha level for this drawable [0..255]. Note that this drawable
-     * also has a color in its paint, which has an alpha as well. These two
-     * values are automatically combined during drawing. Thus if the color's
-     * alpha is 75% (i.e. 192) and the drawable's alpha is 50% (i.e. 128), then
-     * the combined alpha that will be used during drawing will be 37.5% (i.e.
-     * 96).
-     */
-    @Override
-    public void setAlpha(int alpha) {
-        mState.mAlpha = alpha;
-        invalidateSelf();
-    }
-
-    @Override
-    public int getAlpha() {
-        return mState.mAlpha;
-    }
-
-    @Override
-    public void setTintList(ColorStateList tint) {
-        mState.mTint = tint;
-        mTintFilter = updateTintFilter(mTintFilter, tint, mState.mTintMode);
-        invalidateSelf();
-    }
-
-    @Override
-    public void setTintMode(PorterDuff.Mode tintMode) {
-        mState.mTintMode = tintMode;
-        mTintFilter = updateTintFilter(mTintFilter, mState.mTint, tintMode);
-        invalidateSelf();
-    }
-
-    @Override
-    public void setColorFilter(ColorFilter cf) {
-        mState.mPaint.setColorFilter(cf);
-        invalidateSelf();
-    }
-
     @Override
     public int getOpacity() {
         if (mState.mEffect == null) {
-            final Paint p = mState.mPaint;
-            if (p.getXfermode() == null) {
-                final int alpha = p.getAlpha();
-                if (alpha == 0) {
-                    return PixelFormat.TRANSPARENT;
-                }
-                if (alpha == 255) {
-                    return PixelFormat.OPAQUE;
-                }
-            }
+            return super.getOpacity();
         }
         // not sure, so be safe
         return PixelFormat.TRANSLUCENT;
-    }
-
-    @Override
-    public void setDither(boolean dither) {
-        mState.mPaint.setDither(dither);
-        invalidateSelf();
     }
 
     @Override
@@ -326,22 +251,6 @@ public class TouchEffectDrawable extends Drawable {
         super.onBoundsChange(bounds);
         updateEffect();
         updateClipRectPath();
-    }
-
-    @Override
-    protected boolean onStateChange(int[] stateSet) {
-        final TouchEffectState state = mState;
-        if (state.mTint != null && state.mTintMode != null) {
-            mTintFilter = updateTintFilter(mTintFilter, state.mTint, state.mTintMode);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isStateful() {
-        final TouchEffectState s = mState;
-        return super.isStateful() || (s.mTint != null && s.mTint.isStateful());
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -362,11 +271,6 @@ public class TouchEffectDrawable extends Drawable {
     @Override
     public Drawable mutate() {
         if (!mMutated && super.mutate() == this) {
-            if (mState.mPaint != null) {
-                mState.mPaint = new Paint(mState.mPaint);
-            } else {
-                mState.mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            }
             if (mState.mPadding != null) {
                 mState.mPadding = new Rect(mState.mPadding);
             } else {
@@ -457,7 +361,7 @@ public class TouchEffectDrawable extends Drawable {
 
             mState.mEffect.resize(w, h);
             if (mState.mShaderFactory != null) {
-                mState.mPaint.setShader(mState.mShaderFactory.resize(w, h));
+                mPaint.setShader(mState.mShaderFactory.resize(w, h));
             }
         }
         invalidateSelf();
@@ -483,14 +387,10 @@ public class TouchEffectDrawable extends Drawable {
     final static class TouchEffectState extends ConstantState {
         int[] mThemeAttrs;
         int mChangingConfigurations;
-        Paint mPaint;
         Effect mEffect;
-        ColorStateList mTint = null;
-        PorterDuff.Mode mTintMode = DEFAULT_TINT_MODE;
         Rect mPadding;
         int mIntrinsicWidth;
         int mIntrinsicHeight;
-        int mAlpha = 255;
         ShaderFactory mShaderFactory;
         float[] mRadii;
         Path mClipPath;
@@ -498,18 +398,12 @@ public class TouchEffectDrawable extends Drawable {
         TouchEffectState(TouchEffectState orig) {
             if (orig != null) {
                 mThemeAttrs = orig.mThemeAttrs;
-                mPaint = orig.mPaint;
                 mEffect = orig.mEffect;
-                mTint = orig.mTint;
-                mTintMode = orig.mTintMode;
                 mPadding = orig.mPadding;
                 mIntrinsicWidth = orig.mIntrinsicWidth;
                 mIntrinsicHeight = orig.mIntrinsicHeight;
-                mAlpha = orig.mAlpha;
                 mShaderFactory = orig.mShaderFactory;
                 mRadii = orig.mRadii;
-            } else {
-                mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             }
         }
 
@@ -520,12 +414,12 @@ public class TouchEffectDrawable extends Drawable {
 
         @Override
         public Drawable newDrawable() {
-            return new TouchEffectDrawable(this, null);
+            return new TouchEffectDrawable(this, null, null);
         }
 
         @Override
         public Drawable newDrawable(Resources res) {
-            return new TouchEffectDrawable(this, res);
+            return new TouchEffectDrawable(this, res, null);
         }
 
         @Override
@@ -538,19 +432,9 @@ public class TouchEffectDrawable extends Drawable {
      * The one constructor to rule them all. This is called by all public
      * constructors to set the state and initialize local properties.
      */
-    private TouchEffectDrawable(TouchEffectState state, Resources res) {
+    private TouchEffectDrawable(TouchEffectState state, Resources res, ColorStateList color) {
+        super(color);
         mState = state;
-
-        initializeWithState(state, res);
-    }
-
-    /**
-     * Initializes local dynamic properties from state. This should be called
-     * after significant state changes, e.g. from the One True Constructor and
-     * after inflating or applying a theme.
-     */
-    private void initializeWithState(TouchEffectState state, Resources res) {
-        mTintFilter = updateTintFilter(mTintFilter, state.mTint, state.mTintMode);
     }
 
     /**
@@ -572,43 +456,6 @@ public class TouchEffectDrawable extends Drawable {
          * @return the Shader to be drawn
          */
         public abstract Shader resize(int width, int height);
-    }
-
-    // other subclass could wack the Shader's localmatrix based on the
-    // resize params (e.g. scaletofit, etc.). This could be used to scale
-    // a bitmap to fill the bounds without needing any other special casing.
-
-
-    /**
-     * Ensures the tint filter is consistent with the current tint color and
-     * mode.
-     */
-    PorterDuffColorFilter updateTintFilter(PorterDuffColorFilter tintFilter, ColorStateList tint,
-                                           PorterDuff.Mode tintMode) {
-        if (tint == null || tintMode == null) {
-            return null;
-        }
-
-        final int color = tint.getColorForState(getState(), Color.TRANSPARENT);
-        if (tintFilter == null) {
-            return new PorterDuffColorFilter(color, tintMode);
-        }
-
-        //tintFilter.setColor(color);
-        //tintFilter.setMode(tintMode);
-
-        try {
-            Class<PorterDuffColorFilter> tClass = (Class<PorterDuffColorFilter>) tintFilter.getClass();
-            Method method = tClass.getMethod("setColor", Integer.class);
-            method.invoke(tintFilter, color);
-
-            method = tClass.getMethod("setMode", PorterDuff.Mode.class);
-            method.invoke(tintFilter, tintMode);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return tintFilter;
     }
 
     static TypedArray obtainAttributes(
