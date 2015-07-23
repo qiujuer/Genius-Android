@@ -19,8 +19,10 @@
 * limitations under the License.
 -->
 <resources>
-    <attr name="gColor" format="color" />
-    <attr name="gTouchColor" format="color" />
+    <attr name="gColorBackground" format="color|reference" />
+    <attr name="gColorTouch" format="color" />
+    <attr name="gFont" format="string" />
+
     <!-- All -->
     <attr name="fontFamily" format="integer">
         <enum name="roboto" value="0" />
@@ -49,7 +51,21 @@
     </declare-styleable>
 
     <declare-styleable name="FloatActionButton">
-        <attr name="gColor" />
-        <attr name="gTouchColor" />
+        <attr name="gColorBackground" />
+        <attr name="gColorTouch" />
+    </declare-styleable>
+
+    <declare-styleable name="Button">
+        <attr name="gColorBackground" />
+        <attr name="gColorTouch" />
+        <attr name="gTouchEffect" format="integer">
+            <enum name="none" value="0" />
+            <enum name="ease" value="1" />
+            <enum name="ripple" value="2" />
+            <enum name="move" value="3" />
+            <enum name="press" value="4" />
+        </attr>
+        <attr name="gFont" />
+
     </declare-styleable>
 </resources>

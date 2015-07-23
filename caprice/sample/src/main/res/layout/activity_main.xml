@@ -5,29 +5,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/lay_main_top"
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/lay_64"
-        android:paddingTop="@dimen/lay_40">
+        android:minHeight="@dimen/abc_action_bar_default_height_material"
+        android:paddingBottom="@dimen/lay_16" />
 
-        <TextView
-            android:id="@+id/txt_main_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="@dimen/lay_16"
-            android:text="@string/hello_world"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_14" />
-    </FrameLayout>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lay_main_top"
-        android:text="@string/hello_world" />
+        android:layout_below="@id/title"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <net.qiujuer.genius.ui.widget.Button
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_52"
+            android:layout_weight="1"
+            android:text="@string/hello_world" />
+
+        <net.qiujuer.genius.ui.widget.Button
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_52"
+            android:layout_weight="1"
+            android:text="@string/hello_world" />
+    </LinearLayout>
 
     <net.qiujuer.genius.ui.widget.FloatActionButton
         android:id="@+id/action_add"
@@ -37,8 +41,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/lay_16"
         android:layout_marginRight="@dimen/lay_16"
-        app:gColor="@color/cyan_500"
-        app:gTouchColor="@color/black_alpha_64"
+        app:gColorBackground="@color/cyan_500"
+        app:gColorTouch="@color/black_alpha_64"
         tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>

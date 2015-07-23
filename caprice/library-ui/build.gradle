@@ -45,6 +45,7 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:22.2.0'
+    compile 'net.qiujuer.genius:res:1.0.0'
 }
 
 apply from: '../script/maven_push.gradle'
