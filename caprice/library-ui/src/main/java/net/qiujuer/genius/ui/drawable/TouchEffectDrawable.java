@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/24/2015
- * Changed 07/24/2015
+ * Changed 07/25/2015
  * Version 2.1.0
  * Author Qiujuer
  *
@@ -27,10 +27,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Outline;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -118,11 +116,28 @@ public class TouchEffectDrawable extends StatePaintDrawable {
     }
 
     /**
-     * Returns the ShaderFactory used by this EffectDrawable for requesting a
+     * Returns the ShaderFactory used by this TouchEffectDrawable for requesting a
      * {@link android.graphics.Shader}.
      */
     public ShaderFactory getShaderFactory() {
         return mState.mShaderFactory;
+    }
+
+    /**
+     * Sets a ClipFactory to which requests for
+     * {@link Canvas} clip.. method object will be made.
+     *
+     * @param fact an instance of your ClipFactory implementation
+     */
+    public void setClipFactory(ClipFactory fact) {
+        mState.mClipFactory = fact;
+    }
+
+    /**
+     * Returns the ClipFactory used by this TouchEffectDrawable Canvas.clip.. method
+     */
+    public ClipFactory getClipFactory() {
+        return mState.mClipFactory;
     }
 
     /**
@@ -222,9 +237,11 @@ public class TouchEffectDrawable extends StatePaintDrawable {
             // Translate
             canvas.translate(r.left, r.top);
             // Clip the canvas
-            if (state.mClipPath != null)
-                canvas.clipPath(state.mClipPath);
+            if (state.mClipFactory != null)
+                state.mClipFactory.clip(canvas);
+            // On draw
             onDraw(state.mEffect, canvas, paint);
+            // Restore
             canvas.restoreToCount(count);
         } else {
             canvas.drawRect(r, paint);
@@ -250,7 +267,6 @@ public class TouchEffectDrawable extends StatePaintDrawable {
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
         updateEffect();
-        updateClipRectPath();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -288,19 +304,6 @@ public class TouchEffectDrawable extends StatePaintDrawable {
 
     public void clearMutated() {
         mMutated = false;
-    }
-
-    public void setClipRadius(float radius) {
-        this.mState.mRadii = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
-        updateClipRectPath();
-    }
-
-    public void setClipRadii(float[] radii) {
-        if (radii == null || radii.length < 8) {
-            throw new ArrayIndexOutOfBoundsException("radii must have >= 8 values");
-        }
-        this.mState.mRadii = radii;
-        updateClipRectPath();
     }
 
     public void onTouch(MotionEvent event) {
@@ -363,25 +366,12 @@ public class TouchEffectDrawable extends StatePaintDrawable {
             if (mState.mShaderFactory != null) {
                 mPaint.setShader(mState.mShaderFactory.resize(w, h));
             }
+
+            if (mState.mClipFactory != null) {
+                mState.mClipFactory.resize(w, h);
+            }
         }
         invalidateSelf();
-    }
-
-    private void updateClipRectPath() {
-        if (mState.mRadii != null) {
-            if (mState.mClipPath == null)
-                mState.mClipPath = new Path();
-            else
-                mState.mClipPath.reset();
-
-            final Rect r = getBounds();
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-                mState.mClipPath.addRoundRect(new RectF(0, 0, r.width(), r.height()), mState.mRadii, Path.Direction.CW);
-            else
-                mState.mClipPath.addRoundRect(0, 0, r.width(), r.height(), mState.mRadii, Path.Direction.CW);
-        } else {
-            mState.mClipPath = null;
-        }
     }
 
     final static class TouchEffectState extends ConstantState {
@@ -392,8 +382,8 @@ public class TouchEffectDrawable extends StatePaintDrawable {
         int mIntrinsicWidth;
         int mIntrinsicHeight;
         ShaderFactory mShaderFactory;
-        float[] mRadii;
-        Path mClipPath;
+        ClipFactory mClipFactory;
+
 
         TouchEffectState(TouchEffectState orig) {
             if (orig != null) {
@@ -403,7 +393,7 @@ public class TouchEffectDrawable extends StatePaintDrawable {
                 mIntrinsicWidth = orig.mIntrinsicWidth;
                 mIntrinsicHeight = orig.mIntrinsicHeight;
                 mShaderFactory = orig.mShaderFactory;
-                mRadii = orig.mRadii;
+                mClipFactory = orig.mClipFactory;
             }
         }
 
@@ -437,6 +427,26 @@ public class TouchEffectDrawable extends StatePaintDrawable {
         mState = state;
     }
 
+    public static abstract class ClipFactory {
+        /**
+         * The dimensions of the Drawable are passed because they may be needed to
+         * adjust how the Canvas.clip.. is configured for drawing. This is called by
+         * EffectDrawable.updateEffect().
+         *
+         * @param width  the width of the Drawable being drawn
+         * @param height the height of the Drawable being drawn
+         */
+        public abstract void resize(int width, int height);
+
+        /**
+         * Returns the Canvas clip to be drawn when a Drawable is drawn.
+         *
+         * @param canvas The drawable Canvas
+         * @return The Canvas clip.. status
+         */
+        public abstract boolean clip(Canvas canvas);
+    }
+
     /**
      * Base class defines a factory object that is called each time the drawable
      * is resized (has a new width or height). Its resize() method returns a
@@ -449,10 +459,10 @@ public class TouchEffectDrawable extends StatePaintDrawable {
          * Returns the Shader to be drawn when a Drawable is drawn. The
          * dimensions of the Drawable are passed because they may be needed to
          * adjust how the Shader is configured for drawing. This is called by
-         * EffectDrawable.setEffect().
+         * TouchEffectDrawable.updateEffect().
          *
          * @param width  the width of the Drawable being drawn
-         * @param height the heigh of the Drawable being drawn
+         * @param height the height of the Drawable being drawn
          * @return the Shader to be drawn
          */
         public abstract Shader resize(int width, int height);
