@@ -8,6 +8,7 @@ import net.qiujuer.genius.ui.GeniusUi;
 
 /**
  * Created by Qiujuer on 2015/3/27.
+ * This is TouchEffectDrawable draw Effect
  */
 public abstract class Effect {
     private float mWidth;
@@ -69,13 +70,9 @@ public abstract class Effect {
 
     }
 
-    public void animationIn(float factor) {
+    public abstract void animationIn(float factor);
 
-    }
-
-    public void animationOut(float factor) {
-
-    }
+    public abstract void animationOut(float factor);
 
     /**
      * Set the draw paint alpha by modulateAlpha

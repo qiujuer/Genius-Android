@@ -12,7 +12,9 @@ import android.view.MotionEvent;
 import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
+import net.qiujuer.genius.ui.drawable.effect.EaseEffect;
 import net.qiujuer.genius.ui.drawable.effect.FloatEffect;
+import net.qiujuer.genius.ui.drawable.effect.PressEffect;
 
 /**
  * Created by qiujuer on 15/7/23.
@@ -70,7 +72,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 mTouchDrawable.setPerformClicker(this);
             }
             if (touchEffect == 1)
-                mTouchDrawable.setEffect(new FloatEffect());
+                mTouchDrawable.setEffect(new PressEffect());
         }
     }
 

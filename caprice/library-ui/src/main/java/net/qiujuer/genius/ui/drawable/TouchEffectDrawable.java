@@ -53,8 +53,8 @@ public class TouchEffectDrawable extends StatePaintDrawable {
      */
     static final long FRAME_DURATION = 16;
     // Time
-    static final int IN_ANIM_DURATION = 280;
-    static final int OUT_ANIM_DURATION = 160;
+    public static final int IN_ANIM_DURATION = 280;
+    public static final int OUT_ANIM_DURATION = 160;
 
     // Base
     private TouchEffectState mState;
@@ -70,7 +70,7 @@ public class TouchEffectDrawable extends StatePaintDrawable {
     private boolean isRunning = false;
     private boolean isAnimatingIn = false;
     private long mStartTime;
-    private Interpolator mInInterpolator = new DecelerateInterpolator(2.8f);
+    private Interpolator mInInterpolator = new DecelerateInterpolator(2.6f);
     private Interpolator mOutInterpolator = new AccelerateInterpolator();
     private int mInDuration = IN_ANIM_DURATION;
     private int mOutDuration = OUT_ANIM_DURATION;
@@ -522,6 +522,13 @@ public class TouchEffectDrawable extends StatePaintDrawable {
         return isRunning;
     }
 
+    public int getInDuration() {
+        return mInDuration;
+    }
+
+    public int getOutDuration() {
+        return mOutDuration;
+    }
 
     public void setInDuration(int duration) {
         mInDuration = duration;
@@ -529,6 +536,14 @@ public class TouchEffectDrawable extends StatePaintDrawable {
 
     public void setOutDuration(int duration) {
         mOutDuration = duration;
+    }
+
+    public Interpolator getInInterpolator() {
+        return mInInterpolator;
+    }
+
+    public Interpolator getOutInterpolator() {
+        return mOutInterpolator;
     }
 
     public void setInInterpolator(Interpolator inInterpolator) {
