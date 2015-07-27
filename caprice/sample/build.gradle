@@ -17,13 +17,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    signingConfigs {
+        all {
+            storeFile file("../release/key.jks")
+            storePassword "Sample"
+            keyAlias "Sample"
+            keyPassword "Sample"
+        }
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile project(':library-blur')
-    compile project(':library-kit')
-    compile project(':library-ui')
+    compile 'net.qiujuer.genius:blur:1.0.0'
+    compile 'net.qiujuer.genius:kit:1.0.0'
     compile 'net.qiujuer.genius:res:1.0.0'
+    compile project(':library-ui')
 }
