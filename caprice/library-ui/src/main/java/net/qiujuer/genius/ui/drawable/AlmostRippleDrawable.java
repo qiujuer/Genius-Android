@@ -2,8 +2,8 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 02/16/2015
- * Changed 02/25/2015
- * Version 2.0.0
+ * Changed 07/24/2015
+ * Version 2.1.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,10 +30,12 @@ import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import net.qiujuer.genius.ui.GeniusUi;
+
 /**
  * This is a touch foreground ripple drawable extends to PaintStateDrawable
  */
-public class AlmostRippleDrawable extends PaintStateDrawable implements Animatable {
+public class AlmostRippleDrawable extends StatePaintDrawable implements Animatable {
     private static final long FRAME_DURATION = 1000 / 60;
     private static final int ANIMATION_DURATION = 250;
 
@@ -94,7 +96,7 @@ public class AlmostRippleDrawable extends PaintStateDrawable implements Animatab
             }
             if (rippleColor != 0) {
                 paint.setColor(rippleColor);
-                paint.setAlpha(modulateAlpha(Color.alpha(rippleColor)));
+                paint.setAlpha(GeniusUi.modulateAlpha(paint.getAlpha(), Color.alpha(rippleColor)));
                 canvas.drawCircle(bounds.centerX(), bounds.centerY(), radiusAnimated, paint);
             }
         }

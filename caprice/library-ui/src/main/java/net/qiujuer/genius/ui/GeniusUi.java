@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 03/23/2014
- * Changed 03/23/2015
+ * Changed 07/25/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,10 +22,14 @@ package net.qiujuer.genius.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.PaintDrawable;
+import android.os.Build;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -36,6 +40,16 @@ import android.util.TypedValue;
  */
 public class GeniusUi {
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
+    public static final boolean elevationSupported = Build.VERSION.SDK_INT >= 21;
+
+    public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48
+    public static final int KEY_SHADOW_COLOR = 0x4E000000; //0x1E000000;
+    public static final int FILL_SHADOW_COLOR = 0x6D000000; //0x3D000000;
+    public static final float X_OFFSET = 0f;
+    public static final float Y_OFFSET = 1.75f;
+    public static final float SHADOW_RADIUS = 3.5f;
+    public static final int SHADOW_ELEVATION = 4;
+
 
     /**
      * Creates and returns the font file from given attributes.
@@ -50,6 +64,19 @@ public class GeniusUi {
         String fontPath = "fonts/" + fontFamily
                 + "_" + fontWeight
                 + "." + fontExtension;
+        try {
+            return Typeface.createFromAsset(context.getAssets(), fontPath);
+        } catch (Exception e) {
+            Log.e("GeniusUi", "Font file at " + fontPath + " cannot be found or the file is " +
+                    "not a valid font file. Please be sure that library assets are included " +
+                    "to project. If not, copy assets/fonts folder of the library to your " +
+                    "projects assets folder.");
+            return null;
+        }
+    }
+
+    public static Typeface getFont(Context context, String fontFile) {
+        String fontPath = "fonts/" + fontFile;
         try {
             return Typeface.createFromAsset(context.getAssets(), fontPath);
         } catch (Exception e) {
@@ -160,8 +187,8 @@ public class GeniusUi {
      * @return Modulate alpha
      */
     public static int modulateAlpha(int colorAlpha, int alpha) {
-        int scale = alpha + (alpha >> 7);
-        return colorAlpha * scale >> 8;
+        int scale = alpha + (alpha >>> 7);  // convert to 0..256
+        return colorAlpha * scale >>> 8;
     }
 
     /**
@@ -194,5 +221,43 @@ public class GeniusUi {
         int g = (color >> 8) & 0xFF;
         int b = color & 0xFF;
         return alpha << 24 | r << 16 | g << 8 | b;
+    }
+
+    /**
+     * Get the attribute have enabled value
+     *
+     * @param context Context
+     * @param attrs   AttributeSet
+     * @return IsEnabled
+     */
+    public static boolean isEnableAttr(Context context, AttributeSet attrs) {
+        return attrs.getAttributeBooleanValue(GeniusUi.androidStyleNameSpace, "enabled", true);
+    }
+
+    /**
+     * Get Background color if the attr is color value
+     *
+     * @param context Context
+     * @param attrs   AttributeSet
+     * @return Color
+     */
+    public static int getBackgroundColor(Context context, AttributeSet attrs) {
+        int color = Color.TRANSPARENT;
+
+        String attributeValue = attrs.getAttributeValue(GeniusUi.androidStyleNameSpace, "background");
+        if (attributeValue != null) {
+            int styleId = attrs.getStyleAttribute();
+            int[] attributesArray = new int[]{android.R.attr.background};
+
+            try {
+                TypedArray typedArray = context.obtainStyledAttributes(styleId, attributesArray);
+                if (typedArray.length() > 0)
+                    color = typedArray.getColor(0, color);
+                typedArray.recycle();
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return color;
     }
 }

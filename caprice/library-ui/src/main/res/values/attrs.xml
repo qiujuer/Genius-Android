@@ -1,10 +1,9 @@
 <!--
-* Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+* Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 02/25/2015
-* Changed 03/01/2015
+* Changed 05/27/2015
 * Version 2.0.0
-* GeniusEditText
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -19,27 +18,51 @@
 * limitations under the License.
 -->
 <resources>
-    <!-- All -->
-    <attr name="fontFamily" format="integer">
-        <enum name="roboto" value="0" />
-        <enum name="opensans" value="1" />
-    </attr>
-    <attr name="fontWeight" format="integer">
-        <enum name="bold" value="0" />
-        <enum name="extrabold" value="1" />
-        <enum name="extralight" value="2" />
-        <enum name="light" value="3" />
-        <enum name="regular" value="4" />
-    </attr>
-    <attr name="fontExtension" format="string" />
-    <attr name="fontPath" format="string" />
+
+    <!--ALL -->
+    <attr name="gColorBackground" format="color|reference" />
+    <attr name="gColorTouch" format="color" />
+    <attr name="gFont" format="string" />
+    <attr name="gCornerRadius" format="dimension" />
+    <attr name="gCornerRadiusTL" format="dimension" />
+    <attr name="gCornerRadiusTR" format="dimension" />
+    <attr name="gCornerRadiusBL" format="dimension" />
+    <attr name="gCornerRadiusBR" format="dimension" />
 
     <!-- TextView -->
     <declare-styleable name="TextView">
-        <attr name="fontFamily" />
-        <attr name="fontWeight" />
-        <attr name="fontExtension" />
-        <attr name="fontPath" />
+        <attr name="gFont" />
+        <attr name="gColorBackground" />
+        <attr name="gBorderSize" format="dimension" />
+        <attr name="gBorderColor" format="color|reference" />
+        <attr name="gCornerRadius" />
+        <attr name="gCornerRadiusTL" />
+        <attr name="gCornerRadiusTR" />
+        <attr name="gCornerRadiusBL" />
+        <attr name="gCornerRadiusBR" />
     </declare-styleable>
 
+    <!-- FloatActionButton -->
+    <declare-styleable name="FloatActionButton">
+        <attr name="gColorBackground" />
+        <attr name="gColorTouch" />
+    </declare-styleable>
+
+    <!-- Button -->
+    <declare-styleable name="Button">
+        <attr name="gFont" />
+        <attr name="gColorTouch" />
+        <attr name="gTouchEffect" format="integer">
+            <enum name="none" value="0" />
+            <enum name="auto" value="1" />
+            <enum name="ease" value="2" />
+            <enum name="press" value="3" />
+            <enum name="ripple" value="4" />
+        </attr>
+        <attr name="gCornerRadius" />
+        <attr name="gCornerRadiusTL" />
+        <attr name="gCornerRadiusTR" />
+        <attr name="gCornerRadiusBL" />
+        <attr name="gCornerRadiusBR" />
+    </declare-styleable>
 </resources>

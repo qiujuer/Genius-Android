@@ -2,11 +2,38 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/scubaBlue_500</item>
-        <item name="colorPrimaryDark">@color/scubaBlue_700</item>
+        <item name="colorPrimary">@color/cyan_500</item>
+        <item name="colorPrimaryDark">@color/cyan_700</item>
         <item name="colorAccent">@color/cyan_500</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/cyan_500</item>
+        <item name="colorPrimaryDark">@color/cyan_700</item>
+        <item name="colorAccent">@color/cyan_500</item>
 
+        <!-- Toolbar styles -->
+        <item name="toolbarStyle">@style/ToolBarStyle</item>
+        <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationButtonStyle</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="popupTheme">@style/ToolBarStyle.PopupTheme</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="titleTextAppearance">@style/ToolBarStyle.TitleTextAppearance</item>
+        <item name="android:textAppearance">@style/ToolBarStyle.TitleTextAppearance</item>
+    </style>
+
+    <style name="ToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:background">@color/white</item>
+        <item name="titleTextAppearance">@style/ToolBarStyle.TitleTextAppearance</item>
+        <item name="android:textAppearance">@style/ToolBarStyle.TitleTextAppearance</item>
+    </style>
+
+    <style name="ToolBarStyle.TitleTextAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/white_alpha_240</item>
+    </style>
+
+    <style name="ToolBarStyle.PopupTheme" parent="@style/ThemeOverlay.AppCompat.Light"></style>
 </resources>
