@@ -82,7 +82,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
 
         // BackgroundColor
         if (bgColor == null) {
-            bgColor = getResources().getColorStateList(R.color.g_color_defaulf_status);
+            bgColor = getResources().getColorStateList(R.color.g_defaulf_background);
         }
 
         // Background drawable

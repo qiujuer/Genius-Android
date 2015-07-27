@@ -4,10 +4,13 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
@@ -46,6 +49,18 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         init(attrs, defStyleAttr);
     }
 
+    @Override
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+        event.setClassName(Button.class.getName());
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName(Button.class.getName());
+    }
+
     private void init(AttributeSet attrs, int defStyle) {
         final Context context = getContext();
 
@@ -53,13 +68,19 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.Button, defStyle, 0);
 
-
-        int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, 4);
-        int touchColor = a.getColor(R.styleable.FloatActionButton_gColorTouch, GeniusUi.TOUCH_PRESS_COLOR);
+        String fontFile = a.getString(R.styleable.Button_gFont);
+        int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, 1);
+        int touchColor = a.getColor(R.styleable.Button_gColorTouch, GeniusUi.TOUCH_PRESS_COLOR);
         a.recycle();
 
         setTouchEffect(touchEffect);
         setTouchColor(touchColor);
+
+        // Check for IDE preview render
+        if (!this.isInEditMode() && fontFile != null && fontFile.length() > 0) {
+            Typeface typeface = GeniusUi.getFont(getContext(), fontFile);
+            if (typeface != null) setTypeface(typeface);
+        }
     }
 
     public void setTouchEffect(int touchEffect) {
@@ -88,7 +109,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     public void setTouchColor(int touchColor) {
         if (mTouchDrawable != null && touchColor != -1 && touchColor != mTouchColor) {
             mTouchColor = touchColor;
-            mTouchDrawable.getPaint().setColor(touchColor);
+            mTouchDrawable.setColor(touchColor);
             invalidate();
         }
     }

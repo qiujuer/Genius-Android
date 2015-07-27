@@ -42,7 +42,7 @@ public class GeniusUi {
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
     public static final boolean elevationSupported = Build.VERSION.SDK_INT >= 21;
 
-    public static final int TOUCH_PRESS_COLOR = 0x40000000; //black_alpha_64
+    public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48
     public static final int KEY_SHADOW_COLOR = 0x4E000000; //0x1E000000;
     public static final int FILL_SHADOW_COLOR = 0x6D000000; //0x3D000000;
     public static final float X_OFFSET = 0f;
@@ -67,7 +67,20 @@ public class GeniusUi {
         try {
             return Typeface.createFromAsset(context.getAssets(), fontPath);
         } catch (Exception e) {
-            Log.e("IUi", "Font file at " + fontPath + " cannot be found or the file is " +
+            Log.e("GeniusUi", "Font file at " + fontPath + " cannot be found or the file is " +
+                    "not a valid font file. Please be sure that library assets are included " +
+                    "to project. If not, copy assets/fonts folder of the library to your " +
+                    "projects assets folder.");
+            return null;
+        }
+    }
+
+    public static Typeface getFont(Context context, String fontFile) {
+        String fontPath = "fonts/" + fontFile;
+        try {
+            return Typeface.createFromAsset(context.getAssets(), fontPath);
+        } catch (Exception e) {
+            Log.e("GeniusUi", "Font file at " + fontPath + " cannot be found or the file is " +
                     "not a valid font file. Please be sure that library assets are included " +
                     "to project. If not, copy assets/fonts folder of the library to your " +
                     "projects assets folder.");

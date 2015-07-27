@@ -2,8 +2,8 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 02/16/2015
- * Changed 07/24/2015
- * Version 2.1.0
+ * Changed 07/27/2015
+ * Version 2.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,7 +54,7 @@ public abstract class StateColorDrawable extends Drawable {
     @Override
     protected boolean onStateChange(int[] state) {
         final int color = mColorStateList.getColorForState(state, mColor);
-        return setColor(color);
+        return selectColor(color);
     }
 
     @Override
@@ -77,6 +77,15 @@ public abstract class StateColorDrawable extends Drawable {
     }
 
     /**
+     * Set color trans to ColorStateList
+     *
+     * @param color Color
+     */
+    public void setColor(int color) {
+        setColorStateList(ColorStateList.valueOf(color));
+    }
+
+    /**
      * Set the Tint ColorStateList
      *
      * @param tintStateList ColorStateList
@@ -87,9 +96,9 @@ public abstract class StateColorDrawable extends Drawable {
         mColorStateList = tintStateList;
         int[] state = getState();
         if (state == null)
-            setColor(tintStateList.getDefaultColor());
+            selectColor(tintStateList.getDefaultColor());
         else
-            setColor(tintStateList.getColorForState(state, tintStateList.getDefaultColor()));
+            selectColor(tintStateList.getColorForState(state, tintStateList.getDefaultColor()));
     }
 
     /**
@@ -116,7 +125,7 @@ public abstract class StateColorDrawable extends Drawable {
      * @param color New Color
      * @return If new value != current value return true
      */
-    protected boolean setColor(int color) {
+    protected boolean selectColor(int color) {
         boolean bFlag = mColor != color;
         if (bFlag) {
             mColor = color;

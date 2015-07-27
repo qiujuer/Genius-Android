@@ -63,12 +63,7 @@ public class TextView extends android.widget.TextView {
 
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TextView);
 
-            mFontAttribute.setFontPath(a.getString(R.styleable.TextView_fontPath));
-            if (mFontAttribute.getFontPath() == null) {
-                mFontAttribute.setFontFamily(FontAttribute.DEFAULT_FONT_FAMILY[a.getInt(R.styleable.TextView_fontFamily, 0)]);
-                mFontAttribute.setFontWeight(FontAttribute.DEFAULT_FONT_WEIGHT[a.getInt(R.styleable.TextView_fontWeight, 3)]);
-                mFontAttribute.setFontExtension(a.getString(R.styleable.TextView_fontExtension));
-            }
+
             a.recycle();
         }
 

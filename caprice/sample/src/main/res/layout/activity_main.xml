@@ -46,7 +46,7 @@
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_weight="1"
                 android:background="@color/cyan_500"
-                android:text="@string/hello_world"
+                android:text="Ease"
                 android:textColor="@color/white_alpha_224"
                 app:gTouchEffect="ease" />
 
@@ -57,7 +57,7 @@
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_weight="1"
                 android:background="@color/cyan_500"
-                android:text="@string/hello_world"
+                android:text="Press"
                 android:textColor="@color/white_alpha_224"
                 app:gTouchEffect="press" />
         </LinearLayout>
@@ -75,8 +75,8 @@
                 android:layout_marginLeft="@dimen/lay_4"
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_weight="1"
-                android:background="@color/cyan_500"
-                android:text="@string/hello_world"
+                android:background="@color/orange_500"
+                android:text="Ripple"
                 android:textColor="@color/white_alpha_224"
                 app:gTouchEffect="ripple" />
 
@@ -86,9 +86,10 @@
                 android:layout_marginLeft="@dimen/lay_4"
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_weight="1"
-                android:background="@color/cyan_500"
-                android:text="@string/hello_world"
+                android:background="@color/black"
+                android:text="Auto"
                 android:textColor="@color/white_alpha_224"
+                app:gColorTouch="@color/white_alpha_48"
                 app:gTouchEffect="auto" />
         </LinearLayout>
     </LinearLayout>
