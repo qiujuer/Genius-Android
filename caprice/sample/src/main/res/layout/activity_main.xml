@@ -17,26 +17,80 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:layout_margin="@dimen/lay_8"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/lay_12"
+        android:paddingRight="@dimen/lay_12">
 
-        <net.qiujuer.genius.ui.widget.Button
-            android:layout_width="0dp"
-            android:layout_height="@dimen/size_52"
-            android:layout_margin="@dimen/lay_8"
-            android:layout_weight="1"
-            android:background="@color/purple_500"
-            android:text="@string/hello_world"
-            android:textColor="@color/white_alpha_224" />
 
-        <net.qiujuer.genius.ui.widget.Button
-            android:layout_width="0dp"
-            android:layout_height="@dimen/size_52"
-            android:layout_margin="@dimen/lay_8"
-            android:layout_weight="1"
-            android:background="@color/purple_500"
-            android:text="@string/hello_world"
-            android:textColor="@color/white_alpha_224" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/lay_4"
+            android:layout_marginRight="@dimen/lay_4"
+            android:layout_marginTop="@dimen/lay_16"
+            android:text="Button Widget"
+            android:textColor="@color/cyan_700"
+            android:textSize="@dimen/size_16" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/lay_4"
+            android:layout_marginTop="@dimen/lay_4"
+            android:orientation="horizontal">
+
+            <net.qiujuer.genius.ui.widget.Button
+                android:layout_width="0dp"
+                android:layout_height="@dimen/size_52"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_weight="1"
+                android:background="@color/cyan_500"
+                android:text="@string/hello_world"
+                android:textColor="@color/white_alpha_224"
+                app:gTouchEffect="ease" />
+
+            <net.qiujuer.genius.ui.widget.Button
+                android:layout_width="0dp"
+                android:layout_height="@dimen/size_52"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_weight="1"
+                android:background="@color/cyan_500"
+                android:text="@string/hello_world"
+                android:textColor="@color/white_alpha_224"
+                app:gTouchEffect="press" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/lay_4"
+            android:layout_marginTop="@dimen/lay_4"
+            android:orientation="horizontal">
+
+            <net.qiujuer.genius.ui.widget.Button
+                android:layout_width="0dp"
+                android:layout_height="@dimen/size_52"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_weight="1"
+                android:background="@color/cyan_500"
+                android:text="@string/hello_world"
+                android:textColor="@color/white_alpha_224"
+                app:gTouchEffect="ripple" />
+
+            <net.qiujuer.genius.ui.widget.Button
+                android:layout_width="0dp"
+                android:layout_height="@dimen/size_52"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_weight="1"
+                android:background="@color/cyan_500"
+                android:text="@string/hello_world"
+                android:textColor="@color/white_alpha_224"
+                app:gTouchEffect="auto" />
+        </LinearLayout>
     </LinearLayout>
 
     <net.qiujuer.genius.ui.widget.FloatActionButton

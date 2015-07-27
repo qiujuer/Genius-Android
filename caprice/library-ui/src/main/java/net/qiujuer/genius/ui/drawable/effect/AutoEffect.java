@@ -24,42 +24,67 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 /**
- * Ripple Draw Effect
+ * Move Draw Effect
  */
-public class RippleEffect extends PressEffect {
+public class AutoEffect extends PressEffect {
+    protected float mDownX;
+    protected float mDownY;
+
     protected float mPaintX;
     protected float mPaintY;
 
-    public RippleEffect() {
+    private int mCircleAlpha;
+
+    public AutoEffect() {
+        mMaxAlpha = 172;
         mMinRadiusFactor = 0;
-        mMaxRadiusFactor = 1;
+        mMaxRadiusFactor = 0.78f;
     }
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        if (mRadius > 0) {
-            canvas.drawCircle(mPaintX, mPaintY, mRadius, paint);
-        } else if (mAlpha > 0) {
-            setPaintAlpha(paint, mAlpha);
+        int preAlpha = setPaintAlpha(paint, mAlpha);
+        if (paint.getAlpha() > 0) {
             canvas.drawColor(paint.getColor());
+        }
+
+        if (mRadius > 0) {
+            if (preAlpha < 255) {
+                preAlpha = getCircleAlpha(preAlpha, paint.getAlpha());
+                paint.setAlpha(preAlpha);
+            }
+            if (mCircleAlpha != 255)
+                setPaintAlpha(paint, mCircleAlpha);
+            canvas.drawCircle(mPaintX, mPaintY, mRadius, paint);
         }
     }
 
+    @Override
+    public void animationIn(float factor) {
+        super.animationIn(factor);
+        mPaintX = mDownX + (mCenterX - mDownX) * factor;
+        mPaintY = mDownY + (mCenterY - mDownY) * factor;
+    }
 
     @Override
     public void animationOut(float factor) {
         super.animationOut(factor);
-        mRadius = 0;
+        mRadius = mMaxRadius;
+        mCircleAlpha = 255 - (int) (255 * factor);
     }
 
     @Override
     public void touchDown(float dx, float dy) {
-        mPaintX = dx;
-        mPaintY = dy;
-
-        float x = dx < mCenterX ? getWidth() : 0;
-        float y = dy < mCenterY ? getHeight() : 0;
-        float radius = (float) Math.sqrt((x - dx) * (x - dx) + (y - dy) * (y - dy));
-        setMaxRadius(radius);
+        mPaintX = mDownX = dx;
+        mPaintY = mDownY = dy;
+        mCircleAlpha = 255;
     }
+
+    private int getCircleAlpha(int preAlpha, int nowAlpha) {
+        if (nowAlpha > preAlpha)
+            return 0;
+        int dAlpha = preAlpha - nowAlpha;
+        return (255 * dAlpha) / (255 - nowAlpha);
+    }
+
 }

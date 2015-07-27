@@ -56,16 +56,14 @@
     </declare-styleable>
 
     <declare-styleable name="Button">
-        <attr name="gColorBackground" />
+        <attr name="gFont" />
         <attr name="gColorTouch" />
         <attr name="gTouchEffect" format="integer">
             <enum name="none" value="0" />
-            <enum name="ease" value="1" />
-            <enum name="ripple" value="2" />
-            <enum name="move" value="3" />
-            <enum name="press" value="4" />
+            <enum name="auto" value="1" />
+            <enum name="ease" value="2" />
+            <enum name="press" value="3" />
+            <enum name="ripple" value="4" />
         </attr>
-        <attr name="gFont" />
-
     </declare-styleable>
 </resources>

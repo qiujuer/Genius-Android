@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/26/2015
- * Changed 07/26/2015
+ * Changed 07/27/2015
  * Version 1.0.0
  * Author Qiujuer
  *
@@ -31,8 +31,8 @@ public class PressEffect extends EaseEffect {
     protected float mMaxRadius;
     protected float mRadius;
 
-    protected float mPaintX;
-    protected float mPaintY;
+    protected float mCenterX;
+    protected float mCenterY;
 
     protected float mMinRadiusFactor;
     protected float mMaxRadiusFactor;
@@ -64,9 +64,9 @@ public class PressEffect extends EaseEffect {
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        if (mRadius != 0) {
+        if (mRadius > 0 && mAlpha > 0) {
             setPaintAlpha(paint, mAlpha);
-            canvas.drawCircle(mPaintX, mPaintY, mRadius, paint);
+            canvas.drawCircle(mCenterX, mCenterY, mRadius, paint);
         }
     }
 
@@ -84,10 +84,14 @@ public class PressEffect extends EaseEffect {
 
     @Override
     protected void onResize(float width, float height) {
-        mPaintX = getWidth() / 2;
-        mPaintY = getHeight() / 2;
+        mCenterX = getWidth() / 2;
+        mCenterY = getHeight() / 2;
 
-        final float radius = Math.max(mPaintX, mPaintY);
+        final float radius = Math.max(mCenterX, mCenterY);
+        setMaxRadius(radius);
+    }
+
+    protected void setMaxRadius(float radius) {
         mMinRadius = radius * mMinRadiusFactor;
         mMaxRadius = radius * mMaxRadiusFactor;
     }

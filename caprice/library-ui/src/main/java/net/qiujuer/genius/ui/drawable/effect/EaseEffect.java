@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/26/2015
- * Changed 07/26/2015
+ * Changed 07/27/2015
  * Version 1.0.0
  * Author Qiujuer
  *
@@ -49,8 +49,10 @@ public class EaseEffect extends Effect {
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        setPaintAlpha(paint, mAlpha);
-        canvas.drawColor(paint.getColor());
+        if (mAlpha > 0) {
+            setPaintAlpha(paint, mAlpha);
+            canvas.drawColor(paint.getColor());
+        }
     }
 
     @Override
@@ -60,6 +62,6 @@ public class EaseEffect extends Effect {
 
     @Override
     public void animationOut(float factor) {
-        mAlpha = (int) (mMaxAlpha - (mMaxAlpha * factor));
+        mAlpha = mMaxAlpha - (int) (mMaxAlpha * factor);
     }
 }

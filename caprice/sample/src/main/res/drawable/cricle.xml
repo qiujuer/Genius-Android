@@ -8,4 +8,5 @@
         android:top="@dimen/lay_16" />
 
     <solid android:color="@color/black_alpha_64" />
+
 </shape>
