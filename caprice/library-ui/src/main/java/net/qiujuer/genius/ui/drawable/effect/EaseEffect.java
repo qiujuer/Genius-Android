@@ -56,12 +56,12 @@ public class EaseEffect extends Effect {
     }
 
     @Override
-    public void animationIn(float factor) {
+    public void animationEnter(float factor) {
         mAlpha = (int) (factor * mMaxAlpha);
     }
 
     @Override
-    public void animationOut(float factor) {
+    public void animationExit(float factor) {
         mAlpha = mMaxAlpha - (int) (mMaxAlpha * factor);
     }
 }

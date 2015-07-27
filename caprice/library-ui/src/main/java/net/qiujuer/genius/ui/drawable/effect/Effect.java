@@ -90,9 +90,9 @@ public abstract class Effect {
 
     }
 
-    public abstract void animationIn(float factor);
+    public abstract void animationEnter(float factor);
 
-    public abstract void animationOut(float factor);
+    public abstract void animationExit(float factor);
 
     /**
      * Set the draw paint alpha by modulateAlpha

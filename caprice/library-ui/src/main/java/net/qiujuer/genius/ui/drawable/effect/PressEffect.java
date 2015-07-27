@@ -71,14 +71,14 @@ public class PressEffect extends EaseEffect {
     }
 
     @Override
-    public void animationIn(float factor) {
-        super.animationIn(factor);
+    public void animationEnter(float factor) {
+        super.animationEnter(factor);
         mRadius = mMinRadius + (mMaxRadius - mMinRadius) * factor;
     }
 
     @Override
-    public void animationOut(float factor) {
-        super.animationOut(factor);
+    public void animationExit(float factor) {
+        super.animationExit(factor);
         mRadius = mMaxRadius + (mMinRadius - mMaxRadius) * factor;
     }
 

@@ -56,14 +56,14 @@ public class FloatEffect extends Effect {
     }
 
     @Override
-    public void animationIn(float factor) {
+    public void animationEnter(float factor) {
         mRadius = mEndRadius * factor;
         mPaintX = mDownX + (mCenterX - mDownX) * factor;
         mPaintY = mDownY + (mCenterY - mDownY) * factor;
     }
 
     @Override
-    public void animationOut(float factor) {
+    public void animationExit(float factor) {
         mRippleAlpha = mEndRippleAlpha - (int) (mEndRippleAlpha * factor);
     }
 

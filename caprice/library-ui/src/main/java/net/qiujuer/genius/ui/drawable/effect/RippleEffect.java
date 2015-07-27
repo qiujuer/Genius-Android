@@ -47,8 +47,8 @@ public class RippleEffect extends PressEffect {
 
 
     @Override
-    public void animationOut(float factor) {
-        super.animationOut(factor);
+    public void animationExit(float factor) {
+        super.animationExit(factor);
         mRadius = 0;
     }
 

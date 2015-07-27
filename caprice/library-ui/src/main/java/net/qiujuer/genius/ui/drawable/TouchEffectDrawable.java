@@ -53,8 +53,8 @@ public class TouchEffectDrawable extends StatePaintDrawable {
      */
     static final long FRAME_DURATION = 16;
     // Time
-    public static final int IN_ANIM_DURATION = 280;
-    public static final int OUT_ANIM_DURATION = 160;
+    public static final int ANIM_ENTER_DURATION = 280;
+    public static final int ANIM_Exit_DURATION = 160;
 
     // Base
     private TouchEffectState mState;
@@ -68,12 +68,12 @@ public class TouchEffectDrawable extends StatePaintDrawable {
 
     // Animation
     private boolean isRunning = false;
-    private boolean isAnimatingIn = false;
+    private boolean isEnterAnimating = false;
     private long mStartTime;
-    private Interpolator mInInterpolator = new DecelerateInterpolator(2.6f);
-    private Interpolator mOutInterpolator = new AccelerateInterpolator();
-    private int mInDuration = IN_ANIM_DURATION;
-    private int mOutDuration = OUT_ANIM_DURATION;
+    private Interpolator mEnterInterpolator = new DecelerateInterpolator(2.6f);
+    private Interpolator mExitInterpolator = new AccelerateInterpolator();
+    private int mEnterDuration = ANIM_ENTER_DURATION;
+    private int mExitDuration = ANIM_Exit_DURATION;
 
 
     public TouchEffectDrawable() {
@@ -332,7 +332,7 @@ public class TouchEffectDrawable extends StatePaintDrawable {
 
             // Cancel and Start new animation
             cancelAnim();
-            startInAnim();
+            startEnterAnim();
         }
     }
 
@@ -341,9 +341,9 @@ public class TouchEffectDrawable extends StatePaintDrawable {
             final Rect r = getBounds();
             mState.mEffect.touchReleased(x - r.left, y - r.top);
 
-            // StartOutAnim
-            if (!isAnimatingIn) {
-                startOutAnim();
+            // Start Exit animation
+            if (!isEnterAnimating) {
+                startExitAnim();
             }
         }
     }
@@ -522,68 +522,68 @@ public class TouchEffectDrawable extends StatePaintDrawable {
         return isRunning;
     }
 
-    public int getInDuration() {
-        return mInDuration;
+    public int getEnterDuration() {
+        return mEnterDuration;
     }
 
-    public int getOutDuration() {
-        return mOutDuration;
+    public int getExitDuration() {
+        return mExitDuration;
     }
 
-    public void setInDuration(int duration) {
-        mInDuration = duration;
+    public void setEnterDuration(float factor) {
+        mEnterDuration = (int) (factor * ANIM_ENTER_DURATION);
     }
 
-    public void setOutDuration(int duration) {
-        mOutDuration = duration;
+    public void setExitDuration(float factor) {
+        mExitDuration = (int) (factor * ANIM_Exit_DURATION);
     }
 
-    public Interpolator getInInterpolator() {
-        return mInInterpolator;
+    public Interpolator getEnterInterpolator() {
+        return mEnterInterpolator;
     }
 
-    public Interpolator getOutInterpolator() {
-        return mOutInterpolator;
+    public Interpolator getExitInterpolator() {
+        return mExitInterpolator;
     }
 
-    public void setInInterpolator(Interpolator inInterpolator) {
-        this.mInInterpolator = inInterpolator;
+    public void setEnterInterpolator(Interpolator inInterpolator) {
+        this.mEnterInterpolator = inInterpolator;
     }
 
-    public void setOutInterpolator(Interpolator inInterpolator) {
-        this.mOutInterpolator = inInterpolator;
+    public void setExitInterpolator(Interpolator inInterpolator) {
+        this.mExitInterpolator = inInterpolator;
     }
 
-    private void startInAnim() {
-        isAnimatingIn = true;
+    private void startEnterAnim() {
+        isEnterAnimating = true;
         isRunning = true;
 
         // Start animation
         mStartTime = SystemClock.uptimeMillis();
-        scheduleSelf(mInAnim, mStartTime);
+        scheduleSelf(mEnterAnimate, mStartTime);
     }
 
-    private void startOutAnim() {
+    private void startExitAnim() {
         // Start animation
         mStartTime = SystemClock.uptimeMillis();
-        scheduleSelf(mOutAnim, mStartTime);
+        scheduleSelf(mExitAnimate, mStartTime);
     }
 
     private void cancelAnim() {
-        unscheduleSelf(mInAnim);
-        unscheduleSelf(mOutAnim);
+        unscheduleSelf(mEnterAnimate);
+        unscheduleSelf(mExitAnimate);
         isRunning = false;
     }
 
-    private final Runnable mInAnim = new Runnable() {
+    private final Runnable mEnterAnimate = new Runnable() {
         @Override
         public void run() {
             long currentTime = SystemClock.uptimeMillis();
             long diff = currentTime - mStartTime;
-            if (diff < mInDuration) {
-                float interpolation = mInInterpolator.getInterpolation((float) diff / (float) mInDuration);
+            if (diff < mEnterDuration) {
+                float interpolation = mEnterInterpolator.getInterpolation((float) diff / (float) mEnterDuration);
                 // Notify
-                onInAnimateUpdate(interpolation);
+                onEnterAnimateUpdate(interpolation);
                 invalidateSelf();
 
                 // Next
@@ -593,24 +593,24 @@ public class TouchEffectDrawable extends StatePaintDrawable {
                 unscheduleSelf(this);
 
                 // Notify
-                onInAnimateUpdate(1f);
+                onEnterAnimateUpdate(1f);
                 invalidateSelf();
 
                 // Call end
-                onInAnimateEnd();
+                onEnterAnimateEnd();
             }
         }
     };
 
-    private final Runnable mOutAnim = new Runnable() {
+    private final Runnable mExitAnimate = new Runnable() {
         @Override
         public void run() {
             long currentTime = SystemClock.uptimeMillis();
             long diff = currentTime - mStartTime;
-            if (diff < mOutDuration) {
-                float interpolation = mOutInterpolator.getInterpolation((float) diff / (float) mOutDuration);
+            if (diff < mExitDuration) {
+                float interpolation = mExitInterpolator.getInterpolation((float) diff / (float) mExitDuration);
                 // Notify
-                onOutAnimateUpdate(interpolation);
+                onExitAnimateUpdate(interpolation);
                 invalidateSelf();
 
                 // Next
@@ -620,32 +620,32 @@ public class TouchEffectDrawable extends StatePaintDrawable {
                 unscheduleSelf(this);
 
                 // Notify
-                onOutAnimateUpdate(1f);
+                onExitAnimateUpdate(1f);
                 invalidateSelf();
 
                 // Call end
-                onOutAnimateEnd();
+                onExitAnimateEnd();
             }
         }
     };
 
-    protected void onInAnimateUpdate(float factor) {
-        mState.mEffect.animationIn(factor);
+    protected void onEnterAnimateUpdate(float factor) {
+        mState.mEffect.animationEnter(factor);
     }
 
-    protected void onOutAnimateUpdate(float factor) {
-        mState.mEffect.animationOut(factor);
+    protected void onExitAnimateUpdate(float factor) {
+        mState.mEffect.animationExit(factor);
     }
 
-    protected void onInAnimateEnd() {
+    protected void onEnterAnimateEnd() {
         // End
-        isAnimatingIn = false;
-        // Is un touch auto startOutAnim()
-        if (isTouchReleased) startOutAnim();
+        isEnterAnimating = false;
+        // Is un touch auto startExitAnim()
+        if (isTouchReleased) startExitAnim();
 
     }
 
-    protected void onOutAnimateEnd() {
+    protected void onExitAnimateEnd() {
         // End
         isRunning = false;
         // Click
