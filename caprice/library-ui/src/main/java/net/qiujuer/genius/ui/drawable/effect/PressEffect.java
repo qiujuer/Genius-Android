@@ -84,8 +84,8 @@ public class PressEffect extends EaseEffect {
 
     @Override
     protected void onResize(float width, float height) {
-        mCenterX = getWidth() / 2;
-        mCenterY = getHeight() / 2;
+        mCenterX = width / 2;
+        mCenterY = height / 2;
 
         final float radius = Math.max(mCenterX, mCenterY);
         setMaxRadius(radius);

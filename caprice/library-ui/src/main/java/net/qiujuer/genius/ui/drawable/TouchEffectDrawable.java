@@ -234,11 +234,17 @@ public class TouchEffectDrawable extends StatePaintDrawable {
             // need the save both for the translate, and for the (unknown)
             // Effect
             final int count = canvas.save();
+
             // Translate
             canvas.translate(r.left, r.top);
+
             // Clip the canvas
-            if (state.mClipFactory != null)
+            if (state.mClipFactory != null) {
                 state.mClipFactory.clip(canvas);
+            } else {
+                canvas.clipRect(0, 0, r.width(), r.height());
+            }
+
             // On draw
             onDraw(state.mEffect, canvas, paint);
             // Restore
@@ -328,7 +334,13 @@ public class TouchEffectDrawable extends StatePaintDrawable {
     protected void onTouchDown(float x, float y) {
         if (mState.mEffect != null) {
             final Rect r = getBounds();
-            mState.mEffect.touchDown(x - r.left, y - r.top);
+            if (x > r.right) x = r.width();
+            else x = x - r.left;
+
+            if (y > r.bottom) y = r.height();
+            else y = y - r.top;
+
+            mState.mEffect.touchDown(x, y);
 
             // Cancel and Start new animation
             cancelAnim();
@@ -339,7 +351,12 @@ public class TouchEffectDrawable extends StatePaintDrawable {
     protected void onTouchReleased(float x, float y) {
         if (mState.mEffect != null) {
             final Rect r = getBounds();
-            mState.mEffect.touchReleased(x - r.left, y - r.top);
+            if (x > r.right) x = r.width();
+            else x = x - r.left;
+
+            if (y > r.bottom) y = r.height();
+            else y = y - r.top;
+            mState.mEffect.touchReleased(x, y);
 
             // Start Exit animation
             if (!isEnterAnimating) {
@@ -351,7 +368,12 @@ public class TouchEffectDrawable extends StatePaintDrawable {
     protected void onTouchMove(float x, float y) {
         if (mState.mEffect != null) {
             final Rect r = getBounds();
-            mState.mEffect.touchMove(x - r.left, y - r.top);
+            if (x > r.right) x = r.width();
+            else x = x - r.left;
+
+            if (y > r.bottom) y = r.height();
+            else y = y - r.top;
+            mState.mEffect.touchMove(x, y);
         }
     }
 

@@ -28,6 +28,11 @@
     <attr name="gCornerRadiusTR" format="dimension" />
     <attr name="gCornerRadiusBL" format="dimension" />
     <attr name="gCornerRadiusBR" format="dimension" />
+    <attr name="gTouchCornerRadius" format="dimension" />
+    <attr name="gTouchCornerRadiusTL" format="dimension" />
+    <attr name="gTouchCornerRadiusTR" format="dimension" />
+    <attr name="gTouchCornerRadiusBL" format="dimension" />
+    <attr name="gTouchCornerRadiusBR" format="dimension" />
 
     <!-- TextView -->
     <declare-styleable name="TextView">
@@ -59,10 +64,10 @@
             <enum name="press" value="3" />
             <enum name="ripple" value="4" />
         </attr>
-        <attr name="gCornerRadius" />
-        <attr name="gCornerRadiusTL" />
-        <attr name="gCornerRadiusTR" />
-        <attr name="gCornerRadiusBL" />
-        <attr name="gCornerRadiusBR" />
+        <attr name="gTouchCornerRadius" />
+        <attr name="gTouchCornerRadiusTL" />
+        <attr name="gTouchCornerRadiusTR" />
+        <attr name="gTouchCornerRadiusBL" />
+        <attr name="gTouchCornerRadiusBR" />
     </declare-styleable>
 </resources>

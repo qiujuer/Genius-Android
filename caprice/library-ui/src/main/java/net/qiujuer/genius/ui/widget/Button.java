@@ -19,6 +19,7 @@ import net.qiujuer.genius.ui.drawable.effect.AutoEffect;
 import net.qiujuer.genius.ui.drawable.effect.EaseEffect;
 import net.qiujuer.genius.ui.drawable.effect.PressEffect;
 import net.qiujuer.genius.ui.drawable.effect.RippleEffect;
+import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
 
 /**
  * Created by qiujuer on 15/7/23.
@@ -71,10 +72,29 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         String fontFile = a.getString(R.styleable.Button_gFont);
         int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, 1);
         int touchColor = a.getColor(R.styleable.Button_gColorTouch, GeniusUi.TOUCH_PRESS_COLOR);
+
+        // Load clip touch corner radius
+        ClipFilletFactory touchFactory = null;
+        float touchRadius = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadius, 0);
+        if (touchRadius > 0) {
+            touchFactory = new ClipFilletFactory(touchRadius);
+        } else {
+            float touchRadiusTL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTL, 0);
+            float touchRadiusTR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTR, 0);
+            float touchRadiusBL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBL, 0);
+            float touchRadiusBR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBR, 0);
+            if (touchRadiusTL > 0 || touchRadiusTR > 0 || touchRadiusBL > 0 || touchRadiusBR > 0) {
+                float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
+                        touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
+                touchFactory = new ClipFilletFactory(radius);
+            }
+        }
         a.recycle();
 
+        // SetTouch
         setTouchEffect(touchEffect);
         setTouchColor(touchColor);
+        setTouchClipFactory(touchFactory);
 
         // Check for IDE preview render
         if (!this.isInEditMode() && fontFile != null && fontFile.length() > 0) {
@@ -114,11 +134,26 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         }
     }
 
+    public void setTouchClipFactory(TouchEffectDrawable.ClipFactory factory) {
+        if (mTouchDrawable != null) {
+            mTouchDrawable.setClipFactory(factory);
+        }
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (mTouchDrawable != null)
-            mTouchDrawable.setBounds(0, 0, getWidth(), getHeight());
+        TouchEffectDrawable drawable = mTouchDrawable;
+        if (drawable != null) {
+            /*
+            Rect padding = new Rect();
+            if (drawable.getPadding(padding) && (padding.left > 0
+                    || padding.top > 0 || padding.right > 0 || padding.bottom > 0)) {
+                drawable.setBounds(padding.left, padding.top, getWidth() - padding.right, getHeight() - padding.bottom);
+            } else
+            */
+            drawable.setBounds(0, 0, getWidth(), getHeight());
+        }
     }
 
     @Override
