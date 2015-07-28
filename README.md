@@ -21,6 +21,7 @@
 	> * **Ui Lib:** research and development in `Color-Drive` and `Material Design` style
 	> * **Kit Lib:** Include `command`、`net`、`util`
 	> * **Blur Lib:** Include `blur`
+  > * **Resource Lib** Include `Material Design` Color and Lay Size
 
 **`Note:` `STEADY` with `CAPRICE` libraries are not compatible, is completely independent branch!**
 
@@ -38,16 +39,18 @@ dependencies {
 }
 ```
 
-*  Maven:
-```
-<dependency>
-    <groupId>com.github.qiujuer</groupId>
-    <artifactId>genius</artifactId>
-    <version>2.4.1</version>
-</dependency>
-```
-	
+
 ### `CAPRICE` 
+
+#### `Ui`
+
+*  Gradle:
+```
+dependencies {
+  compile 'net.qiujuer.genius:ui:0.1.0'
+}
+```
+
 
 #### `Blur`
 
@@ -58,13 +61,14 @@ dependencies {
 }
 ```
 
-*  Maven:
+
+#### `Resource`
+
+*  Gradle:
 ```
-<dependency>
-    <groupId>net.qiujuer.genius</groupId>
-    <artifactId>blur</artifactId>
-    <version>1.0.0</version>
-</dependenc
+dependencies {
+  compile 'net.qiujuer.genius:res:1.0.0'
+}
 ```
 
 
@@ -75,15 +79,6 @@ dependencies {
 dependencies {
   compile 'net.qiujuer.genius:kit:1.0.0'
 }
-```
-
-*  Maven:
-```
-<dependency>
-    <groupId>net.qiujuer.genius</groupId>
-    <artifactId>kit</artifactId>
-    <version>1.0.0</version>
-</dependenc
 ```
 
 

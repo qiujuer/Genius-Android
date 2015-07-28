@@ -21,6 +21,7 @@
 	> * **Ui Lib** 主打颜色驱动`Material Design`风格进行研发 
 	> * **Kit Lib** 包含：`command`、`net`、`util` 等包
 	> * **Blur Lib** 包含：`StackBlr` 对图片进行模糊
+  > * **Resource Lib** 包含：`Material Design` 的颜色与布局大小
 
 **`请注意：` `STEADY` 与 `CAPRICE` 库并不兼容，是完全独立的两个分支！**
 
@@ -37,17 +38,18 @@ dependencies {
   compile 'com.github.qiujuer:genius:2.4.1'
 }
 ```
-
-*  Maven:
-```
-<dependency>
-    <groupId>com.github.qiujuer</groupId>
-    <artifactId>genius</artifactId>
-    <version>2.4.1</version>
-</dependency>
-```
 	
 ### `CAPRICE` 
+
+#### `Ui`
+
+*  Gradle:
+```
+dependencies {
+  compile 'net.qiujuer.genius:ui:0.1.0'
+}
+```
+
 
 #### `Blur`
 
@@ -58,13 +60,14 @@ dependencies {
 }
 ```
 
-*  Maven:
+
+#### `Resource`
+
+*  Gradle:
 ```
-<dependency>
-    <groupId>net.qiujuer.genius</groupId>
-    <artifactId>blur</artifactId>
-    <version>1.0.0</version>
-</dependenc
+dependencies {
+  compile 'net.qiujuer.genius:res:1.0.0'
+}
 ```
 
 
@@ -75,15 +78,6 @@ dependencies {
 dependencies {
   compile 'net.qiujuer.genius:kit:1.0.0'
 }
-```
-
-*  Maven:
-```
-<dependency>
-    <groupId>net.qiujuer.genius</groupId>
-    <artifactId>kit</artifactId>
-    <version>1.0.0</version>
-</dependenc
 ```
 
 
