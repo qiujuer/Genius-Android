@@ -312,7 +312,7 @@ public class TouchEffectDrawable extends StatePaintDrawable {
         mMutated = false;
     }
 
-    public void onTouch(MotionEvent event) {
+    public boolean onTouch(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP: {
@@ -328,7 +328,10 @@ public class TouchEffectDrawable extends StatePaintDrawable {
             case MotionEvent.ACTION_MOVE:
                 onTouchMove(event.getX(), event.getY());
                 break;
+            default:
+                return false;
         }
+        return true;
     }
 
     protected void onTouchDown(float x, float y) {
@@ -510,7 +513,12 @@ public class TouchEffectDrawable extends StatePaintDrawable {
             isPerformClick = true;
             return false;
         } else {
-            return !isRunning;
+            if (isRunning)
+                return false;
+            else {
+                isPerformClick = false;
+                return true;
+            }
         }
     }
 
