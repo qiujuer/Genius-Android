@@ -22,7 +22,7 @@
         android:paddingRight="@dimen/lay_12">
 
 
-        <TextView
+        <net.qiujuer.genius.ui.widget.TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/lay_4"
@@ -30,7 +30,10 @@
             android:layout_marginTop="@dimen/lay_16"
             android:text="Button Widget"
             android:textColor="@color/cyan_700"
-            android:textSize="@dimen/size_16" />
+            android:textSize="@dimen/size_16"
+            app:gBorder="bottom|top"
+            app:gBorderColor="@color/grey_500"
+            app:gBorderSize="2dp" />
 
         <TextView
             android:layout_width="wrap_content"

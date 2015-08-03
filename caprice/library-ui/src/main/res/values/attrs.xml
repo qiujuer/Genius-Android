@@ -37,14 +37,15 @@
     <!-- TextView -->
     <declare-styleable name="TextView">
         <attr name="gFont" />
-        <attr name="gColorBackground" />
+        <attr name="gBorder">
+            <flag name="all" value="0x1111" />
+            <flag name="left" value="0x0001" />
+            <flag name="top" value="0x0100" />
+            <flag name="right" value="0x0010" />
+            <flag name="bottom" value="0x1000" />
+        </attr>
         <attr name="gBorderSize" format="dimension" />
         <attr name="gBorderColor" format="color|reference" />
-        <attr name="gCornerRadius" />
-        <attr name="gCornerRadiusTL" />
-        <attr name="gCornerRadiusTR" />
-        <attr name="gCornerRadiusBL" />
-        <attr name="gCornerRadiusBR" />
     </declare-styleable>
 
     <!-- FloatActionButton -->
