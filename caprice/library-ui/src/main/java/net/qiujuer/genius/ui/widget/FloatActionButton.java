@@ -32,23 +32,23 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
 
     public FloatActionButton(Context context) {
         super(context);
-        init(null, 0);
+        init(null, 0, 0);
     }
 
     public FloatActionButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0);
+        init(attrs, 0, 0);
     }
 
     public FloatActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public FloatActionButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs, defStyleAttr);
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
@@ -64,12 +64,15 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     }
 
 
-    private void init(AttributeSet attrs, int defStyle) {
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        if (attrs == null)
+            return;
+
         final Context context = getContext();
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.FloatActionButton, defStyle, 0);
+                attrs, R.styleable.FloatActionButton, defStyleAttr, defStyleRes);
 
         ColorStateList bgColor = a.getColorStateList(R.styleable.FloatActionButton_gColorBackground);
         int touchColor = a.getColor(R.styleable.FloatActionButton_gColorTouch, GeniusUi.TOUCH_PRESS_COLOR);
@@ -86,7 +89,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
 
         // Background drawable
-        final float density = getContext().getResources().getDisplayMetrics().density;
+        final float density = context.getResources().getDisplayMetrics().density;
         final int shadowYOffset = (int) (density * GeniusUi.Y_OFFSET);
         final int shadowXOffset = (int) (density * GeniusUi.X_OFFSET);
         final int maxShadowOffset = Math.max(shadowXOffset, shadowYOffset);
@@ -106,7 +109,10 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
                     GeniusUi.KEY_SHADOW_COLOR);
             final int padding = mShadowRadius;
             // set padding so the inner image sits correctly within the shadow.
-            setPadding(padding, padding, padding, padding);
+            setPadding(Math.max(padding, getPaddingLeft()),
+                    Math.max(padding, getPaddingTop()),
+                    Math.max(padding, getPaddingRight()),
+                    Math.max(padding, getPaddingBottom()));
         }
         setBackgroundDrawable(background);
         setBackgroundColor(bgColor);
@@ -176,12 +182,15 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mTouchDrawable.setBounds(mShadowRadius, mShadowRadius, getWidth() - mShadowRadius, getHeight() - mShadowRadius);
+        Drawable drawable = mTouchDrawable;
+        if (drawable != null)
+            drawable.setBounds(mShadowRadius, mShadowRadius, getWidth() - mShadowRadius, getHeight() - mShadowRadius);
     }
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
-        return who == mTouchDrawable || super.verifyDrawable(who);
+        Drawable drawable = mTouchDrawable;
+        return (drawable != null && who == mTouchDrawable) || super.verifyDrawable(who);
     }
 
 

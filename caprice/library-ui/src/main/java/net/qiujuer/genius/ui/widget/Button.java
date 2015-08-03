@@ -31,23 +31,22 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
     public Button(Context context) {
         super(context);
-        init(null, 0);
     }
 
     public Button(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0);
+        init(attrs, 0, 0);
     }
 
     public Button(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Button(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs, defStyleAttr);
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
@@ -62,12 +61,15 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         info.setClassName(Button.class.getName());
     }
 
-    private void init(AttributeSet attrs, int defStyle) {
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        if (attrs == null)
+            return;
+
         final Context context = getContext();
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.Button, defStyle, 0);
+                attrs, R.styleable.Button, defStyleAttr, defStyleRes);
 
         String fontFile = a.getString(R.styleable.Button_gFont);
         int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, 1);
@@ -158,9 +160,8 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
-        if (mTouchDrawable != null)
-            return who == mTouchDrawable || super.verifyDrawable(who);
-        else return super.verifyDrawable(who);
+        Drawable drawable = mTouchDrawable;
+        return (drawable != null && who == drawable) || super.verifyDrawable(who);
     }
 
     @Override
