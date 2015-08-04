@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 03/23/2014
- * Changed 03/23/2015
+ * Created 07/23/2015
+ * Changed 08/04/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,8 @@ import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.drawable.shape.BorderShape;
 
 /**
- * TextView this is quickly set up
+ * TextView this is quickly setup
+ * This supper custom font and custom border
  */
 public class TextView extends android.widget.TextView {
     public final static int BORDER_LEFT = 0x0001;
@@ -88,7 +89,7 @@ public class TextView extends android.widget.TextView {
         setBorder(border, borderSize, borderColor);
 
         // Check for IDE preview render
-        if (!this.isInEditMode()) {
+        if (!this.isInEditMode() && fontFile != null && fontFile.length() > 0) {
             Typeface typeface = GeniusUi.getFont(getContext(), fontFile);
             if (typeface != null) setTypeface(typeface);
         }

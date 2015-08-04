@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 07/23/2015
+ * Changed 08/04/2015
+ * Version 1.0.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
@@ -22,8 +41,9 @@ import net.qiujuer.genius.ui.drawable.effect.RippleEffect;
 import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
 
 /**
- * Created by qiujuer on 15/7/23.
  * This is touch effect button
+ * Include 'Auto' 'Ease' 'Press' 'Ripple' effect to touch
+ * And supper custom font
  */
 public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
     private TouchEffectDrawable mTouchDrawable;
@@ -96,12 +116,17 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         // SetTouch
         setTouchEffect(touchEffect);
         setTouchColor(touchColor);
-        setTouchClipFactory(touchFactory);
 
         // Check for IDE preview render
-        if (!this.isInEditMode() && fontFile != null && fontFile.length() > 0) {
-            Typeface typeface = GeniusUi.getFont(getContext(), fontFile);
-            if (typeface != null) setTypeface(typeface);
+        if (!this.isInEditMode()) {
+            // Touch factory
+            setTouchClipFactory(touchFactory);
+
+            // Font
+            if (fontFile != null && fontFile.length() > 0) {
+                Typeface typeface = GeniusUi.getFont(getContext(), fontFile);
+                if (typeface != null) setTypeface(typeface);
+            }
         }
     }
 
