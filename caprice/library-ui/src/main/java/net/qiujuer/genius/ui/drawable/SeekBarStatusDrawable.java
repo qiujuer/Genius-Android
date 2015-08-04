@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 02/20/2015
- * Changed 03/01/2015
- * Version 2.0.0
+ * Created 08/04/2015
+ * Changed 08/04/2015
+ * Version 3.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -113,6 +113,13 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     }
 
     /**
+     * Get the Track ColorStateList
+     */
+    public ColorStateList getTrackColor() {
+        return mTrackStateList;
+    }
+
+    /**
      * Set the Scrubber ColorStateList
      *
      * @param stateList ColorStateList
@@ -123,6 +130,14 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     }
 
     /**
+     * Get the Scrubber ColorStateList
+     */
+    public ColorStateList getScrubberColor() {
+        return mScrubberStateList;
+    }
+
+
+    /**
      * Set the Thumb ColorStateList
      *
      * @param stateList ColorStateList
@@ -130,6 +145,14 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     public void setThumbColor(ColorStateList stateList) {
         mThumbStateList = stateList;
         mThumbColor = mThumbStateList.getDefaultColor();
+    }
+
+
+    /**
+     * Get the Thumb ColorStateList
+     */
+    public ColorStateList getThumbColor() {
+        return mThumbStateList;
     }
 
 

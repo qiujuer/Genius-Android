@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 02/25/2015
- * Changed 03/01/2015
- * Version 2.0.0
- * GeniusEditText
+ * Created 08/04/2015
+ * Changed 08/04/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ import net.qiujuer.genius.ui.widget.compat.GeniusCompat;
 /**
  * This is a BalloonMarker
  */
-public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
+public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
     private static final int PADDING_DP = 4;
     private static final int ELEVATION_DP = 8;
     private static final int SEPARATION_DP = 22;
@@ -58,20 +58,20 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
     //This will be added to our measured height
     private int mSeparation;
 
-    public GeniusBalloonMarker(Context context) {
+    public BalloonMarker(Context context) {
         this(context, null);
     }
 
-    public GeniusBalloonMarker(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.GeniusBalloonMarkerStyle);
+    public BalloonMarker(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.BalloonMarkerAttr);
     }
 
-    public GeniusBalloonMarker(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, "0");
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public GeniusBalloonMarker(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
+    public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
         super(context, attrs, defStyleAttr);
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -104,19 +104,19 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
 
         if (attrs != null) {
 
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GeniusBalloonMarker,
-                    R.attr.GeniusBalloonMarkerStyle, R.style.DefaultBalloonMarkerStyle);
-            int textAppearanceId = a.getResourceId(R.styleable.GeniusBalloonMarker_g_markerTextAppearance,
-                    R.style.DefaultBalloonMarkerTextAppearanceStyle);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BalloonMarker,
+                    defStyleAttr, R.style.BalloonMarkerStyle);
+            int textAppearanceId = a.getResourceId(R.styleable.BalloonMarker_gMarkerTextAppearance,
+                    R.style.BalloonMarkerTextAppearanceStyle);
 
             setTextAppearance(textAppearanceId);
 
-            ColorStateList color = a.getColorStateList(R.styleable.GeniusBalloonMarker_g_markerBackgroundColor);
+            ColorStateList color = a.getColorStateList(R.styleable.BalloonMarker_gMarkerBackgroundColor);
             setBackgroundColor(color);
 
             //Elevation for android 5+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                float elevation = a.getDimension(R.styleable.GeniusBalloonMarker_g_markerElevation, ELEVATION_DP * displayMetrics.density);
+                float elevation = a.getDimension(R.styleable.BalloonMarker_gMarkerElevation, ELEVATION_DP * displayMetrics.density);
                 ViewCompat.setElevation(this, elevation);
             }
             a.recycle();
@@ -125,6 +125,10 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
 
     public void setTextAppearance(int resid) {
         mNumber.setTextAppearance(getContext(), resid);
+    }
+
+    public ColorStateList getBackgroundColor() {
+        return mBalloonMarkerDrawable.getColorStateList();
     }
 
     public void setBackgroundColor(ColorStateList color) {

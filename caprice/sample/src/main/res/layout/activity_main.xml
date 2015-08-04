@@ -263,14 +263,15 @@
             android:layout_marginTop="@dimen/lay_4"
             android:orientation="horizontal">
 
-            <net.qiujuer.genius.ui.widget.GeniusSeekBar
+            <net.qiujuer.genius.ui.widget.SeekBar
                 android:layout_width="0dp"
                 android:layout_height="@dimen/size_52"
                 android:layout_marginLeft="@dimen/lay_4"
                 android:layout_marginRight="@dimen/lay_4"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                app:gValue="30" />
 
-            <net.qiujuer.genius.ui.widget.GeniusSeekBar
+            <net.qiujuer.genius.ui.widget.SeekBar
                 android:layout_width="0dp"
                 android:layout_height="@dimen/size_52"
                 android:layout_marginLeft="@dimen/lay_4"
