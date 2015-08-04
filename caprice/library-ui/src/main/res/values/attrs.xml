@@ -1,9 +1,10 @@
 <!--
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
-* Created 02/25/2015
-* Changed 05/27/2015
-* Version 2.0.0
+* Created 08/04/2015
+* Changed 08/04/2015
+* Version 3.0.0
+* Author Qiujuer
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -70,5 +71,40 @@
         <attr name="gTouchCornerRadiusTR" />
         <attr name="gTouchCornerRadiusBL" />
         <attr name="gTouchCornerRadiusBR" />
+    </declare-styleable>
+
+
+    <!-- BalloonMarker -->
+    <attr name="BalloonMarkerAttr" format="reference" />
+    <declare-styleable name="BalloonMarker">
+        <attr name="gMarkerTextAppearance" format="reference" />
+        <attr name="gMarkerBackgroundColor" format="color|reference" />
+        <attr name="gMarkerElevation" format="dimension" />
+    </declare-styleable>
+
+    <!-- SeekBar -->
+    <attr name="AbsSeekBarAttr" format="reference" />
+    <declare-styleable name="AbsSeekBar">
+        <attr name="gMin" format="integer" />
+        <attr name="gMax" format="integer" />
+        <attr name="gValue" format="integer" />
+
+        <attr name="gTickSize" format="dimension" />
+        <attr name="gThumbSize" format="dimension" />
+        <attr name="gTouchSize" format="dimension" />
+        <attr name="gTrackStroke" format="dimension" />
+        <attr name="gScrubberStroke" format="dimension" />
+
+        <attr name="gMirrorForRtl" format="boolean" />
+        <attr name="gAllowTrackClickToDrag" format="boolean" />
+
+        <attr name="gRippleColor" format="color|reference" />
+        <attr name="gScrubberColor" format="color|reference" />
+        <attr name="gTrackColor" format="color|reference" />
+        <attr name="gThumbColor" format="color|reference" />
+
+        <attr name="gIndicatorBackgroundColor" format="color|reference" />
+        <attr name="gIndicatorFormatter" format="string|reference" />
+        <attr name="gIndicatorTextAppearance" format="reference" />
     </declare-styleable>
 </resources>

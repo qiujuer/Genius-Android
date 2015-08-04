@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-* Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+* Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
-* Created 02/25/2015
-* Changed 03/01/2015
-* Version 2.0.0
-* GeniusEditText
+* Created 08/04/2015
+* Changed 08/04/2015
+* Version 3.0.0
+* Author Qiujuer
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,7 +23,5 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="@color/g_disabled_color" android:state_enabled="false" />
-    <item android:color="@color/g_ripple_color_focused" android:state_focused="true" />
-    <item android:color="@color/g_ripple_color_pressed" android:state_pressed="true" />
-    <item android:color="@android:color/transparent" />
+    <item android:color="@color/g_track_color" />
 </selector>
