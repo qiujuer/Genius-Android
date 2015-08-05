@@ -49,10 +49,8 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
     private int mDuration = ANIMATION_DURATION;
     private float mAnimationInitialValue;
     private final Runnable mUpdater = new Runnable() {
-
         @Override
         public void run() {
-
             long currentTime = SystemClock.uptimeMillis();
             long diff = currentTime - mStartTime;
             if (diff < mDuration) {
@@ -75,7 +73,6 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
 
     public AlmostRippleDrawable(ColorStateList tintStateList) {
         super(tintStateList);
-
         mInterpolator = new AccelerateDecelerateInterpolator();
     }
 
@@ -90,13 +87,13 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
         float radiusAnimated = radius * scale;
         if (scale > INACTIVE_SCALE) {
             if (bgColor != 0) {
-                paint.setColor(bgColor);
-                paint.setAlpha(decreasedAlpha(Color.alpha(bgColor)));
-                canvas.drawCircle(bounds.centerX(), bounds.centerY(), radius, paint);
+                //paint.setColor(bgColor);
+                //paint.setAlpha(decreasedAlpha(Color.alpha(bgColor)));
+                //canvas.drawCircle(bounds.centerX(), bounds.centerY(), radius, paint);
             }
             if (rippleColor != 0) {
-                paint.setColor(rippleColor);
-                paint.setAlpha(GeniusUi.modulateAlpha(paint.getAlpha(), Color.alpha(rippleColor)));
+                //paint.setColor(rippleColor);
+                //paint.setAlpha(GeniusUi.modulateAlpha(paint.getAlpha(), Color.alpha(rippleColor)));
                 canvas.drawCircle(bounds.centerX(), bounds.centerY(), radiusAnimated, paint);
             }
         }

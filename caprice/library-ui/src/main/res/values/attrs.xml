@@ -75,7 +75,7 @@
 
 
     <!-- BalloonMarker -->
-    <attr name="BalloonMarkerAttr" format="reference" />
+    <attr name="balloonMarkerStyle" format="reference" />
     <declare-styleable name="BalloonMarker">
         <attr name="gMarkerTextAppearance" format="reference" />
         <attr name="gMarkerBackgroundColor" format="color|reference" />
@@ -83,7 +83,7 @@
     </declare-styleable>
 
     <!-- SeekBar -->
-    <attr name="AbsSeekBarAttr" format="reference" />
+    <attr name="seekBarStyle" format="reference" />
     <declare-styleable name="AbsSeekBar">
         <attr name="gMin" format="integer" />
         <attr name="gMax" format="integer" />

@@ -13,6 +13,8 @@
         <item name="colorPrimaryDark">@color/cyan_700</item>
         <item name="colorAccent">@color/cyan_500</item>
 
+        <item name="seekBarStyle">@style/AbsSeekBarStyle</item>
+
         <!-- Toolbar styles -->
         <item name="toolbarStyle">@style/ToolBarStyle</item>
         <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationButtonStyle</item>

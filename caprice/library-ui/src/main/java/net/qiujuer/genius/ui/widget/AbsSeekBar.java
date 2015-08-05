@@ -113,12 +113,12 @@ public abstract class AbsSeekBar extends View {
 
     public AbsSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.AbsSeekBarAttr, R.style.AbsSeekBarStyle);
+        init(attrs, R.attr.seekBarStyle, 0);
     }
 
     public AbsSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, R.style.AbsSeekBarStyle);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -512,7 +512,9 @@ public abstract class AbsSeekBar extends View {
         super.onDraw(canvas);
 
         mSeekBarDrawable.draw(canvas);
-        mRipple.draw(canvas);
+
+        if (isEnabled())
+            mRipple.draw(canvas);
 
     }
 

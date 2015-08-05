@@ -22,8 +22,8 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/g_disabled_color" android:state_enabled="false" />
-    <item android:color="@color/g_ripple_color_focused" android:state_focused="true" />
-    <item android:color="@color/g_ripple_color_pressed" android:state_pressed="true" />
+    <item android:color="@color/g_ripple_color_focused" android:state_enabled="true" android:state_focused="true" />
+    <item android:color="@color/g_ripple_color_pressed" android:state_enabled="true" android:state_pressed="true" />
+    <item android:color="@color/grey_500" android:state_enabled="false" />
     <item android:color="@color/black_alpha_16" />
 </selector>

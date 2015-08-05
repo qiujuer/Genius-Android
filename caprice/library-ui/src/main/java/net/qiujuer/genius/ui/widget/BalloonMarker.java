@@ -63,17 +63,21 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
     }
 
     public BalloonMarker(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.BalloonMarkerAttr);
+        this(context, attrs, R.attr.balloonMarkerStyle);
     }
 
     public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, "0");
+        super(context, attrs, defStyleAttr);
+        init(context, attrs, defStyleAttr, 0, "0");
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
-        super(context, attrs, defStyleAttr);
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs, defStyleAttr, defStyleRes, "0");
+    }
 
+    public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, String maxValue) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int padding = (int) (PADDING_DP * displayMetrics.density) * 2;
         mNumber = new TextView(context);
@@ -105,7 +109,7 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
         if (attrs != null) {
 
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BalloonMarker,
-                    defStyleAttr, R.style.BalloonMarkerStyle);
+                    defStyleAttr, defStyleRes);
             int textAppearanceId = a.getResourceId(R.styleable.BalloonMarker_gMarkerTextAppearance,
                     R.style.BalloonMarkerTextAppearanceStyle);
 
