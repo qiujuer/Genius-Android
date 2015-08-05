@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 07/23/2015
+ * Changed 08/05/2015
+ * Version 3.0.0
+ * Author Qiujuer
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
@@ -12,8 +32,8 @@ import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
 import net.qiujuer.genius.ui.drawable.effect.AutoEffect;
 import net.qiujuer.genius.ui.drawable.effect.EaseEffect;
@@ -22,8 +42,9 @@ import net.qiujuer.genius.ui.drawable.effect.RippleEffect;
 import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
 
 /**
- * Created by qiujuer on 15/7/23.
  * This is touch effect button
+ * Include 'Auto' 'Ease' 'Press' 'Ripple' effect to touch
+ * And supper custom font
  */
 public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
     private TouchEffectDrawable mTouchDrawable;
@@ -31,23 +52,22 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
     public Button(Context context) {
         super(context);
-        init(null, 0);
     }
 
     public Button(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0);
+        init(attrs, R.attr.gButtonStyle, 0);
     }
 
     public Button(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Button(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs, defStyleAttr);
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
@@ -62,16 +82,19 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         info.setClassName(Button.class.getName());
     }
 
-    private void init(AttributeSet attrs, int defStyle) {
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        if (attrs == null)
+            return;
+
         final Context context = getContext();
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.Button, defStyle, 0);
+                attrs, R.styleable.Button, defStyleAttr, defStyleRes);
 
         String fontFile = a.getString(R.styleable.Button_gFont);
         int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, 1);
-        int touchColor = a.getColor(R.styleable.Button_gColorTouch, GeniusUi.TOUCH_PRESS_COLOR);
+        int touchColor = a.getColor(R.styleable.Button_gTouchColor, Ui.TOUCH_PRESS_COLOR);
 
         // Load clip touch corner radius
         ClipFilletFactory touchFactory = null;
@@ -94,12 +117,17 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         // SetTouch
         setTouchEffect(touchEffect);
         setTouchColor(touchColor);
-        setTouchClipFactory(touchFactory);
 
         // Check for IDE preview render
-        if (!this.isInEditMode() && fontFile != null && fontFile.length() > 0) {
-            Typeface typeface = GeniusUi.getFont(getContext(), fontFile);
-            if (typeface != null) setTypeface(typeface);
+        if (!this.isInEditMode()) {
+            // Touch factory
+            setTouchClipFactory(touchFactory);
+
+            // Font
+            if (fontFile != null && fontFile.length() > 0) {
+                Typeface typeface = Ui.getFont(getContext(), fontFile);
+                if (typeface != null) setTypeface(typeface);
+            }
         }
     }
 
@@ -158,9 +186,8 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
-        if (mTouchDrawable != null)
-            return who == mTouchDrawable || super.verifyDrawable(who);
-        else return super.verifyDrawable(who);
+        Drawable drawable = mTouchDrawable;
+        return (drawable != null && who == drawable) || super.verifyDrawable(who);
     }
 
     @Override

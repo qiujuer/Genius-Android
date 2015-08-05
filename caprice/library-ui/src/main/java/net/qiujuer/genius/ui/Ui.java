@@ -1,9 +1,10 @@
 /*
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 03/23/2014
- * Changed 07/25/2015
- * Version 1.0.0
+ * Created 09/23/2014
+ * Changed 08/04/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,9 +37,9 @@ import android.util.TypedValue;
 
 /**
  * Created by QiuJu
- * on 2014/9/3.
+ * This is Genius UI Center
  */
-public class GeniusUi {
+public class Ui {
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
     public static final boolean elevationSupported = Build.VERSION.SDK_INT >= 21;
 
@@ -67,7 +68,7 @@ public class GeniusUi {
         try {
             return Typeface.createFromAsset(context.getAssets(), fontPath);
         } catch (Exception e) {
-            Log.e("GeniusUi", "Font file at " + fontPath + " cannot be found or the file is " +
+            Log.e("Genius Ui", "Font file at " + fontPath + " cannot be found or the file is " +
                     "not a valid font file. Please be sure that library assets are included " +
                     "to project. If not, copy assets/fonts folder of the library to your " +
                     "projects assets folder.");
@@ -80,7 +81,7 @@ public class GeniusUi {
         try {
             return Typeface.createFromAsset(context.getAssets(), fontPath);
         } catch (Exception e) {
-            Log.e("GeniusUi", "Font file at " + fontPath + " cannot be found or the file is " +
+            Log.e("Genius Ui", "Font file at " + fontPath + " cannot be found or the file is " +
                     "not a valid font file. Please be sure that library assets are included " +
                     "to project. If not, copy assets/fonts folder of the library to your " +
                     "projects assets folder.");
@@ -231,7 +232,7 @@ public class GeniusUi {
      * @return IsEnabled
      */
     public static boolean isEnableAttr(Context context, AttributeSet attrs) {
-        return attrs.getAttributeBooleanValue(GeniusUi.androidStyleNameSpace, "enabled", true);
+        return attrs.getAttributeBooleanValue(Ui.androidStyleNameSpace, "enabled", true);
     }
 
     /**
@@ -244,7 +245,7 @@ public class GeniusUi {
     public static int getBackgroundColor(Context context, AttributeSet attrs) {
         int color = Color.TRANSPARENT;
 
-        String attributeValue = attrs.getAttributeValue(GeniusUi.androidStyleNameSpace, "background");
+        String attributeValue = attrs.getAttributeValue(Ui.androidStyleNameSpace, "background");
         if (attributeValue != null) {
             int styleId = attrs.getStyleAttribute();
             int[] attributesArray = new int[]{android.R.attr.background};

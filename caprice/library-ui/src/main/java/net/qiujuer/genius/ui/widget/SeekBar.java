@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 02/25/2015
- * Changed 03/01/2015
- * Version 2.0.0
- * GeniusEditText
+ * Created 08/04/2015
+ * Changed 08/05/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,21 +27,23 @@ import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-@SuppressWarnings("UnusedDeclaration")
-public class GeniusSeekBar extends GeniusAbsSeekBar {
-
+public class SeekBar extends AbsSeekBar {
     private OnSeekBarChangeListener mOnSeekBarChangeListener;
 
-    public GeniusSeekBar(Context context, AttributeSet attrs) {
+    public SeekBar(Context context) {
+        super(context);
+    }
+
+    public SeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public GeniusSeekBar(Context context, AttributeSet attrs, int defStyle) {
+    public SeekBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public GeniusSeekBar(Context context) {
-        super(context);
+    public SeekBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     /**
@@ -50,7 +52,7 @@ public class GeniusSeekBar extends GeniusAbsSeekBar {
      * And provides notifications of when the AbsSeekBar shows/hides the bubble indicator.
      *
      * @param l The seek bar notification listener
-     * @see GeniusSeekBar.OnSeekBarChangeListener
+     * @see SeekBar.OnSeekBarChangeListener
      */
     public void setOnSeekBarChangeListener(OnSeekBarChangeListener l) {
         mOnSeekBarChangeListener = l;
@@ -84,13 +86,13 @@ public class GeniusSeekBar extends GeniusAbsSeekBar {
     @Override
     public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
-        event.setClassName(GeniusSeekBar.class.getName());
+        event.setClassName(SeekBar.class.getName());
     }
 
     @Override
     public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName(GeniusSeekBar.class.getName());
+        info.setClassName(SeekBar.class.getName());
     }
 
     /**
@@ -107,10 +109,10 @@ public class GeniusSeekBar extends GeniusAbsSeekBar {
          *
          * @param seekBar  The GeniusSeekBar
          * @param progress The current progress level. This will be in the range 0..max where max
-         *                 was set by {@link GeniusAbsSeekBar#setMax(int)}. (The default value for max is 100.)
+         *                 was set by {@link AbsSeekBar#setMax(int)}. (The default value for max is 100.)
          * @param fromUser True if the progress change was initiated by the user.
          */
-        void onProgressChanged(GeniusSeekBar seekBar, int progress, boolean fromUser);
+        void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);
 
         /**
          * Notification that the user has started a touch gesture. Clients may want to use this
@@ -118,7 +120,7 @@ public class GeniusSeekBar extends GeniusAbsSeekBar {
          *
          * @param seekBar The SeekBar in which the touch gesture began
          */
-        void onStartTrackingTouch(GeniusSeekBar seekBar);
+        void onStartTrackingTouch(SeekBar seekBar);
 
         /**
          * Notification that the user has finished a touch gesture. Clients may want to use this
@@ -126,6 +128,6 @@ public class GeniusSeekBar extends GeniusAbsSeekBar {
          *
          * @param seekBar The SeekBar in which the touch gesture began
          */
-        void onStopTrackingTouch(GeniusSeekBar seekBar);
+        void onStopTrackingTouch(SeekBar seekBar);
     }
 }

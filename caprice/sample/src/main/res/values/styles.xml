@@ -13,6 +13,13 @@
         <item name="colorPrimaryDark">@color/cyan_700</item>
         <item name="colorAccent">@color/cyan_500</item>
 
+        <!-- In this custom widget style -->
+        <item name="gTextViewStyle">@style/Genius.Widget.TextView</item>
+        <item name="gButtonStyle">@style/Genius.Widget.Button</item>
+        <item name="gFloatActionButtonStyle">@style/Genius.Widget.FloatActionButton</item>
+        <item name="gSeekBarStyle">@style/Genius.Widget.SeekBar</item>
+
+
         <!-- Toolbar styles -->
         <item name="toolbarStyle">@style/ToolBarStyle</item>
         <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationButtonStyle</item>
@@ -35,5 +42,5 @@
         <item name="android:textColor">@color/white_alpha_240</item>
     </style>
 
-    <style name="ToolBarStyle.PopupTheme" parent="@style/ThemeOverlay.AppCompat.Light"></style>
+    <style name="ToolBarStyle.PopupTheme" parent="@style/ThemeOverlay.AppCompat.Light"/>
 </resources>

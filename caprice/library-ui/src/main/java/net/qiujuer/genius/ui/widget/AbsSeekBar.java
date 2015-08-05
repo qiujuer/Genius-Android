@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 02/25/2015
- * Changed 03/01/2015
- * Version 2.0.0
- * GeniusEditText
+ * Created 08/04/2015
+ * Changed 08/05/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -47,13 +46,12 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.AlmostRippleDrawable;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
 import net.qiujuer.genius.ui.drawable.SeekBarDrawable;
-import net.qiujuer.genius.ui.widget.attribute.Attributes;
-import net.qiujuer.genius.ui.widget.attribute.SeekBarAttributes;
+import net.qiujuer.genius.ui.widget.popup.PopupIndicator;
 
 import java.util.Formatter;
 import java.util.Locale;
@@ -61,7 +59,7 @@ import java.util.Locale;
 /**
  * This abstract class use to SeekBar
  */
-public abstract class GeniusAbsSeekBar extends View implements Attributes.AttributeChangeListener {
+public abstract class AbsSeekBar extends View {
     //We want to always use a formatter so the indicator numbers are "translated" to specific locales.
     private static final String DEFAULT_FORMATTER = "%d";
     private static final int PRESSED_STATE = android.R.attr.state_pressed;
@@ -78,9 +76,13 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
 
         @Override
         public void onOpeningComplete() {
-
         }
-
+    };
+    private final Runnable mShowIndicatorRunnable = new Runnable() {
+        @Override
+        public void run() {
+            showFloater();
+        }
     };
     private int mMax = 100;
     private int mMin = 0;
@@ -97,210 +99,230 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     private int mDragOffset;
     private Rect mInvalidateRect = new Rect();
     private Rect mTempRect = new Rect();
-    private GeniusPopupIndicator mIndicator;
+    private PopupIndicator mIndicator;
     private ValueAnimator mPositionAnimator;
     private float mAnimationPosition;
     private int mAnimationTarget;
     private float mDownX;
     private float mTouchSlop;
-    private SeekBarAttributes mAttributes;
-    private Runnable mShowIndicatorRunnable = new Runnable() {
-        @Override
-        public void run() {
-            showFloater();
-        }
-    };
 
-    public GeniusAbsSeekBar(Context context) {
-        this(context, null);
+
+    public AbsSeekBar(Context context) {
+        super(context);
+        init(null, 0, 0);
     }
 
-    public GeniusAbsSeekBar(Context context, AttributeSet attrs) {
-        this(context, attrs, R.style.DefaultSeekBarStyle);
+    public AbsSeekBar(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(attrs, R.attr.gSeekBarStyle, 0);
     }
 
-    public GeniusAbsSeekBar(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public AbsSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(attrs, defStyleAttr, 0);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public AbsSeekBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(attrs, defStyleAttr, defStyleRes);
+    }
+
+
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        final Context context = getContext();
+        final Resources resources = getResources();
+        final boolean notEdit = !isInEditMode();
 
         setFocusable(true);
         setWillNotDraw(false);
 
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
-        // New
-        final Resources resources = getResources();
-        final ColorStateList transparent = ColorStateList.valueOf(Color.TRANSPARENT);
 
-        mAttributes = new SeekBarAttributes(this, resources);
-
-        mRipple = new AlmostRippleDrawable(transparent);
+        mRipple = new AlmostRippleDrawable(resources.getColorStateList(R.color.g_default_seek_bar_ripple));
         mRipple.setCallback(this);
 
-        mSeekBarDrawable = new SeekBarDrawable(transparent, transparent, transparent);
+        mSeekBarDrawable = new SeekBarDrawable(resources.getColorStateList(R.color.g_default_seek_bar_track),
+                resources.getColorStateList(R.color.g_default_seek_bar_scrubber),
+                resources.getColorStateList(R.color.g_default_seek_bar_thumb));
         mSeekBarDrawable.setCallback(this);
 
-        if (!isInEditMode()) {
-            mIndicator = new GeniusPopupIndicator(context);
-            mIndicator.setListener(mFloaterListener);
-        }
-
-        // Set Size
-        setTrackStroke(resources.getDimensionPixelSize(R.dimen.genius_seekBar_trackStroke));
-        setScrubberStroke(resources.getDimensionPixelSize(R.dimen.genius_seekBar_scrubberStroke));
-        setThumbRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_thumbSize));
-        setTouchRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_touchSize));
-        setTickRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_tickSize));
-
         // Init
-        init(attrs, defStyle);
+        if (attrs == null) {
+            mSeekBarDrawable.setTrackStroke(resources.getDimensionPixelSize(R.dimen.genius_seekBar_trackStroke));
+            mSeekBarDrawable.setScrubberStroke(resources.getDimensionPixelSize(R.dimen.genius_seekBar_scrubberStroke));
+            mSeekBarDrawable.setTouchRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_touchSize));
+            mSeekBarDrawable.setTickRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_tickSize));
+            mSeekBarDrawable.setThumbRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_thumbSize));
 
-        // End
-        setNumericTransformer(new DefaultNumericTransformer());
-        isRtl();
+            if (notEdit) {
+                mIndicator = new PopupIndicator(context);
+                mIndicator.setListener(mFloaterListener);
+                mIndicator.setIndicatorColor(resources.getColorStateList(R.color.g_default_seek_bar_indicator));
+                mIndicator.setIndicatorClosedSize(mSeekBarDrawable.getThumbRadius() * 2);
+            }
 
-        if (attrs != null)
-            setEnabled(attrs.getAttributeBooleanValue(GeniusUi.androidStyleNameSpace, "enabled", isEnabled()));
-        else
-            setEnabled(isEnabled());
-    }
-
-    private void init(AttributeSet attrs, int defStyle) {
-        final Context context = getContext();
-        final Resources resources = getResources();
-        final boolean notEdit = !isInEditMode();
-
-        ColorStateList trackColor = mAttributes.getTrackColor();
-        ColorStateList thumbColor = mAttributes.getThumbColor();
-        ColorStateList scrubberColor = mAttributes.getScrubberColor();
-        ColorStateList rippleColor = mAttributes.getRippleColor();
-        ColorStateList indicatorColor = mAttributes.getIndicatorColor();
-
-        int textAppearanceId = R.style.DefaultBalloonMarkerTextAppearanceStyle;
-
-        if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GeniusSeekBar,
-                    R.attr.GeniusSeekBarStyle, defStyle);
-
-            // Getting common attributes
-            int customTheme = a.getResourceId(R.styleable.GeniusSeekBar_g_theme, Attributes.DEFAULT_THEME);
-            mAttributes.setTheme(customTheme, resources);
-
-            // Values
-            int max = a.getInteger(R.styleable.GeniusSeekBar_g_max, mMax);
-            int min = a.getInteger(R.styleable.GeniusSeekBar_g_min, mMin);
-            int value = a.getInteger(R.styleable.GeniusSeekBar_g_value, mValue);
-
-            mMin = min;
-            mMax = Math.max(min + 1, max);
-            mValue = Math.max(min, Math.min(max, value));
-
-            // Colors
-            trackColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_trackColor);
-            thumbColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_thumbColor);
-            scrubberColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_scrubberColor);
-            rippleColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_rippleColor);
-            indicatorColor = a.getColorStateList(R.styleable.GeniusSeekBar_g_indicatorBackgroundColor);
-
-
-            // Size
-            int tickSize = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_tickSize,
-                    mSeekBarDrawable.getTickRadius());
-            int thumbSize = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_thumbSize,
-                    mSeekBarDrawable.getThumbRadius());
-            int touchSize = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_touchSize,
-                    mSeekBarDrawable.getTouchRadius());
-            int trackStroke = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_trackStroke,
-                    mSeekBarDrawable.getTrackStroke());
-            int scrubberStroke = a.getDimensionPixelSize(R.styleable.GeniusSeekBar_g_scrubberStroke,
-                    mSeekBarDrawable.getScrubberStroke());
-
-            // Set Size
-            setTrackStroke(trackStroke);
-            setScrubberStroke(scrubberStroke);
-            setThumbRadius(thumbSize);
-            setTouchRadius(touchSize);
-            setTickRadius(tickSize);
-
-            // Other
-            mMirrorForRtl = a.getBoolean(R.styleable.GeniusSeekBar_g_mirrorForRtl, mMirrorForRtl);
-            mAllowTrackClick = a.getBoolean(R.styleable.GeniusSeekBar_g_allowTrackClickToDrag, mAllowTrackClick);
-            mIndicatorFormatter = a.getString(R.styleable.GeniusSeekBar_g_indicatorFormatter);
-
-            textAppearanceId = a.getResourceId(R.styleable.GeniusSeekBar_g_indicatorTextAppearance, textAppearanceId);
-
-            a.recycle();
-        }
-
-        // Init Colors
-        if (rippleColor == null) {
-            rippleColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{mAttributes.getColor(1)});
         } else {
-            mAttributes.setRippleColor(rippleColor);
-        }
-        if (trackColor == null) {
-            int[] colors = new int[]{mAttributes.getColor(4), mAttributes.getColor(5)};
-            int[][] states = new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{-android.R.attr.state_enabled}};
-            trackColor = new ColorStateList(states, colors);
-        } else {
-            mAttributes.setTrackColor(trackColor);
-        }
-        if (thumbColor == null) {
-            int[] colors = new int[]{mAttributes.getColor(2), mAttributes.getColor(3)};
-            int[][] states = new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{-android.R.attr.state_enabled}};
-            thumbColor = new ColorStateList(states, colors);
-        } else {
-            mAttributes.setThumbColor(thumbColor);
-        }
-        if (scrubberColor == null) {
-            int[] colors = new int[]{mAttributes.getColor(2), mAttributes.getColor(3)};
-            int[][] states = new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{-android.R.attr.state_enabled}};
-            scrubberColor = new ColorStateList(states, colors);
-        } else {
-            mAttributes.setScrubberColor(scrubberColor);
-        }
-        if (indicatorColor == null) {
-            int[] colors = new int[]{mAttributes.getColor(2), mAttributes.getColor(1)};
-            int[][] states = new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{android.R.attr.state_pressed}};
-            indicatorColor = new ColorStateList(states, colors);
-        } else {
-            mAttributes.setIndicatorColor(indicatorColor);
-        }
-
-        // Set Colors
-        mRipple.setColorStateList(rippleColor);
-        mSeekBarDrawable.setTrackColor(trackColor);
-        mSeekBarDrawable.setScrubberColor(scrubberColor);
-        mSeekBarDrawable.setThumbColor(thumbColor);
-        if (notEdit) {
-            mIndicator.setIndicatorColor(indicatorColor);
-            mIndicator.setIndicatorTextAppearance(textAppearanceId);
+            initAttrs(context, resources, notEdit, attrs, defStyleAttr, defStyleRes);
         }
 
         // Set Values
         mSeekBarDrawable.setNumSegments(mMax - mMin);
         updateKeyboardRange();
+
+        // End
+        setNumericTransformer(new DefaultNumericTransformer());
+        isRtl();
+    }
+
+
+    private void initAttrs(Context context, Resources resources, boolean notEdit, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AbsSeekBar,
+                defStyleAttr, defStyleRes);
+
+        // Values
+        int max = a.getInteger(R.styleable.AbsSeekBar_gMax, mMax);
+        int min = a.getInteger(R.styleable.AbsSeekBar_gMin, mMin);
+        int value = a.getInteger(R.styleable.AbsSeekBar_gValue, mValue);
+
+        mMin = min;
+        mMax = Math.max(min + 1, max);
+        mValue = Math.max(min, Math.min(max, value));
+
+        // Colors
+        ColorStateList trackColor = a.getColorStateList(R.styleable.AbsSeekBar_gTrackColor);
+        ColorStateList thumbColor = a.getColorStateList(R.styleable.AbsSeekBar_gThumbColor);
+        ColorStateList scrubberColor = a.getColorStateList(R.styleable.AbsSeekBar_gScrubberColor);
+        ColorStateList rippleColor = a.getColorStateList(R.styleable.AbsSeekBar_gRippleColor);
+        ColorStateList indicatorColor = a.getColorStateList(R.styleable.AbsSeekBar_gIndicatorBackgroundColor);
+
+        // Size
+        int tickSize = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gTickSize,
+                resources.getDimensionPixelSize(R.dimen.genius_seekBar_tickSize));
+        int thumbSize = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gThumbSize,
+                resources.getDimensionPixelSize(R.dimen.genius_seekBar_thumbSize));
+        int touchSize = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gTouchSize,
+                resources.getDimensionPixelSize(R.dimen.genius_seekBar_touchSize));
+        int trackStroke = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gTrackStroke,
+                resources.getDimensionPixelSize(R.dimen.genius_seekBar_trackStroke));
+        int scrubberStroke = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gScrubberStroke,
+                resources.getDimensionPixelSize(R.dimen.genius_seekBar_scrubberStroke));
+
+        // Other
+        int indicator = a.getInt(R.styleable.AbsSeekBar_gIndicator, 1);
+
+        mMirrorForRtl = a.getBoolean(R.styleable.AbsSeekBar_gMirrorForRtl, mMirrorForRtl);
+        mAllowTrackClick = a.getBoolean(R.styleable.AbsSeekBar_gAllowTrackClickToDrag, mAllowTrackClick);
+        mIndicatorFormatter = a.getString(R.styleable.AbsSeekBar_gIndicatorFormatter);
+
+        // Indicator TextAppearance
+        int textAppearanceId = a.getResourceId(R.styleable.AbsSeekBar_gIndicatorTextAppearance, R.style.Genius_Widget_BalloonMarker_TextAppearance);
+
+        a.recycle();
+
+        // Set Size
+        mSeekBarDrawable.setTrackStroke(trackStroke);
+        mSeekBarDrawable.setScrubberStroke(scrubberStroke);
+        mSeekBarDrawable.setTouchRadius(touchSize);
+        mSeekBarDrawable.setTickRadius(tickSize);
+        mSeekBarDrawable.setThumbRadius(thumbSize);
+
+        // Set Colors
+        if (rippleColor != null)
+            mRipple.setColorStateList(rippleColor);
+        if (trackColor != null)
+            mSeekBarDrawable.setTrackColor(trackColor);
+        if (thumbColor != null)
+            mSeekBarDrawable.setThumbColor(thumbColor);
+        if (scrubberColor != null)
+            mSeekBarDrawable.setScrubberColor(scrubberColor);
+
+        if (notEdit && indicator != 0) {
+            mIndicator = new PopupIndicator(context);
+            mIndicator.setListener(mFloaterListener);
+            if (indicatorColor != null)
+                mIndicator.setIndicatorColor(indicatorColor);
+            mIndicator.setIndicatorTextAppearance(textAppearanceId);
+            mIndicator.setIndicatorClosedSize(thumbSize * 2);
+        }
+
+        // Enabled
+        setEnabled(attrs.getAttributeBooleanValue(Ui.androidStyleNameSpace, "enabled", isEnabled()));
     }
 
     public void setTrackStroke(int trackStroke) {
-        mSeekBarDrawable.setTrackStroke(trackStroke);
+        if (trackStroke != mSeekBarDrawable.getTrackStroke()) {
+            mSeekBarDrawable.setTrackStroke(trackStroke);
+            invalidate();
+        }
     }
 
     public void setScrubberStroke(int scrubberStroke) {
-        mSeekBarDrawable.setScrubberStroke(scrubberStroke);
+        if (scrubberStroke != mSeekBarDrawable.getScrubberStroke()) {
+            mSeekBarDrawable.setScrubberStroke(scrubberStroke);
+            invalidate();
+        }
     }
 
     public void setThumbRadius(int thumbRadius) {
-        mSeekBarDrawable.setThumbRadius(thumbRadius);
-        if (!isInEditMode())
-            mIndicator.setIndicatorClosedSize(thumbRadius * 2);
+        if (thumbRadius != mSeekBarDrawable.getThumbRadius()) {
+            mSeekBarDrawable.setThumbRadius(thumbRadius);
+            if (!isInEditMode() && mIndicator != null) {
+                mIndicator.setIndicatorClosedSize(thumbRadius * 2);
+            }
+            invalidate();
+        }
     }
 
     public void setTouchRadius(int touchRadius) {
-        mSeekBarDrawable.setTouchRadius(touchRadius);
+        if (touchRadius != mSeekBarDrawable.getTouchRadius()) {
+            mSeekBarDrawable.setTouchRadius(touchRadius);
+            invalidate();
+        }
     }
 
     public void setTickRadius(int tickRadius) {
-        mSeekBarDrawable.setTickRadius(tickRadius);
+        if (tickRadius != mSeekBarDrawable.getTickRadius()) {
+            mSeekBarDrawable.setTickRadius(tickRadius);
+            invalidate();
+        }
+    }
+
+    public void setIndicatorColor(ColorStateList indicatorColor) {
+        if (indicatorColor != null && mIndicator != null && indicatorColor != mIndicator.getIndicatorColor()) {
+            mIndicator.setIndicatorColor(indicatorColor);
+            invalidate();
+        }
+    }
+
+    public void setRippleColor(ColorStateList rippleColor) {
+        if (rippleColor != null && rippleColor != mRipple.getColorStateList()) {
+            mRipple.setColorStateList(rippleColor);
+            invalidate();
+        }
+    }
+
+
+    public void setScrubberColor(ColorStateList scrubberColor) {
+        if (scrubberColor != null && scrubberColor != mSeekBarDrawable.getScrubberColor()) {
+            mSeekBarDrawable.setScrubberColor(scrubberColor);
+            invalidate();
+        }
+    }
+
+    public void setThumbColor(ColorStateList thumbColor) {
+        if (thumbColor != null && thumbColor != mSeekBarDrawable.getThumbColor()) {
+            mSeekBarDrawable.setThumbColor(thumbColor);
+            invalidate();
+        }
+    }
+
+    public void setTrackColor(ColorStateList trackColor) {
+        if (trackColor != null && trackColor != mSeekBarDrawable.getTrackColor()) {
+            this.mSeekBarDrawable.setTrackColor(trackColor);
+            invalidate();
+        }
     }
 
 
@@ -309,15 +331,17 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
      *
      * @param formatter Value formatter
      * @see String#format(String, Object...)
-     * @see #setNumericTransformer(GeniusAbsSeekBar.NumericTransformer)
+     * @see #setNumericTransformer(AbsSeekBar.NumericTransformer)
      */
     public void setIndicatorFormatter(@Nullable String formatter) {
-        mIndicatorFormatter = formatter;
-        updateProgressMessage(mValue);
+        if (mIndicator != null) {
+            mIndicatorFormatter = formatter;
+            updateProgressMessage(mValue);
+        }
     }
 
     /**
-     * Retrieves the current {@link GeniusAbsSeekBar.NumericTransformer}
+     * Retrieves the current {@link AbsSeekBar.NumericTransformer}
      *
      * @return NumericTransformer
      * @see #setNumericTransformer
@@ -327,7 +351,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * Sets the current {@link GeniusAbsSeekBar.NumericTransformer}
+     * Sets the current {@link AbsSeekBar.NumericTransformer}
      *
      * @param transformer NumericTransformer transformer
      * @see #getNumericTransformer()
@@ -335,7 +359,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     public void setNumericTransformer(@Nullable NumericTransformer transformer) {
         mNumericTransformer = transformer != null ? transformer : new DefaultNumericTransformer();
         //We need to refresh the PopupIndicator view
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             if (mNumericTransformer.useStringTransform()) {
                 mIndicator.setIndicatorSizes(mNumericTransformer.transformToString(mMax));
             } else {
@@ -355,7 +379,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * Sets the maximum value for this GeniusSeekBar
+     * Sets the maximum value for this AbsSeekBar
      * if the supplied argument is smaller than the Current MIN value,
      * the MIN value will be set to MAX-1
      * <p/>
@@ -390,7 +414,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * Sets the minimum value for this GeniusSeekBar
+     * Sets the minimum value for this AbsSeekBar
      * if the supplied argument is bigger than the Current MAX value,
      * the MAX value will be set to MIN+1
      * <p>
@@ -424,7 +448,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * Sets the current progress for this GeniusSeekBar
+     * Sets the current progress for this AbsSeekBar
      * The supplied argument will be capped to the current MIN-MAX range
      *
      * @param progress Progress Value
@@ -443,7 +467,8 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
      */
     public void setThumbColor(int startColor, int endColor) {
         mSeekBarDrawable.setThumbColor(ColorStateList.valueOf(startColor));
-        mIndicator.setColors(startColor, endColor);
+        if (mIndicator != null)
+            mIndicator.setColors(startColor, endColor);
     }
 
     /**
@@ -468,7 +493,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
         super.onLayout(changed, left, top, right, bottom);
         if (changed) {
             removeCallbacks(mShowIndicatorRunnable);
-            if (!isInEditMode()) {
+            if (!isInEditMode() && mIndicator != null) {
                 mIndicator.dismissComplete();
             }
             updateFromDrawableState();
@@ -493,7 +518,9 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
         super.onDraw(canvas);
 
         mSeekBarDrawable.draw(canvas);
-        mRipple.draw(canvas);
+
+        if (isEnabled())
+            mRipple.draw(canvas);
 
     }
 
@@ -577,21 +604,12 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         removeCallbacks(mShowIndicatorRunnable);
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             mIndicator.dismissComplete();
         }
     }
 
-    @Override
-    public void onThemeChange() {
-        init(null, R.style.DefaultSeekBarStyle);
-    }
-
-    @Override
-    public SeekBarAttributes getAttributes() {
-        return mAttributes;
-    }
-
+    @SuppressWarnings("ResourceType")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public boolean isRtl() {
         boolean isRtl = (ViewCompat.getLayoutDirection(this) == LAYOUT_DIRECTION_RTL) && mMirrorForRtl;
@@ -658,7 +676,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     private void updateProgressMessage(int value) {
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             if (mNumericTransformer.useStringTransform()) {
                 mIndicator.setValue(mNumericTransformer.transformToString(value));
             } else {
@@ -817,7 +835,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
         // Indicator Move
         final Rect finalBounds = mTempRect;
         mSeekBarDrawable.copyTouchBounds(finalBounds);
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             mIndicator.move(finalBounds.centerX());
         }
 
@@ -841,7 +859,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     private void showFloater() {
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             mSeekBarDrawable.animateToPressed();
             mIndicator.showIndicator(this, mSeekBarDrawable.getPosPoint());
             onShowBubble();
@@ -850,14 +868,14 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
 
     private void hideFloater() {
         removeCallbacks(mShowIndicatorRunnable);
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             mIndicator.dismiss();
             onHideBubble();
         }
     }
 
     /**
-     * When the {@link GeniusAbsSeekBar} enters pressed or focused state
+     * When the {@link AbsSeekBar} enters pressed or focused state
      * the bubble with the value will be shown, and this method called
      * <p>
      * Subclasses may override this to add functionality around this event
@@ -867,7 +885,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * When the {@link GeniusAbsSeekBar} exits pressed or focused state
+     * When the {@link AbsSeekBar} exits pressed or focused state
      * the bubble with the value will be hidden, and this method called
      * <p>
      * Subclasses may override this to add functionality around this event
@@ -895,7 +913,7 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * When the {@link GeniusAbsSeekBar} value changes this method is called
+     * When the {@link AbsSeekBar} value changes this method is called
      * <p>
      * Subclasses may override this to add functionality around this event
      * without having to specify a listener
@@ -929,15 +947,15 @@ public abstract class GeniusAbsSeekBar extends View implements Attributes.Attrib
     }
 
     /**
-     * Interface to transform the current internal value of this GeniusSeekBar to anther one for the visualization.
-     * <p/>
+     * Interface to transform the current internal value of this AbsSeekBar to anther one for the visualization.
+     * <p>
      * This will be used on the floating bubble to display a different value if needed.
-     * <p/>
+     * <p>
      * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
      * value seen by the user
      *
      * @see #setIndicatorFormatter(String)
-     * @see #setNumericTransformer(GeniusAbsSeekBar.NumericTransformer)
+     * @see #setNumericTransformer(AbsSeekBar.NumericTransformer)
      */
     public static abstract class NumericTransformer {
         /**

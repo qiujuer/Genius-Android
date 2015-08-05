@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 02/16/2015
- * Changed 07/24/2015
- * Version 2.1.0
+ * Created 08/04/2015
+ * Changed 08/05/2015
+ * Version 3.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@ package net.qiujuer.genius.ui.drawable;
 
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
@@ -30,15 +29,14 @@ import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import net.qiujuer.genius.ui.GeniusUi;
+import net.qiujuer.genius.ui.Ui;
 
 /**
- * This is a touch foreground ripple drawable extends to PaintStateDrawable
+ * This is a touch foreground ripple drawable extends to StatePaintDrawable
  */
 public class AlmostRippleDrawable extends StatePaintDrawable implements Animatable {
-    private static final long FRAME_DURATION = 1000 / 60;
+    private static final int FRAME_DURATION = 16;
     private static final int ANIMATION_DURATION = 250;
-
     private static final float INACTIVE_SCALE = 0f;
     private static final float ACTIVE_SCALE = 1f;
     private float mCurrentScale = INACTIVE_SCALE;
@@ -49,10 +47,8 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
     private int mDuration = ANIMATION_DURATION;
     private float mAnimationInitialValue;
     private final Runnable mUpdater = new Runnable() {
-
         @Override
         public void run() {
-
             long currentTime = SystemClock.uptimeMillis();
             long diff = currentTime - mStartTime;
             if (diff < mDuration) {
@@ -66,53 +62,53 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
             }
         }
     };
-    //We don't use colors just with our drawable state because of animations
-    private int mPressedColor;
-    private int mFocusedColor;
-    private int mDisabledColor;
-    private int mRippleColor;
-    private int mRippleBgColor;
 
     public AlmostRippleDrawable(ColorStateList tintStateList) {
         super(tintStateList);
-
         mInterpolator = new AccelerateDecelerateInterpolator();
     }
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        Rect bounds = getBounds();
-        int size = Math.min(bounds.width(), bounds.height());
-        float scale = mCurrentScale;
-        int rippleColor = mRippleColor;
-        int bgColor = mRippleBgColor;
-        float radius = (size / 2);
-        float radiusAnimated = radius * scale;
+        final float scale = mCurrentScale;
         if (scale > INACTIVE_SCALE) {
-            if (bgColor != 0) {
-                paint.setColor(bgColor);
-                paint.setAlpha(decreasedAlpha(Color.alpha(bgColor)));
-                canvas.drawCircle(bounds.centerX(), bounds.centerY(), radius, paint);
-            }
-            if (rippleColor != 0) {
-                paint.setColor(rippleColor);
-                paint.setAlpha(GeniusUi.modulateAlpha(paint.getAlpha(), Color.alpha(rippleColor)));
-                canvas.drawCircle(bounds.centerX(), bounds.centerY(), radiusAnimated, paint);
+            final Rect bounds = getBounds();
+            float radius = (Math.min(bounds.width(), bounds.height()) / 2.0f);
+            float radiusAnimated = radius * scale;
+
+            if (radius > 0) {
+                // Background
+                int preAlpha = setPaintAlpha(paint);
+                if (paint.getAlpha() > 0) {
+                    canvas.drawCircle(bounds.centerX(), bounds.centerY(), radius, paint);
+                }
+
+                // Ripple
+                if (radiusAnimated > 0) {
+                    if (preAlpha < 255) {
+                        preAlpha = getRippleAlpha(preAlpha, paint.getAlpha());
+                    }
+                    if (preAlpha > 0) {
+                        paint.setAlpha(preAlpha);
+                        canvas.drawCircle(bounds.centerX(), bounds.centerY(), radiusAnimated, paint);
+                    }
+                }
             }
         }
     }
 
-    private int decreasedAlpha(int alpha) {
-        int scale = 100 + (100 >> 7);
-        return alpha * scale >> 8;
+    private int setPaintAlpha(Paint paint) {
+        // Set the background alpha 128
+        final int prevAlpha = paint.getAlpha();
+        paint.setAlpha(Ui.modulateAlpha(prevAlpha, 128));
+        return prevAlpha;
     }
 
-    @Override
-    public void setColorStateList(ColorStateList tintStateList) {
-        super.setColorStateList(tintStateList);
-        mFocusedColor = tintStateList.getColorForState(new int[]{android.R.attr.state_focused}, 0xFFFF0000);
-        mPressedColor = tintStateList.getColorForState(new int[]{android.R.attr.state_pressed}, 0xFFFF0000);
-        mDisabledColor = tintStateList.getColorForState(new int[]{-android.R.attr.state_enabled}, 0xFFFF0000);
+    private int getRippleAlpha(int preAlpha, int nowAlpha) {
+        if (nowAlpha > preAlpha)
+            return 0;
+        int dAlpha = preAlpha - nowAlpha;
+        return (255 * dAlpha) / (255 - nowAlpha);
     }
 
     @Override
@@ -125,47 +121,32 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
             }
         }
         // Call super
-        super.setState(stateSet);
+        boolean status = super.setState(stateSet);
 
         boolean focused = false;
         boolean pressed = false;
-        boolean disabled = true;
         for (int i : stateSet) {
             if (i == android.R.attr.state_focused) {
                 focused = true;
             } else if (i == android.R.attr.state_pressed) {
                 pressed = true;
-            } else if (i == android.R.attr.state_enabled) {
-                disabled = false;
             }
         }
 
-        if (disabled) {
-            unscheduleSelf(mUpdater);
-            mRippleColor = mDisabledColor;
-            mRippleBgColor = 0;
-            mCurrentScale = ACTIVE_SCALE / 2;
+        if (pressed) {
+            animateToPressed();
+        } else if (oldPressed) {
+            animateToNormal();
+        } else if (focused) {
+            mCurrentScale = ACTIVE_SCALE;
             invalidateSelf();
         } else {
-            if (pressed) {
-                animateToPressed();
-                mRippleColor = mRippleBgColor = mPressedColor;
-            } else if (oldPressed) {
-                mRippleColor = mRippleBgColor = mPressedColor;
-                animateToNormal();
-            } else if (focused) {
-                mRippleColor = mFocusedColor;
-                mRippleBgColor = 0;
-                mCurrentScale = ACTIVE_SCALE;
-                invalidateSelf();
-            } else {
-                mRippleColor = 0;
-                mRippleBgColor = 0;
-                mCurrentScale = INACTIVE_SCALE;
-                invalidateSelf();
-            }
+            // Other none show
+            mCurrentScale = INACTIVE_SCALE;
+            invalidateSelf();
         }
-        return true;
+
+        return status;
     }
 
     public void animateToPressed() {
@@ -208,7 +189,7 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
 
     @Override
     public void stop() {
-        //No-Op. We control our own animation
+        unscheduleSelf(mUpdater);
     }
 
     @Override

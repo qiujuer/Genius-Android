@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 02/25/2015
- * Changed 03/01/2015
- * Version 2.0.0
- * GeniusEditText
+ * Created 08/04/2015
+ * Changed 08/05/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,17 +35,19 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
-import net.qiujuer.genius.ui.widget.compat.GeniusCompat;
+import net.qiujuer.genius.ui.widget.compat.UiCompat;
 
 /**
  * This is a BalloonMarker
  */
-public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
+public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
     private static final int PADDING_DP = 4;
     private static final int ELEVATION_DP = 8;
     private static final int SEPARATION_DP = 22;
@@ -58,23 +60,39 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
     //This will be added to our measured height
     private int mSeparation;
 
-    public GeniusBalloonMarker(Context context) {
+    public BalloonMarker(Context context) {
         this(context, null);
     }
 
-    public GeniusBalloonMarker(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.GeniusBalloonMarkerStyle);
+    public BalloonMarker(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.gBalloonMarkerStyle);
     }
 
-    public GeniusBalloonMarker(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, "0");
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public GeniusBalloonMarker(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
+    public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs, defStyleAttr, 0, "0");
+    }
 
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs, defStyleAttr, defStyleRes, "0");
+    }
+
+    @Override
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+        event.setClassName(BalloonMarker.class.getName());
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName(BalloonMarker.class.getName());
+    }
+
+    public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, String maxValue) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int padding = (int) (PADDING_DP * displayMetrics.density) * 2;
         mNumber = new TextView(context);
         //Add some padding to this textView so the bubble has some space to breath
@@ -83,7 +101,7 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
         mNumber.setText(maxValue);
         mNumber.setMaxLines(1);
         mNumber.setSingleLine(true);
-        GeniusCompat.setTextDirection(mNumber, TEXT_DIRECTION_LOCALE);
+        UiCompat.setTextDirection(mNumber, TEXT_DIRECTION_LOCALE);
         mNumber.setVisibility(View.INVISIBLE);
 
         //add some padding for the elevation shadow not to be clipped
@@ -99,24 +117,24 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
         mBalloonMarkerDrawable.setMarkerListener(this);
         mBalloonMarkerDrawable.setExternalOffset(padding);
 
-        GeniusCompat.setOutlineProvider(this, mBalloonMarkerDrawable);
+        UiCompat.setOutlineProvider(this, mBalloonMarkerDrawable);
 
 
         if (attrs != null) {
 
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GeniusBalloonMarker,
-                    R.attr.GeniusBalloonMarkerStyle, R.style.DefaultBalloonMarkerStyle);
-            int textAppearanceId = a.getResourceId(R.styleable.GeniusBalloonMarker_g_markerTextAppearance,
-                    R.style.DefaultBalloonMarkerTextAppearanceStyle);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BalloonMarker,
+                    defStyleAttr, defStyleRes);
+            int textAppearanceId = a.getResourceId(R.styleable.BalloonMarker_gMarkerTextAppearance,
+                    R.style.Genius_Widget_BalloonMarker_TextAppearance);
 
             setTextAppearance(textAppearanceId);
 
-            ColorStateList color = a.getColorStateList(R.styleable.GeniusBalloonMarker_g_markerBackgroundColor);
+            ColorStateList color = a.getColorStateList(R.styleable.BalloonMarker_gMarkerBackgroundColor);
             setBackgroundColor(color);
 
             //Elevation for android 5+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                float elevation = a.getDimension(R.styleable.GeniusBalloonMarker_g_markerElevation, ELEVATION_DP * displayMetrics.density);
+                float elevation = a.getDimension(R.styleable.BalloonMarker_gMarkerElevation, ELEVATION_DP * displayMetrics.density);
                 ViewCompat.setElevation(this, elevation);
             }
             a.recycle();
@@ -125,6 +143,10 @@ public class GeniusBalloonMarker extends ViewGroup implements BalloonMarkerDrawa
 
     public void setTextAppearance(int resid) {
         mNumber.setTextAppearance(getContext(), resid);
+    }
+
+    public ColorStateList getBackgroundColor() {
+        return mBalloonMarkerDrawable.getColorStateList();
     }
 
     public void setBackgroundColor(ColorStateList color) {

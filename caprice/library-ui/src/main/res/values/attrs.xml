@@ -1,9 +1,10 @@
 <!--
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
-* Created 02/25/2015
-* Changed 05/27/2015
-* Version 2.0.0
+* Created 08/04/2015
+* Changed 08/05/2015
+* Version 3.0.0
+* Author Qiujuer
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,14 +21,16 @@
 <resources>
 
     <!--ALL -->
-    <attr name="gColorBackground" format="color|reference" />
-    <attr name="gColorTouch" format="color" />
+    <attr name="gBackgroundColor" format="color|reference" />
+
     <attr name="gFont" format="string" />
     <attr name="gCornerRadius" format="dimension" />
     <attr name="gCornerRadiusTL" format="dimension" />
     <attr name="gCornerRadiusTR" format="dimension" />
     <attr name="gCornerRadiusBL" format="dimension" />
     <attr name="gCornerRadiusBR" format="dimension" />
+
+    <attr name="gTouchColor" format="color" />
     <attr name="gTouchCornerRadius" format="dimension" />
     <attr name="gTouchCornerRadiusTL" format="dimension" />
     <attr name="gTouchCornerRadiusTR" format="dimension" />
@@ -35,28 +38,32 @@
     <attr name="gTouchCornerRadiusBR" format="dimension" />
 
     <!-- TextView -->
+    <attr name="gTextViewStyle" format="reference" />
     <declare-styleable name="TextView">
         <attr name="gFont" />
-        <attr name="gColorBackground" />
+        <attr name="gBorder">
+            <flag name="all" value="0x1111" />
+            <flag name="left" value="0x0001" />
+            <flag name="top" value="0x0100" />
+            <flag name="right" value="0x0010" />
+            <flag name="bottom" value="0x1000" />
+        </attr>
         <attr name="gBorderSize" format="dimension" />
         <attr name="gBorderColor" format="color|reference" />
-        <attr name="gCornerRadius" />
-        <attr name="gCornerRadiusTL" />
-        <attr name="gCornerRadiusTR" />
-        <attr name="gCornerRadiusBL" />
-        <attr name="gCornerRadiusBR" />
     </declare-styleable>
 
     <!-- FloatActionButton -->
+    <attr name="gFloatActionButtonStyle" format="reference" />
     <declare-styleable name="FloatActionButton">
-        <attr name="gColorBackground" />
-        <attr name="gColorTouch" />
+        <attr name="gBackgroundColor" />
+        <attr name="gTouchColor" />
     </declare-styleable>
 
     <!-- Button -->
+    <attr name="gButtonStyle" format="reference" />
     <declare-styleable name="Button">
         <attr name="gFont" />
-        <attr name="gColorTouch" />
+        <attr name="gTouchColor" />
         <attr name="gTouchEffect" format="integer">
             <enum name="none" value="0" />
             <enum name="auto" value="1" />
@@ -69,5 +76,44 @@
         <attr name="gTouchCornerRadiusTR" />
         <attr name="gTouchCornerRadiusBL" />
         <attr name="gTouchCornerRadiusBR" />
+    </declare-styleable>
+
+
+    <!-- BalloonMarker -->
+    <attr name="gBalloonMarkerStyle" format="reference" />
+    <declare-styleable name="BalloonMarker">
+        <attr name="gMarkerTextAppearance" format="reference" />
+        <attr name="gMarkerBackgroundColor" format="color|reference" />
+        <attr name="gMarkerElevation" format="dimension" />
+    </declare-styleable>
+
+    <!-- SeekBar -->
+    <attr name="gSeekBarStyle" format="reference" />
+    <declare-styleable name="AbsSeekBar">
+        <attr name="gMin" format="integer" />
+        <attr name="gMax" format="integer" />
+        <attr name="gValue" format="integer" />
+
+        <attr name="gTickSize" format="dimension" />
+        <attr name="gThumbSize" format="dimension" />
+        <attr name="gTouchSize" format="dimension" />
+        <attr name="gTrackStroke" format="dimension" />
+        <attr name="gScrubberStroke" format="dimension" />
+
+        <attr name="gMirrorForRtl" format="boolean" />
+        <attr name="gAllowTrackClickToDrag" format="boolean" />
+
+        <attr name="gRippleColor" format="color|reference" />
+        <attr name="gScrubberColor" format="color|reference" />
+        <attr name="gTrackColor" format="color|reference" />
+        <attr name="gThumbColor" format="color|reference" />
+
+        <attr name="gIndicator">
+            <enum name="none" value="0" />
+            <enum name="balloon" value="1" />
+        </attr>
+        <attr name="gIndicatorBackgroundColor" format="color|reference" />
+        <attr name="gIndicatorFormatter" format="string|reference" />
+        <attr name="gIndicatorTextAppearance" format="reference" />
     </declare-styleable>
 </resources>

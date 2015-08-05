@@ -47,33 +47,6 @@
     <attr name="g_cornerRadii_C" format="dimension" />
     <attr name="g_cornerRadii_D" format="dimension" />
 
-    <!-- GeniusButton -->
-    <declare-styleable name="GeniusButton">
-        <attr name="g_theme" />
-        <attr name="g_fontFamily" />
-        <attr name="g_fontWeight" />
-        <attr name="g_fontExtension" />
-        <attr name="g_textAppearance" />
-        <attr name="g_cornerRadius" />
-        <attr name="g_borderWidth" />
-
-        <attr name="g_cornerRadii_A" />
-        <attr name="g_cornerRadii_B" />
-        <attr name="g_cornerRadii_C" />
-        <attr name="g_cornerRadii_D" />
-
-        <attr name="g_touchEffect" format="integer">
-            <enum name="none" value="0" />
-            <enum name="ease" value="1" />
-            <enum name="ripple" value="2" />
-            <enum name="move" value="3" />
-            <enum name="press" value="4" />
-        </attr>
-        <attr name="g_touchEffectColor" format="color" />
-        <attr name="g_blockButtonEffectHeight" format="dimension" />
-        <attr name="g_delayClick" format="boolean" />
-    </declare-styleable>
-
     <!-- GeniusCheckBox -->
     <declare-styleable name="GeniusCheckBox">
         <attr name="g_theme" />
@@ -112,41 +85,5 @@
         <attr name="g_titleTextSize" format="dimension" />
         <attr name="g_titlePaddingTop" format="dimension" />
         <attr name="g_titlePaddingLeft" format="dimension" />
-    </declare-styleable>
-
-    <!-- BalloonMarker -->
-    <attr name="GeniusBalloonMarkerStyle" format="reference" />
-    <declare-styleable name="GeniusBalloonMarker">
-        <attr name="g_markerTextAppearance" format="reference" />
-        <attr name="g_markerBackgroundColor" format="color|reference" />
-        <attr name="g_markerElevation" format="dimension" />
-    </declare-styleable>
-
-    <!-- GeniusSeekBar -->
-    <attr name="GeniusSeekBarStyle" format="reference" />
-    <declare-styleable name="GeniusSeekBar">
-        <attr name="g_theme" />
-
-        <attr name="g_min" format="integer" />
-        <attr name="g_max" format="integer" />
-        <attr name="g_value" format="integer" />
-
-        <attr name="g_tickSize" format="dimension" />
-        <attr name="g_thumbSize" format="dimension" />
-        <attr name="g_touchSize" format="dimension" />
-        <attr name="g_trackStroke" format="dimension" />
-        <attr name="g_scrubberStroke" format="dimension" />
-
-        <attr name="g_mirrorForRtl" format="boolean" />
-        <attr name="g_allowTrackClickToDrag" format="boolean" />
-
-        <attr name="g_rippleColor" format="color|reference" />
-        <attr name="g_scrubberColor" format="color|reference" />
-        <attr name="g_trackColor" format="color|reference" />
-        <attr name="g_thumbColor" format="color|reference" />
-
-        <attr name="g_indicatorBackgroundColor" format="color|reference" />
-        <attr name="g_indicatorFormatter" format="string|reference" />
-        <attr name="g_indicatorTextAppearance" format="reference" />
     </declare-styleable>
 </resources>

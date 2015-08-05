@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-* Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+* Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
-* Created 10/01/2014
-* Changed 03/01/2015
-* Version 2.0.0
-* GeniusEditText
+* Created 08/04/2015
+* Changed 08/04/2015
+* Version 3.0.0
+* Author Qiujuer
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -159,11 +159,8 @@
     <color name="Dark_Transparent">#55000000</color>
 
     <!-- SeekBar -->
-    <color name="g_progress_color">#ff009688</color>
-    <color name="g_track_color">#ff939393</color>
-    <color name="g_disabled_color">#66939393</color>
-    <color name="g_ripple_color_pressed">#77939393</color>
-    <color name="g_ripple_color_focused">#99999999</color>
+    <color name="g_default_seek_bar_ripple">@color/cyan_500</color>
+    <color name="g_default_seek_bar_indicator">@color/cyan_500</color>
 
 
     <integer-array name="Aquamarine">

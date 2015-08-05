@@ -24,7 +24,7 @@ import android.graphics.Canvas;
 import android.graphics.Outline;
 import android.graphics.Paint;
 
-import net.qiujuer.genius.ui.GeniusUi;
+import net.qiujuer.genius.ui.Ui;
 
 /**
  * Created by Qiujuer on 2015/3/27.
@@ -103,7 +103,7 @@ public abstract class Effect {
      */
     protected int setPaintAlpha(Paint paint, int alpha) {
         final int prevAlpha = paint.getAlpha();
-        paint.setAlpha(GeniusUi.modulateAlpha(prevAlpha, alpha));
+        paint.setAlpha(Ui.modulateAlpha(prevAlpha, alpha));
         return prevAlpha;
     }
 

@@ -52,6 +52,22 @@ public class BorderShape extends Shape {
         }
     }
 
+    public void setBorder(RectF border) {
+        if (border.left != 0 || border.top != 0 || border.right != 0 || border.bottom != 0) {
+            if (mBorder == null)
+                mBorder = new RectF(border);
+            else
+                mBorder.set(border);
+        } else
+            this.mBorder = null;
+    }
+
+    public RectF getBorder(RectF border) {
+        if (mBorder != null && border != null)
+            border.set(mBorder);
+        return border;
+    }
+
     @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public void draw(Canvas canvas, Paint paint) {

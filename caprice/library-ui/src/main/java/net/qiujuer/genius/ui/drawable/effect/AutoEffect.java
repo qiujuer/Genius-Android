@@ -43,19 +43,23 @@ public class AutoEffect extends PressEffect {
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
+        // Draw background
         int preAlpha = setPaintAlpha(paint, mAlpha);
         if (paint.getAlpha() > 0) {
             canvas.drawColor(paint.getColor());
         }
 
         if (mRadius > 0) {
+            // Get double trans color
             if (preAlpha < 255) {
                 preAlpha = getCircleAlpha(preAlpha, paint.getAlpha());
-                paint.setAlpha(preAlpha);
             }
-            if (mCircleAlpha != 255)
-                setPaintAlpha(paint, mCircleAlpha);
-            canvas.drawCircle(mPaintX, mPaintY, mRadius, paint);
+            // Draw circle
+            paint.setAlpha(preAlpha);
+            setPaintAlpha(paint, mCircleAlpha);
+            if (paint.getAlpha() > 0) {
+                canvas.drawCircle(mPaintX, mPaintY, mRadius, paint);
+            }
         }
     }
 

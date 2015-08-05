@@ -1,0 +1,74 @@
+<!--
+* Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+* WebSite http://www.qiujuer.net
+* Created 08/04/2015
+* Changed 08/05/2015
+* Version 3.0.0
+* Author Qiujuer
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*         http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+
+<resources>
+
+    <style name="Genius.Widget.TextView" parent="android:Widget.TextView" />
+
+    <style name="Genius.Widget.Button" parent="android:Widget.Button">
+        <item name="gTouchColor">@color/black_alpha_48</item>
+        <item name="gTouchEffect">@color/black_alpha_48</item>
+        <item name="gTouchCornerRadius">0dp</item>
+    </style>
+
+    <style name="Genius.Widget.FloatActionButton" parent="">
+        <item name="gTouchColor">@color/black_alpha_48</item>
+        <item name="gBackgroundColor">@color/g_default_float_action_bg</item>
+    </style>
+
+    <style name="Genius.Widget.SeekBar" parent="">
+        <item name="gMirrorForRtl">true</item>
+        <item name="gAllowTrackClickToDrag">true</item>
+
+        <item name="gMin">0</item>
+        <item name="gMax">100</item>
+        <item name="gValue">0</item>
+
+        <item name="gTickSize">@dimen/genius_seekBar_tickSize</item>
+        <item name="gThumbSize">@dimen/genius_seekBar_thumbSize</item>
+        <item name="gTouchSize">@dimen/genius_seekBar_touchSize</item>
+        <item name="gTrackStroke">@dimen/genius_seekBar_trackStroke</item>
+        <item name="gScrubberStroke">@dimen/genius_seekBar_scrubberStroke</item>
+
+        <item name="gScrubberColor">@color/g_default_seek_bar_scrubber</item>
+        <item name="gTrackColor">@color/g_default_seek_bar_track</item>
+        <item name="gThumbColor">@color/g_default_seek_bar_thumb</item>
+        <item name="gRippleColor">@color/g_default_seek_bar_ripple</item>
+
+        <item name="gIndicator">balloon</item>
+        <item name="gIndicatorBackgroundColor">@color/g_default_seek_bar_indicator</item>
+        <item name="gIndicatorTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
+        </item>
+    </style>
+
+    <style name="Genius.Widget.BalloonMarker" parent="android:Widget">
+        <item name="gMarkerTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
+        </item>
+        <item name="gMarkerBackgroundColor">@color/g_default_seek_bar_indicator</item>
+        <item name="gMarkerElevation">@dimen/genius_balloonMarker_elevation</item>
+    </style>
+
+    <style name="Genius.Widget.BalloonMarker.TextAppearance" parent="android:TextAppearance.Small">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:padding">@dimen/genius_balloonMarker_textAppearance_padding</item>
+    </style>
+
+</resources>

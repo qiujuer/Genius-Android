@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 02/25/2015
- * Changed 03/01/2015
- * Version 2.0.0
- * GeniusEditText
+ * Created 08/04/2015
+ * Changed 08/05/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.qiujuer.genius.ui.widget;
+package net.qiujuer.genius.ui.widget.popup;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -34,11 +34,12 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
+import net.qiujuer.genius.ui.widget.BalloonMarker;
 
 /**
  * This is a SeekBar BalloonMarker PopupIndicator
  */
-public class GeniusPopupIndicator {
+public class PopupIndicator {
     private final WindowManager mWindowManager;
     Point screenSize = new Point();
     private boolean mShowing;
@@ -50,14 +51,14 @@ public class GeniusPopupIndicator {
     private BalloonMarkerDrawable.MarkerAnimationListener mListener;
     private int[] mDrawingLocation = new int[2];
 
-    public GeniusPopupIndicator(Context context) {
+    public PopupIndicator(Context context) {
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mPopupView = new Floater(context);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         screenSize.set(displayMetrics.widthPixels, displayMetrics.heightPixels);
     }
 
-    public GeniusPopupIndicator(Context context, ColorStateList color, int textAppearanceId, float closeSize, String maxValue) {
+    public PopupIndicator(Context context, ColorStateList color, int textAppearanceId, float closeSize, String maxValue) {
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mPopupView = new Floater(context, color, textAppearanceId, closeSize, maxValue);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -69,6 +70,13 @@ public class GeniusPopupIndicator {
         if (mPopupView != null) {
             mPopupView.mMarker.setBackgroundColor(color);
         }
+    }
+
+    public ColorStateList getIndicatorColor() {
+        if (mPopupView != null) {
+            return mPopupView.mMarker.getBackgroundColor();
+        }
+        return null;
     }
 
     public void setIndicatorTextAppearance(int textAppearanceId) {
@@ -224,17 +232,17 @@ public class GeniusPopupIndicator {
 
     /**
      * Small FrameLayout class to hold and move the bubble around when requested
-     * I wanted to use the {@link GeniusBalloonMarker} directly
+     * I wanted to use the {@link BalloonMarker} directly
      * but doing so would make some things harder to implement
      * (like moving the marker around, having the Marker's outline to work, etc)
      */
     private class Floater extends FrameLayout implements BalloonMarkerDrawable.MarkerAnimationListener {
-        private GeniusBalloonMarker mMarker;
+        private BalloonMarker mMarker;
         private int mOffset;
 
         public Floater(Context context) {
             super(context);
-            mMarker = new GeniusBalloonMarker(context);
+            mMarker = new BalloonMarker(context);
             addView(mMarker, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
         }
 

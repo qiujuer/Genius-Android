@@ -44,8 +44,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.EditText;
 
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.shape.BorderShape;
 import net.qiujuer.genius.ui.widget.attribute.Attributes;
 import net.qiujuer.genius.ui.widget.attribute.BaseAttributes;
@@ -54,7 +54,7 @@ import net.qiujuer.genius.ui.widget.attribute.EditTextAttributes;
 /**
  * GeniusEditText this have a title from hint
  */
-public class GeniusEditText extends EditText implements Attributes.AttributeChangeListener {
+class GeniusEditText extends EditText implements Attributes.AttributeChangeListener {
     private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
     private static final int ANIMATION_DURATION = 300;
 
@@ -146,7 +146,7 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
 
         // check for IDE preview render
         if (!this.isInEditMode()) {
-            //Typeface typeface = GeniusUi.getFont(getContext(), mAttributes);
+            //Typeface typeface = Genius Ui.getFont(getContext(), mAttributes);
             //if (typeface != null) setTypeface(typeface);
         }
     }
@@ -395,7 +395,7 @@ public class GeniusEditText extends EditText implements Attributes.AttributeChan
                 mTitlePaint.setTextSize(mCurTitleProperty.mTextSize);
 
                 int color = getCurrentTitleTextColor();
-                int alpha = GeniusUi.modulateAlpha(Color.alpha(color), mCurTitleProperty.mAlpha);
+                int alpha = Ui.modulateAlpha(Color.alpha(color), mCurTitleProperty.mAlpha);
 
                 mTitlePaint.setColor(color);
                 mTitlePaint.setAlpha(alpha);
