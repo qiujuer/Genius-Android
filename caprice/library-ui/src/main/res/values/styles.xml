@@ -2,7 +2,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 08/04/2015
+* Changed 08/05/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -35,18 +35,18 @@
         <item name="gTrackStroke">@dimen/genius_seekBar_trackStroke</item>
         <item name="gScrubberStroke">@dimen/genius_seekBar_scrubberStroke</item>
 
-        <item name="gRippleColor">@color/g_default_ripple_color</item>
-        <item name="gScrubberColor">@color/g_default_progress_color</item>
-        <item name="gTrackColor">@color/g_default_track_color</item>
-        <item name="gThumbColor">@color/g_default_progress_color</item>
-        <item name="gIndicatorBackgroundColor">@color/g_progress_color</item>
+        <item name="gScrubberColor">@color/g_default_seek_bar_scrubber</item>
+        <item name="gTrackColor">@color/g_default_seek_bar_track</item>
+        <item name="gThumbColor">@color/g_default_seek_bar_thumb</item>
+        <item name="gRippleColor">@color/g_default_seek_bar_ripple</item>
+        <item name="gIndicatorBackgroundColor">@color/g_default_seek_bar_indicator</item>
 
         <item name="gIndicatorTextAppearance">@style/BalloonMarkerTextAppearanceStyle</item>
     </style>
 
     <style name="BalloonMarkerStyle">
         <item name="gMarkerTextAppearance">@style/BalloonMarkerTextAppearanceStyle</item>
-        <item name="gMarkerBackgroundColor">@color/g_progress_color</item>
+        <item name="gMarkerBackgroundColor">@color/g_default_seek_bar_indicator</item>
         <item name="gMarkerElevation">@dimen/genius_balloonMarker_elevation</item>
     </style>
 

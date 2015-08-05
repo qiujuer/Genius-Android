@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/04/2015
+ * Changed 08/05/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -139,12 +139,12 @@ public abstract class AbsSeekBar extends View {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
 
-        mRipple = new AlmostRippleDrawable(resources.getColorStateList(R.color.g_default_ripple_color));
+        mRipple = new AlmostRippleDrawable(resources.getColorStateList(R.color.g_default_seek_bar_ripple));
         mRipple.setCallback(this);
 
-        mSeekBarDrawable = new SeekBarDrawable(resources.getColorStateList(R.color.g_default_track_color),
-                resources.getColorStateList(R.color.g_default_progress_color),
-                resources.getColorStateList(R.color.g_default_progress_color));
+        mSeekBarDrawable = new SeekBarDrawable(resources.getColorStateList(R.color.g_default_seek_bar_track),
+                resources.getColorStateList(R.color.g_default_seek_bar_scrubber),
+                resources.getColorStateList(R.color.g_default_seek_bar_thumb));
         mSeekBarDrawable.setCallback(this);
 
         if (notEdit) {
@@ -161,7 +161,7 @@ public abstract class AbsSeekBar extends View {
             mSeekBarDrawable.setThumbRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_thumbSize));
 
             if (notEdit) {
-                mIndicator.setIndicatorColor(resources.getColorStateList(R.color.g_progress_color));
+                mIndicator.setIndicatorColor(resources.getColorStateList(R.color.g_default_seek_bar_indicator));
                 mIndicator.setIndicatorClosedSize(mSeekBarDrawable.getThumbRadius() * 2);
             }
 
