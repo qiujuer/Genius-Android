@@ -21,7 +21,20 @@
 
 <resources>
 
-    <style name="AbsSeekBarStyle">
+    <style name="Genius.Widget.TextView" parent="android:Widget.TextView" />
+
+    <style name="Genius.Widget.Button" parent="android:Widget.Button">
+        <item name="gTouchColor">@color/black_alpha_48</item>
+        <item name="gTouchEffect">@color/black_alpha_48</item>
+        <item name="gTouchCornerRadius">0dp</item>
+    </style>
+
+    <style name="Genius.Widget.FloatActionButton" parent="">
+        <item name="gTouchColor">@color/black_alpha_48</item>
+        <item name="gBackgroundColor">@color/g_default_float_action_bg</item>
+    </style>
+
+    <style name="Genius.Widget.SeekBar" parent="">
         <item name="gMirrorForRtl">true</item>
         <item name="gAllowTrackClickToDrag">true</item>
 
@@ -39,18 +52,21 @@
         <item name="gTrackColor">@color/g_default_seek_bar_track</item>
         <item name="gThumbColor">@color/g_default_seek_bar_thumb</item>
         <item name="gRippleColor">@color/g_default_seek_bar_ripple</item>
-        <item name="gIndicatorBackgroundColor">@color/g_default_seek_bar_indicator</item>
 
-        <item name="gIndicatorTextAppearance">@style/BalloonMarkerTextAppearanceStyle</item>
+        <item name="gIndicator">balloon</item>
+        <item name="gIndicatorBackgroundColor">@color/g_default_seek_bar_indicator</item>
+        <item name="gIndicatorTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
+        </item>
     </style>
 
-    <style name="BalloonMarkerStyle">
-        <item name="gMarkerTextAppearance">@style/BalloonMarkerTextAppearanceStyle</item>
+    <style name="Genius.Widget.BalloonMarker" parent="android:Widget">
+        <item name="gMarkerTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
+        </item>
         <item name="gMarkerBackgroundColor">@color/g_default_seek_bar_indicator</item>
         <item name="gMarkerElevation">@dimen/genius_balloonMarker_elevation</item>
     </style>
 
-    <style name="BalloonMarkerTextAppearanceStyle" parent="android:TextAppearance.Small">
+    <style name="Genius.Widget.BalloonMarker.TextAppearance" parent="android:TextAppearance.Small">
         <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
         <item name="android:padding">@dimen/genius_balloonMarker_textAppearance_padding</item>
     </style>
