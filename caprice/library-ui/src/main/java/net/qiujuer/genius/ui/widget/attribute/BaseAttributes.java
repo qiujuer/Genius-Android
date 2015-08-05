@@ -25,7 +25,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
-import net.qiujuer.genius.ui.GeniusUi;
+import net.qiujuer.genius.ui.Ui;
 
 
 public class BaseAttributes extends Attributes {
@@ -66,7 +66,7 @@ public class BaseAttributes extends Attributes {
 
     public void initHasOwnAttrs(Context context, AttributeSet attrs) {
         // getting android default tags for textColor and textColorHint
-        String textColorAttribute = attrs.getAttributeValue(GeniusUi.androidStyleNameSpace, "textColor");
+        String textColorAttribute = attrs.getAttributeValue(Ui.androidStyleNameSpace, "textColor");
         if (textColorAttribute == null) {
             int styleId = attrs.getStyleAttribute();
             int[] attributesArray = new int[]{android.R.attr.textColor};
@@ -88,12 +88,12 @@ public class BaseAttributes extends Attributes {
         }
 
         // getting android default tags for background
-        String backgroundAttribute = attrs.getAttributeValue(GeniusUi.androidStyleNameSpace, "background");
+        String backgroundAttribute = attrs.getAttributeValue(Ui.androidStyleNameSpace, "background");
         hasOwnBackground = backgroundAttribute != null;
 
 
         // getting android default tags for textColorHint
-        hasHintTextColor = attrs.getAttributeValue(GeniusUi.androidStyleNameSpace, "textColorHint") != null;
+        hasHintTextColor = attrs.getAttributeValue(Ui.androidStyleNameSpace, "textColorHint") != null;
     }
 
     public void initCornerRadius(TypedArray a, int indexRadius, int indexRadiiA, int indexRadiiB, int indexRadiiC, int indexRadiiD) {

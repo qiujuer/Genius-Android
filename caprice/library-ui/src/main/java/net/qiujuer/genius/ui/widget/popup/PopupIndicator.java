@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/04/2015
+ * Changed 08/05/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.qiujuer.genius.ui.widget;
+package net.qiujuer.genius.ui.widget.popup;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -34,6 +34,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
+import net.qiujuer.genius.ui.widget.BalloonMarker;
 
 /**
  * This is a SeekBar BalloonMarker PopupIndicator

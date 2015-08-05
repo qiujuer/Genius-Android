@@ -1,11 +1,16 @@
 /*
- * Copyright (c) Gustavo Claramunt (AnderWeb) 2014.
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 07/23/2015
+ * Changed 08/05/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *         http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +36,7 @@ import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
  * @hide
  */
 @SuppressWarnings("UnusedDeclaration")
-public class GeniusCompat {
+public class UiCompat {
 
     /**
      * Sets the custom Outline provider on API>=21.
@@ -42,7 +47,7 @@ public class GeniusCompat {
      */
     public static void setOutlineProvider(View view, final BalloonMarkerDrawable balloonMarkerDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            GeniusCompatNotCrash.setOutlineProvider(view, balloonMarkerDrawable);
+            UiCompatNotCrash.setOutlineProvider(view, balloonMarkerDrawable);
         }
     }
 
@@ -76,7 +81,7 @@ public class GeniusCompat {
     @SuppressWarnings("deprecation")
     public static void setBackground(View view, Drawable background) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            GeniusCompatNotCrash.setBackground(view, background);
+            UiCompatNotCrash.setBackground(view, background);
         } else {
             view.setBackgroundDrawable(background);
         }
@@ -91,7 +96,7 @@ public class GeniusCompat {
      */
     public static void setTextDirection(TextView textView, int textDirection) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            GeniusCompatNotCrash.setTextDirection(textView, textDirection);
+            UiCompatNotCrash.setTextDirection(textView, textDirection);
         }
     }
 }

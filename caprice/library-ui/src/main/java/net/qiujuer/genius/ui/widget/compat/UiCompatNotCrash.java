@@ -1,11 +1,16 @@
 /*
- * Copyright (c) Gustavo Claramunt (AnderWeb) 2014.
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 07/23/2015
+ * Changed 08/05/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *         http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,7 +37,7 @@ import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
  * @hide
  */
 @TargetApi(21)
-class GeniusCompatNotCrash {
+class UiCompatNotCrash {
     public static void setOutlineProvider(View marker, final BalloonMarkerDrawable balloonMarkerDrawable) {
         marker.setOutlineProvider(new ViewOutlineProvider() {
             @Override

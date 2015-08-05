@@ -29,7 +29,7 @@ import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import net.qiujuer.genius.ui.GeniusUi;
+import net.qiujuer.genius.ui.Ui;
 
 /**
  * This is a touch foreground ripple drawable extends to StatePaintDrawable
@@ -100,7 +100,7 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
     private int setPaintAlpha(Paint paint) {
         // Set the background alpha 128
         final int prevAlpha = paint.getAlpha();
-        paint.setAlpha(GeniusUi.modulateAlpha(prevAlpha, 128));
+        paint.setAlpha(Ui.modulateAlpha(prevAlpha, 128));
         return prevAlpha;
     }
 

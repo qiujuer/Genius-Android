@@ -46,11 +46,12 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.AlmostRippleDrawable;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
 import net.qiujuer.genius.ui.drawable.SeekBarDrawable;
+import net.qiujuer.genius.ui.widget.popup.PopupIndicator;
 
 import java.util.Formatter;
 import java.util.Locale;
@@ -113,7 +114,7 @@ public abstract class AbsSeekBar extends View {
 
     public AbsSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.seekBarStyle, 0);
+        init(attrs, R.attr.gSeekBarStyle, 0);
     }
 
     public AbsSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -147,11 +148,6 @@ public abstract class AbsSeekBar extends View {
                 resources.getColorStateList(R.color.g_default_seek_bar_thumb));
         mSeekBarDrawable.setCallback(this);
 
-        if (notEdit) {
-            mIndicator = new PopupIndicator(context);
-            mIndicator.setListener(mFloaterListener);
-        }
-
         // Init
         if (attrs == null) {
             mSeekBarDrawable.setTrackStroke(resources.getDimensionPixelSize(R.dimen.genius_seekBar_trackStroke));
@@ -161,6 +157,8 @@ public abstract class AbsSeekBar extends View {
             mSeekBarDrawable.setThumbRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_thumbSize));
 
             if (notEdit) {
+                mIndicator = new PopupIndicator(context);
+                mIndicator.setListener(mFloaterListener);
                 mIndicator.setIndicatorColor(resources.getColorStateList(R.color.g_default_seek_bar_indicator));
                 mIndicator.setIndicatorClosedSize(mSeekBarDrawable.getThumbRadius() * 2);
             }
@@ -212,12 +210,14 @@ public abstract class AbsSeekBar extends View {
                 resources.getDimensionPixelSize(R.dimen.genius_seekBar_scrubberStroke));
 
         // Other
+        int indicator = a.getInt(R.styleable.AbsSeekBar_gIndicator, 1);
+
         mMirrorForRtl = a.getBoolean(R.styleable.AbsSeekBar_gMirrorForRtl, mMirrorForRtl);
         mAllowTrackClick = a.getBoolean(R.styleable.AbsSeekBar_gAllowTrackClickToDrag, mAllowTrackClick);
         mIndicatorFormatter = a.getString(R.styleable.AbsSeekBar_gIndicatorFormatter);
 
         // Indicator TextAppearance
-        int textAppearanceId = a.getResourceId(R.styleable.AbsSeekBar_gIndicatorTextAppearance, R.style.BalloonMarkerTextAppearanceStyle);
+        int textAppearanceId = a.getResourceId(R.styleable.AbsSeekBar_gIndicatorTextAppearance, R.style.Genius_Widget_BalloonMarker_TextAppearance);
 
         a.recycle();
 
@@ -238,7 +238,9 @@ public abstract class AbsSeekBar extends View {
         if (scrubberColor != null)
             mSeekBarDrawable.setScrubberColor(scrubberColor);
 
-        if (notEdit) {
+        if (notEdit && indicator != 0) {
+            mIndicator = new PopupIndicator(context);
+            mIndicator.setListener(mFloaterListener);
             if (indicatorColor != null)
                 mIndicator.setIndicatorColor(indicatorColor);
             mIndicator.setIndicatorTextAppearance(textAppearanceId);
@@ -246,7 +248,7 @@ public abstract class AbsSeekBar extends View {
         }
 
         // Enabled
-        setEnabled(attrs.getAttributeBooleanValue(GeniusUi.androidStyleNameSpace, "enabled", isEnabled()));
+        setEnabled(attrs.getAttributeBooleanValue(Ui.androidStyleNameSpace, "enabled", isEnabled()));
     }
 
     public void setTrackStroke(int trackStroke) {
@@ -266,8 +268,9 @@ public abstract class AbsSeekBar extends View {
     public void setThumbRadius(int thumbRadius) {
         if (thumbRadius != mSeekBarDrawable.getThumbRadius()) {
             mSeekBarDrawable.setThumbRadius(thumbRadius);
-            if (!isInEditMode())
+            if (!isInEditMode() && mIndicator != null) {
                 mIndicator.setIndicatorClosedSize(thumbRadius * 2);
+            }
             invalidate();
         }
     }
@@ -287,7 +290,7 @@ public abstract class AbsSeekBar extends View {
     }
 
     public void setIndicatorColor(ColorStateList indicatorColor) {
-        if (indicatorColor != null && indicatorColor != mIndicator.getIndicatorColor()) {
+        if (indicatorColor != null && mIndicator != null && indicatorColor != mIndicator.getIndicatorColor()) {
             mIndicator.setIndicatorColor(indicatorColor);
             invalidate();
         }
@@ -331,8 +334,10 @@ public abstract class AbsSeekBar extends View {
      * @see #setNumericTransformer(AbsSeekBar.NumericTransformer)
      */
     public void setIndicatorFormatter(@Nullable String formatter) {
-        mIndicatorFormatter = formatter;
-        updateProgressMessage(mValue);
+        if (mIndicator != null) {
+            mIndicatorFormatter = formatter;
+            updateProgressMessage(mValue);
+        }
     }
 
     /**
@@ -354,7 +359,7 @@ public abstract class AbsSeekBar extends View {
     public void setNumericTransformer(@Nullable NumericTransformer transformer) {
         mNumericTransformer = transformer != null ? transformer : new DefaultNumericTransformer();
         //We need to refresh the PopupIndicator view
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             if (mNumericTransformer.useStringTransform()) {
                 mIndicator.setIndicatorSizes(mNumericTransformer.transformToString(mMax));
             } else {
@@ -462,7 +467,8 @@ public abstract class AbsSeekBar extends View {
      */
     public void setThumbColor(int startColor, int endColor) {
         mSeekBarDrawable.setThumbColor(ColorStateList.valueOf(startColor));
-        mIndicator.setColors(startColor, endColor);
+        if (mIndicator != null)
+            mIndicator.setColors(startColor, endColor);
     }
 
     /**
@@ -487,7 +493,7 @@ public abstract class AbsSeekBar extends View {
         super.onLayout(changed, left, top, right, bottom);
         if (changed) {
             removeCallbacks(mShowIndicatorRunnable);
-            if (!isInEditMode()) {
+            if (!isInEditMode() && mIndicator != null) {
                 mIndicator.dismissComplete();
             }
             updateFromDrawableState();
@@ -598,7 +604,7 @@ public abstract class AbsSeekBar extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         removeCallbacks(mShowIndicatorRunnable);
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             mIndicator.dismissComplete();
         }
     }
@@ -670,7 +676,7 @@ public abstract class AbsSeekBar extends View {
     }
 
     private void updateProgressMessage(int value) {
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             if (mNumericTransformer.useStringTransform()) {
                 mIndicator.setValue(mNumericTransformer.transformToString(value));
             } else {
@@ -829,7 +835,7 @@ public abstract class AbsSeekBar extends View {
         // Indicator Move
         final Rect finalBounds = mTempRect;
         mSeekBarDrawable.copyTouchBounds(finalBounds);
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             mIndicator.move(finalBounds.centerX());
         }
 
@@ -853,7 +859,7 @@ public abstract class AbsSeekBar extends View {
     }
 
     private void showFloater() {
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             mSeekBarDrawable.animateToPressed();
             mIndicator.showIndicator(this, mSeekBarDrawable.getPosPoint());
             onShowBubble();
@@ -862,7 +868,7 @@ public abstract class AbsSeekBar extends View {
 
     private void hideFloater() {
         removeCallbacks(mShowIndicatorRunnable);
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mIndicator != null) {
             mIndicator.dismiss();
             onHideBubble();
         }
@@ -942,9 +948,9 @@ public abstract class AbsSeekBar extends View {
 
     /**
      * Interface to transform the current internal value of this AbsSeekBar to anther one for the visualization.
-     * <p/>
+     * <p>
      * This will be used on the floating bubble to display a different value if needed.
-     * <p/>
+     * <p>
      * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
      * value seen by the user
      *

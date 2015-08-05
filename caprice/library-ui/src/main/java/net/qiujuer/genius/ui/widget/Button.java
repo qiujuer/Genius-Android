@@ -2,8 +2,9 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/23/2015
- * Changed 08/04/2015
- * Version 1.0.0
+ * Changed 08/05/2015
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +32,8 @@ import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
 import net.qiujuer.genius.ui.drawable.effect.AutoEffect;
 import net.qiujuer.genius.ui.drawable.effect.EaseEffect;
@@ -55,7 +56,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
     public Button(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0, 0);
+        init(attrs, R.attr.gButtonStyle, 0);
     }
 
     public Button(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -93,7 +94,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
         String fontFile = a.getString(R.styleable.Button_gFont);
         int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, 1);
-        int touchColor = a.getColor(R.styleable.Button_gColorTouch, GeniusUi.TOUCH_PRESS_COLOR);
+        int touchColor = a.getColor(R.styleable.Button_gTouchColor, Ui.TOUCH_PRESS_COLOR);
 
         // Load clip touch corner radius
         ClipFilletFactory touchFactory = null;
@@ -124,7 +125,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
             // Font
             if (fontFile != null && fontFile.length() > 0) {
-                Typeface typeface = GeniusUi.getFont(getContext(), fontFile);
+                Typeface typeface = Ui.getFont(getContext(), fontFile);
                 if (typeface != null) setTypeface(typeface);
             }
         }

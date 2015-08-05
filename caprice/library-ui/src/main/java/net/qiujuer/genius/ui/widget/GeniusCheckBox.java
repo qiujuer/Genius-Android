@@ -46,7 +46,7 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
  * This is CheckBox widget
  * The widget extend view widget
  */
-public class GeniusCheckBox extends View implements Checkable, Attributes.AttributeChangeListener {
+class GeniusCheckBox extends View implements Checkable, Attributes.AttributeChangeListener {
     private static final boolean IS_HEIGHT_JELLY_BEAN_MR1 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
     private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
     private static final int ANIMATION_DURATION = 250;

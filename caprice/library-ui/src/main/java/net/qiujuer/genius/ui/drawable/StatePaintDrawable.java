@@ -29,7 +29,7 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 
-import net.qiujuer.genius.ui.GeniusUi;
+import net.qiujuer.genius.ui.Ui;
 
 import java.lang.reflect.Method;
 
@@ -133,7 +133,7 @@ public abstract class StatePaintDrawable extends StateColorDrawable {
     public void draw(Canvas canvas) {
         final Paint paint = mPaint;
         final int prevAlpha = paint.getAlpha();
-        paint.setAlpha(GeniusUi.modulateAlpha(prevAlpha, getAlpha()));
+        paint.setAlpha(Ui.modulateAlpha(prevAlpha, getAlpha()));
         // only draw shape if it may affect output
         if (paint.getAlpha() != 0 || paint.getXfermode() != null /*|| paint.hasShadowLayer()*/) {
             final boolean clearColorFilter;

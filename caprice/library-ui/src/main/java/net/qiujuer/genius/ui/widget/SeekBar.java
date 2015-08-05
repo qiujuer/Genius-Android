@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/04/2015
+ * Changed 08/05/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -28,8 +28,11 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 public class SeekBar extends AbsSeekBar {
-
     private OnSeekBarChangeListener mOnSeekBarChangeListener;
+
+    public SeekBar(Context context) {
+        super(context);
+    }
 
     public SeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -39,8 +42,8 @@ public class SeekBar extends AbsSeekBar {
         super(context, attrs, defStyle);
     }
 
-    public SeekBar(Context context) {
-        super(context);
+    public SeekBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     /**
@@ -106,7 +109,7 @@ public class SeekBar extends AbsSeekBar {
          *
          * @param seekBar  The GeniusSeekBar
          * @param progress The current progress level. This will be in the range 0..max where max
-         *                 was set by {@link GeniusAbsSeekBar#setMax(int)}. (The default value for max is 100.)
+         *                 was set by {@link AbsSeekBar#setMax(int)}. (The default value for max is 100.)
          * @param fromUser True if the progress change was initiated by the user.
          */
         void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);

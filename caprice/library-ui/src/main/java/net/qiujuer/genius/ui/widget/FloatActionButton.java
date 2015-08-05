@@ -3,6 +3,7 @@ package net.qiujuer.genius.ui.widget;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,8 +21,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
 import net.qiujuer.genius.ui.drawable.effect.FloatEffect;
 
@@ -37,7 +38,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
 
     public FloatActionButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0, 0);
+        init(attrs, R.attr.gFloatActionButtonStyle, 0);
     }
 
     public FloatActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -69,44 +70,45 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
             return;
 
         final Context context = getContext();
+        final Resources resource = getResources();
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.FloatActionButton, defStyleAttr, defStyleRes);
 
-        ColorStateList bgColor = a.getColorStateList(R.styleable.FloatActionButton_gColorBackground);
-        int touchColor = a.getColor(R.styleable.FloatActionButton_gColorTouch, GeniusUi.TOUCH_PRESS_COLOR);
+        ColorStateList bgColor = a.getColorStateList(R.styleable.FloatActionButton_gBackgroundColor);
+        int touchColor = a.getColor(R.styleable.FloatActionButton_gTouchColor, Ui.TOUCH_PRESS_COLOR);
 
         a.recycle();
 
         // Enable
-        boolean enable = GeniusUi.isEnableAttr(context, attrs);
+        boolean enable = Ui.isEnableAttr(context, attrs);
         setEnabled(enable);
 
         // BackgroundColor
         if (bgColor == null) {
-            bgColor = getResources().getColorStateList(R.color.g_defaulf_float_action_bg);
+            bgColor = resource.getColorStateList(R.color.g_default_float_action_bg);
         }
 
         // Background drawable
-        final float density = context.getResources().getDisplayMetrics().density;
-        final int shadowYOffset = (int) (density * GeniusUi.Y_OFFSET);
-        final int shadowXOffset = (int) (density * GeniusUi.X_OFFSET);
+        final float density = resource.getDisplayMetrics().density;
+        final int shadowYOffset = (int) (density * Ui.Y_OFFSET);
+        final int shadowXOffset = (int) (density * Ui.X_OFFSET);
         final int maxShadowOffset = Math.max(shadowXOffset, shadowYOffset);
 
-        mShadowRadius = (int) (density * GeniusUi.SHADOW_RADIUS);
+        mShadowRadius = (int) (density * Ui.SHADOW_RADIUS);
         mShadowRadius += maxShadowOffset;
 
         ShapeDrawable background;
-        if (GeniusUi.elevationSupported) {
+        if (Ui.elevationSupported) {
             background = new ShapeDrawable(new OvalShape());
-            ViewCompat.setElevation(this, GeniusUi.SHADOW_ELEVATION * density);
+            ViewCompat.setElevation(this, Ui.SHADOW_ELEVATION * density);
         } else {
             OvalShape oval = new OvalShadowShape(mShadowRadius);
             background = new ShapeDrawable(oval);
             ViewCompat.setLayerType(this, ViewCompat.LAYER_TYPE_SOFTWARE, background.getPaint());
             background.getPaint().setShadowLayer(mShadowRadius - maxShadowOffset, shadowXOffset, shadowYOffset,
-                    GeniusUi.KEY_SHADOW_COLOR);
+                    Ui.KEY_SHADOW_COLOR);
             final int padding = mShadowRadius;
             // set padding so the inner image sits correctly within the shadow.
             setPadding(Math.max(padding, getPaddingLeft()),
@@ -144,7 +146,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
      * @param colorRes Id of a color resource.
      */
     public void setBackgroundColorRes(int colorRes) {
-        setBackgroundColor(getContext().getResources().getColor(colorRes));
+        setBackgroundColor(getResources().getColor(colorRes));
     }
 
     @Override
@@ -173,7 +175,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (!GeniusUi.elevationSupported) {
+        if (!Ui.elevationSupported) {
             setMeasuredDimension(getMeasuredWidth() + mShadowRadius * 2, getMeasuredHeight()
                     + mShadowRadius * 2);
         }
@@ -263,7 +265,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
             mRadius = Math.min(mCenterX, mCenterY);
 
             RadialGradient radialGradient = new RadialGradient(mCenterX, mCenterY,
-                    mShadowRadius, new int[]{GeniusUi.FILL_SHADOW_COLOR, Color.TRANSPARENT},
+                    mShadowRadius, new int[]{Ui.FILL_SHADOW_COLOR, Color.TRANSPARENT},
                     null, Shader.TileMode.CLAMP);
             mShadowPaint.setShader(radialGradient);
 

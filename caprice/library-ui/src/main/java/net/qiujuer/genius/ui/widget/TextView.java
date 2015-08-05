@@ -3,7 +3,8 @@
  * WebSite http://www.qiujuer.net
  * Created 07/23/2015
  * Changed 08/04/2015
- * Version 1.0.0
+ * Version 3.0.0
+ * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,10 +31,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import net.qiujuer.genius.res.Resource;
-import net.qiujuer.genius.ui.GeniusUi;
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.shape.BorderShape;
 
 /**
@@ -58,7 +61,7 @@ public class TextView extends android.widget.TextView {
 
     public TextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0, 0);
+        init(attrs, R.attr.gTextViewStyle, 0);
     }
 
     public TextView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -70,6 +73,18 @@ public class TextView extends android.widget.TextView {
     public TextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+        event.setClassName(TextView.class.getName());
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName(TextView.class.getName());
     }
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -90,7 +105,7 @@ public class TextView extends android.widget.TextView {
 
         // Check for IDE preview render
         if (!this.isInEditMode() && fontFile != null && fontFile.length() > 0) {
-            Typeface typeface = GeniusUi.getFont(getContext(), fontFile);
+            Typeface typeface = Ui.getFont(getContext(), fontFile);
             if (typeface != null) setTypeface(typeface);
         }
     }
