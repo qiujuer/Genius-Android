@@ -27,12 +27,17 @@
 
 ![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/172755E3.png)
 
+## APK
+
+*  [`STEADY`](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/simple-steady_2.4.0.apk)
+*  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/sample.apk)
+
+
 
 ## Add Library To Your Project
 
 ### `STEADY` 
 
-*  Gradle:
 ```
 dependencies {
   compile 'com.github.qiujuer:genius:2.4.1'
@@ -44,17 +49,15 @@ dependencies {
 
 #### `Ui`
 
-*  Gradle:
 ```
 dependencies {
-  compile 'net.qiujuer.genius:ui:0.1.0'
+  compile 'net.qiujuer.genius:ui:0.2.0'
 }
 ```
 
 
 #### `Blur`
 
-*  Gradle:
 ```
 dependencies {
   compile 'net.qiujuer.genius:blur:1.0.0'
@@ -64,7 +67,6 @@ dependencies {
 
 #### `Resource`
 
-*  Gradle:
 ```
 dependencies {
   compile 'net.qiujuer.genius:res:1.0.0'
@@ -74,7 +76,6 @@ dependencies {
 
 #### `Kit`
 
-*  Gradle:
 ```
 dependencies {
   compile 'net.qiujuer.genius:kit:1.0.0'
