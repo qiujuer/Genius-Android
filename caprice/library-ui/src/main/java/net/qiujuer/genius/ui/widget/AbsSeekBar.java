@@ -948,9 +948,9 @@ public abstract class AbsSeekBar extends View {
 
     /**
      * Interface to transform the current internal value of this AbsSeekBar to anther one for the visualization.
-     * <p>
+     * <p/>
      * This will be used on the floating bubble to display a different value if needed.
-     * <p>
+     * <p/>
      * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
      * value seen by the user
      *

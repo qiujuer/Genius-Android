@@ -43,6 +43,9 @@ public class Ui {
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
     public static final boolean elevationSupported = Build.VERSION.SDK_INT >= 21;
 
+    public static final long FRAME_DURATION = 16;
+    public static final int ANIMATION_DURATION = 250;
+
     public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48
     public static final int KEY_SHADOW_COLOR = 0x4E000000; //0x1E000000;
     public static final int FILL_SHADOW_COLOR = 0x6D000000; //0x3D000000;

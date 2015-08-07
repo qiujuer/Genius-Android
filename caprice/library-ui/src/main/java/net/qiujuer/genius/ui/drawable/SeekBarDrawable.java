@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/04/2015
+ * Changed 08/07/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -211,19 +211,19 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint, int trackColor, int trackAlpha, int scrubberColor, int scrubberAlpha, int thumbColor, int thumbAlpha) {
-        float halfTrackStroke = mTrackStroke / 2;
-        float halfScrubberStroke = mScrubberStroke / 2;
+    public void draw(Canvas canvas, Paint paint, int trackColor, int scrubberColor, int thumbColor) {
+        float halfTrackStroke = mTrackStroke >> 1;
+        float halfScrubberStroke = mScrubberStroke >> 1;
 
         if (isRtl) {
-            draw(canvas, paint, thumbColor, thumbAlpha, trackColor, scrubberColor, trackAlpha, scrubberAlpha, halfTrackStroke, halfScrubberStroke);
+            draw(canvas, paint, thumbColor, trackColor, scrubberColor, halfTrackStroke, halfScrubberStroke);
         } else {
-            draw(canvas, paint, thumbColor, thumbAlpha, scrubberColor, trackColor, scrubberAlpha, trackAlpha, halfScrubberStroke, halfTrackStroke);
+            draw(canvas, paint, thumbColor, scrubberColor, trackColor, halfScrubberStroke, halfTrackStroke);
         }
     }
 
 
-    private void draw(Canvas canvas, Paint paint, int thumbColor, int thumbAlpha, int colorLeft, int colorRight, int alphaLeft, int alphaRight, float halfLeft, float halfRight) {
+    private void draw(Canvas canvas, Paint paint, int thumbColor, int colorLeft, int colorRight, float halfLeft, float halfRight) {
         Rect bounds = getBounds();
         int thumbX = mPoint.x;
         int thumbY = mPoint.y;
@@ -233,14 +233,12 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         // Track
         if (halfLeft > 0) {
             paint.setColor(colorLeft);
-            paint.setAlpha(alphaLeft);
             canvas.drawRect(startLeft, thumbY - halfLeft, thumbX, thumbY + halfLeft, paint);
         }
 
         // Scrubber
         if (halfRight > 0) {
             paint.setColor(colorRight);
-            paint.setAlpha(alphaRight);
             canvas.drawRect(thumbX, thumbY - halfRight, startRight, thumbY + halfRight, paint);
         }
 
@@ -257,7 +255,6 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         // Ticks Left
         if (mThumbRadius > halfLeft) {
             paint.setColor(colorLeft);
-            paint.setAlpha(alphaLeft);
             for (int i = 0; i <= mNumSegments; i++) {
                 float x = i * mTickDistance + startLeft;
                 if (x > thumbX)
@@ -269,7 +266,6 @@ public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable
         // Thumb
         if (!isOpen && mThumbRadius > 0) {
             paint.setColor(thumbColor);
-            paint.setAlpha(thumbAlpha);
             canvas.drawCircle(thumbX, thumbY, mThumbRadius, paint);
         }
     }
