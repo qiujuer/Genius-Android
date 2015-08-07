@@ -28,12 +28,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.Animatable;
 import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
-
-import net.qiujuer.genius.ui.Ui;
 
 /**
  * BalloonMarkerDrawable
@@ -49,7 +46,7 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
     private long mStartTime;
     private boolean mReverse = false;
     private boolean mRunning = false;
-    private int mDuration = Ui.ANIMATION_DURATION;
+    private int mDuration = ANIMATION_DURATION;
     //size of the actual thumb drawable to use as circle state size
     private float mClosedStateSize;
     //value to store que current scale when starting an animation and interpolate from it
@@ -72,7 +69,7 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
             long diff = currentTime - mStartTime;
             if (diff < mDuration) {
                 float interpolation = mInterpolator.getInterpolation((float) diff / (float) mDuration);
-                scheduleSelf(mUpdater, currentTime + Ui.FRAME_DURATION);
+                scheduleSelf(mUpdater, currentTime + FRAME_DURATION);
                 updateAnimation(interpolation);
             } else {
                 unscheduleSelf(mUpdater);
@@ -186,9 +183,9 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
             mRunning = true;
             mAnimationInitialValue = mCurrentScale;
             float durationFactor = 1f - mCurrentScale;
-            mDuration = (int) (Ui.ANIMATION_DURATION * durationFactor);
+            mDuration = (int) (ANIMATION_DURATION * durationFactor);
             mStartTime = SystemClock.uptimeMillis();
-            scheduleSelf(mUpdater, mStartTime + Ui.FRAME_DURATION);
+            scheduleSelf(mUpdater, mStartTime + FRAME_DURATION);
         } else {
             notifyFinishedToListener();
         }
@@ -201,9 +198,9 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
             mRunning = true;
             mAnimationInitialValue = mCurrentScale;
             float durationFactor = 1f - mCurrentScale;
-            mDuration = Ui.ANIMATION_DURATION - (int) (Ui.ANIMATION_DURATION * durationFactor);
+            mDuration = ANIMATION_DURATION - (int) (ANIMATION_DURATION * durationFactor);
             mStartTime = SystemClock.uptimeMillis();
-            scheduleSelf(mUpdater, mStartTime + Ui.FRAME_DURATION);
+            scheduleSelf(mUpdater, mStartTime + FRAME_DURATION);
         } else {
             notifyFinishedToListener();
         }

@@ -25,7 +25,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Animatable;
 import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -41,7 +40,7 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
     private long mStartTime;
     private boolean mReverse = false;
     private boolean mRunning = false;
-    private int mDuration = Ui.ANIMATION_DURATION;
+    private int mDuration = ANIMATION_DURATION;
     private float mAnimationInitialValue;
     private final Runnable mUpdater = new Runnable() {
         @Override
@@ -50,7 +49,7 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
             long diff = currentTime - mStartTime;
             if (diff < mDuration) {
                 float interpolation = mInterpolator.getInterpolation((float) diff / (float) mDuration);
-                scheduleSelf(mUpdater, currentTime + Ui.FRAME_DURATION);
+                scheduleSelf(mUpdater, currentTime + FRAME_DURATION);
                 updateAnimation(interpolation);
             } else {
                 unscheduleSelf(mUpdater);
@@ -162,9 +161,9 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
             mRunning = true;
             mAnimationInitialValue = mCurrentScale;
             float durationFactor = 1f - mAnimationInitialValue;
-            mDuration = (int) (Ui.ANIMATION_DURATION * durationFactor);
+            mDuration = (int) (ANIMATION_DURATION * durationFactor);
             mStartTime = SystemClock.uptimeMillis();
-            scheduleSelf(mUpdater, mStartTime + Ui.FRAME_DURATION);
+            scheduleSelf(mUpdater, mStartTime + FRAME_DURATION);
         }
     }
 
@@ -175,9 +174,9 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
             mRunning = true;
             mAnimationInitialValue = mCurrentScale;
             float durationFactor = mAnimationInitialValue;
-            mDuration = (int) (Ui.ANIMATION_DURATION * durationFactor);
+            mDuration = (int) (ANIMATION_DURATION * durationFactor);
             mStartTime = SystemClock.uptimeMillis();
-            scheduleSelf(mUpdater, mStartTime + Ui.FRAME_DURATION);
+            scheduleSelf(mUpdater, mStartTime + FRAME_DURATION);
         }
     }
 

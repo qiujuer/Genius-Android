@@ -12,10 +12,9 @@ import android.view.animation.Interpolator;
 /**
  * Have a circle animation
  */
-public class RipAnimDrawable extends RipDrawable {
+public class RipAnimDrawable extends RipDrawable implements Animatable {
     // Time
-    protected static final int FRAME_DURATION = 16;
-    protected static final int ALL_DURATION = 560;
+    private static final int ALL_DURATION = ANIMATION_DURATION * 2;
 
     private Point mPoint = new Point();
     private float mRadius;
@@ -30,7 +29,7 @@ public class RipAnimDrawable extends RipDrawable {
     protected void draw(Canvas canvas, Path path, Paint paint) {
         if (isFirst) {
             isFirst = false;
-            startAnim();
+            start();
         } else {
             int sc = canvas.save();
             canvas.clipPath(path);
@@ -49,16 +48,6 @@ public class RipAnimDrawable extends RipDrawable {
 
         mMaxRadius = (float) Math.sqrt(x * x + y * y);
         mRadius = mMaxRadius;
-    }
-
-    public void startAnim() {
-        if (isRun) {
-            unscheduleSelf(mAnim);
-        }
-        isRun = true;
-        // Start animation
-        mStartTime = SystemClock.uptimeMillis() + FRAME_DURATION * 6;
-        scheduleSelf(mAnim, mStartTime);
     }
 
     protected void onInAnimateUpdate(float factor) {
@@ -90,4 +79,25 @@ public class RipAnimDrawable extends RipDrawable {
             }
         }
     };
+
+    @Override
+    public void start() {
+        if (isRun) {
+            unscheduleSelf(mAnim);
+        }
+        isRun = true;
+        // Start animation
+        mStartTime = SystemClock.uptimeMillis() + FRAME_DURATION * 6;
+        scheduleSelf(mAnim, mStartTime);
+    }
+
+    @Override
+    public void stop() {
+        unscheduleSelf(mAnim);
+    }
+
+    @Override
+    public boolean isRunning() {
+        return isRun;
+    }
 }
