@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/05/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -25,7 +25,6 @@ import android.content.res.ColorStateList;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.IBinder;
-import android.support.v4.view.GravityCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -132,7 +131,15 @@ public class PopupIndicator {
         if (windowToken != null) {
             WindowManager.LayoutParams p = createPopupLayout(windowToken);
 
-            p.gravity = Gravity.TOP | GravityCompat.START;
+            /** Raw bit controlling whether the layout direction is relative or not (START/END instead of
+             * absolute LEFT/RIGHT).
+             */
+            int RELATIVE_LAYOUT_DIRECTION = 0x00800000;
+
+            /** Push object to x-axis position at the start of its container, not changing its size. */
+            int START = RELATIVE_LAYOUT_DIRECTION | Gravity.LEFT;
+
+            p.gravity = Gravity.TOP | START;
             updateLayoutParamsForPosition(parent, p, point.y);
             mShowing = true;
 

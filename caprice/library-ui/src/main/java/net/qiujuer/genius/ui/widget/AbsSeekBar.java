@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/05/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -33,11 +33,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -333,7 +328,7 @@ public abstract class AbsSeekBar extends View {
      * @see String#format(String, Object...)
      * @see #setNumericTransformer(AbsSeekBar.NumericTransformer)
      */
-    public void setIndicatorFormatter(@Nullable String formatter) {
+    public void setIndicatorFormatter(String formatter) {
         if (mIndicator != null) {
             mIndicatorFormatter = formatter;
             updateProgressMessage(mValue);
@@ -356,7 +351,7 @@ public abstract class AbsSeekBar extends View {
      * @param transformer NumericTransformer transformer
      * @see #getNumericTransformer()
      */
-    public void setNumericTransformer(@Nullable NumericTransformer transformer) {
+    public void setNumericTransformer(NumericTransformer transformer) {
         mNumericTransformer = transformer != null ? transformer : new DefaultNumericTransformer();
         //We need to refresh the PopupIndicator view
         if (!isInEditMode() && mIndicator != null) {
@@ -525,11 +520,11 @@ public abstract class AbsSeekBar extends View {
     }
 
     @Override
-    public boolean onTouchEvent(@NonNull MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         if (!isEnabled()) {
             return false;
         }
-        int actionMasked = MotionEventCompat.getActionMasked(event);
+        int actionMasked = Ui.getActionMasked(event);
         switch (actionMasked) {
             case MotionEvent.ACTION_DOWN:
                 mDownX = event.getX();
@@ -558,7 +553,7 @@ public abstract class AbsSeekBar extends View {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean handled = false;
         boolean isAdd = false;
         if (isEnabled()) {
@@ -609,10 +604,12 @@ public abstract class AbsSeekBar extends View {
         }
     }
 
-    @SuppressWarnings("ResourceType")
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+
     public boolean isRtl() {
-        boolean isRtl = (ViewCompat.getLayoutDirection(this) == LAYOUT_DIRECTION_RTL) && mMirrorForRtl;
+        int direction = 0;
+        if (Build.VERSION.SDK_INT >= 17)
+            direction = getLayoutDirection();
+        boolean isRtl = (direction == LAYOUT_DIRECTION_RTL) && mMirrorForRtl;
         mSeekBarDrawable.setRtl(isRtl);
         return isRtl;
     }
@@ -835,6 +832,7 @@ public abstract class AbsSeekBar extends View {
         // Indicator Move
         final Rect finalBounds = mTempRect;
         mSeekBarDrawable.copyTouchBounds(finalBounds);
+
         if (!isInEditMode() && mIndicator != null) {
             mIndicator.move(finalBounds.centerX());
         }
@@ -847,8 +845,12 @@ public abstract class AbsSeekBar extends View {
         invalidate(mInvalidateRect);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setHotspot(float x, float y) {
-        DrawableCompat.setHotspot(mRipple, x, y);
+        final int version = android.os.Build.VERSION.SDK_INT;
+        if (version >= Build.VERSION_CODES.LOLLIPOP) {
+            mRipple.setHotspot(x, y);
+        }
     }
 
     private void attemptClaimDrag() {
@@ -948,9 +950,9 @@ public abstract class AbsSeekBar extends View {
 
     /**
      * Interface to transform the current internal value of this AbsSeekBar to anther one for the visualization.
-     * <p/>
+     * <p>
      * This will be used on the floating bubble to display a different value if needed.
-     * <p/>
+     * <p>
      * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
      * value seen by the user
      *
@@ -1027,7 +1029,7 @@ public abstract class AbsSeekBar extends View {
         }
 
         @Override
-        public void writeToParcel(@NonNull Parcel dest, int flags) {
+        public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeInt(progress);
             dest.writeInt(max);

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/07/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -62,36 +62,31 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
     private int mBackgroundAlpha;
     private int mRippleAlpha;
 
-    private float mBackgroundRadius;
-    private float mCenterX, mCenterY;
-
     public AlmostRippleDrawable(ColorStateList tintStateList) {
         super(tintStateList);
         mInterpolator = new AccelerateDecelerateInterpolator();
     }
 
     @Override
-    protected void onBoundsChange(Rect bounds) {
-        super.onBoundsChange(bounds);
-        mBackgroundRadius = (Math.min(bounds.width(), bounds.height()) / 2.0f);
-        mCenterX = bounds.centerX();
-        mCenterY = bounds.centerY();
-    }
-
-    @Override
     public void draw(Canvas canvas, Paint paint) {
         final float scale = mCurrentScale;
         if (scale > 0) {
+            Rect bounds = getBounds();
+
+            float radius = (Math.min(bounds.width(), bounds.height()) / 2.0f);
+            float x = bounds.centerX();
+            float y = bounds.centerY();
+
             // Background
             if (scale != 1f && mBackgroundAlpha > 0) {
                 paint.setAlpha(mBackgroundAlpha);
-                canvas.drawCircle(mCenterX, mCenterY, mBackgroundRadius, paint);
+                canvas.drawCircle(x, y, radius, paint);
             }
 
             // Ripple
             if (mRippleAlpha > 0) {
                 paint.setAlpha(mRippleAlpha);
-                canvas.drawCircle(mCenterX, mCenterY, mBackgroundRadius * scale, paint);
+                canvas.drawCircle(x, y, radius * scale, paint);
             }
         }
     }
