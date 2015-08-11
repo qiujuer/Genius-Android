@@ -2,7 +2,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 08/05/2015
+* Changed 08/11/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -115,5 +115,15 @@
         <attr name="gIndicatorBackgroundColor" format="color|reference" />
         <attr name="gIndicatorFormatter" format="string|reference" />
         <attr name="gIndicatorTextAppearance" format="reference" />
+    </declare-styleable>
+
+    <!-- CheckBox -->
+    <attr name="gCheckBoxStyle" format="reference" />
+    <declare-styleable name="CheckBox">
+        <attr name="gRingWidth" format="dimension" />
+        <attr name="gCircleRadius" format="dimension" />
+        <attr name="gCheckedColor" format="color" />
+        <attr name="gUnCheckedColor" format="color" />
+        <attr name="gDisableColor" format="color" />
     </declare-styleable>
 </resources>

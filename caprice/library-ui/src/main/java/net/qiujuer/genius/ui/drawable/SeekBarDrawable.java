@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/07/2015
+ * Changed 08/11/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -31,7 +31,7 @@ import android.os.SystemClock;
 /**
  * <h1>SeekBarDrawable</h1>
  * <p>
- * Special {@link net.qiujuer.genius.ui.drawable.SeekBarStatusDrawable} implementation
+ * Special {@link SeekBarStateDrawable} implementation
  * To draw the Track, Scrubber and Thumb circle.
  * </p>
  * <p>
@@ -43,7 +43,7 @@ import android.os.SystemClock;
  *
  * @hide
  */
-public class SeekBarDrawable extends SeekBarStatusDrawable implements Animatable {
+public class SeekBarDrawable extends SeekBarStateDrawable implements Animatable {
     private Point mPoint;
     private int mContentWidth;
     private float mTickDistance;

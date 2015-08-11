@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/07/2015
+ * Changed 08/11/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -35,7 +35,7 @@ import net.qiujuer.genius.ui.Ui;
  *
  * @Hide
  */
-public abstract class SeekBarStatusDrawable extends Drawable {
+public abstract class SeekBarStateDrawable extends Drawable {
     private final Paint mPaint;
     private int mAlpha = 255;
 
@@ -53,7 +53,7 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     private int mCurThumbColor;
 
 
-    public SeekBarStatusDrawable(ColorStateList trackStateList, ColorStateList scrubberStateList, ColorStateList thumbStateList) {
+    public SeekBarStateDrawable(ColorStateList trackStateList, ColorStateList scrubberStateList, ColorStateList thumbStateList) {
         super();
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
