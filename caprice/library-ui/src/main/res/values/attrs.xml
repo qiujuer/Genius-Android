@@ -120,10 +120,8 @@
     <!-- CheckBox -->
     <attr name="gCheckBoxStyle" format="reference" />
     <declare-styleable name="CheckBox">
-        <attr name="gRingWidth" format="dimension" />
+        <attr name="gRingSize" format="dimension" />
         <attr name="gCircleRadius" format="dimension" />
-        <attr name="gCheckedColor" format="color" />
-        <attr name="gUnCheckedColor" format="color" />
-        <attr name="gDisableColor" format="color" />
+        <attr name="gColor" format="color|reference" />
     </declare-styleable>
 </resources>

@@ -3,7 +3,7 @@
 <!--
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
-* Created 08/11/2015
+* Created 08/12/2015
 * Changed 08/12/2015
 * Version 3.0.0
 * Author Qiujuer
@@ -22,9 +22,9 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/grey_500" android:state_checked="false" android:state_enabled="true" />
-    <item android:color="@color/grey_300" android:state_checked="false" android:state_enabled="false" />
+    <item android:color="@color/yellow_500" android:state_checked="false" android:state_enabled="true" />
+    <item android:color="@color/yellow_300" android:state_checked="false" android:state_enabled="false" />
 
-    <item android:color="@color/cyan_500" android:state_checked="true" android:state_enabled="true" />
-    <item android:color="@color/cyan_300" android:state_checked="true" android:state_enabled="false" />
+    <item android:color="@color/orange_500" android:state_checked="true" android:state_enabled="true" />
+    <item android:color="@color/orange_300" android:state_checked="true" android:state_enabled="false" />
 </selector>

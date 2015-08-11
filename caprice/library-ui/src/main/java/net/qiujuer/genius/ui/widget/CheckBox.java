@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/10/2015
- * Changed 08/11/2015
+ * Changed 08/12/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -22,7 +22,9 @@ package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
@@ -70,7 +72,36 @@ public class CheckBox extends android.widget.CheckBox {
     }
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        Drawable drawable = new CircleCheckDrawable(getResources().getColorStateList(R.color.g_default_check_box));
+        if (attrs == null)
+            return;
+
+        final Context context = getContext();
+        final Resources resource = getResources();
+        final float density = resource.getDisplayMetrics().density;
+
+        // Load attributes
+        final TypedArray a = context.obtainStyledAttributes(
+                attrs, R.styleable.CheckBox, defStyleAttr, defStyleRes);
+
+        int ringSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gRingSize, (int) (density * 2));
+        int circleRadius = a.getDimensionPixelOffset(R.styleable.CheckBox_gCircleRadius, -1);
+        ColorStateList color = a.getColorStateList(R.styleable.CheckBox_gColor);
+
+        a.recycle();
+
+        if (color == null)
+            color = resource.getColorStateList(R.color.g_default_check_box);
+
+        boolean isCustom = true;
+
+        if (circleRadius == -1) {
+            circleRadius = (int) (density * 8);
+            isCustom = false;
+        }
+
+        CircleCheckDrawable drawable = new CircleCheckDrawable(color);
+        drawable.setRingSize(ringSize);
+        drawable.setCircleRadius(circleRadius, isCustom);
         setButtonDrawable(drawable);
     }
 }

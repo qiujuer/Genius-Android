@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/10/2015
- * Changed 08/11/2015
+ * Changed 08/12/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -46,14 +46,14 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
     private RectF mOval = new RectF();
     private int mCenterX, mCenterY;
 
-    private final Interpolator mInterpolator = new DecelerateInterpolator();
+    private final Interpolator mInterpolator = new DecelerateInterpolator(0.8f);
     private long mStartTime;
     private int mDuration = ANIMATION_DURATION;
     private boolean mRunning = false;
 
-    private int mRingWidth;
-    private boolean isCustomCircleRadius;
-    private int mCircleRadius;
+    private int mRingSize = 4;
+    private int mCircleRadius = 16;
+    private boolean mCustomCircleRadius;
 
     private float mCurAngle;
     private int mCurColor;
@@ -63,7 +63,7 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
     private float mCurrentScale = 0;
     private float mAnimationInitialValue;
 
-    private int mIntrinsic = 44;
+    private int mIntrinsic = (mCircleRadius + mRingSize * 2) * 2;
 
 
     /**
@@ -87,12 +87,32 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
         mRingPaint.setStrokeCap(Paint.Cap.ROUND);
         mRingPaint.setAntiAlias(true);
         mRingPaint.setDither(true);
-
-        mRingWidth = 4;
-        mRingPaint.setStrokeWidth(mRingWidth);
+        mRingPaint.setStrokeWidth(mRingSize);
 
         onStateChange(getState());
         onStateChange(getColor(), mChecked, mChecked);
+    }
+
+    public void setRingSize(int size) {
+        if (mRingSize != size) {
+            mRingSize = size;
+            mRingPaint.setStrokeWidth(mRingSize);
+            initIntrinsic();
+            invalidateSelf();
+        }
+    }
+
+    public void setCircleRadius(int radius, boolean isCustom) {
+        if (mCircleRadius != radius || mCustomCircleRadius != isCustom) {
+            mCircleRadius = radius;
+            mCustomCircleRadius = isCustom;
+            initIntrinsic();
+            invalidateSelf();
+        }
+    }
+
+    private void initIntrinsic() {
+        mIntrinsic = Math.max(mIntrinsic, (mCircleRadius + mRingSize * 2) * 2);
     }
 
     @Override
@@ -117,20 +137,24 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
 
+        if (bounds.isEmpty())
+            return;
+
         mCenterX = bounds.centerX();
         mCenterY = bounds.centerY();
 
-        int minCenter = Math.min(mCenterX, mCenterY);
-        int areRadius = minCenter - ((mRingWidth + 1) >> 1);
+        int minCenter = Math.min(bounds.width(), bounds.height());
+        minCenter = minCenter >> 1;
+        int areRadius = minCenter - ((mRingSize + 1) >> 1);
 
         mOval.set(mCenterX - areRadius, mCenterY - areRadius, mCenterX + areRadius, mCenterY + areRadius);
 
-        if (!isCustomCircleRadius)
-            mCircleRadius = (minCenter - mRingWidth * 2);
+        if (!mCustomCircleRadius)
+            mCircleRadius = (minCenter - mRingSize - mRingSize);
         else if (mCircleRadius > minCenter)
             mCircleRadius = minCenter;
 
-        mIntrinsic = Math.max(bounds.width(), bounds.height());
+        initIntrinsic();
     }
 
     @Override
@@ -171,7 +195,7 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
 
         if (mCurAngle > 0 && mCurColor != 0) {
             mRingPaint.setColor(mCurColor);
-            canvas.drawArc(mOval, 275, mCurAngle, false, mRingPaint);
+            canvas.drawArc(mOval, 0, mCurAngle, false, mRingPaint);
 
             mCirclePaint.setColor(mCurColor);
             mCirclePaint.setAlpha(mCurColorAlpha);

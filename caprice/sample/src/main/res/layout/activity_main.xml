@@ -337,24 +337,87 @@
 
                 <net.qiujuer.genius.ui.widget.CheckBox
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:text="Cancel"
+                    android:enabled="false"
+                    android:text="Disabled UnChecked"
                     android:textColor="@color/grey_500" />
 
                 <net.qiujuer.genius.ui.widget.CheckBox
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
                     android:background="@null"
                     android:checked="true"
-                    android:text="Submit"
+                    android:enabled="false"
+                    android:text="Disabled Checked"
                     android:textColor="@color/grey_500" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_4"
+                android:orientation="horizontal">
+
+                <net.qiujuer.genius.ui.widget.CheckBox
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:text="UnChecked"
+                    android:textColor="@color/grey_500" />
+
+                <net.qiujuer.genius.ui.widget.CheckBox
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:checked="true"
+                    android:text="Checked"
+                    android:textColor="@color/grey_500" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_4"
+                android:orientation="horizontal">
+
+                <net.qiujuer.genius.ui.widget.CheckBox
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:text="Custom Size"
+                    android:textColor="@color/grey_500"
+                    app:gCircleRadius="10dp"
+                    app:gRingSize="1dp" />
+
+                <net.qiujuer.genius.ui.widget.CheckBox
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:checked="true"
+                    android:text="Custom Color"
+                    android:textColor="@color/grey_500"
+                    app:gColor="@color/m_check_box" />
             </LinearLayout>
 
         </LinearLayout>
