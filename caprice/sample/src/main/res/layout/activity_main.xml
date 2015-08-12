@@ -404,8 +404,9 @@
                     android:background="@null"
                     android:text="Custom Size"
                     android:textColor="@color/grey_500"
-                    app:gCircleRadius="10dp"
-                    app:gRingSize="1dp" />
+                    app:gBorderSize="1dp"
+                    app:gIntervalSize="2dp"
+                    app:gMarkSize="22dp" />
 
                 <net.qiujuer.genius.ui.widget.CheckBox
                     android:layout_width="0dp"

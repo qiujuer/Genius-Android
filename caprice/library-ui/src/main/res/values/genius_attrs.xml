@@ -47,17 +47,6 @@
     <attr name="g_cornerRadii_C" format="dimension" />
     <attr name="g_cornerRadii_D" format="dimension" />
 
-    <!-- GeniusCheckBox -->
-    <declare-styleable name="GeniusCheckBox">
-        <attr name="g_theme" />
-
-        <attr name="g_ringWidth" format="dimension" />
-        <attr name="g_circleRadius" format="dimension" />
-
-        <attr name="g_checked" format="boolean" />
-        <attr name="g_enabled" format="boolean" />
-    </declare-styleable>
-
     <!-- GeniusEditText -->
     <declare-styleable name="GeniusEditText">
         <attr name="g_theme" />

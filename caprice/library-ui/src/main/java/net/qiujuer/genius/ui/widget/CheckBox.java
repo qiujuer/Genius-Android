@@ -79,12 +79,15 @@ public class CheckBox extends android.widget.CheckBox {
         final Resources resource = getResources();
         final float density = resource.getDisplayMetrics().density;
 
+        int baseSize = (int) (density * 2);
+
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.CheckBox, defStyleAttr, defStyleRes);
 
-        int ringSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gRingSize, (int) (density * 2));
-        int circleRadius = a.getDimensionPixelOffset(R.styleable.CheckBox_gCircleRadius, -1);
+        int borderSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gBorderSize, baseSize);
+        int intervalSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gIntervalSize, baseSize);
+        int markSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gMarkSize, -1);
         ColorStateList color = a.getColorStateList(R.styleable.CheckBox_gColor);
 
         a.recycle();
@@ -94,14 +97,18 @@ public class CheckBox extends android.widget.CheckBox {
 
         boolean isCustom = true;
 
-        if (circleRadius == -1) {
-            circleRadius = (int) (density * 8);
+        if (markSize < 0) {
+            markSize = (int) (density * 22);
             isCustom = false;
         }
 
         CircleCheckDrawable drawable = new CircleCheckDrawable(color);
-        drawable.setRingSize(ringSize);
-        drawable.setCircleRadius(circleRadius, isCustom);
+        drawable.setBorderSize(borderSize);
+        drawable.setIntervalSize(intervalSize);
+        drawable.setMarkSize(markSize, isCustom);
         setButtonDrawable(drawable);
+
+        // Refresh display with current params
+        refreshDrawableState();
     }
 }

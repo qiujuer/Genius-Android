@@ -2,7 +2,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 08/11/2015
+* Changed 08/12/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -22,6 +22,8 @@
 
     <!--ALL -->
     <attr name="gBackgroundColor" format="color|reference" />
+
+    <attr name="gBorderSize" format="dimension" />
 
     <attr name="gFont" format="string" />
     <attr name="gCornerRadius" format="dimension" />
@@ -48,7 +50,7 @@
             <flag name="right" value="0x0010" />
             <flag name="bottom" value="0x1000" />
         </attr>
-        <attr name="gBorderSize" format="dimension" />
+        <attr name="gBorderSize" />
         <attr name="gBorderColor" format="color|reference" />
     </declare-styleable>
 
@@ -120,8 +122,9 @@
     <!-- CheckBox -->
     <attr name="gCheckBoxStyle" format="reference" />
     <declare-styleable name="CheckBox">
-        <attr name="gRingSize" format="dimension" />
-        <attr name="gCircleRadius" format="dimension" />
+        <attr name="gBorderSize" />
+        <attr name="gIntervalSize" format="dimension" />
+        <attr name="gMarkSize" format="dimension" />
         <attr name="gColor" format="color|reference" />
     </declare-styleable>
 </resources>

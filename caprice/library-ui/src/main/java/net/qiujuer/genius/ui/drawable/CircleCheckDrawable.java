@@ -51,9 +51,12 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
     private int mDuration = ANIMATION_DURATION;
     private boolean mRunning = false;
 
-    private int mRingSize = 4;
-    private int mCircleRadius = 16;
-    private boolean mCustomCircleRadius;
+    private int mBorderSize = 4;
+    private int mIntervalSize = 4;
+    private int mMarkSize = 50;
+    private boolean mCustomMarkSize;
+
+    private int mCircleRadius;
 
     private float mCurAngle;
     private int mCurColor;
@@ -62,8 +65,6 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
 
     private float mCurrentScale = 0;
     private float mAnimationInitialValue;
-
-    private int mIntrinsic = (mCircleRadius + mRingSize * 2) * 2;
 
 
     /**
@@ -87,32 +88,67 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
         mRingPaint.setStrokeCap(Paint.Cap.ROUND);
         mRingPaint.setAntiAlias(true);
         mRingPaint.setDither(true);
-        mRingPaint.setStrokeWidth(mRingSize);
+        mRingPaint.setStrokeWidth(mBorderSize);
 
         onStateChange(getState());
         onStateChange(getColor(), mChecked, mChecked);
+        initIntrinsic();
     }
 
-    public void setRingSize(int size) {
-        if (mRingSize != size) {
-            mRingSize = size;
-            mRingPaint.setStrokeWidth(mRingSize);
+    public void setBorderSize(int size) {
+        if (mBorderSize != size) {
+            mBorderSize = size;
+            mRingPaint.setStrokeWidth(mBorderSize);
             initIntrinsic();
             invalidateSelf();
         }
     }
 
-    public void setCircleRadius(int radius, boolean isCustom) {
-        if (mCircleRadius != radius || mCustomCircleRadius != isCustom) {
-            mCircleRadius = radius;
-            mCustomCircleRadius = isCustom;
+    public void setIntervalSize(int size) {
+        if (mIntervalSize != size) {
+            mIntervalSize = size;
             initIntrinsic();
             invalidateSelf();
         }
+    }
+
+    public void setMarkSize(int size, boolean isCustom) {
+        if (mMarkSize != size || mCustomMarkSize != isCustom) {
+            mMarkSize = size;
+            mCustomMarkSize = isCustom;
+            initIntrinsic();
+            invalidateSelf();
+        }
+    }
+
+    public int getBorderSize() {
+        return mBorderSize;
+    }
+
+    public int getIntervalSize() {
+        return mIntervalSize;
+    }
+
+    public int getMarkSize() {
+        return mMarkSize;
     }
 
     private void initIntrinsic() {
-        mIntrinsic = Math.max(mIntrinsic, (mCircleRadius + mRingSize * 2) * 2);
+        if (!mCustomMarkSize) {
+            int minSize = (mBorderSize + mIntervalSize) * 2;
+            Rect bounds = getBounds();
+            int w = bounds.width();
+            int h = bounds.height();
+
+            if (w <= 0 || h <= 0) {
+                int size = Math.max(w, h);
+                if (size > 0)
+                    mMarkSize = size;
+            } else
+                mMarkSize = Math.min(w, h);
+
+            mMarkSize = Math.max(mMarkSize, minSize);
+        }
     }
 
     @Override
@@ -137,34 +173,31 @@ public class CircleCheckDrawable extends CheckStateDrawable implements Animatabl
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
 
+        if (!mCustomMarkSize) {
+            initIntrinsic();
+        }
+
         if (bounds.isEmpty())
             return;
 
         mCenterX = bounds.centerX();
         mCenterY = bounds.centerY();
 
-        int minCenter = Math.min(bounds.width(), bounds.height());
-        minCenter = minCenter >> 1;
-        int areRadius = minCenter - ((mRingSize + 1) >> 1);
+        int minCenter = Math.min(bounds.width(), bounds.height()) >> 1;
+        int areRadius = minCenter - ((mBorderSize + 1) >> 1);
 
         mOval.set(mCenterX - areRadius, mCenterY - areRadius, mCenterX + areRadius, mCenterY + areRadius);
-
-        if (!mCustomCircleRadius)
-            mCircleRadius = (minCenter - mRingSize - mRingSize);
-        else if (mCircleRadius > minCenter)
-            mCircleRadius = minCenter;
-
-        initIntrinsic();
+        mCircleRadius = minCenter - mBorderSize - mIntervalSize;
     }
 
     @Override
     public int getIntrinsicWidth() {
-        return mIntrinsic;
+        return mMarkSize;
     }
 
     @Override
     public int getIntrinsicHeight() {
-        return mIntrinsic;
+        return mMarkSize;
     }
 
     @Override
