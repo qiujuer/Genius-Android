@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/05/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -20,6 +20,7 @@
  */
 package net.qiujuer.genius.ui.widget;
 
+import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -28,21 +29,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.animation.AnimatorListener;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
-import net.qiujuer.genius.ui.widget.compat.UiCompat;
 
 /**
  * This is a BalloonMarker
@@ -135,7 +136,7 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
             //Elevation for android 5+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 float elevation = a.getDimension(R.styleable.BalloonMarker_gMarkerElevation, ELEVATION_DP * displayMetrics.density);
-                ViewCompat.setElevation(this, elevation);
+                this.setElevation(elevation);
             }
             a.recycle();
         }
@@ -173,7 +174,7 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
     }
 
     @Override
-    protected void dispatchDraw(@NonNull Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         mBalloonMarkerDrawable.draw(canvas);
         super.dispatchDraw(canvas);
     }
@@ -232,28 +233,51 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
         mBalloonMarkerDrawable.animateToPressed();
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void animateClose() {
         mBalloonMarkerDrawable.stop();
-        ViewCompat.animate(mNumber)
-                .alpha(0f)
-                .setDuration(100)
-                .withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        //We use INVISIBLE instead of GONE to avoid a requestLayout
-                        mNumber.setVisibility(View.INVISIBLE);
-                        mBalloonMarkerDrawable.animateToNormal();
-                    }
-                }).start();
+
+        ViewPropertyAnimator animator = mNumber.animate();
+        animator.alpha(0f);
+        animator.setDuration(100);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            animator.withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                    //We use INVISIBLE instead of GONE to avoid a requestLayout
+                    mNumber.setVisibility(View.INVISIBLE);
+                    mBalloonMarkerDrawable.animateToNormal();
+                }
+            });
+        } else {
+            animator.setListener(new AnimatorListener() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    //We use INVISIBLE instead of GONE to avoid a requestLayout
+                    mNumber.setVisibility(View.INVISIBLE);
+                    mBalloonMarkerDrawable.animateToNormal();
+                }
+            });
+        }
+        animator.start();
     }
 
     @Override
     public void onOpeningComplete() {
         mNumber.setVisibility(View.VISIBLE);
+
+        ViewPropertyAnimator animator = mNumber.animate();
+        animator.alpha(1f);
+        animator.setDuration(100);
+        animator.start();
+
+        /*
         ViewCompat.animate(mNumber)
                 .alpha(1f)
                 .setDuration(100)
                 .start();
+        */
+
         if (getParent() instanceof BalloonMarkerDrawable.MarkerAnimationListener) {
             ((BalloonMarkerDrawable.MarkerAnimationListener) getParent()).onOpeningComplete();
         }

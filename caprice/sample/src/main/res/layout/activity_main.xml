@@ -5,18 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="@dimen/abc_action_bar_default_height_material"
-        android:paddingBottom="@dimen/lay_16" />
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +15,8 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/lay_32"
             android:paddingLeft="@dimen/lay_12"
-            android:paddingRight="@dimen/lay_12">
+            android:paddingRight="@dimen/lay_12"
+            android:paddingTop="@dimen/abc_action_bar_default_height_material">
 
             <net.qiujuer.genius.ui.widget.TextView
                 android:layout_width="wrap_content"
@@ -156,10 +148,10 @@
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
-                    android:background="@color/black"
+                    android:background="@color/orange_500"
                     android:text="Auto"
                     android:textColor="@color/white_alpha_224"
-                    app:gTouchColor="@color/white_alpha_48"
+                    app:gTouchColor="@color/black_alpha_48"
                     app:gTouchEffect="auto" />
             </LinearLayout>
 
@@ -324,8 +316,95 @@
                 app:gTrackStroke="2dp"
                 app:gValue="2" />
 
+
+            <net.qiujuer.genius.ui.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_16"
+                android:text="CheckBox"
+                android:textAllCaps="true"
+                android:textColor="@color/purple_500"
+                android:textSize="@dimen/size_16" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_4"
+                android:orientation="horizontal">
+
+                <net.qiujuer.genius.ui.widget.CheckBox
+                    android:id="@+id/checkbox_none_a"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:text="UnChecked"
+                    android:textColor="@color/grey_500" />
+
+                <net.qiujuer.genius.ui.widget.CheckBox
+                    android:id="@+id/checkbox_none_b"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:checked="true"
+                    android:enabled="false"
+                    android:text="Disabled"
+                    android:textColor="@color/grey_500" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_4"
+                android:orientation="horizontal">
+
+                <net.qiujuer.genius.ui.widget.CheckBox
+                    android:id="@+id/checkbox_custom_a"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:checked="true"
+                    android:text="Custom Size"
+                    android:textColor="@color/grey_500"
+                    app:gBorderSize="1dp"
+                    app:gIntervalSize="2dp"
+                    app:gMarkSize="22dp" />
+
+                <net.qiujuer.genius.ui.widget.CheckBox
+                    android:id="@+id/checkbox_custom_b"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:checked="false"
+                    android:text="Custom Color"
+                    android:textColor="@color/grey_500"
+                    app:gMarkColor="@color/m_check_box" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/abc_action_bar_default_height_material"
+        android:paddingBottom="@dimen/lay_16" />
 
     <net.qiujuer.genius.ui.widget.FloatActionButton
         android:id="@+id/action_add"

@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 02/16/2015
- * Changed 07/24/2015
- * Version 2.1.0
+ * Created 07/16/2015
+ * Changed 08/11/2015
+ * Version 3.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,6 +49,8 @@ public abstract class StatePaintDrawable extends StateColorDrawable {
      * Initializes local dynamic properties from state. This should be called
      * after significant state changes, e.g. from the One True Constructor and
      * after inflating or applying a theme.
+     *
+     * @param tintStateList ColorStateList
      */
     public StatePaintDrawable(ColorStateList tintStateList) {
         super(tintStateList);

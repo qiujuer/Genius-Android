@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 07/16/2015
- * Changed 08/08/2015
+ * Created 08/10/2015
+ * Changed 08/11/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -24,18 +24,23 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
+import net.qiujuer.genius.ui.Ui;
+
 /**
  * A drawable that changes it's ColorStateList color depending on the Drawable State
  * <p>
- * Subclasses should implement {@link #onColorChange(int)} if new color != current color call this }
+ * Subclasses should implement {@link #onStateChange(int, boolean, boolean)} if new color != current color call this }
  * </p>
  */
-public abstract class StateColorDrawable extends Drawable {
+public abstract class CheckStateDrawable extends Drawable {
     private ColorStateList mColorStateList;
     private int mColor;
     private int mAlpha = 255;
 
-    public StateColorDrawable(ColorStateList tintStateList) {
+    protected boolean mChecked = false;
+    protected boolean mEnabled = true;
+
+    public CheckStateDrawable(ColorStateList tintStateList) {
         super();
         setColorStateList(tintStateList);
     }
@@ -43,6 +48,33 @@ public abstract class StateColorDrawable extends Drawable {
     @Override
     public boolean isStateful() {
         return (mColorStateList.isStateful()) || super.isStateful();
+    }
+
+
+    @Override
+    public boolean setState(int[] stateSet) {
+        // Call super
+        boolean status = super.setState(stateSet);
+
+        boolean oldChecked = mChecked;
+        boolean oldEnabled = mEnabled;
+        mChecked = false;
+        mEnabled = true;
+        for (int i : stateSet) {
+            if (i == android.R.attr.state_checked) {
+                mChecked = true;
+            } else if (i == -android.R.attr.state_enabled) {
+                mEnabled = false;
+            }
+        }
+
+        if (status || oldChecked != mChecked || oldEnabled != mEnabled) {
+            //We've changed states
+            onStateChange(getColor(), oldChecked, mChecked);
+            invalidateSelf();
+        }
+
+        return status;
     }
 
     /**
@@ -53,8 +85,12 @@ public abstract class StateColorDrawable extends Drawable {
      */
     @Override
     protected boolean onStateChange(int[] state) {
-        final int color = mColorStateList.getColorForState(state, mColor);
-        return changeColor(color);
+        final int color = state == null ? mColorStateList.getDefaultColor() : mColorStateList.getColorForState(state, mColor);
+        boolean bFlag = mColor != color;
+        if (bFlag) {
+            mColor = color;
+        }
+        return bFlag;
     }
 
     @Override
@@ -72,8 +108,10 @@ public abstract class StateColorDrawable extends Drawable {
      */
     @Override
     public void setAlpha(int alpha) {
-        mAlpha = alpha;
-        invalidateSelf();
+        if (alpha != mAlpha) {
+            mAlpha = alpha;
+            onStateChange(getState());
+        }
     }
 
     /**
@@ -94,11 +132,7 @@ public abstract class StateColorDrawable extends Drawable {
         if (tintStateList == null)
             tintStateList = ColorStateList.valueOf(Color.BLACK);
         mColorStateList = tintStateList;
-        int[] state = getState();
-        if (state == null)
-            changeColor(tintStateList.getDefaultColor());
-        else
-            changeColor(tintStateList.getColorForState(state, tintStateList.getDefaultColor()));
+        onStateChange(getState());
     }
 
     /**
@@ -110,33 +144,43 @@ public abstract class StateColorDrawable extends Drawable {
         return mColorStateList;
     }
 
-    /**
-     * Get The CurrentColor
-     *
-     * @return mCurrentColor
-     */
     public int getColor() {
-        return mColor;
+        return modulateColorAlpha(mColor);
     }
 
-    /**
-     * Set CurrentColor value
-     *
-     * @param color New Color
-     * @return If new value != current value return true
-     */
-    protected boolean changeColor(int color) {
-        boolean bFlag = mColor != color;
-        if (bFlag) {
-            mColor = color;
-            //We've changed states
-            onColorChange(color);
-            invalidateSelf();
+    public int getCheckedColor() {
+        int[] status = new int[]{
+                mEnabled ? android.R.attr.state_enabled : -android.R.attr.state_enabled,
+                android.R.attr.state_checked};
+        int color = mColorStateList.getColorForState(status, mColor);
+        color = modulateColorAlpha(color);
+        return color;
+    }
+
+    public int getUnCheckedColor() {
+        int[] status = new int[]{
+                mEnabled ? android.R.attr.state_enabled : -android.R.attr.state_enabled,
+                -android.R.attr.state_checked};
+        int color = mColorStateList.getColorForState(status, mColor);
+        color = modulateColorAlpha(color);
+        return color;
+    }
+
+    protected int modulateColorAlpha(int color) {
+        if (mAlpha < 255) {
+            return Ui.modulateColorAlpha(color, mAlpha);
+        } else {
+            return color;
         }
-        return bFlag;
     }
 
-    protected void onColorChange(int color) {
-
+    public boolean isChecked() {
+        return mChecked;
     }
+
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+    protected abstract void onStateChange(int color, boolean oldChecked, boolean newChecked);
 }

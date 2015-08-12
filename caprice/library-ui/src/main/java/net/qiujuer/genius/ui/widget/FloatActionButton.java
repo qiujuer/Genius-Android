@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * WebSite http://www.qiujuer.net
+ * Created 07/29/2015
+ * Changed 08/08/2015
+ * Version 3.0.0
+ * Author Qiujuer
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
@@ -14,7 +34,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityEvent;
@@ -100,13 +119,19 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         mShadowRadius += maxShadowOffset;
 
         ShapeDrawable background;
-        if (Ui.elevationSupported) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             background = new ShapeDrawable(new OvalShape());
-            ViewCompat.setElevation(this, Ui.SHADOW_ELEVATION * density);
+
+            //ViewCompat.setElevation(this, Ui.SHADOW_ELEVATION * density);
+            this.setElevation(Ui.SHADOW_ELEVATION * density);
+
         } else {
             OvalShape oval = new OvalShadowShape(mShadowRadius);
             background = new ShapeDrawable(oval);
-            ViewCompat.setLayerType(this, ViewCompat.LAYER_TYPE_SOFTWARE, background.getPaint());
+
+            // We want set this LayerType type on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+            setLayerType(LAYER_TYPE_SOFTWARE, background.getPaint());
+
             background.getPaint().setShadowLayer(mShadowRadius - maxShadowOffset, shadowXOffset, shadowYOffset,
                     Ui.KEY_SHADOW_COLOR);
             final int padding = mShadowRadius;
@@ -175,7 +200,8 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (!Ui.elevationSupported) {
+        // None lollipop we should set the setMeasuredDimension include shadow length
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             setMeasuredDimension(getMeasuredWidth() + mShadowRadius * 2, getMeasuredHeight()
                     + mShadowRadius * 2);
         }

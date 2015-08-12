@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/05/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -22,9 +22,9 @@ package net.qiujuer.genius.ui.drawable;
 
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Animatable;
 import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -35,11 +35,7 @@ import net.qiujuer.genius.ui.Ui;
  * This is a touch foreground ripple drawable extends to StatePaintDrawable
  */
 public class AlmostRippleDrawable extends StatePaintDrawable implements Animatable {
-    private static final int FRAME_DURATION = 16;
-    private static final int ANIMATION_DURATION = 250;
-    private static final float INACTIVE_SCALE = 0f;
-    private static final float ACTIVE_SCALE = 1f;
-    private float mCurrentScale = INACTIVE_SCALE;
+    private float mCurrentScale = 0;
     private Interpolator mInterpolator;
     private long mStartTime;
     private boolean mReverse = false;
@@ -63,6 +59,9 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
         }
     };
 
+    private int mBackgroundAlpha;
+    private int mRippleAlpha;
+
     public AlmostRippleDrawable(ColorStateList tintStateList) {
         super(tintStateList);
         mInterpolator = new AccelerateDecelerateInterpolator();
@@ -71,37 +70,38 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
     @Override
     public void draw(Canvas canvas, Paint paint) {
         final float scale = mCurrentScale;
-        if (scale > INACTIVE_SCALE) {
-            final Rect bounds = getBounds();
+        if (scale > 0) {
+            Rect bounds = getBounds();
+
             float radius = (Math.min(bounds.width(), bounds.height()) / 2.0f);
-            float radiusAnimated = radius * scale;
+            float x = bounds.centerX();
+            float y = bounds.centerY();
 
-            if (radius > 0) {
-                // Background
-                int preAlpha = setPaintAlpha(paint);
-                if (paint.getAlpha() > 0) {
-                    canvas.drawCircle(bounds.centerX(), bounds.centerY(), radius, paint);
-                }
+            // Background
+            if (scale != 1f && mBackgroundAlpha > 0) {
+                paint.setAlpha(mBackgroundAlpha);
+                canvas.drawCircle(x, y, radius, paint);
+            }
 
-                // Ripple
-                if (radiusAnimated > 0) {
-                    if (preAlpha < 255) {
-                        preAlpha = getRippleAlpha(preAlpha, paint.getAlpha());
-                    }
-                    if (preAlpha > 0) {
-                        paint.setAlpha(preAlpha);
-                        canvas.drawCircle(bounds.centerX(), bounds.centerY(), radiusAnimated, paint);
-                    }
-                }
+            // Ripple
+            if (mRippleAlpha > 0) {
+                paint.setAlpha(mRippleAlpha);
+                canvas.drawCircle(x, y, radius * scale, paint);
             }
         }
     }
 
-    private int setPaintAlpha(Paint paint) {
-        // Set the background alpha 128
-        final int prevAlpha = paint.getAlpha();
-        paint.setAlpha(Ui.modulateAlpha(prevAlpha, 128));
-        return prevAlpha;
+    @Override
+    protected void onColorChange(int color) {
+        super.onColorChange(color);
+        final int preAlpha = Color.alpha(color);
+        mBackgroundAlpha = (Ui.modulateAlpha(preAlpha, 128));
+
+        if (preAlpha < 255) {
+            mRippleAlpha = getRippleAlpha(preAlpha, mBackgroundAlpha);
+        } else {
+            mRippleAlpha = preAlpha;
+        }
     }
 
     private int getRippleAlpha(int preAlpha, int nowAlpha) {
@@ -138,11 +138,11 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
         } else if (oldPressed) {
             animateToNormal();
         } else if (focused) {
-            mCurrentScale = ACTIVE_SCALE;
+            mCurrentScale = 1f;
             invalidateSelf();
         } else {
             // Other none show
-            mCurrentScale = INACTIVE_SCALE;
+            mCurrentScale = 0;
             invalidateSelf();
         }
 
@@ -151,11 +151,11 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
 
     public void animateToPressed() {
         unscheduleSelf(mUpdater);
-        if (mCurrentScale < ACTIVE_SCALE) {
+        if (mCurrentScale < 1f) {
             mReverse = false;
             mRunning = true;
             mAnimationInitialValue = mCurrentScale;
-            float durationFactor = 1f - ((mAnimationInitialValue - INACTIVE_SCALE) / (ACTIVE_SCALE - INACTIVE_SCALE));
+            float durationFactor = 1f - mAnimationInitialValue;
             mDuration = (int) (ANIMATION_DURATION * durationFactor);
             mStartTime = SystemClock.uptimeMillis();
             scheduleSelf(mUpdater, mStartTime + FRAME_DURATION);
@@ -164,11 +164,11 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
 
     public void animateToNormal() {
         unscheduleSelf(mUpdater);
-        if (mCurrentScale > INACTIVE_SCALE) {
+        if (mCurrentScale > 0) {
             mReverse = true;
             mRunning = true;
             mAnimationInitialValue = mCurrentScale;
-            float durationFactor = 1f - ((mAnimationInitialValue - ACTIVE_SCALE) / (INACTIVE_SCALE - ACTIVE_SCALE));
+            float durationFactor = mAnimationInitialValue;
             mDuration = (int) (ANIMATION_DURATION * durationFactor);
             mStartTime = SystemClock.uptimeMillis();
             scheduleSelf(mUpdater, mStartTime + FRAME_DURATION);
@@ -177,7 +177,7 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
 
     private void updateAnimation(float factor) {
         float initial = mAnimationInitialValue;
-        float destination = mReverse ? INACTIVE_SCALE : ACTIVE_SCALE;
+        float destination = mReverse ? 0 : 1f;
         mCurrentScale = initial + (destination - initial) * factor;
         invalidateSelf();
     }

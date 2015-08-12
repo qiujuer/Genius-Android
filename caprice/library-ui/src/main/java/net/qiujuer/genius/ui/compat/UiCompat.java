@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/23/2015
- * Changed 08/05/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -19,11 +19,10 @@
  * limitations under the License.
  */
 
-package net.qiujuer.genius.ui.widget.compat;
+package net.qiujuer.genius.ui.compat;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -65,7 +64,7 @@ public class UiCompat {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //We don't want the full size rect, Lollipop ripple would be too big
             int size = (right - left) / 8;
-            DrawableCompat.setHotspotBounds(drawable, left + size, top + size, right - size, bottom - size);
+            drawable.setHotspotBounds(left + size, top + size, right - size, bottom - size);
         } else {
             drawable.setBounds(left, top, right, bottom);
         }

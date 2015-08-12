@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/05/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -22,7 +22,6 @@ package net.qiujuer.genius.ui.widget;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -84,13 +83,13 @@ public class SeekBar extends AbsSeekBar {
     }
 
     @Override
-    public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
         event.setClassName(SeekBar.class.getName());
     }
 
     @Override
-    public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(SeekBar.class.getName());
     }

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/04/2015
+ * Changed 08/11/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -22,11 +22,12 @@ package net.qiujuer.genius.ui.drawable;
 
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+
+import net.qiujuer.genius.ui.Ui;
 
 /**
  * A drawable that changes it's Paint and color depending on the Drawable State
@@ -34,7 +35,7 @@ import android.graphics.drawable.Drawable;
  *
  * @Hide
  */
-public abstract class SeekBarStatusDrawable extends Drawable {
+public abstract class SeekBarStateDrawable extends Drawable {
     private final Paint mPaint;
     private int mAlpha = 255;
 
@@ -47,8 +48,12 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     private ColorStateList mThumbStateList;
     private int mThumbColor;
 
+    private int mCurTrackColor;
+    private int mCurScrubberColor;
+    private int mCurThumbColor;
 
-    public SeekBarStatusDrawable(ColorStateList trackStateList, ColorStateList scrubberStateList, ColorStateList thumbStateList) {
+
+    public SeekBarStateDrawable(ColorStateList trackStateList, ColorStateList scrubberStateList, ColorStateList thumbStateList) {
         super();
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -60,18 +65,13 @@ public abstract class SeekBarStatusDrawable extends Drawable {
 
     @Override
     public boolean isStateful() {
-        return (mTrackStateList.isStateful() && mScrubberStateList.isStateful() && mThumbStateList.isStateful()) || super.isStateful();
+        return (mTrackStateList.isStateful() || mScrubberStateList.isStateful() || mThumbStateList.isStateful()) || super.isStateful();
     }
 
 
     @Override
     public void draw(Canvas canvas) {
-        final int trackAlpha = modulateAlpha(Color.alpha(mTrackColor));
-        final int scrubberAlpha = modulateAlpha(Color.alpha(mScrubberColor));
-        final int thumbAlpha = modulateAlpha(Color.alpha(mThumbColor));
-
-        draw(canvas, mPaint, mTrackColor, trackAlpha, mScrubberColor, scrubberAlpha, mThumbColor, thumbAlpha);
-
+        draw(canvas, mPaint, mCurTrackColor, mCurScrubberColor, mCurThumbColor);
     }
 
     @Override
@@ -94,6 +94,7 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     @Override
     public void setAlpha(int alpha) {
         mAlpha = alpha;
+        updateCurColor();
         invalidateSelf();
     }
 
@@ -110,6 +111,11 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     public void setTrackColor(ColorStateList stateList) {
         mTrackStateList = stateList;
         mTrackColor = mTrackStateList.getDefaultColor();
+        if (mAlpha < 255) {
+            mCurTrackColor = Ui.modulateColorAlpha(mTrackColor, mAlpha);
+        } else {
+            mCurTrackColor = mTrackColor;
+        }
     }
 
     /**
@@ -127,6 +133,12 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     public void setScrubberColor(ColorStateList stateList) {
         mScrubberStateList = stateList;
         mScrubberColor = mScrubberStateList.getDefaultColor();
+
+        if (mAlpha < 255) {
+            mCurScrubberColor = Ui.modulateColorAlpha(mScrubberColor, mAlpha);
+        } else {
+            mCurScrubberColor = mScrubberColor;
+        }
     }
 
     /**
@@ -145,6 +157,12 @@ public abstract class SeekBarStatusDrawable extends Drawable {
     public void setThumbColor(ColorStateList stateList) {
         mThumbStateList = stateList;
         mThumbColor = mThumbStateList.getDefaultColor();
+
+        if (mAlpha < 255) {
+            mCurThumbColor = Ui.modulateColorAlpha(mThumbColor, mAlpha);
+        } else {
+            mCurThumbColor = mThumbColor;
+        }
     }
 
 
@@ -171,19 +189,9 @@ public abstract class SeekBarStatusDrawable extends Drawable {
      * @return mCurrentColor
      */
     public int[] getCurrentColor() {
-        return new int[]{mTrackColor, mScrubberColor, mThumbColor};
+        return new int[]{mCurTrackColor, mCurScrubberColor, mCurThumbColor};
     }
 
-    /**
-     * Modulate color Alpha
-     *
-     * @param alpha color alpha
-     * @return modulate colorAlpha and this alpha
-     */
-    protected int modulateAlpha(int alpha) {
-        int scale = mAlpha + (mAlpha >> 7);
-        return alpha * scale >> 8;
-    }
 
     /**
      * Subclasses should implement this method to do the actual drawing
@@ -192,7 +200,7 @@ public abstract class SeekBarStatusDrawable extends Drawable {
      * @param paint  The {@link android.graphics.Paint} the Paint object that defines with the current
      *               {@link android.content.res.ColorStateList} color
      */
-    public abstract void draw(Canvas canvas, Paint paint, int trackColor, int trackAlpha, int scrubberColor, int scrubberAlpha, int thumbColor, int thumbAlpha);
+    public abstract void draw(Canvas canvas, Paint paint, int trackColor, int scrubberColor, int thumbColor);
 
 
     /**
@@ -210,11 +218,23 @@ public abstract class SeekBarStatusDrawable extends Drawable {
             mTrackColor = trackColor;
             mScrubberColor = scrubberColor;
             mThumbColor = thumbColor;
-
+            updateCurColor();
             invalidateSelf();
             return true;
         }
 
         return false;
+    }
+
+    private void updateCurColor() {
+        if (mAlpha < 255) {
+            mCurTrackColor = Ui.modulateColorAlpha(mTrackColor, mAlpha);
+            mCurScrubberColor = Ui.modulateColorAlpha(mScrubberColor, mAlpha);
+            mCurThumbColor = Ui.modulateColorAlpha(mThumbColor, mAlpha);
+        } else {
+            mCurTrackColor = mTrackColor;
+            mCurScrubberColor = mScrubberColor;
+            mCurThumbColor = mThumbColor;
+        }
     }
 }

@@ -47,11 +47,7 @@ import java.lang.ref.WeakReference;
  * This is touch effect drawable
  * This drawable is can use background or other draw call
  */
-public class TouchEffectDrawable extends StatePaintDrawable {
-    /**
-     * This is drawable animation
-     */
-    static final long FRAME_DURATION = 16;
+public class TouchEffectDrawable extends StatePaintDrawable implements Animatable {
     // Time
     public static final int ANIM_ENTER_DURATION = 280;
     public static final int ANIM_Exit_DURATION = 160;
@@ -543,11 +539,23 @@ public class TouchEffectDrawable extends StatePaintDrawable {
     }
 
 
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+        unscheduleSelf(mEnterAnimate);
+        unscheduleSelf(mExitAnimate);
+    }
+
     /**
      * Return this draw animation is running
      *
      * @return isRunning
      */
+    @Override
     public boolean isRunning() {
         return isRunning;
     }

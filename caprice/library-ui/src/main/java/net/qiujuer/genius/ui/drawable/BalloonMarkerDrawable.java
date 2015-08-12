@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/04/2015
+ * Changed 08/07/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -28,7 +28,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.Animatable;
 import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -39,9 +38,6 @@ import android.view.animation.Interpolator;
  * @hide
  */
 public class BalloonMarkerDrawable extends StatePaintDrawable implements Animatable {
-
-    private static final long FRAME_DURATION = 1000 / 60;
-    private static final int ANIMATION_DURATION = 250;
     Path mPath = new Path();
     RectF mRect = new RectF();
     Matrix mMatrix = new Matrix();
@@ -61,6 +57,8 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
     //colors for interpolation
     private int mStartColor;
     private int mEndColor;
+    private int mCurColor;
+
     private MarkerAnimationListener mMarkerListener;
     private final Runnable mUpdater = new Runnable() {
 
@@ -127,8 +125,7 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
     @Override
     public void draw(Canvas canvas, Paint paint) {
         if (!mPath.isEmpty()) {
-            int color = blendColors(mStartColor, mEndColor, mCurrentScale);
-            paint.setColor(color);
+            paint.setColor(mCurColor);
             canvas.drawPath(mPath, paint);
         }
     }
@@ -161,6 +158,7 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
         float[] corners = new float[]{halfSize, halfSize, halfSize, halfSize, halfSize, halfSize, cornerSize, cornerSize};
         rect.set(bounds.left, bounds.top, bounds.left + currentSize, bounds.top + currentSize);
         path.addRoundRect(rect, corners, Path.Direction.CCW);
+
         matrix.reset();
         matrix.postRotate(-45, bounds.left + halfSize, bounds.top + halfSize);
         matrix.postTranslate((bounds.width() - currentSize) / 2, 0);
@@ -173,6 +171,7 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
         float initial = mAnimationInitialValue;
         float destination = mReverse ? 0f : 1f;
         mCurrentScale = initial + (destination - initial) * factor;
+        mCurColor = blendColors(mStartColor, mEndColor, mCurrentScale);
         computePath(getBounds());
         invalidateSelf();
     }
@@ -242,8 +241,8 @@ public class BalloonMarkerDrawable extends StatePaintDrawable implements Animata
      * This is the "poor's man" AnimatorListener for this Drawable
      */
     public interface MarkerAnimationListener {
-        public void onClosingComplete();
+        void onClosingComplete();
 
-        public void onOpeningComplete();
+        void onOpeningComplete();
     }
 }

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/23/2014
- * Changed 08/04/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -29,11 +29,11 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.PaintDrawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 
 /**
  * Created by QiuJu
@@ -41,7 +41,6 @@ import android.util.TypedValue;
  */
 public class Ui {
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
-    public static final boolean elevationSupported = Build.VERSION.SDK_INT >= 21;
 
     public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48
     public static final int KEY_SHADOW_COLOR = 0x4E000000; //0x1E000000;
@@ -261,4 +260,15 @@ public class Ui {
         }
         return color;
     }
+
+    /**
+     * MotionEventCompat getActionMasked
+     *
+     * @param event MotionEvent
+     * @return ActionMasked
+     */
+    public static int getActionMasked(MotionEvent event) {
+        return event.getAction() & 255;
+    }
+
 }

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/23/2015
- * Changed 08/05/2015
+ * Changed 08/08/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 
-package net.qiujuer.genius.ui.widget.compat;
+package net.qiujuer.genius.ui.compat;
 
 import android.annotation.TargetApi;
 import android.graphics.Outline;
