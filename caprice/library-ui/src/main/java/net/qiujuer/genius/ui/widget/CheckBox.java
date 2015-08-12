@@ -38,6 +38,8 @@ import net.qiujuer.genius.ui.drawable.CircleCheckDrawable;
  * The widget extend view widget
  */
 public class CheckBox extends android.widget.CheckBox {
+    private CircleCheckDrawable mMarkDrawable;
+
     public CheckBox(Context context) {
         super(context);
         init(null, 0, 0);
@@ -88,7 +90,7 @@ public class CheckBox extends android.widget.CheckBox {
         int borderSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gBorderSize, baseSize);
         int intervalSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gIntervalSize, baseSize);
         int markSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gMarkSize, -1);
-        ColorStateList color = a.getColorStateList(R.styleable.CheckBox_gColor);
+        ColorStateList color = a.getColorStateList(R.styleable.CheckBox_gMarkColor);
 
         a.recycle();
 
@@ -102,13 +104,49 @@ public class CheckBox extends android.widget.CheckBox {
             isCustom = false;
         }
 
-        CircleCheckDrawable drawable = new CircleCheckDrawable(color);
-        drawable.setBorderSize(borderSize);
-        drawable.setIntervalSize(intervalSize);
-        drawable.setMarkSize(markSize, isCustom);
-        setButtonDrawable(drawable);
+        mMarkDrawable = new CircleCheckDrawable(color);
+        mMarkDrawable.setBorderSize(borderSize);
+        mMarkDrawable.setIntervalSize(intervalSize);
+        mMarkDrawable.setMarkSize(markSize, isCustom);
+        setButtonDrawable(mMarkDrawable);
 
         // Refresh display with current params
         refreshDrawableState();
+    }
+
+    public void setBorderSize(int size) {
+        mMarkDrawable.setBorderSize(size);
+    }
+
+    public void setIntervalSize(int size) {
+        mMarkDrawable.setIntervalSize(size);
+    }
+
+    public void setMarkSize(int size) {
+        mMarkDrawable.setMarkSize(size, true);
+    }
+
+    public int getBorderSize() {
+        return mMarkDrawable.getBorderSize();
+    }
+
+    public int getIntervalSize() {
+        return mMarkDrawable.getIntervalSize();
+    }
+
+    public int getMarkSize() {
+        return mMarkDrawable.getMarkSize();
+    }
+
+    public void setMarkColor(int color) {
+        mMarkDrawable.setColor(color);
+    }
+
+    public void setMarkColor(ColorStateList colorList) {
+        mMarkDrawable.setColorStateList(colorList);
+    }
+
+    public ColorStateList getMarkColor() {
+        return mMarkDrawable.getColorStateList();
     }
 }

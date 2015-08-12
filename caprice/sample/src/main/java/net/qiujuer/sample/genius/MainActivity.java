@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import net.qiujuer.genius.ui.drawable.RipAnimDrawable;
+import net.qiujuer.genius.ui.widget.CheckBox;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 import net.qiujuer.sample.genius.drawable.AddLineShape;
 
@@ -22,41 +24,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // ToolBar
-        RipAnimDrawable ripAnim = new RipAnimDrawable();
-        ripAnim.setColor(getResources().getColor(R.color.cyan_600));
-        ripAnim.setFluCount(0, 0, 0, 36);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.title);
-        toolbar.setBackgroundDrawable(ripAnim);
-        toolbar.setTitle(getTitle());
-        toolbar.inflateMenu(R.menu.menu_main);
-        toolbar.setOnMenuItemClickListener(this);
-
-        //View topText = findViewById(R.id.txt_main_top);
-        //RipDrawable rip = new RipDrawable();
-        //rip.setColor(Resource.Color.WHITE);
-        //rip.setAlpha(128);
-        //rip.setFluCount(16, 0, 16, 0);
-        //rip.setDeepness(5, 16);
-        //rip.setSmooth(false);
-        //topText.setBackgroundDrawable(rip);
-
-
-        final float density = getResources().getDisplayMetrics().density;
-        FloatActionButton addButton = (FloatActionButton) findViewById(R.id.action_add);
-        AddLineShape lineShape = new AddLineShape();
-        ShapeDrawable drawable = new ShapeDrawable(lineShape);
-        Paint paint = drawable.getPaint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
-        paint.setDither(true);
-        paint.setColor(0xc0ffffff);
-        paint.setStrokeWidth(2 * density);
-        drawable.setIntrinsicWidth(100);
-        drawable.setIntrinsicHeight(100);
-        addButton.setImageDrawable(drawable);
-        addButton.setOnClickListener(this);
+        initToolbar();
+        initFloatActionButton();
+        initCheckBox();
 
     }
 
@@ -81,5 +52,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return true;
+    }
+
+    private void initToolbar() {
+        // ToolBar
+        RipAnimDrawable ripAnim = new RipAnimDrawable();
+        ripAnim.setColor(getResources().getColor(R.color.cyan_600));
+        ripAnim.setFluCount(0, 0, 0, 36);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.title);
+        toolbar.setBackgroundDrawable(ripAnim);
+        toolbar.setTitle(getTitle());
+        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.setOnMenuItemClickListener(this);
+    }
+
+    private void initFloatActionButton() {
+        final float density = getResources().getDisplayMetrics().density;
+        FloatActionButton addButton = (FloatActionButton) findViewById(R.id.action_add);
+        AddLineShape lineShape = new AddLineShape();
+        ShapeDrawable drawable = new ShapeDrawable(lineShape);
+        Paint paint = drawable.getPaint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setColor(0xc0ffffff);
+        paint.setStrokeWidth(2 * density);
+        drawable.setIntrinsicWidth(100);
+        drawable.setIntrinsicHeight(100);
+        addButton.setImageDrawable(drawable);
+        addButton.setOnClickListener(this);
+    }
+
+    private void initCheckBox() {
+        final CheckBox none_a = (CheckBox) findViewById(R.id.checkbox_none_a);
+        final CheckBox none_b = (CheckBox) findViewById(R.id.checkbox_none_b);
+        final CheckBox custom_a = (CheckBox) findViewById(R.id.checkbox_custom_a);
+        final CheckBox custom_b = (CheckBox) findViewById(R.id.checkbox_custom_b);
+        none_a.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                none_b.setEnabled(isChecked);
+            }
+        });
+
+        custom_a.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                custom_b.setEnabled(isChecked);
+            }
+        });
     }
 }

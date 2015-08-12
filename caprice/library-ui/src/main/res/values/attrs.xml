@@ -125,6 +125,6 @@
         <attr name="gBorderSize" />
         <attr name="gIntervalSize" format="dimension" />
         <attr name="gMarkSize" format="dimension" />
-        <attr name="gColor" format="color|reference" />
+        <attr name="gMarkColor" format="color|reference" />
     </declare-styleable>
 </resources>
