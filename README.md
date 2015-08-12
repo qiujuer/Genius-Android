@@ -27,7 +27,7 @@
 
 ![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/172755E3.png)
 
-## APK
+## Sample APK
 
 *  [`STEADY`](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/simple-steady_2.4.0.apk)
 *  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/sample.apk)
@@ -51,7 +51,7 @@ dependencies {
 
 ```
 dependencies {
-  compile 'net.qiujuer.genius:ui:0.2.0'
+  compile 'net.qiujuer.genius:ui:0.3.0'
 }
 ```
 
