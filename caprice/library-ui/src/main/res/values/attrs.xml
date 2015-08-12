@@ -84,6 +84,7 @@
     <!-- BalloonMarker -->
     <attr name="gBalloonMarkerStyle" format="reference" />
     <declare-styleable name="BalloonMarker">
+        <attr name="gFont" />
         <attr name="gMarkerTextAppearance" format="reference" />
         <attr name="gMarkerBackgroundColor" format="color|reference" />
         <attr name="gMarkerElevation" format="dimension" />
@@ -92,6 +93,7 @@
     <!-- SeekBar -->
     <attr name="gSeekBarStyle" format="reference" />
     <declare-styleable name="AbsSeekBar">
+        <attr name="gFont" />
         <attr name="gMin" format="integer" />
         <attr name="gMax" format="integer" />
         <attr name="gValue" format="integer" />
@@ -122,9 +124,22 @@
     <!-- CheckBox -->
     <attr name="gCheckBoxStyle" format="reference" />
     <declare-styleable name="CheckBox">
+        <attr name="gFont" />
         <attr name="gBorderSize" />
         <attr name="gIntervalSize" format="dimension" />
         <attr name="gMarkSize" format="dimension" />
         <attr name="gMarkColor" format="color|reference" />
+    </declare-styleable>
+
+    <!-- EditText -->
+    <attr name="gEditTextStyle" format="reference" />
+    <declare-styleable name="EditText">
+        <attr name="gFont" />
+        <attr name="gLineSize" format="dimension" />
+        <attr name="gShowTitle" format="boolean" />
+        <attr name="gTitleTextColor" format="reference|color" />
+        <attr name="gTitleTextSize" format="dimension" />
+        <attr name="gTitlePaddingTop" format="dimension" />
+        <attr name="gTitlePaddingLeft" format="dimension" />
     </declare-styleable>
 </resources>

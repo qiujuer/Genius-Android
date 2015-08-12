@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/08/2015
+ * Changed 08/12/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -29,6 +29,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
@@ -213,6 +214,7 @@ public abstract class AbsSeekBar extends View {
 
         // Indicator TextAppearance
         int textAppearanceId = a.getResourceId(R.styleable.AbsSeekBar_gIndicatorTextAppearance, R.style.Genius_Widget_BalloonMarker_TextAppearance);
+        String fontFile = a.getString(R.styleable.AbsSeekBar_gFont);
 
         a.recycle();
 
@@ -240,6 +242,12 @@ public abstract class AbsSeekBar extends View {
                 mIndicator.setIndicatorColor(indicatorColor);
             mIndicator.setIndicatorTextAppearance(textAppearanceId);
             mIndicator.setIndicatorClosedSize(thumbSize * 2);
+
+            // Font
+            if (fontFile != null && fontFile.length() > 0) {
+                Typeface typeface = Ui.getFont(getContext(), fontFile);
+                if (typeface != null) mIndicator.setTypeface(typeface);
+            }
         }
 
         // Enabled
@@ -950,9 +958,9 @@ public abstract class AbsSeekBar extends View {
 
     /**
      * Interface to transform the current internal value of this AbsSeekBar to anther one for the visualization.
-     * <p/>
+     * <p>
      * This will be used on the floating bubble to display a different value if needed.
-     * <p/>
+     * <p>
      * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
      * value seen by the user
      *

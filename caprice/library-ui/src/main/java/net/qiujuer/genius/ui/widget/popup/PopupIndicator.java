@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/08/2015
+ * Changed 08/12/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -76,6 +77,13 @@ public class PopupIndicator {
             return mPopupView.mMarker.getBackgroundColor();
         }
         return null;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        dismissComplete();
+        if (mPopupView != null) {
+            mPopupView.mMarker.setTypeface(typeface);
+        }
     }
 
     public void setIndicatorTextAppearance(int textAppearanceId) {

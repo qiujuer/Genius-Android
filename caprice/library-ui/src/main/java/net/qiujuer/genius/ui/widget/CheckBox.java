@@ -25,12 +25,14 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.CircleCheckDrawable;
 
 /**
@@ -91,6 +93,7 @@ public class CheckBox extends android.widget.CheckBox {
         int intervalSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gIntervalSize, baseSize);
         int markSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gMarkSize, -1);
         ColorStateList color = a.getColorStateList(R.styleable.CheckBox_gMarkColor);
+        String fontFile = a.getString(R.styleable.CheckBox_gFont);
 
         a.recycle();
 
@@ -112,6 +115,15 @@ public class CheckBox extends android.widget.CheckBox {
 
         // Refresh display with current params
         refreshDrawableState();
+
+        // Check for IDE preview render
+        if (!this.isInEditMode()) {
+            // Font
+            if (fontFile != null && fontFile.length() > 0) {
+                Typeface typeface = Ui.getFont(getContext(), fontFile);
+                if (typeface != null) setTypeface(typeface);
+            }
+        }
     }
 
     public void setBorderSize(int size) {
