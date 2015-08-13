@@ -396,6 +396,40 @@
                     app:gMarkColor="@color/m_check_box" />
             </LinearLayout>
 
+            <net.qiujuer.genius.ui.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_16"
+                android:text="EditView"
+                android:textAllCaps="true"
+                android:textColor="@color/purple_500"
+                android:textSize="@dimen/size_16" />
+
+
+            <net.qiujuer.genius.ui.widget.EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_4"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_4"
+                android:layout_weight="1"
+                android:hint="Default"
+                android:textColor="@color/grey_500" />
+
+            <net.qiujuer.genius.ui.widget.EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_4"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_4"
+                android:layout_weight="1"
+                android:hint="Custom"
+                android:textColor="@color/grey_500" />
+
         </LinearLayout>
     </ScrollView>
 

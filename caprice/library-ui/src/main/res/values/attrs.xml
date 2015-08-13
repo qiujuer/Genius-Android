@@ -136,7 +136,11 @@
     <declare-styleable name="EditText">
         <attr name="gFont" />
         <attr name="gLineSize" format="dimension" />
-        <attr name="gShowTitle" format="boolean" />
+        <attr name="gLineColor" format="reference|color" />
+        <attr name="gTitle">
+            <enum name="none" value="0" />
+            <enum name="hint" value="1" />
+        </attr>
         <attr name="gTitleTextColor" format="reference|color" />
         <attr name="gTitleTextSize" format="dimension" />
         <attr name="gTitlePaddingTop" format="dimension" />
