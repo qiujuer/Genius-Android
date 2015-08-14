@@ -29,9 +29,6 @@
     <dimen name="genius_editText_lineSize">1dp</dimen>
     <dimen name="genius_editText_lineSize_active_increment">0.5dp</dimen>
     <dimen name="genius_editText_hintTitleTextSize">12sp</dimen>
-    <dimen name="genius_editText_titlePaddingTop">4dp</dimen>
-    <dimen name="genius_editText_titlePaddingLeft">0dp</dimen>
-    <dimen name="genius_editText_lineStyle_selectBorder">0.5dp</dimen>
 
     <dimen name="genius_seekBar_tickSize">0dp</dimen>
     <dimen name="genius_seekBar_thumbSize">6dp</dimen>
