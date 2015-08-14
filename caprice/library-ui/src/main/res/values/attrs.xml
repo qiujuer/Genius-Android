@@ -80,7 +80,6 @@
         <attr name="gTouchCornerRadiusBR" />
     </declare-styleable>
 
-
     <!-- BalloonMarker -->
     <attr name="gBalloonMarkerStyle" format="reference" />
     <declare-styleable name="BalloonMarker">

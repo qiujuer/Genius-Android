@@ -71,11 +71,12 @@ public class EditText extends android.widget.EditText {
     private int mTruePaddingTop;
 
     public EditText(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public EditText(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.gEditTextStyle);
+        super(context, attrs);
+        init(attrs, R.attr.gEditTextStyle, R.style.Genius_Widget_EditText);
     }
 
     public EditText(Context context, AttributeSet attrs, int defStyleAttr) {

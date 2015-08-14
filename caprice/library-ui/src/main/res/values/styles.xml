@@ -21,11 +21,14 @@
 
 <resources>
 
-    <style name="Genius.Widget.TextView" parent="android:Widget.TextView" />
+    <style name="Genius.Widget.TextView" parent="android:Widget.TextView">
+        <item name="gFont">@string/genius_font_file</item>
+    </style>
 
     <style name="Genius.Widget.Button" parent="android:Widget.Button">
+        <item name="gFont">@string/genius_font_file</item>
         <item name="gTouchColor">@color/black_alpha_48</item>
-        <item name="gTouchEffect">@color/black_alpha_48</item>
+        <item name="gTouchEffect">auto</item>
         <item name="gTouchCornerRadius">0dp</item>
     </style>
 
@@ -35,6 +38,7 @@
     </style>
 
     <style name="Genius.Widget.CompoundButton.CheckBox" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="gFont">@string/genius_font_file</item>
         <item name="gMarkColor">@color/g_default_check_box</item>
         <item name="gBorderSize">@dimen/genius_checkBox_borderSize</item>
         <item name="gIntervalSize">@dimen/genius_checkBox_intervalSize</item>
@@ -42,6 +46,7 @@
     </style>
 
     <style name="Genius.Widget.EditText" parent="android:Widget.EditText">
+        <item name="gFont">@string/genius_font_file</item>
         <item name="android:textColorHint">@color/g_default_edit_view_hint</item>
         <item name="gLineColor">@color/g_default_edit_view_line</item>
         <item name="gLineSize">@dimen/genius_editText_lineSize</item>
@@ -50,6 +55,7 @@
     </style>
 
     <style name="Genius.Widget.SeekBar" parent="">
+        <item name="gFont">@string/genius_font_file</item>
         <item name="gMirrorForRtl">true</item>
         <item name="gAllowTrackClickToDrag">true</item>
 
@@ -75,6 +81,7 @@
     </style>
 
     <style name="Genius.Widget.BalloonMarker" parent="android:Widget">
+        <item name="gFont">@string/genius_font_file</item>
         <item name="gMarkerTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
         </item>
         <item name="gMarkerBackgroundColor">@color/g_default_seek_bar_indicator</item>

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/12/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -105,17 +105,16 @@ public abstract class AbsSeekBar extends View {
 
     public AbsSeekBar(Context context) {
         super(context);
-        init(null, 0, 0);
     }
 
     public AbsSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.gSeekBarStyle, 0);
+        init(attrs, R.attr.gSeekBarStyle, R.style.Genius_Widget_SeekBar);
     }
 
     public AbsSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_SeekBar);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -958,9 +957,9 @@ public abstract class AbsSeekBar extends View {
 
     /**
      * Interface to transform the current internal value of this AbsSeekBar to anther one for the visualization.
-     * <p>
+     * <p/>
      * This will be used on the floating bubble to display a different value if needed.
-     * <p>
+     * <p/>
      * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
      * value seen by the user
      *

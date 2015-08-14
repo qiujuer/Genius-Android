@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/12/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -73,7 +73,7 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
 
     public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr, 0, "0");
+        init(context, attrs, defStyleAttr, R.style.Genius_Widget_BalloonMarker, "0");
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

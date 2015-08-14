@@ -428,7 +428,15 @@
                 android:layout_marginTop="@dimen/lay_4"
                 android:layout_weight="1"
                 android:hint="Custom"
-                android:textColor="@color/grey_700" />
+                android:textColor="@color/grey_700"
+                android:textColorHint="@color/m_edit_view_hint"
+                app:gHintTitle="slide"
+                app:gHintTitlePaddingBottom="2dp"
+                app:gHintTitlePaddingLeft="0dp"
+                app:gHintTitlePaddingTop="0dp"
+                app:gHintTitleTextSize="14sp"
+                app:gLineColor="@color/m_edit_view_line"
+                app:gLineSize="2dp" />
 
         </LinearLayout>
     </ScrollView>

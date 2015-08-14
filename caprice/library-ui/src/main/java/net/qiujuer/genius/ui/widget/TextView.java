@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/23/2015
- * Changed 08/04/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -61,12 +61,12 @@ public class TextView extends android.widget.TextView {
 
     public TextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.gTextViewStyle, 0);
+        init(attrs, R.attr.gTextViewStyle, R.style.Genius_Widget_TextView);
     }
 
     public TextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_TextView);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

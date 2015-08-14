@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/23/2015
- * Changed 08/05/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -56,12 +56,12 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
     public Button(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.gButtonStyle, 0);
+        init(attrs, R.attr.gButtonStyle, R.style.Genius_Widget_Button);
     }
 
     public Button(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_Button);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

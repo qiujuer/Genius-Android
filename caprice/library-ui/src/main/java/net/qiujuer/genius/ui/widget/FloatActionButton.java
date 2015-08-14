@@ -52,17 +52,16 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
 
     public FloatActionButton(Context context) {
         super(context);
-        init(null, 0, 0);
     }
 
     public FloatActionButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.gFloatActionButtonStyle, 0);
+        init(attrs, R.attr.gFloatActionButtonStyle, R.style.Genius_Widget_FloatActionButton);
     }
 
     public FloatActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_FloatActionButton);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

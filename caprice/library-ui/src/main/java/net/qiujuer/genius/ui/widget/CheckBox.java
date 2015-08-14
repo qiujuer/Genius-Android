@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/10/2015
- * Changed 08/12/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -44,17 +44,16 @@ public class CheckBox extends android.widget.CheckBox {
 
     public CheckBox(Context context) {
         super(context);
-        init(null, 0, 0);
     }
 
     public CheckBox(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.gCheckBoxStyle, 0);
+        init(attrs, R.attr.gCheckBoxStyle, R.style.Genius_Widget_CompoundButton_CheckBox);
     }
 
     public CheckBox(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_CompoundButton_CheckBox);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
