@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/23/2014
- * Changed 08/12/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -31,6 +31,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.PaintDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -42,6 +43,8 @@ import android.view.MotionEvent;
  * This is Genius UI Center
  */
 public class Ui {
+    public static boolean SUPPER_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
 
     public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48

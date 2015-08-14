@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/29/2015
- * Changed 08/08/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -84,6 +84,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     }
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         if (attrs == null)
             return;
@@ -119,12 +120,10 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         mShadowRadius += maxShadowOffset;
 
         ShapeDrawable background;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Ui.SUPPER_LOLLIPOP) {
             background = new ShapeDrawable(new OvalShape());
-
             //ViewCompat.setElevation(this, Ui.SHADOW_ELEVATION * density);
-            this.setElevation(Ui.SHADOW_ELEVATION * density);
-
+            setElevation(Ui.SHADOW_ELEVATION * density);
         } else {
             OvalShape oval = new OvalShadowShape(mShadowRadius);
             background = new ShapeDrawable(oval);
@@ -211,8 +210,12 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         Drawable drawable = mTouchDrawable;
-        if (drawable != null)
-            drawable.setBounds(mShadowRadius, mShadowRadius, getWidth() - mShadowRadius, getHeight() - mShadowRadius);
+        if (drawable != null) {
+            if (Ui.SUPPER_LOLLIPOP)
+                drawable.setBounds(0, 0, getWidth(), getHeight());
+            else
+                drawable.setBounds(mShadowRadius, mShadowRadius, getWidth() - mShadowRadius, getHeight() - mShadowRadius);
+        }
     }
 
     @Override
