@@ -43,7 +43,7 @@ public class EditTextAttributes extends BaseAttributes {
     public EditTextAttributes(AttributeChangeListener attributeChangeListener, Resources resources) {
         super(attributeChangeListener, resources);
 
-        mTitleTextSize = resources.getDimensionPixelSize(R.dimen.genius_editText_titleTextSize);
+        mTitleTextSize = resources.getDimensionPixelSize(R.dimen.genius_editText_hintTitleTextSize);
         mTitleTextPaddingTop = resources.getDimensionPixelSize(R.dimen.genius_editText_titlePaddingTop);
         mTitleTextPaddingLeft = resources.getDimensionPixelSize(R.dimen.genius_editText_titlePaddingLeft);
     }

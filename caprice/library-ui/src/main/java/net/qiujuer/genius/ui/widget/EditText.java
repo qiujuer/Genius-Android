@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/12/2015
- * Changed 08/12/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -30,6 +30,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -62,26 +63,24 @@ public class EditText extends android.widget.EditText {
 
     private int mLineSize;
     private ColorStateList mLineColor;
-    private ColorStateList mTitleTextColor;
-    private int mTitleTextSize;
-    private int mTitleTextPaddingLeft;
-    private int mTitleTextPaddingTop;
-    private int mTitleStyle;
 
+    private int mHintTitleModel;
+    private int mHintTitleTextSize;
+    private Rect mHintTitlePadding = new Rect();
+
+    private int mTruePaddingTop;
 
     public EditText(Context context) {
-        super(context);
-        init(null, 0, 0);
+        this(context, null);
     }
 
     public EditText(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(attrs, R.attr.gEditTextStyle, 0);
+        this(context, attrs, R.attr.gEditTextStyle);
     }
 
     public EditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_EditText);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -94,6 +93,9 @@ public class EditText extends android.widget.EditText {
         if (attrs == null)
             return;
 
+        // Get the super padding top
+        mTruePaddingTop = super.getPaddingTop();
+
         final Context context = getContext();
         final Resources resources = getResources();
 
@@ -105,46 +107,91 @@ public class EditText extends android.widget.EditText {
         ColorStateList lineColor = a.getColorStateList(R.styleable.EditText_gLineColor);
 
         // Set HintProperty
-        int titleStyle = a.getInt(R.styleable.EditText_gTitle, 1);
-        ColorStateList titleTextColor = a.getColorStateList(R.styleable.EditText_gTitleTextColor);
-        int titleTextSize = a.getDimensionPixelSize(R.styleable.EditText_gTitleTextSize, resources.getDimensionPixelSize(R.dimen.genius_editText_titleTextSize));
-        int titleTextPaddingLeft = a.getDimensionPixelSize(R.styleable.EditText_gTitlePaddingLeft, getPaddingLeft());
-        int titleTextPaddingTop = a.getDimensionPixelSize(R.styleable.EditText_gTitlePaddingTop, resources.getDimensionPixelSize(R.dimen.genius_editText_titlePaddingTop));
+        int titleModel = a.getInt(R.styleable.EditText_gHintTitle, 1);
+        int titleTextSize = a.getDimensionPixelSize(R.styleable.EditText_gHintTitleTextSize, resources.getDimensionPixelSize(R.dimen.genius_editText_hintTitleTextSize));
+        int titlePaddingTop = a.getDimensionPixelSize(R.styleable.EditText_gHintTitlePaddingTop, 0);
+        int titlePaddingBottom = a.getDimensionPixelSize(R.styleable.EditText_gHintTitlePaddingBottom, 0);
+        int titlePaddingLeft = a.getDimensionPixelSize(R.styleable.EditText_gHintTitlePaddingLeft, 0);
+        int titlePaddingRight = a.getDimensionPixelSize(R.styleable.EditText_gHintTitlePaddingRight, 0);
 
         a.recycle();
 
+        // Init color
         if (lineColor == null)
             lineColor = resources.getColorStateList(R.color.g_default_edit_view_line);
-        if (titleTextColor == null) {
-            if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "textColorHint") != null)
-                titleTextColor = getHintTextColors();
-            else
-                titleTextColor = resources.getColorStateList(R.color.g_default_edit_view_title);
+
+        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "textColorHint") == null || getHintTextColors() == null) {
+            ColorStateList hintColor = resources.getColorStateList(R.color.g_default_edit_view_hint);
+            setHintTextColor(hintColor);
         }
 
-
+        // Set same values
         setLineSize(lineSize);
         setLineColor(lineColor);
-        setTitleStyle(titleStyle);
-        setTitleTextColor(titleTextColor);
-        setTitleTextPaddingTop(titleTextPaddingTop);
-        setTitleTextPaddingLeft(titleTextPaddingLeft);
-        setTitleTextSize(titleTextSize);
+
+        setHintTitleModel(titleModel);
+        setHintTitleTextSize(titleTextSize);
 
         // check for IDE preview render
         if (!this.isInEditMode()) {
-            // Font
+            // Set Font
             if (fontFile != null && fontFile.length() > 0) {
                 Typeface typeface = Ui.getFont(context, fontFile);
                 if (typeface != null) setTypeface(typeface);
             }
         }
 
+        // Init background and title
         initBackground();
-        initTitleText();
+        initHintTitleText();
+
+        // SetHintPadding
+        setHintTitlePadding(titlePaddingLeft, titlePaddingTop, titlePaddingRight, titlePaddingBottom);
     }
 
-    private void initTitleText() {
+
+    private void initBackground() {
+        final int lineSize = getLineSize();
+        Drawable background;
+        if (lineSize == 0) {
+            background = null;
+        } else {
+            int increment = getResources().getDimensionPixelSize(R.dimen.genius_editText_lineSize_active_increment);
+            int lineActive = lineSize + increment;
+            int lineHalf = lineSize >> 1;
+
+            // Creating normal state drawable
+            ShapeDrawable normal = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, lineSize)));
+            normal.getPaint().setColor(getLineColor(new int[]{android.R.attr.state_enabled}));
+
+            // Creating pressed state drawable
+            ShapeDrawable pressed = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, lineActive)));
+            pressed.getPaint().setColor(getLineColor(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}));
+
+            // Creating focused state drawable
+            ShapeDrawable focused = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, lineActive)));
+            focused.getPaint().setColor(getLineColor(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}));
+
+            // Creating disabled state drawable
+            ShapeDrawable disabled = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, lineHalf), lineHalf, lineSize));
+            disabled.getPaint().setColor(getLineColor(new int[]{-android.R.attr.state_enabled}));
+            // disabled.getPaint().setAlpha(0xA0);
+
+            Drawable[] drawable = new Drawable[]{pressed, focused, normal, disabled};
+            background = Ui.createStateListDrawable(drawable);
+
+        }
+
+        // Set Background
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+            //noinspection deprecation
+            setBackgroundDrawable(background);
+        else
+            setBackground(background);
+
+    }
+
+    private void initHintTitleText() {
         if (isShowTitle()) {
             mCurTitleProperty = new TitleProperty();
 
@@ -169,7 +216,7 @@ public class EditText extends android.widget.EditText {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (isShowTitle() && mTitlePaint != null) {
+                        if (isShowTitle()) {
                             boolean have = s != null && s.length() > 0;
                             if (have != isHaveText) {
                                 isHaveText = have;
@@ -194,42 +241,43 @@ public class EditText extends android.widget.EditText {
             mCurTitleProperty = null;
             mAnimator = null;
         }
-
-        // Padding
-        setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
-    }
-
-    private void initBackground() {
-        final int lineSize = getLineSize();
-        if (lineSize == 0)
-            return;
-
-        // Creating normal state drawable
-        ShapeDrawable normal = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, lineSize)));
-        normal.getPaint().setColor(getLineColor(new int[]{android.R.attr.state_enabled}));
-
-        // Creating pressed state drawable
-        ShapeDrawable pressed = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, lineSize > 0 ? lineSize + getResources().getDimensionPixelSize(R.dimen.genius_editText_lineStyle_selectBorder) : 0)));
-        pressed.getPaint().setColor(getLineColor(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}));
-
-        // Creating disabled state drawable
-        ShapeDrawable disabled = new ShapeDrawable(new BorderShape(new RectF(0, 0, 0, lineSize / 2), lineSize / 2, lineSize));
-        disabled.getPaint().setColor(getLineColor(new int[]{-android.R.attr.state_enabled}));
-        // disabled.getPaint().setAlpha(0xA0);
-
-        Drawable[] drawable = new Drawable[]{pressed, normal, disabled};
-        Drawable states = Ui.createStateListDrawable(drawable);
-        // Set Background
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            //noinspection deprecation
-            setBackgroundDrawable(states);
-        else
-            setBackground(states);
-
     }
 
     private boolean isShowTitle() {
-        return mTitleStyle != 0;
+        return mHintTitleModel != 0;
+    }
+
+    @Override
+    public void setTypeface(Typeface tf) {
+        super.setTypeface(tf);
+        if (mTitlePaint != null)
+            mTitlePaint.setTypeface(tf);
+    }
+
+    @Override
+    public int getPaddingTop() {
+        return mTruePaddingTop;
+    }
+
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        mTruePaddingTop = top;
+
+        if (isShowTitle()) {
+            top += mHintTitleTextSize + mHintTitlePadding.top + mHintTitlePadding.bottom;
+        }
+
+        super.setPadding(left, top, right, bottom);
+    }
+
+    public Rect getHintTitlePadding() {
+        return mHintTitlePadding;
+    }
+
+    public void setHintTitlePadding(int left, int top, int right, int bottom) {
+        mHintTitlePadding.set(left, top, right, bottom);
+        // We should reset padding
+        setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
     }
 
     public void setLineSize(int lineSize) {
@@ -246,37 +294,19 @@ public class EditText extends android.widget.EditText {
         }
     }
 
-    public void setTitleStyle(int titleStyle) {
-        if (mTitleStyle != titleStyle) {
-            this.mTitleStyle = titleStyle;
+    public void setHintTitleModel(int model) {
+        if (mHintTitleModel != model) {
+            this.mHintTitleModel = model;
+            initHintTitleText();
+            // We should reset padding
+            setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
             invalidate();
         }
     }
 
-    public void setTitleTextPaddingTop(int titleTextPaddingTop) {
-        if (mTitleTextPaddingTop != titleTextPaddingTop) {
-            this.mTitleTextPaddingTop = titleTextPaddingTop;
-            invalidate();
-        }
-    }
-
-    public void setTitleTextPaddingLeft(int titleTextPaddingLeft) {
-        if (mTitleTextPaddingLeft != titleTextPaddingLeft) {
-            this.mTitleTextPaddingLeft = titleTextPaddingLeft;
-            invalidate();
-        }
-    }
-
-    public void setTitleTextSize(int titleTextSize) {
-        if (mTitleTextSize != titleTextSize) {
-            this.mTitleTextSize = titleTextSize;
-            invalidate();
-        }
-    }
-
-    public void setTitleTextColor(ColorStateList titleTextColor) {
-        if (mTitleTextColor != titleTextColor) {
-            this.mTitleTextColor = titleTextColor;
+    public void setHintTitleTextSize(int titleTextSize) {
+        if (mHintTitleTextSize != titleTextSize) {
+            this.mHintTitleTextSize = titleTextSize;
             invalidate();
         }
     }
@@ -296,36 +326,14 @@ public class EditText extends android.widget.EditText {
         return colors.getColorForState(status, colors.getDefaultColor());
     }
 
-    public ColorStateList getTitleTextColor() {
-        return mTitleTextColor;
-    }
-
-    public int getTitleStyle() {
-        return mTitleStyle;
-    }
-
-    public int getTitleTextPaddingLeft() {
-        return mTitleTextPaddingLeft;
-    }
-
-    public int getTitleTextPaddingTop() {
-        return mTitleTextPaddingTop;
+    public int getHintTitleModel() {
+        return mHintTitleModel;
     }
 
     public int getTitleTextSize() {
-        return mTitleTextSize;
+        return mHintTitleTextSize;
     }
 
-    @Override
-    public void setPadding(int left, int top, int right, int bottom) {
-        if (isShowTitle()) {
-            top = top + mTitleTextSize;
-        }
-
-        super.setPadding(left, top, right, bottom);
-    }
-
-    @SuppressWarnings("NullableProblems")
     @Override
     protected void onDraw(Canvas canvas) {
 
@@ -335,7 +343,7 @@ public class EditText extends android.widget.EditText {
             if (buf != null) {
                 mTitlePaint.setTextSize(mCurTitleProperty.mTextSize);
 
-                int color = getCurrentTitleTextColor();
+                int color = getCurrentHintTextColor();
                 int alpha = Ui.modulateAlpha(Color.alpha(color), mCurTitleProperty.mAlpha);
 
                 if (color != 0 && alpha != 0) {
@@ -343,8 +351,8 @@ public class EditText extends android.widget.EditText {
                     mTitlePaint.setAlpha(alpha);
 
                     canvas.drawText(buf, 0, buf.length(),
-                            mCurTitleProperty.mPaddingLeft,
-                            mCurTitleProperty.mPaddingTop + mCurTitleProperty.mTextSize,
+                            mCurTitleProperty.mLeft,
+                            mCurTitleProperty.mTop + mCurTitleProperty.mTextSize,
                             mTitlePaint);
                 }
             }
@@ -388,17 +396,6 @@ public class EditText extends android.widget.EditText {
         invalidate();
     }
 
-    private int getCurrentTitleTextColor() {
-        if (getTitleTextColor() == null) {
-            ColorStateList colors = getHintTextColors();
-            if (colors == null)
-                return getCurrentHintTextColor();
-            else
-                return colors.getColorForState(getDrawableState(), 0);
-        } else
-            return getTitleTextColor().getColorForState(getDrawableState(), 0);
-    }
-
     /**
      * =============================================================================================
      * The Animate
@@ -407,14 +404,17 @@ public class EditText extends android.widget.EditText {
 
     private void animateShowTitle(boolean show) {
         TitleProperty property;
-        if (show)
-            property = new TitleProperty(mTitleTextPaddingLeft, mTitleTextPaddingTop, mTitleTextSize);
-        else {
+        if (show) {
+            property = new TitleProperty();
+            property.mTextSize = mHintTitleTextSize;
+            property.mTop = getPaddingTop() + mHintTitlePadding.top;
+            property.mLeft = getPaddingLeft() + mHintTitlePadding.left;
+        } else {
             property = new TitleProperty();
             property.mAlpha = 0;
             property.mTextSize = (int) getTextSize();
-            property.mPaddingLeft = getPaddingLeft();
-            property.mPaddingTop = getPaddingTop();
+            property.mTop = super.getPaddingTop();
+            property.mLeft = getPaddingLeft();
         }
 
         if (isAttachWindow()) {
@@ -439,20 +439,10 @@ public class EditText extends android.widget.EditText {
      */
 
     public final static class TitleProperty {
-        private int mPaddingLeft;
-        private int mPaddingTop;
         private int mTextSize;
-        private int mAlpha;
-
-        public TitleProperty() {
-        }
-
-        public TitleProperty(int left, int top, int size) {
-            mPaddingLeft = left;
-            mPaddingTop = top;
-            mTextSize = size;
-            mAlpha = 255;
-        }
+        private int mAlpha = 255;
+        private int mLeft;
+        private int mTop;
     }
 
     private final static class TitleEvaluator implements TypeEvaluator<TitleProperty> {
@@ -465,9 +455,8 @@ public class EditText extends android.widget.EditText {
 
         @Override
         public TitleProperty evaluate(float fraction, TitleProperty startValue, TitleProperty endValue) {
-            // Values
-            mProperty.mPaddingLeft = (int) (startValue.mPaddingLeft + (endValue.mPaddingLeft - startValue.mPaddingLeft) * fraction);
-            mProperty.mPaddingTop = (int) (startValue.mPaddingTop + (endValue.mPaddingTop - startValue.mPaddingTop) * fraction);
+            mProperty.mLeft = (int) (startValue.mLeft + (endValue.mLeft - startValue.mLeft) * fraction);
+            mProperty.mTop = (int) (startValue.mTop + (endValue.mTop - startValue.mTop) * fraction);
             mProperty.mTextSize = (int) (startValue.mTextSize + (endValue.mTextSize - startValue.mTextSize) * fraction);
             mProperty.mAlpha = (int) (startValue.mAlpha + (endValue.mAlpha - startValue.mAlpha) * fraction);
             return mProperty;

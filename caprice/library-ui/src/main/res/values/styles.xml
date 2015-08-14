@@ -2,7 +2,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 08/05/2015
+* Changed 08/13/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -32,6 +32,21 @@
     <style name="Genius.Widget.FloatActionButton" parent="">
         <item name="gTouchColor">@color/black_alpha_48</item>
         <item name="gBackgroundColor">@color/g_default_float_action_bg</item>
+    </style>
+
+    <style name="Genius.Widget.CompoundButton.CheckBox" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="gMarkColor">@color/g_default_check_box</item>
+        <item name="gBorderSize">@dimen/genius_checkBox_borderSize</item>
+        <item name="gIntervalSize">@dimen/genius_checkBox_intervalSize</item>
+        <item name="gMarkSize">@dimen/genius_checkBox_markSize</item>
+    </style>
+
+    <style name="Genius.Widget.EditText" parent="android:Widget.EditText">
+        <item name="android:textColorHint">@color/g_default_edit_view_hint</item>
+        <item name="gLineColor">@color/g_default_edit_view_line</item>
+        <item name="gLineSize">@dimen/genius_editText_lineSize</item>
+        <item name="gHintTitle">slide</item>
+        <item name="gHintTitleTextSize">@dimen/genius_editText_hintTitleTextSize</item>
     </style>
 
     <style name="Genius.Widget.SeekBar" parent="">

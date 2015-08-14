@@ -257,11 +257,13 @@ public class Ui {
      */
 
     public static StateListDrawable createStateListDrawable(Drawable drawable[]) {
+        if (drawable == null || drawable.length < 4)
+            return null;
         StateListDrawable states = new StateListDrawable();
         states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, drawable[0]);
-        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[0]);
-        states.addState(new int[]{android.R.attr.state_enabled}, drawable[1]);
-        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[2]);
+        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[1]);
+        states.addState(new int[]{android.R.attr.state_enabled}, drawable[2]);
+        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[3]);
         return states;
     }
 

@@ -417,7 +417,7 @@
                 android:layout_marginTop="@dimen/lay_4"
                 android:layout_weight="1"
                 android:hint="Default"
-                android:textColor="@color/grey_500" />
+                android:textColor="@color/grey_700" />
 
             <net.qiujuer.genius.ui.widget.EditText
                 android:layout_width="match_parent"
@@ -428,7 +428,7 @@
                 android:layout_marginTop="@dimen/lay_4"
                 android:layout_weight="1"
                 android:hint="Custom"
-                android:textColor="@color/grey_500" />
+                android:textColor="@color/grey_700" />
 
         </LinearLayout>
     </ScrollView>
