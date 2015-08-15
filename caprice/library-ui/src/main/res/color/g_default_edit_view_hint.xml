@@ -3,7 +3,7 @@
 <!--
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
-* Created 08/04/2015
+* Created 08/11/2015
 * Changed 08/13/2015
 * Version 3.0.0
 * Author Qiujuer
@@ -21,8 +21,9 @@
 * limitations under the License.
 -->
 
-<resources>
-    <!-- SeekBar -->
-    <color name="g_default_seek_bar_ripple">@color/cyan_500</color>
-    <color name="g_default_seek_bar_indicator">@color/cyan_500</color>
-</resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/cyan_500" android:state_enabled="true" android:state_focused="true" />
+    <item android:color="@color/cyan_500" android:state_enabled="true" android:state_pressed="true" />
+    <item android:color="@color/grey_500" android:state_enabled="true" />
+    <item android:color="@color/grey_300" android:state_enabled="false" />
+</selector>

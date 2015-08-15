@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/23/2014
- * Changed 08/08/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -22,6 +22,7 @@ package net.qiujuer.genius.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -29,6 +30,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.PaintDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -40,6 +43,8 @@ import android.view.MotionEvent;
  * This is Genius UI Center
  */
 public class Ui {
+    public static boolean SUPPER_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+
     public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
 
     public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48
@@ -50,30 +55,6 @@ public class Ui {
     public static final float SHADOW_RADIUS = 3.5f;
     public static final int SHADOW_ELEVATION = 4;
 
-
-    /**
-     * Creates and returns the font file from given attributes.
-     *
-     * @param context       Context
-     * @param fontFamily    FontFamily
-     * @param fontWeight    FontWeight
-     * @param fontExtension FontExtension
-     * @return Typeface
-     */
-    public static Typeface getFont(Context context, String fontFamily, String fontWeight, String fontExtension) {
-        String fontPath = "fonts/" + fontFamily
-                + "_" + fontWeight
-                + "." + fontExtension;
-        try {
-            return Typeface.createFromAsset(context.getAssets(), fontPath);
-        } catch (Exception e) {
-            Log.e("Genius Ui", "Font file at " + fontPath + " cannot be found or the file is " +
-                    "not a valid font file. Please be sure that library assets are included " +
-                    "to project. If not, copy assets/fonts folder of the library to your " +
-                    "projects assets folder.");
-            return null;
-        }
-    }
 
     public static Typeface getFont(Context context, String fontFile) {
         String fontPath = "fonts/" + fontFile;
@@ -270,5 +251,42 @@ public class Ui {
     public static int getActionMasked(MotionEvent event) {
         return event.getAction() & 255;
     }
+
+
+    /**
+     * =============================================================================================
+     * Init State List Drawable and Color
+     * =============================================================================================
+     */
+
+    public static StateListDrawable createStateListDrawable(Drawable drawable[]) {
+        if (drawable == null || drawable.length < 4)
+            return null;
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, drawable[0]);
+        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[1]);
+        states.addState(new int[]{android.R.attr.state_enabled}, drawable[2]);
+        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[3]);
+        return states;
+    }
+
+    public static ColorStateList createColorStateList(int normal, int unable) {
+        int[] colors = new int[]{normal, unable};
+        int[][] states = new int[2][];
+        states[0] = new int[]{android.R.attr.state_enabled};
+        states[1] = new int[]{-android.R.attr.state_enabled};
+        return new ColorStateList(states, colors);
+    }
+
+    public static ColorStateList createColorStateList(int normal, int pressed, int unable) {
+        int[] colors = new int[]{pressed, pressed, normal, unable};
+        int[][] states = new int[4][];
+        states[0] = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
+        states[1] = new int[]{android.R.attr.state_focused, android.R.attr.state_enabled};
+        states[2] = new int[]{android.R.attr.state_enabled};
+        states[3] = new int[]{-android.R.attr.state_enabled};
+        return new ColorStateList(states, colors);
+    }
+
 
 }

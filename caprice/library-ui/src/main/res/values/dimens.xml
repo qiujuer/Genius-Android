@@ -4,7 +4,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 08/04/2015
+* Changed 08/13/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -22,12 +22,13 @@
 -->
 
 <resources>
-    <dimen name="genius_checkBox_ringWidth">2dp</dimen>
+    <dimen name="genius_checkBox_borderSize">2dp</dimen>
+    <dimen name="genius_checkBox_intervalSize">2dp</dimen>
+    <dimen name="genius_checkBox_markSize">22dp</dimen>
 
-    <dimen name="genius_editText_titleTextSize">12sp</dimen>
-    <dimen name="genius_editText_titlePaddingTop">4dp</dimen>
-    <dimen name="genius_editText_titlePaddingLeft">0dp</dimen>
-    <dimen name="genius_editText_lineStyle_selectBorder">0.5dp</dimen>
+    <dimen name="genius_editText_lineSize">1dp</dimen>
+    <dimen name="genius_editText_lineSize_active_increment">0.5dp</dimen>
+    <dimen name="genius_editText_hintTitleTextSize">12sp</dimen>
 
     <dimen name="genius_seekBar_tickSize">0dp</dimen>
     <dimen name="genius_seekBar_thumbSize">6dp</dimen>

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/08/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -27,6 +27,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -41,6 +42,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.animation.AnimatorListener;
 import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
@@ -71,7 +73,7 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
 
     public BalloonMarker(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr, 0, "0");
+        init(context, attrs, defStyleAttr, R.style.Genius_Widget_BalloonMarker, "0");
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -127,10 +129,11 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
                     defStyleAttr, defStyleRes);
             int textAppearanceId = a.getResourceId(R.styleable.BalloonMarker_gMarkerTextAppearance,
                     R.style.Genius_Widget_BalloonMarker_TextAppearance);
+            ColorStateList color = a.getColorStateList(R.styleable.BalloonMarker_gMarkerBackgroundColor);
+            String fontFile = a.getString(R.styleable.BalloonMarker_gFont);
+            a.recycle();
 
             setTextAppearance(textAppearanceId);
-
-            ColorStateList color = a.getColorStateList(R.styleable.BalloonMarker_gMarkerBackgroundColor);
             setBackgroundColor(color);
 
             //Elevation for android 5+
@@ -138,8 +141,20 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
                 float elevation = a.getDimension(R.styleable.BalloonMarker_gMarkerElevation, ELEVATION_DP * displayMetrics.density);
                 this.setElevation(elevation);
             }
-            a.recycle();
+
+            // Check for IDE preview render
+            if (!this.isInEditMode()) {
+                // Font
+                if (fontFile != null && fontFile.length() > 0) {
+                    Typeface typeface = Ui.getFont(getContext(), fontFile);
+                    if (typeface != null) setTypeface(typeface);
+                }
+            }
         }
+    }
+
+    public void setTypeface(Typeface typeface) {
+        mNumber.setTypeface(typeface);
     }
 
     public void setTextAppearance(int resid) {

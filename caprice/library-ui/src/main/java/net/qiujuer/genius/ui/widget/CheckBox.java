@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/10/2015
- * Changed 08/12/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -25,12 +25,14 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.CircleCheckDrawable;
 
 /**
@@ -42,17 +44,16 @@ public class CheckBox extends android.widget.CheckBox {
 
     public CheckBox(Context context) {
         super(context);
-        init(null, 0, 0);
     }
 
     public CheckBox(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.gCheckBoxStyle, 0);
+        init(attrs, R.attr.gCheckBoxStyle, R.style.Genius_Widget_CompoundButton_CheckBox);
     }
 
     public CheckBox(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_CompoundButton_CheckBox);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -91,6 +92,7 @@ public class CheckBox extends android.widget.CheckBox {
         int intervalSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gIntervalSize, baseSize);
         int markSize = a.getDimensionPixelOffset(R.styleable.CheckBox_gMarkSize, -1);
         ColorStateList color = a.getColorStateList(R.styleable.CheckBox_gMarkColor);
+        String fontFile = a.getString(R.styleable.CheckBox_gFont);
 
         a.recycle();
 
@@ -112,6 +114,15 @@ public class CheckBox extends android.widget.CheckBox {
 
         // Refresh display with current params
         refreshDrawableState();
+
+        // Check for IDE preview render
+        if (!this.isInEditMode()) {
+            // Font
+            if (fontFile != null && fontFile.length() > 0) {
+                Typeface typeface = Ui.getFont(getContext(), fontFile);
+                if (typeface != null) setTypeface(typeface);
+            }
+        }
     }
 
     public void setBorderSize(int size) {

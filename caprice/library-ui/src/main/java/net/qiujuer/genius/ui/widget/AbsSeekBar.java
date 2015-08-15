@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/08/2015
+ * Changed 08/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -29,6 +29,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
@@ -104,17 +105,16 @@ public abstract class AbsSeekBar extends View {
 
     public AbsSeekBar(Context context) {
         super(context);
-        init(null, 0, 0);
     }
 
     public AbsSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.gSeekBarStyle, 0);
+        init(attrs, R.attr.gSeekBarStyle, R.style.Genius_Widget_SeekBar);
     }
 
     public AbsSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, 0);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_SeekBar);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -213,6 +213,7 @@ public abstract class AbsSeekBar extends View {
 
         // Indicator TextAppearance
         int textAppearanceId = a.getResourceId(R.styleable.AbsSeekBar_gIndicatorTextAppearance, R.style.Genius_Widget_BalloonMarker_TextAppearance);
+        String fontFile = a.getString(R.styleable.AbsSeekBar_gFont);
 
         a.recycle();
 
@@ -240,6 +241,12 @@ public abstract class AbsSeekBar extends View {
                 mIndicator.setIndicatorColor(indicatorColor);
             mIndicator.setIndicatorTextAppearance(textAppearanceId);
             mIndicator.setIndicatorClosedSize(thumbSize * 2);
+
+            // Font
+            if (fontFile != null && fontFile.length() > 0) {
+                Typeface typeface = Ui.getFont(getContext(), fontFile);
+                if (typeface != null) mIndicator.setTypeface(typeface);
+            }
         }
 
         // Enabled

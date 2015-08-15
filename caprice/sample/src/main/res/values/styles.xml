@@ -18,6 +18,8 @@
         <item name="gButtonStyle">@style/Genius.Widget.Button</item>
         <item name="gFloatActionButtonStyle">@style/Genius.Widget.FloatActionButton</item>
         <item name="gSeekBarStyle">@style/Genius.Widget.SeekBar</item>
+        <item name="gCheckBoxStyle">@style/Genius.Widget.CompoundButton.CheckBox</item>
+        <item name="gEditTextStyle">@style/Genius.Widget.EditText</item>
 
 
         <!-- Toolbar styles -->
@@ -42,5 +44,5 @@
         <item name="android:textColor">@color/white_alpha_240</item>
     </style>
 
-    <style name="ToolBarStyle.PopupTheme" parent="@style/ThemeOverlay.AppCompat.Light"/>
+    <style name="ToolBarStyle.PopupTheme" parent="@style/ThemeOverlay.AppCompat.Light" />
 </resources>
