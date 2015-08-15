@@ -25,7 +25,8 @@
 
 **`请注意：` `STEADY` 与 `CAPRICE` 库并不兼容，是完全独立的两个分支！**
 
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/172755E3.png)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/pic_ui_1.jpg)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/pic_ui_2.jpg)
 
 
 ## Sample APK
@@ -51,7 +52,7 @@ dependencies {
 
 ```
 dependencies {
-  compile 'net.qiujuer.genius:ui:0.3.0'
+  compile 'net.qiujuer.genius:ui:1.0.0'
 }
 ```
 
