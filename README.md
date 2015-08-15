@@ -25,14 +25,17 @@
 
 **`Note:` `STEADY` with `CAPRICE` libraries are not compatible, is completely independent branch!**
 
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/pic_ui_1.jpg)
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/pic_ui_2.jpg)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/pic_ui.jpg)
 
 ## Sample APK
 
 *  [`STEADY`](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/simple-steady_2.4.0.apk)
 *  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/sample.apk)
 
+
+## Video
+
+*  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/video.mp4)
 
 
 ## Add Library To Your Project

@@ -25,8 +25,7 @@
 
 **`请注意：` `STEADY` 与 `CAPRICE` 库并不兼容，是完全独立的两个分支！**
 
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/pic_ui_1.jpg)
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/pic_ui_2.jpg)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/pic_ui.jpg)
 
 
 ## Sample APK
@@ -34,6 +33,10 @@
 *  [`STEADY`](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/simple-steady_2.4.0.apk)
 *  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/sample.apk)
 
+
+## Video
+
+*  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/video.mp4)
 
 
 ## 添加项目
