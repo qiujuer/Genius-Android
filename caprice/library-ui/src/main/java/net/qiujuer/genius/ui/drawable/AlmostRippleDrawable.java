@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/08/2015
+ * Changed 08/23/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -113,6 +113,9 @@ public class AlmostRippleDrawable extends StatePaintDrawable implements Animatab
 
     @Override
     public boolean setState(int[] stateSet) {
+        if (stateSet == null)
+            return false;
+
         int[] oldState = getState();
         boolean oldPressed = false;
         for (int i : oldState) {
