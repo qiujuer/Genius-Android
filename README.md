@@ -51,40 +51,19 @@ dependencies {
 
 ### `CAPRICE` 
 
-#### `Ui`
+`Ui` `Blur` `Resource` `Kit`
 
 ```
 dependencies {
-  compile 'net.qiujuer.genius:ui:1.0.0'
-}
-```
-
-
-#### `Blur`
-
-```
-dependencies {
+  compile 'net.qiujuer.genius:ui:1.0.1'
   compile 'net.qiujuer.genius:blur:1.0.0'
-}
-```
-
-
-#### `Resource`
-
-```
-dependencies {
   compile 'net.qiujuer.genius:res:1.0.0'
-}
-```
-
-
-#### `Kit`
-
-```
-dependencies {
   compile 'net.qiujuer.genius:kit:1.0.0'
 }
 ```
+
+**Note: Each module is independent and can be used independently to dependency.**
+
 
 
 ## More Documents And Develop
