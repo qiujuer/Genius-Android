@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/10/2015
- * Changed 08/13/2015
+ * Changed 08/23/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -62,6 +62,7 @@ public class CheckBox extends android.widget.CheckBox {
         init(attrs, defStyleAttr, defStyleRes);
     }
 
+
     @Override
     public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
@@ -112,9 +113,6 @@ public class CheckBox extends android.widget.CheckBox {
         mMarkDrawable.setMarkSize(markSize, isCustom);
         setButtonDrawable(mMarkDrawable);
 
-        // Refresh display with current params
-        refreshDrawableState();
-
         // Check for IDE preview render
         if (!this.isInEditMode()) {
             // Font
@@ -159,5 +157,12 @@ public class CheckBox extends android.widget.CheckBox {
 
     public ColorStateList getMarkColor() {
         return mMarkDrawable.getColorStateList();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        // Refresh display with current params
+        refreshDrawableState();
     }
 }

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/11/2015
+ * Changed 08/23/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -76,6 +76,9 @@ public abstract class SeekBarStateDrawable extends Drawable {
 
     @Override
     public boolean setState(int[] stateSet) {
+        if (stateSet == null)
+            return false;
+
         boolean changed = super.setState(stateSet);
         changed = updateTintColor(stateSet) || changed;
         return changed;
