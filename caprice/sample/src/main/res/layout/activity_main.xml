@@ -438,6 +438,21 @@
                 app:gLineColor="@color/m_edit_view_line"
                 app:gLineSize="2dp" />
 
+            <net.qiujuer.genius.ui.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_16"
+                android:text="Loading"
+                android:textAllCaps="true"
+                android:textColor="@color/purple_500"
+                android:textSize="@dimen/size_16" />
+
+            <net.qiujuer.genius.ui.widget.Loading
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
         </LinearLayout>
     </ScrollView>
 
