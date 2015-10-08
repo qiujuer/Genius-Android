@@ -33,7 +33,7 @@ android {
             moduleName "genius_blur"
             cFlags "-DANDROID_NDK -D_RELEASE"
             ldLibs "m", "log", "jnigraphics"
-            abiFilters "armeabi-v7a armeabi x86"
+            abiFilters "all"
         }
     }
     buildTypes {
