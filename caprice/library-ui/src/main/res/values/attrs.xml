@@ -113,7 +113,8 @@
 
         <attr name="gIndicator">
             <enum name="none" value="0" />
-            <enum name="balloon" value="1" />
+            <enum name="auto" value="1" />
+            <enum name="always" value="3" />
         </attr>
         <attr name="gIndicatorBackgroundColor" format="color|reference" />
         <attr name="gIndicatorFormatter" format="string|reference" />

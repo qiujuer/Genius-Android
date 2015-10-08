@@ -74,7 +74,7 @@
         <item name="gThumbColor">@color/g_default_seek_bar_thumb</item>
         <item name="gRippleColor">@color/g_default_seek_bar_ripple</item>
 
-        <item name="gIndicator">balloon</item>
+        <item name="gIndicator">auto</item>
         <item name="gIndicatorBackgroundColor">@color/g_default_seek_bar_indicator</item>
         <item name="gIndicatorTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
         </item>
