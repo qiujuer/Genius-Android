@@ -2,7 +2,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 08/13/2015
+* Changed 10/09/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -78,19 +78,20 @@
         <item name="gIndicatorBackgroundColor">@color/g_default_seek_bar_indicator</item>
         <item name="gIndicatorTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
         </item>
+        <item name="gIndicatorTextPadding">@dimen/genius_balloonMarker_textPadding</item>
     </style>
 
     <style name="Genius.Widget.BalloonMarker" parent="android:Widget">
         <item name="gFont">@string/genius_font_file</item>
         <item name="gMarkerTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
         </item>
+        <item name="gMarkerTextPadding">@dimen/genius_balloonMarker_textPadding</item>
         <item name="gMarkerBackgroundColor">@color/g_default_seek_bar_indicator</item>
         <item name="gMarkerElevation">@dimen/genius_balloonMarker_elevation</item>
     </style>
 
     <style name="Genius.Widget.BalloonMarker.TextAppearance" parent="android:TextAppearance.Small">
         <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
-        <item name="android:padding">@dimen/genius_balloonMarker_textAppearance_padding</item>
     </style>
 
 </resources>

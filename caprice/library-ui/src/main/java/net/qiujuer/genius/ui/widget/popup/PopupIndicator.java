@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/12/2015
+ * Changed 10/09/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -66,6 +66,8 @@ public class PopupIndicator {
     }
 
     public void setIndicatorColor(ColorStateList color) {
+        if (color == null)
+            return;
         dismissComplete();
         if (mPopupView != null) {
             mPopupView.mMarker.setBackgroundColor(color);
@@ -83,6 +85,13 @@ public class PopupIndicator {
         dismissComplete();
         if (mPopupView != null) {
             mPopupView.mMarker.setTypeface(typeface);
+        }
+    }
+
+    public void setIndicatorTextPadding(int textPadding) {
+        dismissComplete();
+        if (mPopupView != null) {
+            mPopupView.mMarker.setTextPadding(textPadding);
         }
     }
 

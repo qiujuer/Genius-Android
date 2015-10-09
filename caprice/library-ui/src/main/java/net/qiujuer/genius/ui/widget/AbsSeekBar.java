@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/13/2015
+ * Changed 10/09/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -212,6 +212,8 @@ public abstract class AbsSeekBar extends View {
         mIndicatorFormatter = a.getString(R.styleable.AbsSeekBar_gIndicatorFormatter);
 
         // Indicator TextAppearance
+        int textPadding = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gIndicatorTextPadding,
+                resources.getDimensionPixelSize(R.dimen.genius_balloonMarker_textPadding));
         int textAppearanceId = a.getResourceId(R.styleable.AbsSeekBar_gIndicatorTextAppearance, R.style.Genius_Widget_BalloonMarker_TextAppearance);
         String fontFile = a.getString(R.styleable.AbsSeekBar_gFont);
 
@@ -241,6 +243,7 @@ public abstract class AbsSeekBar extends View {
                 mIndicator.setIndicatorColor(indicatorColor);
             mIndicator.setIndicatorTextAppearance(textAppearanceId);
             mIndicator.setIndicatorClosedSize(thumbSize * 2);
+            mIndicator.setIndicatorTextPadding(textPadding);
 
             // Font
             if (fontFile != null && fontFile.length() > 0) {
