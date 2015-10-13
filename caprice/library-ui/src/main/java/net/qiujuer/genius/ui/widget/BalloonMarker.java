@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 10/09/2015
+ * Changed 10/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -53,7 +53,7 @@ import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
  */
 public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
     private static final int ELEVATION_DP = 8;
-    private static final int SEPARATION_DP = 16;
+    private static final int SEPARATION_DP = 0;
     //The drawable need new before this init method
     BalloonMarkerDrawable mBalloonMarkerDrawable = new BalloonMarkerDrawable(ColorStateList.valueOf(Color.TRANSPARENT), 0);
     //The TextView to show the info
@@ -130,6 +130,10 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
                     R.style.Genius_Widget_BalloonMarker_TextAppearance);
             ColorStateList color = a.getColorStateList(R.styleable.BalloonMarker_gMarkerBackgroundColor);
             String fontFile = a.getString(R.styleable.BalloonMarker_gFont);
+
+            mSeparation = a.getDimensionPixelSize(R.styleable.BalloonMarker_gMarkerSeparation,
+                    resource.getDimensionPixelSize(R.dimen.genius_balloonMarker_separation));
+
             a.recycle();
 
             setTextPadding(textPadding);
@@ -151,6 +155,10 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
                 }
             }
         }
+    }
+
+    public void setSeparation(int separation) {
+        this.mSeparation = separation;
     }
 
     public void setTextPadding(int padding) {

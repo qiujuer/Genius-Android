@@ -2,7 +2,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 10/09/2015
+* Changed 10/13/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -88,6 +88,7 @@
         <attr name="gMarkerTextPadding" format="dimension" />
         <attr name="gMarkerBackgroundColor" format="color|reference" />
         <attr name="gMarkerElevation" format="dimension" />
+        <attr name="gMarkerSeparation" format="dimension" />
     </declare-styleable>
 
     <!-- SeekBar -->
@@ -113,14 +114,15 @@
         <attr name="gThumbColor" format="color|reference" />
 
         <attr name="gIndicator">
+            <enum name="always" value="-1" />
             <enum name="none" value="0" />
             <enum name="auto" value="1" />
-            <enum name="always" value="3" />
         </attr>
         <attr name="gIndicatorTextPadding" format="dimension" />
         <attr name="gIndicatorBackgroundColor" format="color|reference" />
         <attr name="gIndicatorFormatter" format="string|reference" />
         <attr name="gIndicatorTextAppearance" format="reference" />
+        <attr name="gIndicatorSeparation" format="dimension" />
     </declare-styleable>
 
     <!-- CheckBox -->
