@@ -267,6 +267,7 @@
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
                     android:enabled="false"
+                    android:focusable="true"
                     app:gValue="30" />
 
                 <net.qiujuer.genius.ui.widget.SeekBar
@@ -299,9 +300,10 @@
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_marginTop="@dimen/lay_4"
                 app:gAllowTrackClickToDrag="true"
-                app:gIndicator="balloon"
+                app:gIndicator="auto"
                 app:gIndicatorBackgroundColor="@color/m_seek_bar_indicator_bg"
                 app:gIndicatorFormatter="(∩_∩)%d"
+                app:gIndicatorSeparation="14dp"
                 app:gIndicatorTextAppearance="@style/Genius.Widget.BalloonMarker.TextAppearance"
                 app:gMax="10"
                 app:gMin="0"
