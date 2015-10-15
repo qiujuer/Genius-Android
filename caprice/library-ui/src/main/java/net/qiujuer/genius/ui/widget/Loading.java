@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/28/2015
- * Changed 09/28/2015
+ * Changed 10/16/2015
  * Version 1.0.0
  * Author Qiujuer
  *
@@ -29,12 +29,13 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.qiujuer.genius.ui.drawable.CircleLoadingDrawable;
+import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 
 /**
  * This is android loading view
  */
 public class Loading extends View {
-    private CircleLoadingDrawable mDrawable;
+    private LoadingDrawable mDrawable;
 
     public Loading(Context context) {
         super(context);
@@ -60,8 +61,6 @@ public class Loading extends View {
     private void init() {
         mDrawable = new CircleLoadingDrawable();
         mDrawable.setCallback(this);
-
-        mDrawable.start();
     }
 
     public void start() {
@@ -75,7 +74,44 @@ public class Loading extends View {
     }
 
     public boolean isRun() {
-        return mDrawable.isRun();
+        return mDrawable.isRunning();
+    }
+
+    public void setBackgroundLineSize(float size) {
+        mDrawable.setBackgroundLineSize(size);
+    }
+
+    public void setForegroundLineSize(float size) {
+        mDrawable.setForegroundLineSize(size);
+    }
+
+    public float getBackgroundLineSize() {
+        return mDrawable.getBackgroundLineSize();
+    }
+
+    public float getForegroundLineSize() {
+        return mDrawable.getForegroundLineSize();
+    }
+
+    public void setBackgroundColor(int color) {
+        mDrawable.setBackgroundColor(color);
+    }
+
+    public int getBackgroundColor() {
+        return mDrawable.getBackgroundColor();
+    }
+
+    public void setForegroundColor(int color) {
+        mDrawable.setForegroundColor(color);
+    }
+
+
+    public void setForegroundColor(int[] colors) {
+        mDrawable.setForegroundColor(colors);
+    }
+
+    public int[] getForegroundColor() {
+        return mDrawable.getForegroundColor();
     }
 
     @Override
@@ -90,6 +126,11 @@ public class Loading extends View {
             int offset = (h - w) / 2;
             mDrawable.setBounds(0, offset, w, h - offset);
         }
+    }
+
+    @Override
+    protected boolean verifyDrawable(Drawable who) {
+        return who == mDrawable || super.verifyDrawable(who);
     }
 
     @Override
@@ -118,7 +159,7 @@ public class Loading extends View {
                 start();
             }
         } else {
-            if (mDrawable.isRun()) {
+            if (mDrawable.isRunning()) {
                 mNeedRun = true;
                 mDrawable.stop();
             }
@@ -126,7 +167,14 @@ public class Loading extends View {
     }
 
     @Override
-    protected boolean verifyDrawable(Drawable who) {
-        return who == mDrawable || super.verifyDrawable(who);
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mDrawable.start();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mDrawable.stop();
     }
 }
