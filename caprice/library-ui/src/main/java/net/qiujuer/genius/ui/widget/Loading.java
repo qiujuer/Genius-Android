@@ -20,35 +20,21 @@
  */
 package net.qiujuer.genius.ui.widget;
 
-import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Property;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 
-import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.drawable.CircleLoadingDrawable;
 
 /**
  * This is android loading view
  */
 public class Loading extends View {
-    private Paint mPaint;
-    private RectF mOval = new RectF();
-    private int mCenterX, mCenterY;
-    private int mBorderSize = 4;
-
-    private static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
-    private static final int ANIMATION_DURATION = 2500;
-
-    // Animator
-    private ObjectAnimator mAnimator;
+    private CircleLoadingDrawable mDrawable;
 
     public Loading(Context context) {
         super(context);
@@ -72,95 +58,75 @@ public class Loading extends View {
     }
 
     private void init() {
-        mPaint = new Paint();
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setStrokeWidth(mBorderSize);
+        mDrawable = new CircleLoadingDrawable();
+        mDrawable.setCallback(this);
 
+        mDrawable.start();
+    }
 
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animateCheckedState();
-            }
-        });
+    public void start() {
+        mDrawable.start();
+        mNeedRun = false;
+    }
+
+    public void stop() {
+        mDrawable.stop();
+        mNeedRun = false;
+    }
+
+    public boolean isRun() {
+        return mDrawable.isRun();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
-        mCenterX = w >> 1;
-        mCenterY = h >> 1;
-
-        int minCenter = Math.min(mCenterX, mCenterY);
-        int areRadius = minCenter - ((mBorderSize + 1) >> 1);
-
-        mOval.set(mCenterX - areRadius, mCenterY - areRadius, mCenterX + areRadius, mCenterY + areRadius);
-
+        if (w == h) {
+            mDrawable.setBounds(0, 0, w, h);
+        } else if (w > h) {
+            int offset = (w - h) / 2;
+            mDrawable.setBounds(offset, 0, w - offset, h);
+        } else if (w < h) {
+            int offset = (h - w) / 2;
+            mDrawable.setBounds(0, offset, w, h - offset);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        mPaint.setColor(getResources().getColor(R.color.amber_500));
-        canvas.drawArc(mOval, 0, 360, false, mPaint);
-
-        mPaint.setColor(getResources().getColor(R.color.blue_500));
-        canvas.drawArc(mOval, mStartAngle, 60, false, mPaint);
-
-        if (mStartAngle == 360)
-            animateCheckedState();
+        mDrawable.draw(canvas);
     }
 
-    private int mStartAngle;
+    private boolean mNeedRun;
 
-    private void setStartAngle(int value) {
-        mStartAngle = value;
-        invalidate();
-        //invalidate((int) mOval.left-1, (int) mOval.top-1, (int) mOval.right+1, (int) mOval.bottom+1);
-
-
+    @Override
+    protected void onVisibilityChanged(View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        saveOrRecoveryRun(visibility);
     }
 
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        saveOrRecoveryRun(visibility);
+    }
 
-    /**
-     * =============================================================================================
-     * The custom properties
-     * =============================================================================================
-     */
-
-    private void animateCheckedState() {
-        if (mAnimator == null) {
-            mAnimator = ObjectAnimator.ofInt(this, ANIM_VALUE, 0, 360);
-            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-            //    mAnimator.setAutoCancel(true);
-            mAnimator.setDuration(ANIMATION_DURATION);
-            mAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            //mAnimator.setupStartValues();
-
+    private void saveOrRecoveryRun(int visibility) {
+        if (visibility == VISIBLE) {
+            if (mNeedRun) {
+                start();
+            }
         } else {
-            mAnimator.cancel();
-            //mAnimator.setupEndValues();
-            //mAnimator.setObjectValues(360);
+            if (mDrawable.isRun()) {
+                mNeedRun = true;
+                mDrawable.stop();
+            }
         }
-        mAnimator.start();
-
     }
 
-    private final static Property<Loading, Integer> ANIM_VALUE = new Property<Loading, Integer>(Integer.class, "startAngle") {
-        @Override
-        public Integer get(Loading object) {
-            return object.mStartAngle;
-        }
-
-        @Override
-        public void set(Loading object, Integer value) {
-            object.setStartAngle(value);
-        }
-    };
+    @Override
+    protected boolean verifyDrawable(Drawable who) {
+        return who == mDrawable || super.verifyDrawable(who);
+    }
 }
