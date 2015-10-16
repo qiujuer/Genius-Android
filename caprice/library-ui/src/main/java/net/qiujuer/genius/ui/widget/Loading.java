@@ -22,12 +22,15 @@ package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
+import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.drawable.CircleLoadingDrawable;
 import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 
@@ -36,31 +39,63 @@ import net.qiujuer.genius.ui.drawable.LoadingDrawable;
  */
 public class Loading extends View {
     private LoadingDrawable mDrawable;
+    private boolean mAutoRun;
 
     public Loading(Context context) {
         super(context);
-        init();
+        init(null, R.attr.gLoadingStyle, R.style.Genius_Widget_Loading);
     }
 
     public Loading(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs, R.attr.gLoadingStyle, R.style.Genius_Widget_Loading);
     }
 
     public Loading(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(attrs, defStyleAttr, R.style.Genius_Widget_Loading);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Loading(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+        init(attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init() {
-        mDrawable = new CircleLoadingDrawable();
-        mDrawable.setCallback(this);
+    private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        if (attrs == null) {
+            mDrawable = new CircleLoadingDrawable();
+            mDrawable.setCallback(this);
+            return;
+        }
+
+        final Context context = getContext();
+        final Resources resource = getResources();
+        final float density = resource.getDisplayMetrics().density;
+        final int baseSize = (int) (density * 2);
+
+        // Load attributes
+        final TypedArray a = context.obtainStyledAttributes(
+                attrs, R.styleable.Loading, defStyleAttr, defStyleRes);
+
+        int bgLineSize = a.getDimensionPixelOffset(R.styleable.Loading_gBackgroundLineSize, baseSize);
+        int fgLineSize = a.getDimensionPixelOffset(R.styleable.Loading_gForegroundLineSize, baseSize);
+
+        int bgColor = a.getColor(R.styleable.Loading_gBackgroundColor, resource.getColor(R.color.grey_300));
+        int fgColor = a.getColor(R.styleable.Loading_gForegroundColor, resource.getColor(R.color.cyan_500));
+
+        int lineStyle = a.getInt(R.styleable.Loading_gLineStyle, 1);
+        boolean autoRun = a.getBoolean(R.styleable.Loading_gAutoRun, true);
+
+        a.recycle();
+
+        setLineStyle(lineStyle);
+        setAutoRun(autoRun);
+
+        setBackgroundLineSize(bgLineSize);
+        setForegroundLineSize(fgLineSize);
+        setBackgroundColor(bgColor);
+        setForegroundColor(fgColor);
     }
 
     public void start() {
@@ -105,13 +140,25 @@ public class Loading extends View {
         mDrawable.setForegroundColor(color);
     }
 
-
     public void setForegroundColor(int[] colors) {
         mDrawable.setForegroundColor(colors);
     }
 
     public int[] getForegroundColor() {
         return mDrawable.getForegroundColor();
+    }
+
+    public void setAutoRun(boolean autoRun) {
+        mAutoRun = autoRun;
+    }
+
+    public boolean isAutoRun() {
+        return mAutoRun;
+    }
+
+    public void setLineStyle(int style) {
+        mDrawable = new CircleLoadingDrawable();
+        mDrawable.setCallback(this);
     }
 
     @Override
@@ -169,7 +216,8 @@ public class Loading extends View {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mDrawable.start();
+        if (mAutoRun)
+            mDrawable.start();
     }
 
     @Override

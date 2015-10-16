@@ -95,4 +95,32 @@
         <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
     </style>
 
+    <style name="Genius.Widget.Loading" parent="">
+        <item name="gFont">@string/genius_font_file</item>
+        <item name="gMirrorForRtl">true</item>
+        <item name="gAllowTrackClickToDrag">true</item>
+
+        <item name="gMin">0</item>
+        <item name="gMax">100</item>
+        <item name="gValue">0</item>
+
+        <item name="gTickSize">@dimen/genius_seekBar_tickSize</item>
+        <item name="gThumbSize">@dimen/genius_seekBar_thumbSize</item>
+        <item name="gTouchSize">@dimen/genius_seekBar_touchSize</item>
+        <item name="gTrackStroke">@dimen/genius_seekBar_trackStroke</item>
+        <item name="gScrubberStroke">@dimen/genius_seekBar_scrubberStroke</item>
+
+        <item name="gScrubberColor">@color/g_default_seek_bar_scrubber</item>
+        <item name="gTrackColor">@color/g_default_seek_bar_track</item>
+        <item name="gThumbColor">@color/g_default_seek_bar_thumb</item>
+        <item name="gRippleColor">@color/g_default_seek_bar_ripple</item>
+
+        <item name="gIndicator">auto</item>
+        <item name="gIndicatorBackgroundColor">@color/g_default_seek_bar_indicator</item>
+        <item name="gIndicatorTextAppearance">@style/Genius.Widget.BalloonMarker.TextAppearance
+        </item>
+        <item name="gIndicatorTextPadding">@dimen/genius_balloonMarker_textPadding</item>
+        <item name="gIndicatorSeparation">@dimen/genius_balloonMarker_separation</item>
+    </style>
+
 </resources>

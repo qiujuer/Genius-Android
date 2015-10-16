@@ -151,4 +151,18 @@
         <attr name="gHintTitlePaddingRight" format="dimension" />
         <attr name="gHintTitlePaddingBottom" format="dimension" />
     </declare-styleable>
+
+    <!-- LoadingView -->
+    <attr name="gLoadingStyle" format="reference" />
+    <declare-styleable name="Loading">
+        <attr name="gBackgroundLineSize" format="dimension" />
+        <attr name="gForegroundLineSize" format="dimension" />
+        <attr name="gBackgroundColor" />
+        <attr name="gForegroundColor" format="reference|color" />
+        <attr name="gLineStyle">
+            <enum name="circle" value="1" />
+            <enum name="rectangle" value="2" />
+        </attr>
+        <attr name="gAutoRun" format="boolean" />
+    </declare-styleable>
 </resources>

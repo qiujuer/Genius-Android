@@ -28,7 +28,7 @@ import android.graphics.RectF;
  * A drawable to draw loading
  */
 public class CircleLoadingDrawable extends LoadingDrawable {
-    private static final int ANGLE_ADD = 4;
+    private static final int ANGLE_ADD = 5;
     private static final int MAX_ANGLE_SWEEP = 135;
 
     private RectF mBackgroundOval = new RectF();
