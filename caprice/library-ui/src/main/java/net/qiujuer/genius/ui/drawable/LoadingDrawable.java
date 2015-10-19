@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 10/16/2015
- * Changed 10/16/2015
+ * Changed 10/19/2015
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,6 +54,7 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         mForegroundPaint.setDither(true);
         mForegroundPaint.setStrokeWidth(LINE_SIZE);
         mForegroundPaint.setColor(mForegroundColor[0]);
+        mForegroundPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     public void setBackgroundLineSize(float size) {

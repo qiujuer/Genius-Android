@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 10/15/2015
- * Changed 10/16/2015
+ * Changed 10/19/2015
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,14 +29,14 @@ import android.graphics.RectF;
  */
 public class CircleLoadingDrawable extends LoadingDrawable {
     private static final int ANGLE_ADD = 5;
-    private static final int MAX_ANGLE_SWEEP = 135;
+    private static final int MAX_ANGLE_SWEEP = 255;
 
     private RectF mBackgroundOval = new RectF();
     private RectF mForegroundOval = new RectF();
 
     private float mStartAngle;
     private float mSweepAngle;
-    private int mAngleIncrement = 2;
+    private int mAngleIncrement = 4;
 
     @Override
     protected void onBoundsChange(Rect bounds) {
@@ -46,22 +46,22 @@ public class CircleLoadingDrawable extends LoadingDrawable {
         int centerY = bounds.centerY();
 
         int center = Math.min(centerX, centerY);
-        int areRadius = center - (((int) mBackgroundPaint.getStrokeWidth()) >> 1) - 1;
+        int maxStrokeWidth = (int) Math.max(mForegroundPaint.getStrokeWidth(), mBackgroundPaint.getStrokeWidth());
+
+        int areRadius = center - ((maxStrokeWidth) >> 1) - 1;
         mBackgroundOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
 
-        areRadius = center - (((int) mForegroundPaint.getStrokeWidth()) >> 1) - 1;
+        areRadius = center - ((maxStrokeWidth) >> 1) - 1;
         mForegroundOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
     }
 
     @Override
     protected void refresh(long startTime, long curTime, long timeLong) {
         final float angle = ANGLE_ADD;
+        mStartAngle += angle;
 
-        if ((mStartAngle + angle) > 360) {
-            float eAngle = 360 - mStartAngle;
-            mStartAngle = angle - eAngle;
-        } else {
-            mStartAngle += angle;
+        if (mStartAngle > 360) {
+            mStartAngle -= 360;
         }
 
         mSweepAngle += mAngleIncrement;
@@ -76,7 +76,10 @@ public class CircleLoadingDrawable extends LoadingDrawable {
 
     @Override
     protected void draw(Canvas canvas, Paint backgroundPaint, Paint foregroundPaint) {
-        canvas.drawArc(mBackgroundOval, 0, 360, false, backgroundPaint);
-        canvas.drawArc(mForegroundOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
+        if (backgroundPaint.getColor() != 0 && backgroundPaint.getStrokeWidth() > 0)
+            canvas.drawArc(mBackgroundOval, 0, 360, false, backgroundPaint);
+
+        if (foregroundPaint.getColor() != 0 && foregroundPaint.getStrokeWidth() > 0)
+            canvas.drawArc(mForegroundOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
     }
 }

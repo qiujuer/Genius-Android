@@ -82,7 +82,7 @@ public class Loading extends View {
         int fgLineSize = a.getDimensionPixelOffset(R.styleable.Loading_gForegroundLineSize, baseSize);
 
         int bgColor = a.getColor(R.styleable.Loading_gBackgroundColor, resource.getColor(R.color.grey_300));
-        int fgColor = a.getColor(R.styleable.Loading_gForegroundColor, resource.getColor(R.color.cyan_500));
+        int fgColorId = a.getResourceId(R.styleable.Loading_gForegroundColor, R.array.g_default_loading_fg);
 
         int lineStyle = a.getInt(R.styleable.Loading_gLineStyle, 1);
         boolean autoRun = a.getBoolean(R.styleable.Loading_gAutoRun, true);
@@ -95,7 +95,24 @@ public class Loading extends View {
         setBackgroundLineSize(bgLineSize);
         setForegroundLineSize(fgLineSize);
         setBackgroundColor(bgColor);
-        setForegroundColor(fgColor);
+
+        String type = resource.getResourceTypeName(fgColorId);
+        try {
+            switch (type) {
+                case "color":
+                    setForegroundColor(resource.getColor(fgColorId));
+                    break;
+                case "array":
+                    setForegroundColor(resource.getIntArray(fgColorId));
+                    break;
+                default:
+                    setForegroundColor(resource.getIntArray(R.array.g_default_loading_fg));
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            setForegroundColor(resource.getIntArray(R.array.g_default_loading_fg));
+        }
     }
 
     public void start() {
