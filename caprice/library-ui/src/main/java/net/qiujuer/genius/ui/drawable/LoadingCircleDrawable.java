@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 10/15/2015
- * Changed 10/19/2015
+ * Changed 10/20/2015
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ import android.graphics.RectF;
 /**
  * A drawable to draw loading
  */
-public class CircleLoadingDrawable extends LoadingDrawable {
+public class LoadingCircleDrawable extends LoadingDrawable {
     private static final int ANGLE_ADD = 5;
     private static final int MAX_ANGLE_SWEEP = 255;
 
@@ -53,6 +53,12 @@ public class CircleLoadingDrawable extends LoadingDrawable {
 
         areRadius = center - ((maxStrokeWidth) >> 1) - 1;
         mForegroundOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
+    }
+
+    @Override
+    protected void onProgressChange(float progress) {
+        mStartAngle = 0;
+        mSweepAngle = 360 * progress;
     }
 
     @Override

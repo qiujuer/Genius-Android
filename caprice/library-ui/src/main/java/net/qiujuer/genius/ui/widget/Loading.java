@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/28/2015
- * Changed 10/16/2015
+ * Changed 10/20/2015
  * Version 1.0.0
  * Author Qiujuer
  *
@@ -31,7 +31,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.qiujuer.genius.ui.R;
-import net.qiujuer.genius.ui.drawable.CircleLoadingDrawable;
+import net.qiujuer.genius.ui.drawable.LoadingCircleDrawable;
 import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 
 /**
@@ -64,7 +64,7 @@ public class Loading extends View {
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         if (attrs == null) {
-            mDrawable = new CircleLoadingDrawable();
+            mDrawable = new LoadingCircleDrawable();
             mDrawable.setCallback(this);
             return;
         }
@@ -87,10 +87,13 @@ public class Loading extends View {
         int lineStyle = a.getInt(R.styleable.Loading_gLineStyle, 1);
         boolean autoRun = a.getBoolean(R.styleable.Loading_gAutoRun, true);
 
+        float progress = a.getFloat(R.styleable.Loading_gProgressFloat, 0);
+
         a.recycle();
 
         setLineStyle(lineStyle);
         setAutoRun(autoRun);
+        setProgress(progress);
 
         setBackgroundLineSize(bgLineSize);
         setForegroundLineSize(fgLineSize);
@@ -165,6 +168,14 @@ public class Loading extends View {
         return mDrawable.getForegroundColor();
     }
 
+    public float getProgress() {
+        return mDrawable.getProgress();
+    }
+
+    public void setProgress(float progress) {
+        mDrawable.setProgress(progress);
+    }
+
     public void setAutoRun(boolean autoRun) {
         mAutoRun = autoRun;
     }
@@ -174,7 +185,7 @@ public class Loading extends View {
     }
 
     public void setLineStyle(int style) {
-        mDrawable = new CircleLoadingDrawable();
+        mDrawable = new LoadingCircleDrawable();
         mDrawable.setCallback(this);
     }
 
@@ -233,7 +244,7 @@ public class Loading extends View {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (mAutoRun)
+        if (mAutoRun && mDrawable.getProgress() == 0)
             mDrawable.start();
     }
 

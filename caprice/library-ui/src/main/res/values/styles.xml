@@ -2,7 +2,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 10/16/2015
+* Changed 10/20/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -99,7 +99,7 @@
         <item name="gBackgroundLineSize">@dimen/genius_loading_lineSize</item>
         <item name="gForegroundLineSize">@dimen/genius_loading_lineSize</item>
 
-        <item name="gBackgroundColor">@color/grey_300</item>
+        <item name="gBackgroundColor">@color/g_default_loading_bg</item>
         <item name="gForegroundColor">@array/g_default_loading_fg</item>
 
         <item name="gLineStyle">circle</item>
