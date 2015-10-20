@@ -1,6 +1,7 @@
 package net.qiujuer.sample.genius;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
@@ -11,9 +12,12 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import net.qiujuer.genius.ui.drawable.LoadingCircleDrawable;
+import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 import net.qiujuer.genius.ui.drawable.RipAnimDrawable;
 import net.qiujuer.genius.ui.widget.CheckBox;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
+import net.qiujuer.genius.ui.widget.TextView;
 import net.qiujuer.sample.genius.drawable.AddLineShape;
 
 
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initToolbar();
         initFloatActionButton();
         initCheckBox();
+        initLoading();
 
     }
 
@@ -102,5 +107,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 custom_b.setEnabled(isChecked);
             }
         });
+    }
+
+    @SuppressWarnings("deprecation")
+    private void initLoading() {
+        TextView tv = (TextView) findViewById(R.id.txt_loading);
+        LoadingDrawable drawable = new LoadingCircleDrawable();
+        Resources resources = getResources();
+
+        drawable.setBackgroundColor(resources.getColor(R.color.g_default_loading_bg));
+        drawable.setForegroundColor(resources.getIntArray(R.array.g_default_loading_fg));
+        drawable.setBackgroundLineSize(2);
+        drawable.setForegroundLineSize(4);
+
+        tv.setBackgroundDrawable(drawable);
+        drawable.start();
     }
 }

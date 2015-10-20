@@ -460,21 +460,36 @@
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="32dp"
-                    android:layout_height="32dp" />
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4" />
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="@dimen/lay_8"
-                    android:layout_marginRight="@dimen/lay_8"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
                     app:gBackgroundColor="@color/yellow_500"
                     app:gForegroundColor="@color/deep_orange_500" />
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    app:gBackgroundLineSize="2dp"
-                    app:gForegroundLineSize="3dp" />
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    app:gBackgroundLineSize="1dp"
+                    app:gForegroundLineSize="3dp"
+                    app:gProgressFloat="0.8" />
+
+                <net.qiujuer.genius.ui.widget.TextView
+                    android:id="@+id/txt_loading"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:text="32" />
             </LinearLayout>
 
         </LinearLayout>
