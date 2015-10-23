@@ -89,11 +89,12 @@ public class LoadingCircleDrawable extends LoadingDrawable {
     }
 
     @Override
-    protected void draw(Canvas canvas, Paint backgroundPaint, Paint foregroundPaint) {
-        if (backgroundPaint.getColor() != 0 && backgroundPaint.getStrokeWidth() > 0)
-            canvas.drawArc(mBackgroundOval, 0, 360, false, backgroundPaint);
+    protected void drawBackground(Canvas canvas, Paint backgroundPaint) {
+        canvas.drawArc(mBackgroundOval, 0, 360, false, backgroundPaint);
+    }
 
-        if (foregroundPaint.getColor() != 0 && foregroundPaint.getStrokeWidth() > 0)
-            canvas.drawArc(mForegroundOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
+    @Override
+    protected void drawForeground(Canvas canvas, Paint foregroundPaint) {
+        canvas.drawArc(mForegroundOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
     }
 }

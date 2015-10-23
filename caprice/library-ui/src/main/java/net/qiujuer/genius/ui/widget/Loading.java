@@ -129,7 +129,7 @@ public class Loading extends View {
         mNeedRun = false;
     }
 
-    public boolean isRun() {
+    public boolean isRunning() {
         return mDrawable.isRunning();
     }
 

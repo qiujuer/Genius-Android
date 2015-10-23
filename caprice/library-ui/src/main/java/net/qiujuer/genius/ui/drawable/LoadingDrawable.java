@@ -197,8 +197,11 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
 
     @Override
     public void draw(Canvas canvas) {
-        if (mRun || mProgress > 0)
-            draw(canvas, mBackgroundPaint, mForegroundPaint);
+        if (mBackgroundPaint.getColor() != 0 && mBackgroundPaint.getStrokeWidth() > 0)
+            drawBackground(canvas, mBackgroundPaint);
+
+        if ((mRun || mProgress > 0) && mBackgroundPaint.getColor() != 0 && mBackgroundPaint.getStrokeWidth() > 0)
+            drawForeground(canvas, mForegroundPaint);
     }
 
     @Override
@@ -241,7 +244,9 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
 
     protected abstract void refresh(long startTime, long curTime, long timeLong);
 
-    protected abstract void draw(Canvas canvas, Paint backgroundPaint, Paint foregroundPaint);
+    protected abstract void drawBackground(Canvas canvas, Paint backgroundPaint);
+
+    protected abstract void drawForeground(Canvas canvas, Paint foregroundPaint);
 
     protected abstract void onProgressChange(float progress);
 }
