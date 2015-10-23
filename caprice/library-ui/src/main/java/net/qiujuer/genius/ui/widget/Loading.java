@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/28/2015
- * Changed 10/20/2015
+ * Changed 10/23/2015
  * Version 1.0.0
  * Author Qiujuer
  *
@@ -63,14 +63,15 @@ public class Loading extends View {
     }
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        final Context context = getContext();
+        final Resources resource = getResources();
+
         if (attrs == null) {
-            mDrawable = new LoadingCircleDrawable();
+            mDrawable = new LoadingCircleDrawable(resource.getDimensionPixelOffset(R.dimen.genius_loading_minSize));
             mDrawable.setCallback(this);
             return;
         }
 
-        final Context context = getContext();
-        final Resources resource = getResources();
         final float density = resource.getDisplayMetrics().density;
         final int baseSize = (int) (density * 2);
 
@@ -185,8 +186,40 @@ public class Loading extends View {
     }
 
     public void setLineStyle(int style) {
-        mDrawable = new LoadingCircleDrawable();
+        mDrawable = new LoadingCircleDrawable(getResources().getDimensionPixelOffset(R.dimen.genius_loading_minSize));
         mDrawable.setCallback(this);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        int iHeight = mDrawable.getIntrinsicHeight() + getPaddingTop() + getPaddingBottom();
+        int iWidth = mDrawable.getIntrinsicWidth() + getPaddingLeft() + getPaddingRight();
+
+        int measuredWidth;
+        int measuredHeight;
+
+        if (widthMode == MeasureSpec.EXACTLY) {
+            measuredWidth = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            measuredWidth = Math.min(widthSize, iWidth);
+        } else {
+            measuredWidth = iWidth;
+        }
+
+        if (heightMode == MeasureSpec.EXACTLY) {
+            measuredHeight = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST) {
+            measuredHeight = Math.min(heightSize, iHeight);
+        } else {
+            measuredHeight = iHeight;
+        }
+
+        setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
     @Override

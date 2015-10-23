@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 10/16/2015
- * Changed 10/20/2015
+ * Changed 10/23/2015
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,6 +33,7 @@ import android.os.SystemClock;
  */
 public abstract class LoadingDrawable extends Drawable implements android.graphics.drawable.Animatable, net.qiujuer.genius.ui.drawable.Animatable {
     protected static final int LINE_SIZE = 4;
+    protected static int MIN_SIZE = 56;
 
     protected Paint mForegroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected Paint mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -58,6 +59,25 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         mForegroundPaint.setStrokeWidth(LINE_SIZE);
         mForegroundPaint.setColor(mForegroundColor[0]);
         mForegroundPaint.setStrokeCap(Paint.Cap.ROUND);
+    }
+
+    public LoadingDrawable(int minSize) {
+        this();
+        MIN_SIZE = minSize;
+    }
+
+    @Override
+    public int getIntrinsicHeight() {
+        float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
+        int size = (int) (maxLine * 2 + 10);
+        return Math.max(size, MIN_SIZE);
+    }
+
+    @Override
+    public int getIntrinsicWidth() {
+        float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
+        int size = (int) (maxLine * 2 + 10);
+        return Math.max(size, MIN_SIZE);
     }
 
     public void setBackgroundLineSize(float size) {

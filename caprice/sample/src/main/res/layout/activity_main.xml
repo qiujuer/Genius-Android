@@ -491,7 +491,6 @@
                     android:padding="0dp"
                     android:text="32" />
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 

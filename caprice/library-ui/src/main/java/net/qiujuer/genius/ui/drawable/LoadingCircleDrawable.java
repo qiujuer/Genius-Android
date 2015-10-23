@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 10/15/2015
- * Changed 10/20/2015
+ * Changed 10/23/2015
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,6 +37,14 @@ public class LoadingCircleDrawable extends LoadingDrawable {
     private float mStartAngle;
     private float mSweepAngle;
     private int mAngleIncrement = 4;
+
+    public LoadingCircleDrawable() {
+        super();
+    }
+
+    public LoadingCircleDrawable(int minSize) {
+        super(minSize);
+    }
 
     @Override
     protected void onBoundsChange(Rect bounds) {
