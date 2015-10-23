@@ -17,6 +17,7 @@ import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 import net.qiujuer.genius.ui.drawable.RipAnimDrawable;
 import net.qiujuer.genius.ui.widget.CheckBox;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
+import net.qiujuer.genius.ui.widget.Loading;
 import net.qiujuer.genius.ui.widget.TextView;
 import net.qiujuer.sample.genius.drawable.AddLineShape;
 
@@ -111,6 +112,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @SuppressWarnings("deprecation")
     private void initLoading() {
+        Loading loading = (Loading) findViewById(R.id.loading_progress);
+        loading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Loading l = (Loading) v;
+                if (l.isRunning())
+                    l.stop();
+                else
+                    l.start();
+            }
+        });
+
         TextView tv = (TextView) findViewById(R.id.txt_loading);
         LoadingDrawable drawable = new LoadingCircleDrawable();
         Resources resources = getResources();

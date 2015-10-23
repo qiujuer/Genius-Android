@@ -473,13 +473,15 @@
                     app:gForegroundColor="@color/deep_orange_500" />
 
                 <net.qiujuer.genius.ui.widget.Loading
+                    android:id="@+id/loading_progress"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
+                    app:gAutoRun="false"
                     app:gBackgroundLineSize="1dp"
                     app:gForegroundLineSize="3dp"
-                    app:gProgressFloat="0.8" />
+                    app:gProgressFloat="0.7" />
 
                 <net.qiujuer.genius.ui.widget.TextView
                     android:id="@+id/txt_loading"
