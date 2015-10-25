@@ -30,6 +30,7 @@
         <item name="gTouchColor">@color/black_alpha_48</item>
         <item name="gTouchEffect">auto</item>
         <item name="gTouchCornerRadius">0dp</item>
+        <item name="android:background">@color/cyan_500</item>
     </style>
 
     <style name="Genius.Widget.FloatActionButton" parent="">

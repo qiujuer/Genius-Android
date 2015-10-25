@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         paint.setAntiAlias(true);
         paint.setDither(true);
         paint.setColor(0xc0ffffff);
+        paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(2 * density);
         drawable.setIntrinsicWidth(100);
         drawable.setIntrinsicHeight(100);
