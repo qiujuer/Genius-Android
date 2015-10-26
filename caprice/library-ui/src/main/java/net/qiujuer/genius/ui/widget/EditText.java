@@ -41,6 +41,7 @@ import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Property;
+import android.view.Gravity;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
@@ -337,6 +338,7 @@ public class EditText extends android.widget.EditText {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
         // Draw Title Text
         if (isShowTitle() && mTitlePaint != null && mCurTitleProperty != null && mCurTitleProperty.mAlpha != 0) {
@@ -358,8 +360,6 @@ public class EditText extends android.widget.EditText {
                 }
             }
         }
-
-        super.onDraw(canvas);
     }
 
     @Override
@@ -403,33 +403,98 @@ public class EditText extends android.widget.EditText {
      * =============================================================================================
      */
 
+    private int getTextLen() {
+        Paint paint = getPaint();
+        if (mTitlePaint != null)
+            return (int) paint.measureText(getHint().toString());
+        else
+            return 0;
+    }
+
+    private int getHintTextLen(int size) {
+        Paint paint = mTitlePaint;
+        if (paint != null) {
+            paint.setTextSize(size);
+            return (int) paint.measureText(getHint().toString());
+        } else
+            return 0;
+    }
+
+    private TitleProperty copyTextProperty(TitleProperty property) {
+        int gravity = getGravity();
+        switch (gravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
+            case Gravity.LEFT:
+                property.mLeft = getPaddingLeft();
+                break;
+            case Gravity.RIGHT:
+                property.mLeft = getWidth() - getPaddingRight() - getTextLen();
+                break;
+            case Gravity.CENTER_HORIZONTAL:
+            case Gravity.FILL_HORIZONTAL:
+                int lp = getPaddingLeft();
+                int rp = getPaddingRight();
+                int center = lp + ((getWidth() - lp - rp) >> 1);
+                int halfTextLen = getTextLen() / 2;
+                property.mLeft = center - halfTextLen;
+                break;
+        }
+
+        property.mAlpha = 0;
+        property.mTextSize = (int) getTextSize();
+        property.mTop = super.getPaddingTop();
+
+        return property;
+    }
+
+    private TitleProperty copyHintProperty(TitleProperty property) {
+        property.mTop = getPaddingTop() + mHintTitlePadding.top;
+        property.mAlpha = 255;
+        property.mTextSize = mHintTitleTextSize;
+
+        int gravity = getGravity();
+        switch (gravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
+            case Gravity.LEFT:
+                property.mLeft = getPaddingLeft() + mHintTitlePadding.left;
+                break;
+            case Gravity.RIGHT:
+                property.mLeft = getWidth() - getPaddingRight() - mHintTitlePadding.right - getHintTextLen(property.mTextSize);
+                break;
+            case Gravity.CENTER_HORIZONTAL:
+            case Gravity.FILL_HORIZONTAL:
+                int lp = getPaddingLeft() + mHintTitlePadding.left;
+                int rp = getPaddingRight() + mHintTitlePadding.right;
+                int center = lp + ((getWidth() - lp - rp) >> 1);
+                int halfTextLen = getHintTextLen(property.mTextSize) / 2;
+                property.mLeft = center - halfTextLen;
+                break;
+        }
+
+        return property;
+    }
+
     private void animateShowTitle(boolean show) {
-        TitleProperty property;
+        TitleProperty propertyStart = new TitleProperty();
+        TitleProperty propertyEnd = new TitleProperty();
         if (show) {
-            property = new TitleProperty();
-            property.mTextSize = mHintTitleTextSize;
-            property.mTop = getPaddingTop() + mHintTitlePadding.top;
-            property.mLeft = getPaddingLeft() + mHintTitlePadding.left;
+            copyHintProperty(propertyEnd);
+            copyTextProperty(propertyStart);
         } else {
-            property = new TitleProperty();
-            property.mAlpha = 0;
-            property.mTextSize = (int) getTextSize();
-            property.mTop = super.getPaddingTop();
-            property.mLeft = getPaddingLeft();
+            copyTextProperty(propertyEnd);
+            copyHintProperty(propertyStart);
         }
 
         if (isAttachWindow()) {
             if (mAnimator == null) {
-                mAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, new TitleEvaluator(mCurTitleProperty), property);
+                mAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, new TitleEvaluator(mCurTitleProperty), propertyStart, propertyEnd);
                 mAnimator.setDuration(ANIMATION_DURATION);
                 mAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
             } else {
                 mAnimator.cancel();
-                mAnimator.setObjectValues(property);
+                mAnimator.setObjectValues(propertyStart, propertyEnd);
             }
             mAnimator.start();
         } else {
-            setTitleProperty(property);
+            setTitleProperty(propertyEnd);
         }
     }
 
