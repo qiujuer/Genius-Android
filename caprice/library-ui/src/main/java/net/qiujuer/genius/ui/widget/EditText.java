@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/12/2015
- * Changed 08/13/2015
+ * Changed 10/27/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -423,19 +423,23 @@ public class EditText extends android.widget.EditText {
     private TitleProperty copyTextProperty(TitleProperty property) {
         int gravity = getGravity();
         switch (gravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
+            case Gravity.START:
             case Gravity.LEFT:
                 property.mLeft = getPaddingLeft();
                 break;
+            case Gravity.END:
             case Gravity.RIGHT:
                 property.mLeft = getWidth() - getPaddingRight() - getTextLen();
                 break;
             case Gravity.CENTER_HORIZONTAL:
-            case Gravity.FILL_HORIZONTAL:
                 int lp = getPaddingLeft();
                 int rp = getPaddingRight();
                 int center = lp + ((getWidth() - lp - rp) >> 1);
                 int halfTextLen = getTextLen() / 2;
                 property.mLeft = center - halfTextLen;
+                break;
+            default:
+                property.mLeft = getPaddingLeft();
                 break;
         }
 
@@ -453,19 +457,23 @@ public class EditText extends android.widget.EditText {
 
         int gravity = getGravity();
         switch (gravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
+            case Gravity.START:
             case Gravity.LEFT:
                 property.mLeft = getPaddingLeft() + mHintTitlePadding.left;
                 break;
+            case Gravity.END:
             case Gravity.RIGHT:
                 property.mLeft = getWidth() - getPaddingRight() - mHintTitlePadding.right - getHintTextLen(property.mTextSize);
                 break;
             case Gravity.CENTER_HORIZONTAL:
-            case Gravity.FILL_HORIZONTAL:
                 int lp = getPaddingLeft() + mHintTitlePadding.left;
                 int rp = getPaddingRight() + mHintTitlePadding.right;
                 int center = lp + ((getWidth() - lp - rp) >> 1);
                 int halfTextLen = getHintTextLen(property.mTextSize) / 2;
                 property.mLeft = center - halfTextLen;
+                break;
+            default:
+                property.mLeft = getPaddingLeft() + mHintTitlePadding.left;
                 break;
         }
 
@@ -473,29 +481,34 @@ public class EditText extends android.widget.EditText {
     }
 
     private void animateShowTitle(boolean show) {
-        TitleProperty propertyStart = new TitleProperty();
-        TitleProperty propertyEnd = new TitleProperty();
+        TitleProperty pStart = new TitleProperty();
+        TitleProperty pEnd = new TitleProperty();
         if (show) {
-            copyHintProperty(propertyEnd);
-            copyTextProperty(propertyStart);
+            copyHintProperty(pEnd);
+            copyTextProperty(pStart);
         } else {
-            copyTextProperty(propertyEnd);
-            copyHintProperty(propertyStart);
+            copyTextProperty(pEnd);
+            copyHintProperty(pStart);
         }
 
+        ObjectAnimator animator = getTitleAnimator();
+        animator.setObjectValues(pStart, pEnd);
+
         if (isAttachWindow()) {
-            if (mAnimator == null) {
-                mAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, new TitleEvaluator(mCurTitleProperty), propertyStart, propertyEnd);
-                mAnimator.setDuration(ANIMATION_DURATION);
-                mAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            } else {
-                mAnimator.cancel();
-                mAnimator.setObjectValues(propertyStart, propertyEnd);
-            }
-            mAnimator.start();
+            animator.start();
         } else {
-            setTitleProperty(propertyEnd);
+            setTitleProperty(pEnd);
         }
+    }
+
+    private ObjectAnimator getTitleAnimator() {
+        if (mAnimator == null) {
+            mAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, new TitleEvaluator(mCurTitleProperty), mCurTitleProperty);
+            mAnimator.setDuration(ANIMATION_DURATION);
+            mAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        }
+        mAnimator.cancel();
+        return mAnimator;
     }
 
     /**
@@ -509,6 +522,13 @@ public class EditText extends android.widget.EditText {
         private int mAlpha = 255;
         private int mLeft;
         private int mTop;
+
+        public void copy(TitleProperty property) {
+            this.mTextSize = property.mTextSize;
+            this.mAlpha = property.mAlpha;
+            this.mLeft = property.mLeft;
+            this.mTop = property.mTop;
+        }
     }
 
     private final static class TitleEvaluator implements TypeEvaluator<TitleProperty> {
