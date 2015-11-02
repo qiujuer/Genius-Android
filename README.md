@@ -1,6 +1,6 @@
 ﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
 
-[`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android) [`中文`](README-ZH.md) [`English`](README.md) 
+[`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android) [`中文`](README-ZH.md) [`English`](README.md)
 
 
 ## Genius-Android
@@ -16,7 +16,7 @@
 	> * **command:** Run Command In Process
 	> * **net tool:** Ping、Dns、Telnet、Tracert
 	> * **util:** Log、Hash、Tools、FixedList
-	
+
 * `CAPRICE` a new branch in the branch, containing `Ui` and `Kit` libraries
 	> * **Ui Lib:** research and development in `Color-Drive` and `Material Design` style
 	> * **Kit Lib:** Include `command`、`net`、`util`
@@ -40,7 +40,7 @@
 
 ## Add Library To Your Project
 
-### `STEADY` 
+### `STEADY`
 
 ```
 dependencies {
@@ -49,14 +49,14 @@ dependencies {
 ```
 
 
-### `CAPRICE` 
+### `CAPRICE`
 
 `Ui` `Blur` `Resource` `Kit`
 
 ```
 dependencies {
-  compile 'net.qiujuer.genius:ui:1.0.1'
-  compile 'net.qiujuer.genius:blur:1.0.0'
+  compile 'net.qiujuer.genius:ui:1.1.1'
+  compile 'net.qiujuer.genius:blur:1.0.1'
   compile 'net.qiujuer.genius:res:1.0.0'
   compile 'net.qiujuer.genius:kit:1.0.0'
 }
@@ -69,7 +69,7 @@ dependencies {
 ## More Documents And Develop
 
 *  [`http://genius.qiujuer.net`](http://genius.qiujuer.net)
-*  [`Wiki`](https://github.com/qiujuer/Genius-Android/wiki) 
+*  [`Wiki`](https://github.com/qiujuer/Genius-Android/wiki)
 
 
 ## About me
@@ -98,4 +98,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
