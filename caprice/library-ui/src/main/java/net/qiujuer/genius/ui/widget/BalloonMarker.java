@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 08/13/2015
+ * Changed 10/13/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -24,6 +24,7 @@ import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -51,10 +52,10 @@ import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
  * This is a BalloonMarker
  */
 public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
-    private static final int PADDING_DP = 4;
     private static final int ELEVATION_DP = 8;
-    private static final int SEPARATION_DP = 22;
-    BalloonMarkerDrawable mBalloonMarkerDrawable;
+    private static final int SEPARATION_DP = 0;
+    //The drawable need new before this init method
+    BalloonMarkerDrawable mBalloonMarkerDrawable = new BalloonMarkerDrawable(ColorStateList.valueOf(Color.TRANSPARENT), 0);
     //The TextView to show the info
     private TextView mNumber;
     //The max width of this View
@@ -94,51 +95,54 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
         info.setClassName(BalloonMarker.class.getName());
     }
 
+
     public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, String maxValue) {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int padding = (int) (PADDING_DP * displayMetrics.density) * 2;
+        final Resources resource = getResources();
+        final float density = resource.getDisplayMetrics().density;
+
         mNumber = new TextView(context);
-        //Add some padding to this textView so the bubble has some space to breath
-        mNumber.setPadding(padding, 0, padding, 0);
         mNumber.setGravity(Gravity.CENTER);
         mNumber.setText(maxValue);
         mNumber.setMaxLines(1);
         mNumber.setSingleLine(true);
-        UiCompat.setTextDirection(mNumber, TEXT_DIRECTION_LOCALE);
+        UiCompat.setTextDirection(mNumber, 5); //5 is TEXT_DIRECTION_LOCALE
         mNumber.setVisibility(View.INVISIBLE);
 
-        //add some padding for the elevation shadow not to be clipped
-        //I'm sure there are better ways of doing this...
-        setPadding(padding, padding, padding, padding);
-
+        // reset text size
         resetSizes(maxValue);
 
-        mSeparation = (int) (SEPARATION_DP * displayMetrics.density);
+        mSeparation = (int) (SEPARATION_DP * density);
 
         mBalloonMarkerDrawable = new BalloonMarkerDrawable(ColorStateList.valueOf(Color.TRANSPARENT), 0);
         mBalloonMarkerDrawable.setCallback(this);
         mBalloonMarkerDrawable.setMarkerListener(this);
-        mBalloonMarkerDrawable.setExternalOffset(padding);
+        mBalloonMarkerDrawable.setExternalOffset(getPaddingBottom());
 
         UiCompat.setOutlineProvider(this, mBalloonMarkerDrawable);
-
 
         if (attrs != null) {
 
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BalloonMarker,
                     defStyleAttr, defStyleRes);
+            int textPadding = a.getDimensionPixelSize(R.styleable.BalloonMarker_gMarkerTextPadding,
+                    resource.getDimensionPixelSize(R.dimen.genius_balloonMarker_textPadding));
             int textAppearanceId = a.getResourceId(R.styleable.BalloonMarker_gMarkerTextAppearance,
                     R.style.Genius_Widget_BalloonMarker_TextAppearance);
             ColorStateList color = a.getColorStateList(R.styleable.BalloonMarker_gMarkerBackgroundColor);
             String fontFile = a.getString(R.styleable.BalloonMarker_gFont);
+
+            mSeparation = a.getDimensionPixelSize(R.styleable.BalloonMarker_gMarkerSeparation,
+                    resource.getDimensionPixelSize(R.dimen.genius_balloonMarker_separation));
+
             a.recycle();
 
+            setTextPadding(textPadding);
             setTextAppearance(textAppearanceId);
             setBackgroundColor(color);
 
             //Elevation for android 5+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                float elevation = a.getDimension(R.styleable.BalloonMarker_gMarkerElevation, ELEVATION_DP * displayMetrics.density);
+                float elevation = a.getDimension(R.styleable.BalloonMarker_gMarkerElevation, ELEVATION_DP * density);
                 this.setElevation(elevation);
             }
 
@@ -153,12 +157,20 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
         }
     }
 
+    public void setSeparation(int separation) {
+        this.mSeparation = separation;
+    }
+
+    public void setTextPadding(int padding) {
+        mNumber.setPadding(padding, 0, padding, 0);
+    }
+
     public void setTypeface(Typeface typeface) {
         mNumber.setTypeface(typeface);
     }
 
-    public void setTextAppearance(int resid) {
-        mNumber.setTextAppearance(getContext(), resid);
+    public void setTextAppearance(int resId) {
+        mNumber.setTextAppearance(getContext(), resId);
     }
 
     public ColorStateList getBackgroundColor() {
@@ -176,7 +188,7 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
     public void resetSizes(String maxValue) {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         //Account for negative numbers... is there any proper way of getting the biggest string between our range????
-        mNumber.setText("-" + maxValue);
+        mNumber.setText(String.format("-%s", maxValue));
         //Do a first forced measure call for the TextView (with the biggest text content),
         //to calculate the max width and use always the same.
         //this avoids the TextView from shrinking and growing when the text content changes
@@ -186,6 +198,14 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
         mWidth = Math.max(mNumber.getMeasuredWidth(), mNumber.getMeasuredHeight());
         removeView(mNumber);
         addView(mNumber, new FrameLayout.LayoutParams(mWidth, mWidth, Gravity.LEFT | Gravity.TOP));
+    }
+
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        super.setPadding(left, top, right, bottom);
+        if (mBalloonMarkerDrawable != null) {
+            mBalloonMarkerDrawable.setExternalOffset(bottom);
+        }
     }
 
     @Override

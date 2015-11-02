@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/08/2015
- * Changed 08/08/2015
+ * Changed 11/02/2015
  * Version 3.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +19,32 @@
  */
 
 apply plugin: 'com.android.library'
+
+/*
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'BeFoot'
+
+    publishedGroupId = 'net.qiujuer.genius'
+    libraryName = 'GeniusUi'
+    artifact = 'ui'
+
+    libraryDescription = 'Genius Android Ui Lib'
+
+    siteUrl = 'https://github.com/qiujuer/Genius-Android'
+    gitUrl = 'git@github.com:qiujuer/Genius-Android.git'
+
+    libraryVersion = '1.0.2'
+
+    developerId = 'qiujuer'
+    developerName = 'Qiu Ju'
+    developerEmail = 'qiujuer@live.cn'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+*/
 
 android {
     compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
@@ -49,3 +75,6 @@ dependencies {
 
 apply from: '../script/maven_push.gradle'
 apply from: '../script/make_jar.gradle'
+
+//apply from: '../script/jcenter_install.gradle'
+//apply from: '../script/jcenter_bintray.gradle'

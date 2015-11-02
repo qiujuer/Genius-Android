@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/10/2015
- * Changed 08/23/2015
+ * Changed 10/16/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -44,6 +44,7 @@ public class CheckBox extends android.widget.CheckBox {
 
     public CheckBox(Context context) {
         super(context);
+        init(null, R.attr.gCheckBoxStyle, R.style.Genius_Widget_CompoundButton_CheckBox);
     }
 
     public CheckBox(Context context, AttributeSet attrs) {
@@ -76,14 +77,16 @@ public class CheckBox extends android.widget.CheckBox {
     }
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        if (attrs == null)
-            return;
-
         final Context context = getContext();
         final Resources resource = getResources();
         final float density = resource.getDisplayMetrics().density;
+        final int baseSize = (int) (density * 2);
 
-        int baseSize = (int) (density * 2);
+        if (attrs == null) {
+            mMarkDrawable = new CircleCheckDrawable(resource.getColorStateList(R.color.g_default_check_box));
+            setButtonDrawable(mMarkDrawable);
+            return;
+        }
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(

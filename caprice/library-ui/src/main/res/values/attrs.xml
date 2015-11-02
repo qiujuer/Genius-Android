@@ -2,7 +2,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 08/13/2015
+* Changed 10/13/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -85,8 +85,10 @@
     <declare-styleable name="BalloonMarker">
         <attr name="gFont" />
         <attr name="gMarkerTextAppearance" format="reference" />
+        <attr name="gMarkerTextPadding" format="dimension" />
         <attr name="gMarkerBackgroundColor" format="color|reference" />
         <attr name="gMarkerElevation" format="dimension" />
+        <attr name="gMarkerSeparation" format="dimension" />
     </declare-styleable>
 
     <!-- SeekBar -->
@@ -112,12 +114,15 @@
         <attr name="gThumbColor" format="color|reference" />
 
         <attr name="gIndicator">
+            <enum name="always" value="-1" />
             <enum name="none" value="0" />
-            <enum name="balloon" value="1" />
+            <enum name="auto" value="1" />
         </attr>
+        <attr name="gIndicatorTextPadding" format="dimension" />
         <attr name="gIndicatorBackgroundColor" format="color|reference" />
         <attr name="gIndicatorFormatter" format="string|reference" />
         <attr name="gIndicatorTextAppearance" format="reference" />
+        <attr name="gIndicatorSeparation" format="dimension" />
     </declare-styleable>
 
     <!-- CheckBox -->
@@ -145,5 +150,20 @@
         <attr name="gHintTitlePaddingTop" format="dimension" />
         <attr name="gHintTitlePaddingRight" format="dimension" />
         <attr name="gHintTitlePaddingBottom" format="dimension" />
+    </declare-styleable>
+
+    <!-- LoadingView -->
+    <attr name="gLoadingStyle" format="reference" />
+    <declare-styleable name="Loading">
+        <attr name="gBackgroundLineSize" format="dimension" />
+        <attr name="gForegroundLineSize" format="dimension" />
+        <attr name="gBackgroundColor" />
+        <attr name="gForegroundColor" format="reference|color" />
+        <attr name="gLineStyle">
+            <enum name="circle" value="1" />
+            <enum name="line" value="2" />
+        </attr>
+        <attr name="gAutoRun" format="boolean" />
+        <attr name="gProgressFloat" format="float" />
     </declare-styleable>
 </resources>

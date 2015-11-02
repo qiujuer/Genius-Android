@@ -267,6 +267,7 @@
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
                     android:enabled="false"
+                    android:focusable="true"
                     app:gValue="30" />
 
                 <net.qiujuer.genius.ui.widget.SeekBar
@@ -299,9 +300,10 @@
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_marginTop="@dimen/lay_4"
                 app:gAllowTrackClickToDrag="true"
-                app:gIndicator="balloon"
+                app:gIndicator="auto"
                 app:gIndicatorBackgroundColor="@color/m_seek_bar_indicator_bg"
                 app:gIndicatorFormatter="(∩_∩)%d"
+                app:gIndicatorSeparation="14dp"
                 app:gIndicatorTextAppearance="@style/Genius.Widget.BalloonMarker.TextAppearance"
                 app:gMax="10"
                 app:gMin="0"
@@ -415,7 +417,6 @@
                 android:layout_marginLeft="@dimen/lay_4"
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_marginTop="@dimen/lay_4"
-                android:layout_weight="1"
                 android:hint="Default"
                 android:textColor="@color/grey_700" />
 
@@ -426,10 +427,12 @@
                 android:layout_marginLeft="@dimen/lay_4"
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_marginTop="@dimen/lay_4"
-                android:layout_weight="1"
-                android:hint="Custom"
+                android:gravity="right"
+                android:hint="Right"
+                android:inputType="textPassword"
                 android:textColor="@color/grey_700"
                 android:textColorHint="@color/m_edit_view_hint"
+                app:gFont="roboto_regular.ttf"
                 app:gHintTitle="slide"
                 app:gHintTitlePaddingBottom="2dp"
                 app:gHintTitlePaddingLeft="0dp"
@@ -438,6 +441,59 @@
                 app:gLineColor="@color/m_edit_view_line"
                 app:gLineSize="2dp" />
 
+            <net.qiujuer.genius.ui.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/lay_4"
+                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_16"
+                android:text="Loading"
+                android:textAllCaps="true"
+                android:textColor="@color/purple_500"
+                android:textSize="@dimen/size_16" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_4"
+                android:orientation="horizontal">
+
+                <net.qiujuer.genius.ui.widget.Loading
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4" />
+
+                <net.qiujuer.genius.ui.widget.Loading
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    app:gBackgroundColor="@color/yellow_500"
+                    app:gForegroundColor="@color/deep_orange_500" />
+
+                <net.qiujuer.genius.ui.widget.Loading
+                    android:id="@+id/loading_progress"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    app:gAutoRun="false"
+                    app:gBackgroundLineSize="1dp"
+                    app:gForegroundLineSize="3dp"
+                    app:gProgressFloat="0.7" />
+
+                <net.qiujuer.genius.ui.widget.TextView
+                    android:id="@+id/txt_loading"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:text="32" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
