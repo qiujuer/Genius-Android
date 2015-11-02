@@ -417,7 +417,6 @@
                 android:layout_marginLeft="@dimen/lay_4"
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_marginTop="@dimen/lay_4"
-                android:layout_weight="1"
                 android:hint="Default"
                 android:textColor="@color/grey_700" />
 
@@ -428,11 +427,12 @@
                 android:layout_marginLeft="@dimen/lay_4"
                 android:layout_marginRight="@dimen/lay_4"
                 android:layout_marginTop="@dimen/lay_4"
-                android:layout_weight="1"
                 android:gravity="right"
-                android:hint="Center"
+                android:hint="Right"
+                android:inputType="textPassword"
                 android:textColor="@color/grey_700"
                 android:textColorHint="@color/m_edit_view_hint"
+                app:gFont="roboto_regular.ttf"
                 app:gHintTitle="slide"
                 app:gHintTitlePaddingBottom="2dp"
                 app:gHintTitlePaddingLeft="0dp"
