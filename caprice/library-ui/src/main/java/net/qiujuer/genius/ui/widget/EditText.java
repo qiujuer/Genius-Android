@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/12/2015
- * Changed 10/27/2015
+ * Changed 11/02/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -199,8 +199,8 @@ public class EditText extends android.widget.EditText {
 
             // Set up a default TextPaint object
             if (mTitlePaint == null) {
-                mTitlePaint = new TextPaint();
-                mTitlePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+                mTitlePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                mTitlePaint.density = getResources().getDisplayMetrics().density;
                 mTitlePaint.setTextAlign(Paint.Align.LEFT);
                 mTitlePaint.setTypeface(getTypeface());
             }
@@ -344,19 +344,29 @@ public class EditText extends android.widget.EditText {
         if (isShowTitle() && mTitlePaint != null && mCurTitleProperty != null && mCurTitleProperty.mAlpha != 0) {
             CharSequence buf = getHint();
             if (buf != null) {
-                mTitlePaint.setTextSize(mCurTitleProperty.mTextSize);
-
                 int color = getCurrentHintTextColor();
                 int alpha = Ui.modulateAlpha(Color.alpha(color), mCurTitleProperty.mAlpha);
 
                 if (color != 0 && alpha != 0) {
+                    mTitlePaint.setTextSize(mCurTitleProperty.mTextSize);
                     mTitlePaint.setColor(color);
                     mTitlePaint.setAlpha(alpha);
 
-                    canvas.drawText(buf, 0, buf.length(),
-                            mCurTitleProperty.mLeft,
-                            mCurTitleProperty.mTop + mCurTitleProperty.mTextSize,
-                            mTitlePaint);
+                    final int scrollX = getScrollX();
+                    final int scrollY = getScrollY();
+                    if ((scrollX | scrollY) == 0) {
+                        canvas.drawText(buf, 0, buf.length(),
+                                mCurTitleProperty.mLeft,
+                                mCurTitleProperty.mTop + mCurTitleProperty.mTextSize,
+                                mTitlePaint);
+                    } else {
+                        canvas.translate(scrollX, scrollY);
+                        canvas.drawText(buf, 0, buf.length(),
+                                mCurTitleProperty.mLeft,
+                                mCurTitleProperty.mTop + mCurTitleProperty.mTextSize,
+                                mTitlePaint);
+                        canvas.translate(-scrollX, -scrollY);
+                    }
                 }
             }
         }
