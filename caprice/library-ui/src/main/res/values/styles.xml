@@ -29,7 +29,7 @@
         <item name="gFont">@string/genius_font_file</item>
         <item name="gTouchColor">@color/black_alpha_48</item>
         <item name="gTouchEffect">auto</item>
-        <item name="gTouchCornerRadius">0dp</item>
+        <item name="gTouchCornerRadius">@dimen/g_button_touch_corners_radius</item>
         <item name="android:background">@color/cyan_500</item>
     </style>
 

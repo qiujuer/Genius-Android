@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/23/2015
- * Changed 08/13/2015
+ * Changed 11/12/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -22,6 +22,7 @@ package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
@@ -87,6 +88,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
             return;
 
         final Context context = getContext();
+        final Resources resources = getResources();
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
@@ -97,22 +99,27 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         int touchColor = a.getColor(R.styleable.Button_gTouchColor, Ui.TOUCH_PRESS_COLOR);
 
         // Load clip touch corner radius
-        ClipFilletFactory touchFactory = null;
-        float touchRadius = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadius, 0);
-        if (touchRadius > 0) {
-            touchFactory = new ClipFilletFactory(touchRadius);
-        } else {
-            float touchRadiusTL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTL, 0);
-            float touchRadiusTR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTR, 0);
-            float touchRadiusBL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBL, 0);
-            float touchRadiusBR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBR, 0);
-            if (touchRadiusTL > 0 || touchRadiusTR > 0 || touchRadiusBL > 0 || touchRadiusBR > 0) {
-                float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
-                        touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
-                touchFactory = new ClipFilletFactory(radius);
-            }
-        }
+        int touchRadius = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadius, resources.getDimensionPixelOffset(R.dimen.g_button_touch_corners_radius));
+        int touchRadiusTL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTL, touchRadius);
+        int touchRadiusTR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTR, touchRadius);
+        int touchRadiusBL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBL, touchRadius);
+        int touchRadiusBR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBR, touchRadius);
+        float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
+                touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
+        ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
+
+
         a.recycle();
+
+        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
+            // Set Background
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                //noinspection deprecation
+                Drawable drawable = getResources().getDrawable(R.drawable.g_button_background);
+                setBackgroundDrawable(drawable);
+            } else
+                setBackgroundResource(R.drawable.g_button_background);
+        }
 
         // SetTouch
         setTouchEffect(touchEffect);

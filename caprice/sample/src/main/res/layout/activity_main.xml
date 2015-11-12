@@ -107,7 +107,6 @@
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
-                    android:background="@color/cyan_500"
                     android:text="Ease"
                     android:textColor="@color/white_alpha_224"
                     app:gTouchEffect="ease" />
@@ -118,7 +117,6 @@
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
-                    android:background="@color/cyan_500"
                     android:text="Ripple"
                     android:textColor="@color/white_alpha_224"
                     app:gTouchEffect="ripple" />
@@ -137,7 +135,6 @@
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
-                    android:background="@color/orange_500"
                     android:text="Press"
                     android:textColor="@color/white_alpha_224"
                     app:gTouchEffect="press" />
@@ -148,7 +145,6 @@
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
-                    android:background="@color/orange_500"
                     android:text="Auto"
                     android:textColor="@color/white_alpha_224"
                     app:gTouchColor="@color/black_alpha_48"
@@ -177,7 +173,7 @@
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
-                    android:background="@color/amber_500"
+                    android:background="@drawable/m_button_background"
                     android:text="All 12DP"
                     android:textColor="@color/white_alpha_224"
                     app:gTouchCornerRadius="@dimen/lay_12"
@@ -189,13 +185,13 @@
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
-                    android:background="@color/amber_500"
+                    android:background="@drawable/m_button_background"
                     android:text="TL BR 32DP"
                     android:textColor="@color/white_alpha_224"
-                    app:gTouchCornerRadiusBL="0dp"
+                    app:gTouchCornerRadiusBL="@dimen/lay_12"
                     app:gTouchCornerRadiusBR="@dimen/lay_32"
                     app:gTouchCornerRadiusTL="@dimen/lay_32"
-                    app:gTouchCornerRadiusTR="0dp"
+                    app:gTouchCornerRadiusTR="@dimen/lay_12"
                     app:gTouchEffect="ease" />
             </LinearLayout>
 
@@ -223,7 +219,6 @@
                     android:layout_weight="1"
                     android:background="@color/trans"
                     android:text="Cancel"
-                    android:textColor="@color/grey_700"
                     app:gTouchCornerRadius="@dimen/lay_12"
                     app:gTouchEffect="ripple" />
 
