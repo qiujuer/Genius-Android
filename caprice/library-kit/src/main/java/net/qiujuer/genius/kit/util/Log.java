@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/16/2014
- * Changed 03/08/2015
+ * Changed 2015/11/21
  * Version 3.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@
  */
 package net.qiujuer.genius.kit.util;
 
-import net.qiujuer.genius.kit.GeniusKit;
+import net.qiujuer.genius.kit.Kit;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,10 +35,10 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * This is Log
  * Using methods like the system Log class
- * <p/>
+ * <p>
  * Have {@link #Level} to show custom
  * Have {@link #IsCallLog} to call system log class
- * <p/>
+ * <p>
  * Can callback to interface {@link net.qiujuer.genius.kit.util.Log.LogCallbackListener}
  */
 public final class Log {
@@ -137,7 +137,7 @@ public final class Log {
      * @param fileSize  One File Size,Default 2Mb
      */
     public static void setSaveLog(boolean isOpen, int fileCount, float fileSize) {
-        if (GeniusKit.getApplication() == null)
+        if (Kit.getApplication() == null)
             throw new NullPointerException("Application is not null.Please Genius.initialize(Application)");
 
         if (isOpen) {

@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 11/24/2014
- * Changed 03/08/2015
+ * Changed 2015/11/21
  * Version 3.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ import android.os.Looper;
 /**
  * This is UI operation class
  * You can run thread on MainThread By Async and Sync
- * <p/>
+ * <p>
  * You don't need initialize, but when you don't need run
  * You should call {@link #dispose()} operation for destruction.
  */
