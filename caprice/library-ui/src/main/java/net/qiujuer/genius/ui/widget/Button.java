@@ -48,6 +48,12 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * And supper custom font
  */
 public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
+
+    public static final int TOUCH_EFFECT_AUTO = 1;
+    public static final int TOUCH_EFFECT_EASE = 2;
+    public static final int TOUCH_EFFECT_PRESS = 3;
+    public static final int TOUCH_EFFECT_RIPPLE = 4;
+
     private TouchEffectDrawable mTouchDrawable;
     private int mTouchColor;
 
@@ -107,7 +113,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
                 touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
         ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
-
+        float touchDurationRate = a.getFloat(R.styleable.Button_gTouchDurationRate, 1.0f);
 
         a.recycle();
 
@@ -124,6 +130,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         // SetTouch
         setTouchEffect(touchEffect);
         setTouchColor(touchColor);
+        setTouchDuration(touchDurationRate);
 
         // Check for IDE preview render
         if (!this.isInEditMode()) {
@@ -138,6 +145,16 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         }
     }
 
+    /**
+     * Set the touch draw type
+     * This type include:
+     * TOUCH_EFFECT_AUTO
+     * TOUCH_EFFECT_EASE
+     * TOUCH_EFFECT_PRESS
+     * TOUCH_EFFECT_RIPPLE
+     *
+     * @param touchEffect Touch effect type
+     */
     public void setTouchEffect(int touchEffect) {
         if (touchEffect == 0)
             mTouchDrawable = null;
@@ -149,13 +166,13 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 mTouchDrawable.setPerformClicker(this);
             }
 
-            if (touchEffect == 1)
+            if (touchEffect == TOUCH_EFFECT_AUTO)
                 mTouchDrawable.setEffect(new AutoEffect());
-            else if (touchEffect == 2)
+            else if (touchEffect == TOUCH_EFFECT_EASE)
                 mTouchDrawable.setEffect(new EaseEffect());
-            else if (touchEffect == 3)
+            else if (touchEffect == TOUCH_EFFECT_PRESS)
                 mTouchDrawable.setEffect(new PressEffect());
-            else if (touchEffect == 4)
+            else if (touchEffect == TOUCH_EFFECT_RIPPLE)
                 mTouchDrawable.setEffect(new RippleEffect());
 
         }
@@ -172,6 +189,28 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     public void setTouchClipFactory(TouchEffectDrawable.ClipFactory factory) {
         if (mTouchDrawable != null) {
             mTouchDrawable.setClipFactory(factory);
+        }
+    }
+
+    /**
+     * Set the touch animation duration.
+     * This setting about enter animation
+     * and exit animation.
+     * <p>
+     * Default:
+     * EnterDuration: 280ms
+     * ExitDuration: 160ms
+     * FactorRate: 1.0
+     * <p>
+     * This set will calculation: factor * duration
+     * This factor need > 0
+     *
+     * @param factor Touch duration rate
+     */
+    public void setTouchDuration(float factor) {
+        if (mTouchDrawable != null) {
+            mTouchDrawable.setEnterDuration(factor);
+            mTouchDrawable.setExitDuration(factor);
         }
     }
 

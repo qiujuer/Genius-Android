@@ -569,11 +569,15 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     public void setEnterDuration(float factor) {
-        mEnterDuration = (int) (factor * ANIM_ENTER_DURATION);
+        if (factor > 0) {
+            mEnterDuration = (int) (factor * ANIM_ENTER_DURATION);
+        }
     }
 
     public void setExitDuration(float factor) {
-        mExitDuration = (int) (factor * ANIM_Exit_DURATION);
+        if (factor > 0) {
+            mExitDuration = (int) (factor * ANIM_Exit_DURATION);
+        }
     }
 
     public Interpolator getEnterInterpolator() {

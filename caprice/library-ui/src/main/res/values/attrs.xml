@@ -78,6 +78,7 @@
         <attr name="gTouchCornerRadiusTR" />
         <attr name="gTouchCornerRadiusBL" />
         <attr name="gTouchCornerRadiusBR" />
+        <attr name="gTouchDurationRate" format="float" />
     </declare-styleable>
 
     <!-- BalloonMarker -->

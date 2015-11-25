@@ -220,6 +220,7 @@
                     android:background="@color/trans"
                     android:text="Cancel"
                     app:gTouchCornerRadius="@dimen/lay_12"
+                    app:gTouchDurationRate="0.7"
                     app:gTouchEffect="ripple" />
 
                 <net.qiujuer.genius.ui.widget.Button
@@ -233,6 +234,7 @@
                     android:textColor="@color/cyan_700"
                     app:gTouchColor="#7000bcd4"
                     app:gTouchCornerRadius="@dimen/lay_12"
+                    app:gTouchDurationRate="3"
                     app:gTouchEffect="ripple" />
             </LinearLayout>
 
