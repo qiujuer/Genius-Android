@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/13/2014
- * Changed 03/08/2015
+ * Changed 2015/11/21
  * Version 3.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import net.qiujuer.genius.kit.GeniusKit;
+import net.qiujuer.genius.kit.Kit;
 import net.qiujuer.genius.kit.util.Tools;
 
 import java.util.UUID;
@@ -154,7 +154,7 @@ public final class Command {
     private static void bindService() {
         synchronized (Command.class) {
             if (!IS_BIND) {
-                Context context = GeniusKit.getApplication();
+                Context context = Kit.getApplication();
                 if (context == null) {
                     throw new NullPointerException("Application is not null.Please Genius.initialize(Application)");
                 } else {
@@ -314,7 +314,7 @@ public final class Command {
                 EXECUTORSERVICE = null;
             }
             if (IS_BIND) {
-                Context context = GeniusKit.getApplication();
+                Context context = Kit.getApplication();
                 if (context != null) {
                     try {
                         context.unbindService(I_CONN);

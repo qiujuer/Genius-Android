@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/02/2014
- * Changed 03/08/2015
+ * Changed 2015/11/21
  * Version 3.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
 
-import net.qiujuer.genius.kit.GeniusKit;
+import net.qiujuer.genius.kit.Kit;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -99,7 +99,7 @@ class LogWriter extends Thread {
      * get log file path
      */
     protected static String getDefaultLogPath() {
-        return GeniusKit.getApplication().getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "Genius" + File.separator + "Logs";
+        return Kit.getApplication().getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "Genius" + File.separator + "Logs";
     }
 
     /**
@@ -294,7 +294,7 @@ class LogWriter extends Thread {
             }
         };
 
-        GeniusKit.getApplication().registerReceiver(mUsbBroadCastReceiver, iFilter);
+        Kit.getApplication().registerReceiver(mUsbBroadCastReceiver, iFilter);
     }
 
     /**
@@ -302,7 +302,7 @@ class LogWriter extends Thread {
      */
     protected void unRegisterBroadCast() {
         if (mUsbBroadCastReceiver != null) {
-            GeniusKit.getApplication().unregisterReceiver(mUsbBroadCastReceiver);
+            Kit.getApplication().unregisterReceiver(mUsbBroadCastReceiver);
             mUsbBroadCastReceiver = null;
         }
     }

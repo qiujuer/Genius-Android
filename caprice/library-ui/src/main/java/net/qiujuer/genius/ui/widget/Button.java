@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/23/2015
- * Changed 08/13/2015
+ * Changed 11/12/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -22,6 +22,7 @@ package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
@@ -47,6 +48,12 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * And supper custom font
  */
 public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
+
+    public static final int TOUCH_EFFECT_AUTO = 1;
+    public static final int TOUCH_EFFECT_EASE = 2;
+    public static final int TOUCH_EFFECT_PRESS = 3;
+    public static final int TOUCH_EFFECT_RIPPLE = 4;
+
     private TouchEffectDrawable mTouchDrawable;
     private int mTouchColor;
 
@@ -87,6 +94,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
             return;
 
         final Context context = getContext();
+        final Resources resources = getResources();
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
@@ -97,26 +105,32 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         int touchColor = a.getColor(R.styleable.Button_gTouchColor, Ui.TOUCH_PRESS_COLOR);
 
         // Load clip touch corner radius
-        ClipFilletFactory touchFactory = null;
-        float touchRadius = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadius, 0);
-        if (touchRadius > 0) {
-            touchFactory = new ClipFilletFactory(touchRadius);
-        } else {
-            float touchRadiusTL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTL, 0);
-            float touchRadiusTR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTR, 0);
-            float touchRadiusBL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBL, 0);
-            float touchRadiusBR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBR, 0);
-            if (touchRadiusTL > 0 || touchRadiusTR > 0 || touchRadiusBL > 0 || touchRadiusBR > 0) {
-                float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
-                        touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
-                touchFactory = new ClipFilletFactory(radius);
-            }
-        }
+        int touchRadius = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadius, resources.getDimensionPixelOffset(R.dimen.g_button_touch_corners_radius));
+        int touchRadiusTL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTL, touchRadius);
+        int touchRadiusTR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTR, touchRadius);
+        int touchRadiusBL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBL, touchRadius);
+        int touchRadiusBR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBR, touchRadius);
+        float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
+                touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
+        ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
+        float touchDurationRate = a.getFloat(R.styleable.Button_gTouchDurationRate, 1.0f);
+
         a.recycle();
+
+        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
+            // Set Background
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                //noinspection deprecation
+                Drawable drawable = getResources().getDrawable(R.drawable.g_button_background);
+                setBackgroundDrawable(drawable);
+            } else
+                setBackgroundResource(R.drawable.g_button_background);
+        }
 
         // SetTouch
         setTouchEffect(touchEffect);
         setTouchColor(touchColor);
+        setTouchDuration(touchDurationRate);
 
         // Check for IDE preview render
         if (!this.isInEditMode()) {
@@ -131,6 +145,16 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         }
     }
 
+    /**
+     * Set the touch draw type
+     * This type include:
+     * TOUCH_EFFECT_AUTO
+     * TOUCH_EFFECT_EASE
+     * TOUCH_EFFECT_PRESS
+     * TOUCH_EFFECT_RIPPLE
+     *
+     * @param touchEffect Touch effect type
+     */
     public void setTouchEffect(int touchEffect) {
         if (touchEffect == 0)
             mTouchDrawable = null;
@@ -142,13 +166,13 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 mTouchDrawable.setPerformClicker(this);
             }
 
-            if (touchEffect == 1)
+            if (touchEffect == TOUCH_EFFECT_AUTO)
                 mTouchDrawable.setEffect(new AutoEffect());
-            else if (touchEffect == 2)
+            else if (touchEffect == TOUCH_EFFECT_EASE)
                 mTouchDrawable.setEffect(new EaseEffect());
-            else if (touchEffect == 3)
+            else if (touchEffect == TOUCH_EFFECT_PRESS)
                 mTouchDrawable.setEffect(new PressEffect());
-            else if (touchEffect == 4)
+            else if (touchEffect == TOUCH_EFFECT_RIPPLE)
                 mTouchDrawable.setEffect(new RippleEffect());
 
         }
@@ -165,6 +189,28 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     public void setTouchClipFactory(TouchEffectDrawable.ClipFactory factory) {
         if (mTouchDrawable != null) {
             mTouchDrawable.setClipFactory(factory);
+        }
+    }
+
+    /**
+     * Set the touch animation duration.
+     * This setting about enter animation
+     * and exit animation.
+     * <p>
+     * Default:
+     * EnterDuration: 280ms
+     * ExitDuration: 160ms
+     * FactorRate: 1.0
+     * <p>
+     * This set will calculation: factor * duration
+     * This factor need > 0
+     *
+     * @param factor Touch duration rate
+     */
+    public void setTouchDuration(float factor) {
+        if (mTouchDrawable != null) {
+            mTouchDrawable.setEnterDuration(factor);
+            mTouchDrawable.setExitDuration(factor);
         }
     }
 

@@ -4,7 +4,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 08/04/2015
-* Changed 11/02/2015
+* Changed 11/12/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -44,5 +44,8 @@
 
     <dimen name="genius_loading_lineSize">2dp</dimen>
     <dimen name="genius_loading_minSize">28dp</dimen>
+
+    <dimen name="g_button_background_corners_radius">4dp</dimen>
+    <dimen name="g_button_touch_corners_radius">4dp</dimen>
 
 </resources>

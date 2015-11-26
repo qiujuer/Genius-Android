@@ -21,7 +21,7 @@ package net.qiujuer.genius.kit.util;
 
 /**
  * UiKitSyncPost use to {@link net.qiujuer.genius.kit.util.UiKitHandlerPoster}
- * <p/>
+ * <p>
  * See {@link net.qiujuer.genius.kit.util.UiKit}
  */
 final class UiKitSyncPost {

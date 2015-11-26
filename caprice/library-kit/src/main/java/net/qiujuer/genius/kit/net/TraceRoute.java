@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * TraceRoute class
  * extends {@link net.qiujuer.genius.kit.net.NetModel}
  * implements {@link TraceRouteThread.TraceThreadInterface}
- * <p/>
+ * <p>
  * TraceRoute url or ip
  */
 public class TraceRoute extends NetModel implements TraceRouteThread.TraceThreadInterface {

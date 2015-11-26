@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/17/2014
- * Changed 03/08/2015
+ * Changed 2015/11/21
  * Version 3.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@ import net.qiujuer.genius.kit.util.UiKit;
  * You should call {@link #initialize(android.app.Application)}
  * The End should call {@link #dispose()}  }
  */
-public final class GeniusKit {
+public final class Kit {
     private static Application application;
 
     /**
@@ -49,7 +49,7 @@ public final class GeniusKit {
      * @param application Application
      */
     public static void initialize(Application application) {
-        GeniusKit.application = application;
+        Kit.application = application;
     }
 
     /**
@@ -59,6 +59,6 @@ public final class GeniusKit {
         Command.dispose();
         Log.dispose();
         UiKit.dispose();
-        GeniusKit.application = null;
+        Kit.application = null;
     }
 }

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/12/2015
- * Changed 11/02/2015
+ * Changed 11/12/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -144,7 +144,10 @@ public class EditText extends android.widget.EditText {
         }
 
         // Init background and title
-        initBackground();
+        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
+            initBackground();
+        }
+
         initHintTitleText();
 
         // SetHintPadding

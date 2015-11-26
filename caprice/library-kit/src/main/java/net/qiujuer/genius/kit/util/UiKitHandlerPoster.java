@@ -2,7 +2,7 @@
  * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 11/24/2014
- * Changed 03/08/2015
+ * Changed 2015/11/21
  * Version 3.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,11 +25,12 @@ import android.os.Message;
 import android.os.SystemClock;
 
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 /**
  * UiKit Handler Poster extends Handler
- * <p/>
+ * <p>
  * In class have two queue with {@link #mAsyncPool,#mSyncPool}
  */
 final class UiKitHandlerPoster extends Handler {
@@ -100,11 +101,11 @@ final class UiKitHandlerPoster extends Handler {
             try {
                 long started = SystemClock.uptimeMillis();
                 while (true) {
-                    Runnable runnable = mAsyncPool.poll();
+                    Runnable runnable = poolAsyncPost();
                     if (runnable == null) {
                         synchronized (mAsyncPool) {
                             // Check again, this time in synchronized
-                            runnable = mAsyncPool.poll();
+                            runnable = poolAsyncPost();
                             if (runnable == null) {
                                 isAsyncActive = false;
                                 return;
@@ -129,11 +130,11 @@ final class UiKitHandlerPoster extends Handler {
             try {
                 long started = SystemClock.uptimeMillis();
                 while (true) {
-                    UiKitSyncPost post = mSyncPool.poll();
+                    UiKitSyncPost post = poolSyncPost();
                     if (post == null) {
                         synchronized (mSyncPool) {
                             // Check again, this time in synchronized
-                            post = mSyncPool.poll();
+                            post = poolSyncPost();
                             if (post == null) {
                                 isSyncActive = false;
                                 return;
@@ -154,5 +155,23 @@ final class UiKitHandlerPoster extends Handler {
                 isSyncActive = rescheduled;
             }
         } else super.handleMessage(msg);
+    }
+
+    private Runnable poolAsyncPost() {
+        try {
+            return mAsyncPool.poll();
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private UiKitSyncPost poolSyncPost() {
+        try {
+            return mSyncPool.poll();
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
