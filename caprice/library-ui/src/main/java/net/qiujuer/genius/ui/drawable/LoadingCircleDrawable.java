@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 10/15/2015
- * Changed 10/23/2015
+ * Changed 12/06/2015
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import android.graphics.RectF;
  */
 public class LoadingCircleDrawable extends LoadingDrawable {
     private static final int ANGLE_ADD = 5;
+    private static final int MIN_ANGLE_SWEEP = 3;
     private static final int MAX_ANGLE_SWEEP = 255;
 
     private RectF mBackgroundOval = new RectF();
@@ -36,7 +37,7 @@ public class LoadingCircleDrawable extends LoadingDrawable {
 
     private float mStartAngle;
     private float mSweepAngle;
-    private int mAngleIncrement = 4;
+    private int mAngleIncrement = 3;
 
     public LoadingCircleDrawable() {
         super();
@@ -78,14 +79,16 @@ public class LoadingCircleDrawable extends LoadingDrawable {
             mStartAngle -= 360;
         }
 
-        mSweepAngle += mAngleIncrement;
         if (mSweepAngle > MAX_ANGLE_SWEEP) {
             mAngleIncrement = -mAngleIncrement;
-        } else if (mSweepAngle < 0) {
+        } else if (mSweepAngle < MIN_ANGLE_SWEEP) {
+            mSweepAngle = MIN_ANGLE_SWEEP;
+            return;
+        } else if (mSweepAngle == MIN_ANGLE_SWEEP) {
             mAngleIncrement = -mAngleIncrement;
-            mSweepAngle = 0;
             getNextForegroundColor();
         }
+        mSweepAngle += mAngleIncrement;
     }
 
     @Override
