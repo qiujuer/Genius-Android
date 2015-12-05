@@ -479,7 +479,7 @@
                     app:gAutoRun="false"
                     app:gBackgroundLineSize="1dp"
                     app:gForegroundLineSize="3dp"
-                    app:gProgressFloat="0.7" />
+                    app:gProgressFloat="0.65" />
 
                 <net.qiujuer.genius.ui.widget.TextView
                     android:id="@+id/txt_loading"
