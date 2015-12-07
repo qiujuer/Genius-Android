@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/28/2015
- * Changed 10/23/2015
+ * Changed 12/06/2015
  * Version 1.0.0
  * Author Qiujuer
  *
@@ -266,6 +266,9 @@ public class Loading extends View {
     }
 
     private void saveOrRecoveryRun(int visibility) {
+        if (mDrawable == null) {
+            return;
+        }
         if (visibility == VISIBLE) {
             if (mNeedRun) {
                 start();
@@ -281,8 +284,12 @@ public class Loading extends View {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (mAutoRun && mDrawable.getProgress() == 0)
-            mDrawable.start();
+        if (mAutoRun && mDrawable.getProgress() == 0) {
+            if (getVisibility() == VISIBLE)
+                mDrawable.start();
+            else
+                mNeedRun = true;
+        }
     }
 
     @Override

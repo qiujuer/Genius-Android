@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @SuppressWarnings("deprecation")
     private void initLoading() {
-        Loading loading = (Loading) findViewById(R.id.loading_progress);
+        final Loading loading = (Loading) findViewById(R.id.loading_progress);
         loading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
