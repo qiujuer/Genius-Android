@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import net.qiujuer.genius.kit.GeniusKit;
+import net.qiujuer.genius.kit.Kit;
 import net.qiujuer.genius.kit.command.Command;
 import net.qiujuer.genius.kit.net.DnsResolve;
 import net.qiujuer.genius.kit.net.Ping;
@@ -36,7 +36,7 @@ public class KitActivity extends AppCompatActivity {
 
         // Init to use
         // 初始化使用
-        GeniusKit.initialize(getApplication());
+        Kit.initialize(getApplication());
 
         mText = (TextView) findViewById(R.id.text);
 
@@ -76,7 +76,7 @@ public class KitActivity extends AppCompatActivity {
         super.onDestroy();
         mText = null;
         // Dispose when you don't use
-        GeniusKit.dispose();
+        Kit.dispose();
     }
 
     /**
@@ -127,7 +127,7 @@ public class KitActivity extends AppCompatActivity {
     }
 
     private void testTool() {
-        Log.i(TAG, "ToolKit: getAndroidId: " + Tools.getAndroidId(GeniusKit.getApplication()));
+        Log.i(TAG, "ToolKit: getAndroidId: " + Tools.getAndroidId(Kit.getApplication()));
         Log.i(TAG, "ToolKit: getSerialNumber: " + Tools.getSerialNumber());
     }
 
