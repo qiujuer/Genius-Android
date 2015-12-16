@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 07/23/2015
+ * Created 12/15/2015
  * Changed 12/15/2015
- * Version 3.0.0
+ * Version 1.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -43,11 +42,10 @@ import net.qiujuer.genius.ui.drawable.effect.RippleEffect;
 import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
 
 /**
- * This is touch effect button
+ * This is touch effect ImageView
  * Include 'Auto' 'Ease' 'Press' 'Ripple' effect to touch
- * And supper custom font
  */
-public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
+public class ImageView extends android.widget.ImageView implements TouchEffectDrawable.PerformClicker {
     public static final int TOUCH_EFFECT_NONE = 0;
     public static final int TOUCH_EFFECT_AUTO = 1;
     public static final int TOUCH_EFFECT_EASE = 2;
@@ -57,22 +55,22 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     private TouchEffectDrawable mTouchDrawable;
     private int mTouchColor;
 
-    public Button(Context context) {
+    public ImageView(Context context) {
         super(context);
     }
 
-    public Button(Context context, AttributeSet attrs) {
+    public ImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, R.attr.gButtonStyle, R.style.Genius_Widget_Button);
+        init(attrs, R.attr.gImageViewStyle, R.style.Genius_Widget_ImageView);
     }
 
-    public Button(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs, defStyleAttr, R.style.Genius_Widget_Button);
+        init(attrs, defStyleAttr, R.style.Genius_Widget_ImageView);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public Button(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs, defStyleAttr, defStyleRes);
     }
@@ -80,13 +78,13 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     @Override
     public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
-        event.setClassName(Button.class.getName());
+        event.setClassName(ImageView.class.getName());
     }
 
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName(Button.class.getName());
+        info.setClassName(ImageView.class.getName());
     }
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -98,34 +96,23 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.Button, defStyleAttr, defStyleRes);
+                attrs, R.styleable.ImageView, defStyleAttr, defStyleRes);
 
-        String fontFile = a.getString(R.styleable.Button_gFont);
-        int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, TOUCH_EFFECT_NONE);
-        int touchColor = a.getColor(R.styleable.Button_gTouchColor, Ui.TOUCH_PRESS_COLOR);
+        int touchEffect = a.getInt(R.styleable.ImageView_gTouchEffect, TOUCH_EFFECT_NONE);
+        int touchColor = a.getColor(R.styleable.ImageView_gTouchColor, Ui.TOUCH_PRESS_COLOR);
 
         // Load clip touch corner radius
-        int touchRadius = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadius, resources.getDimensionPixelOffset(R.dimen.g_button_touch_corners_radius));
-        int touchRadiusTL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTL, touchRadius);
-        int touchRadiusTR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusTR, touchRadius);
-        int touchRadiusBL = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBL, touchRadius);
-        int touchRadiusBR = a.getDimensionPixelOffset(R.styleable.Button_gTouchCornerRadiusBR, touchRadius);
+        int touchRadius = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadius, resources.getDimensionPixelOffset(R.dimen.g_imageView_touch_corners_radius));
+        int touchRadiusTL = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusTL, touchRadius);
+        int touchRadiusTR = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusTR, touchRadius);
+        int touchRadiusBL = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusBL, touchRadius);
+        int touchRadiusBR = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusBR, touchRadius);
         float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
                 touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
         ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
-        float touchDurationRate = a.getFloat(R.styleable.Button_gTouchDurationRate, 1.0f);
+        float touchDurationRate = a.getFloat(R.styleable.ImageView_gTouchDurationRate, 1.0f);
 
         a.recycle();
-
-        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
-            // Set Background
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                //noinspection deprecation
-                Drawable drawable = getResources().getDrawable(R.drawable.g_button_background);
-                setBackgroundDrawable(drawable);
-            } else
-                setBackgroundResource(R.drawable.g_button_background);
-        }
 
         // SetTouch
         setTouchEffect(touchEffect);
@@ -136,12 +123,6 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         if (!this.isInEditMode()) {
             // Touch factory
             setTouchClipFactory(touchFactory);
-
-            // Font
-            if (fontFile != null && fontFile.length() > 0) {
-                Typeface typeface = Ui.getFont(getContext(), fontFile);
-                if (typeface != null) setTypeface(typeface);
-            }
         }
     }
 
@@ -220,13 +201,6 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         super.onSizeChanged(w, h, oldw, oldh);
         TouchEffectDrawable drawable = mTouchDrawable;
         if (drawable != null) {
-            /*
-            Rect padding = new Rect();
-            if (drawable.getPadding(padding) && (padding.left > 0
-                    || padding.top > 0 || padding.right > 0 || padding.bottom > 0)) {
-                drawable.setBounds(padding.left, padding.top, getWidth() - padding.right, getHeight() - padding.bottom);
-            } else
-            */
             drawable.setBounds(0, 0, getWidth(), getHeight());
         }
     }
@@ -275,12 +249,12 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
     @Override
     protected synchronized void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
+        // draw the effect on the image
         final TouchEffectDrawable d = mTouchDrawable;
         if (d != null) {
             d.draw(canvas);
         }
-
-        super.onDraw(canvas);
     }
 }

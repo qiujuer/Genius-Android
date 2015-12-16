@@ -4,7 +4,7 @@
 * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
 * WebSite http://www.qiujuer.net
 * Created 11/12/2015
-* Changed 11/12/2015
+* Changed 12/15/2015
 * Version 3.0.0
 * Author Qiujuer
 *
@@ -22,6 +22,6 @@
 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/g_button_background" />
+    <solid android:color="@color/cyan_500" />
     <corners android:radius="@dimen/g_button_background_corners_radius" />
 </shape>

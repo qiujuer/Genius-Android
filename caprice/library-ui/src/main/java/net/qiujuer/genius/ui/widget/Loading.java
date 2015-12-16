@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/28/2015
- * Changed 12/06/2015
+ * Changed 12/15/2015
  * Version 1.0.0
  * Author Qiujuer
  *
@@ -67,7 +67,7 @@ public class Loading extends View {
         final Resources resource = getResources();
 
         if (attrs == null) {
-            mDrawable = new LoadingCircleDrawable(resource.getDimensionPixelOffset(R.dimen.genius_loading_minSize));
+            mDrawable = new LoadingCircleDrawable(resource.getDimensionPixelOffset(R.dimen.g_loading_minSize));
             mDrawable.setCallback(this);
             return;
         }
@@ -190,7 +190,7 @@ public class Loading extends View {
     }
 
     public void setLineStyle(int style) {
-        mDrawable = new LoadingCircleDrawable(getResources().getDimensionPixelOffset(R.dimen.genius_loading_minSize));
+        mDrawable = new LoadingCircleDrawable(getResources().getDimensionPixelOffset(R.dimen.g_loading_minSize));
         mDrawable.setCallback(this);
     }
 
