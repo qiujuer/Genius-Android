@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/12/2015
- * Changed 11/12/2015
+ * Changed 12/15/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -105,12 +105,12 @@ public class EditText extends android.widget.EditText {
                 attrs, R.styleable.EditText, defStyleAttr, defStyleRes);
 
         String fontFile = a.getString(R.styleable.EditText_gFont);
-        int lineSize = a.getDimensionPixelSize(R.styleable.EditText_gLineSize, resources.getDimensionPixelSize(R.dimen.genius_editText_lineSize));
+        int lineSize = a.getDimensionPixelSize(R.styleable.EditText_gLineSize, resources.getDimensionPixelSize(R.dimen.g_editText_lineSize));
         ColorStateList lineColor = a.getColorStateList(R.styleable.EditText_gLineColor);
 
         // Set HintProperty
         int titleModel = a.getInt(R.styleable.EditText_gHintTitle, 1);
-        int titleTextSize = a.getDimensionPixelSize(R.styleable.EditText_gHintTitleTextSize, resources.getDimensionPixelSize(R.dimen.genius_editText_hintTitleTextSize));
+        int titleTextSize = a.getDimensionPixelSize(R.styleable.EditText_gHintTitleTextSize, resources.getDimensionPixelSize(R.dimen.g_editText_hintTitleTextSize));
         int titlePaddingTop = a.getDimensionPixelSize(R.styleable.EditText_gHintTitlePaddingTop, 0);
         int titlePaddingBottom = a.getDimensionPixelSize(R.styleable.EditText_gHintTitlePaddingBottom, 0);
         int titlePaddingLeft = a.getDimensionPixelSize(R.styleable.EditText_gHintTitlePaddingLeft, 0);
@@ -161,7 +161,7 @@ public class EditText extends android.widget.EditText {
         if (lineSize == 0) {
             background = null;
         } else {
-            int increment = getResources().getDimensionPixelSize(R.dimen.genius_editText_lineSize_active_increment);
+            int increment = getResources().getDimensionPixelSize(R.dimen.g_editText_lineSize_active_increment);
             int lineActive = lineSize + increment;
             int lineHalf = lineSize >> 1;
 

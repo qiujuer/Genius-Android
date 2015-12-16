@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 10/13/2015
+ * Changed 12/15/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -125,14 +125,14 @@ public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.Ma
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BalloonMarker,
                     defStyleAttr, defStyleRes);
             int textPadding = a.getDimensionPixelSize(R.styleable.BalloonMarker_gMarkerTextPadding,
-                    resource.getDimensionPixelSize(R.dimen.genius_balloonMarker_textPadding));
+                    resource.getDimensionPixelSize(R.dimen.g_balloonMarker_textPadding));
             int textAppearanceId = a.getResourceId(R.styleable.BalloonMarker_gMarkerTextAppearance,
                     R.style.Genius_Widget_BalloonMarker_TextAppearance);
             ColorStateList color = a.getColorStateList(R.styleable.BalloonMarker_gMarkerBackgroundColor);
             String fontFile = a.getString(R.styleable.BalloonMarker_gFont);
 
             mSeparation = a.getDimensionPixelSize(R.styleable.BalloonMarker_gMarkerSeparation,
-                    resource.getDimensionPixelSize(R.dimen.genius_balloonMarker_separation));
+                    resource.getDimensionPixelSize(R.dimen.g_balloonMarker_separation));
 
             a.recycle();
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 08/04/2015
- * Changed 10/13/2015
+ * Changed 12/15/2015
  * Version 3.0.0
  * Author Qiujuer
  *
@@ -145,11 +145,11 @@ public abstract class AbsSeekBar extends View {
 
         // Init
         if (attrs == null) {
-            mSeekBarDrawable.setTrackStroke(resources.getDimensionPixelSize(R.dimen.genius_seekBar_trackStroke));
-            mSeekBarDrawable.setScrubberStroke(resources.getDimensionPixelSize(R.dimen.genius_seekBar_scrubberStroke));
-            mSeekBarDrawable.setTouchRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_touchSize));
-            mSeekBarDrawable.setTickRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_tickSize));
-            mSeekBarDrawable.setThumbRadius(resources.getDimensionPixelSize(R.dimen.genius_seekBar_thumbSize));
+            mSeekBarDrawable.setTrackStroke(resources.getDimensionPixelSize(R.dimen.g_seekBar_trackStroke));
+            mSeekBarDrawable.setScrubberStroke(resources.getDimensionPixelSize(R.dimen.g_seekBar_scrubberStroke));
+            mSeekBarDrawable.setTouchRadius(resources.getDimensionPixelSize(R.dimen.g_seekBar_touchSize));
+            mSeekBarDrawable.setTickRadius(resources.getDimensionPixelSize(R.dimen.g_seekBar_tickSize));
+            mSeekBarDrawable.setThumbRadius(resources.getDimensionPixelSize(R.dimen.g_seekBar_thumbSize));
 
             if (notEdit) {
                 mIndicator = new PopupIndicator(context);
@@ -194,15 +194,15 @@ public abstract class AbsSeekBar extends View {
 
         // Size
         int tickSize = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gTickSize,
-                resources.getDimensionPixelSize(R.dimen.genius_seekBar_tickSize));
+                resources.getDimensionPixelSize(R.dimen.g_seekBar_tickSize));
         int thumbSize = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gThumbSize,
-                resources.getDimensionPixelSize(R.dimen.genius_seekBar_thumbSize));
+                resources.getDimensionPixelSize(R.dimen.g_seekBar_thumbSize));
         int touchSize = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gTouchSize,
-                resources.getDimensionPixelSize(R.dimen.genius_seekBar_touchSize));
+                resources.getDimensionPixelSize(R.dimen.g_seekBar_touchSize));
         int trackStroke = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gTrackStroke,
-                resources.getDimensionPixelSize(R.dimen.genius_seekBar_trackStroke));
+                resources.getDimensionPixelSize(R.dimen.g_seekBar_trackStroke));
         int scrubberStroke = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gScrubberStroke,
-                resources.getDimensionPixelSize(R.dimen.genius_seekBar_scrubberStroke));
+                resources.getDimensionPixelSize(R.dimen.g_seekBar_scrubberStroke));
 
         // Other
         int indicator = a.getInt(R.styleable.AbsSeekBar_gIndicator, 1);
@@ -213,11 +213,11 @@ public abstract class AbsSeekBar extends View {
 
         // Indicator TextAppearance
         int textPadding = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gIndicatorTextPadding,
-                resources.getDimensionPixelSize(R.dimen.genius_balloonMarker_textPadding));
+                resources.getDimensionPixelSize(R.dimen.g_balloonMarker_textPadding));
         int textAppearanceId = a.getResourceId(R.styleable.AbsSeekBar_gIndicatorTextAppearance, R.style.Genius_Widget_BalloonMarker_TextAppearance);
         String fontFile = a.getString(R.styleable.AbsSeekBar_gFont);
         int separation = a.getDimensionPixelSize(R.styleable.AbsSeekBar_gIndicatorSeparation,
-                resources.getDimensionPixelSize(R.dimen.genius_balloonMarker_separation));
+                resources.getDimensionPixelSize(R.dimen.g_balloonMarker_separation));
         a.recycle();
 
         // Set Size
