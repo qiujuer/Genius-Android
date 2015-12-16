@@ -41,6 +41,22 @@
 
 ## 添加项目
 
+### `CAPRICE`
+
+`Ui` `Blur` `Resource` `Kit`
+
+```
+dependencies {
+  compile 'net.qiujuer.genius:ui:1.3.0'
+  compile 'net.qiujuer.genius:res:1.3.0'
+  compile 'net.qiujuer.genius:kit:1.1.0'
+  compile 'net.qiujuer.genius:blur:1.0.1'
+}
+```
+
+**提示：每个模块都是独立的，可单独依赖使用。**
+
+
 ### `STEADY`
 
 ```
@@ -48,21 +64,6 @@ dependencies {
   compile 'com.github.qiujuer:genius:2.4.1'
 }
 ```
-
-### `CAPRICE`
-
-`Ui` `Blur` `Resource` `Kit`
-
-```
-dependencies {
-  compile 'net.qiujuer.genius:ui:1.2.1'
-  compile 'net.qiujuer.genius:blur:1.0.1'
-  compile 'net.qiujuer.genius:res:1.1.0'
-  compile 'net.qiujuer.genius:kit:1.1.0'
-}
-```
-
-**提示：每个模块都是独立的，可单独依赖使用。**
 
 
 
