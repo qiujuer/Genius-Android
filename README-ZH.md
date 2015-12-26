@@ -73,6 +73,27 @@ dependencies {
 *  [`Wiki`](https://github.com/qiujuer/Genius-Android/wiki)
 
 
+
+## 反馈
+
+在使用中有任何问题，欢迎能及时反馈给我，可以用以下联系方式跟我交流
+
+* 项目：[`提交Bug或想法`](https://github.com/qiujuer/Genius-Android/issues)
+* 邮件：[`qiujuer@live.cn`](mailto:qiujuer@live.cn)
+* QQ： `756069544`
+* QQ群：[`387403637`](http://shang.qq.com/wpa/qunwpa?idkey=3f1ed8e41ed84b07775ca593032c5d956fbd8c3320ce94817bace00549d58a8f)
+* Weibo： [`@qiujuer`](http://weibo.com/qiujuer)
+* 网站：[`www.qiujuer.net`](http://www.qiujuer.net)
+
+
+
+## 捐助我
+
+有兴趣的情况下、写一个`免费`的东西，有欣喜，也还有汗水，希望你喜欢我的作品，同时也能支持一下。
+当然，有钱捧个钱场（支付宝: `qiujuer@live.cn` ），没钱捧个人场，谢谢！
+
+
+
 ## 关于我
 
 ```javascript
@@ -81,6 +102,7 @@ dependencies {
     site : "http://www.qiujuer.net"
   }
 ```
+
 
 
 License
