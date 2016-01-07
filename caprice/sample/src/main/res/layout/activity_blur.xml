@@ -9,8 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="net.qiujuer.sample.genius.BlurActivity">
 
-
-    <!-- BlurKit -->
     <TextView
         android:id="@+id/title_blur"
         android:layout_width="match_parent"
