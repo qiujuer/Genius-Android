@@ -19,5 +19,4 @@ android {
     }
 }
 
-apply from: '../script/maven_push.gradle'
-apply from: '../script/make_jar.gradle'
+apply from: '../script/gradle-jcenter-push.gradle'

@@ -1,4 +1,6 @@
 <resources>
+    <dimen name="font_4">4sp</dimen>
+    <dimen name="font_6">6sp</dimen>
     <dimen name="font_8">8sp</dimen>
     <dimen name="font_10">10sp</dimen>
     <dimen name="font_12">12sp</dimen>
@@ -12,6 +14,7 @@
     <dimen name="font_56">56sp</dimen>
     <dimen name="font_112">112sp</dimen>
 
+    <dimen name="lay_2">2dp</dimen>
     <dimen name="lay_4">4dp</dimen>
     <dimen name="lay_8">8dp</dimen>
     <dimen name="lay_12">12dp</dimen>
@@ -38,6 +41,9 @@
     <dimen name="lay_92">92dp</dimen>
     <dimen name="lay_96">96dp</dimen>
 
+    <dimen name="size_6">6dp</dimen>
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_10">10dp</dimen>
     <dimen name="size_12">12dp</dimen>
     <dimen name="size_14">14dp</dimen>
     <dimen name="size_16">16dp</dimen>
