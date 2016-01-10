@@ -1,5 +1,5 @@
 /*************************************************
-Copyright:  Copyright QIUJUER 2015.
+Copyright:  Copyright QIUJUER 2016.
 Author:		QiuJuer
 CreateDate:		2015-04-28
 ChangeDate: 	2015-04-28

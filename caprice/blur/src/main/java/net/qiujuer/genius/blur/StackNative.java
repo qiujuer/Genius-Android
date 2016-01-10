@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 05/28/2015
- * Changed 05/28/2015
+ * Changed 1/10/2015
  * Version 1.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
