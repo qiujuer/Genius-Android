@@ -31,9 +31,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.1.1'
-    //compile 'net.qiujuer.genius:blur:1.0.1'
-    compile 'net.qiujuer.genius:kit:1.3.0'
-    compile 'net.qiujuer.genius:res:1.4.0'
-    compile project(':ui')
-    compile project(':blur')
+    compile 'net.qiujuer.genius:blur:1.5.0'
+    compile 'net.qiujuer.genius:kit:1.5.0'
+    compile 'net.qiujuer.genius:res:1.5.0'
+    compile 'net.qiujuer.genius:ui:1.5.0'
 }
