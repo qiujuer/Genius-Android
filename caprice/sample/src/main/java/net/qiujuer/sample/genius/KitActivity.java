@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import net.qiujuer.genius.kit.Kit;
@@ -17,6 +18,7 @@ import net.qiujuer.genius.kit.util.HashKit;
 import net.qiujuer.genius.kit.util.Log;
 import net.qiujuer.genius.kit.util.Tools;
 import net.qiujuer.genius.kit.util.UiKit;
+import net.qiujuer.genius.ui.widget.Button;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,9 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class KitActivity extends AppCompatActivity {
+public class KitActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = KitActivity.class.getSimpleName();
-    TextView mText = null;
+    private TextView mText = null;
+    private Button mAsync;
+    private Button mSync;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,12 @@ public class KitActivity extends AppCompatActivity {
         // 初始化使用
         Kit.initialize(getApplication());
 
+        mAsync = (Button) findViewById(R.id.btn_async);
+        mSync = (Button) findViewById(R.id.btn_sync);
         mText = (TextView) findViewById(R.id.text);
+
+        mAsync.setOnClickListener(this);
+        mSync.setOnClickListener(this);
 
         // Add callback
         // 添加回调显示
@@ -75,6 +84,8 @@ public class KitActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mText = null;
+        mRunAsyncThread = false;
+        mRunSyncThread = false;
         // Dispose when you don't use
         Kit.dispose();
     }
@@ -384,4 +395,87 @@ public class KitActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private boolean mRunAsyncThread = false;
+    private boolean mRunSyncThread = false;
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_async) {
+            if (mRunAsyncThread) {
+                mRunAsyncThread = false;
+                return;
+            }
+
+            mRunAsyncThread = true;
+            Thread thread = new Thread("ASYNC-ADD-THREAD") {
+                long count = 0;
+
+                @Override
+                public void run() {
+                    super.run();
+
+                    while (mRunAsyncThread) {
+                        add();
+                        Tools.sleepIgnoreInterrupt(0, 500);
+                    }
+                }
+
+                private void add() {
+                    count++;
+                    final long cur = count;
+                    UiKit.runOnMainThreadAsync(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAsync.setText(cur + "/" + getCount());
+                        }
+                    });
+                }
+
+                public long getCount() {
+                    return count;
+                }
+            };
+            thread.start();
+        } else if (v.getId() == R.id.btn_sync) {
+            if (mRunSyncThread) {
+                mRunSyncThread = false;
+                return;
+            }
+
+            mRunSyncThread = true;
+
+            Thread thread = new Thread("SYNC-ADD-THREAD") {
+                long count = 0;
+
+                @Override
+                public void run() {
+                    super.run();
+
+                    while (mRunSyncThread) {
+                        add();
+                        Tools.sleepIgnoreInterrupt(0, 500);
+                    }
+                }
+
+                private void add() {
+                    count++;
+                    final long cur = count;
+                    UiKit.runOnMainThreadSync(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSync.setText(cur + "/" + getCount());
+                        }
+                    });
+                }
+
+                public long getCount() {
+                    return count;
+                }
+            };
+            thread.start();
+        }
+    }
+
+
 }
