@@ -1,10 +1,27 @@
 ---
-layout: default
-title: Genius-Android
-id: index
+layout: default 
+title: Genius-Android 
+id: index 
 ---
 
-<section id="page-index">
-	<img src="assets/images/second/ui_all.png">
-</section>
-
+<div class="mdl-layout__tab-panel is-active" id="welcome">
+    {% include welcome.html %}
+</div>
+<div class="mdl-layout__tab-panel" id="guide">
+    {% include guide.html %}
+</div>
+<div class="mdl-layout__tab-panel" id="lib-ui">
+    {% include lib-ui.html %}
+</div>
+<div class="mdl-layout__tab-panel" id="lib-res">
+    {% include lib-res.html %}
+</div>
+<div class="mdl-layout__tab-panel" id="lib-kit">
+    {% include lib-kit.html %}
+</div>
+<div class="mdl-layout__tab-panel" id="lib-blur">
+    {% include lib-blur.html %}
+</div>
+<div class="mdl-layout__tab-panel" id="about">
+    {% include about.html %}
+</div>
