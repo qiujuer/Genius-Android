@@ -415,7 +415,7 @@ public class KitActivity extends AppCompatActivity implements View.OnClickListen
                 public void run() {
                     super.run();
 
-                    while (mRunAsyncThread) {
+                    while (mRunAsyncThread && count < 10000) {
                         add();
                         Tools.sleepIgnoreInterrupt(0, 500);
                     }
@@ -452,7 +452,7 @@ public class KitActivity extends AppCompatActivity implements View.OnClickListen
                 public void run() {
                     super.run();
 
-                    while (mRunSyncThread) {
+                    while (mRunSyncThread && count < 10000) {
                         add();
                         Tools.sleepIgnoreInterrupt(0, 500);
                     }

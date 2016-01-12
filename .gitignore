@@ -3,7 +3,10 @@
 /caprice/.DS_Store/
 /caprice/gradle/
 /caprice/build/
-/caprice/library/build/
+/caprice/blur/build/
+/caprice/kit/build/
+/caprice/res/build/
+/caprice/ui/build/
 /caprice/sample/build/
 /caprice/local.properties
 /caprice/gradlew
@@ -14,10 +17,8 @@
 /steady/.DS_Store/
 /steady/gradle/
 /steady/build/
-/steady/library-ui/build/
-/steady/library-kit/build/
-/steady/sample-ui/build/
-/steady/sample-kit/build/
+/steady/library/build/
+/steady/sample/build/
 /steady/local.properties
 /steady/gradlew
 /steady/gradlew.bat
