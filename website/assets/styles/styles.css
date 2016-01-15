@@ -19,10 +19,22 @@ html, body {
   margin: 0;
   padding: 0;
 }
-.mdl-genius .mdl-layout__header-row {
-  padding-left: 40px;
+.mdl-genius video{
+    box-shadow: 0px 0px 15px  rgba(0,0,0,.35);
+    width: 384px;
+    height: 640px;
 }
-.mdl-genius .mdl-layout.is-small-screen .mdl-layout__header-row h3 {
+.mdl-genius img{
+    box-shadow: 0px 0px 10px  rgba(0,0,0,.25);
+}
+.mdl-genius .title {
+  padding-left: 40px;
+  display: block;
+}
+.mdl-genius .mdl-layout.is-small-screen .title h3 {
+  font-size: inherit;
+}
+.mdl-genius .mdl-layout.is-small-screen .title h5 {
   font-size: inherit;
 }
 .mdl-genius .mdl-layout__tab-bar-button {

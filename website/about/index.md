@@ -1,6 +1,6 @@
 ---
-layout: single
-title: About - Genius-Android
+layout: default
+title: About
 id: about
 root: ../
 ---
