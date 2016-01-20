@@ -57,39 +57,41 @@
     </style>
 </head>
 
-<body class="mdl-genius mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
-    <div class="mdl-layout mdl-layout--fixed-header has-tabs is-upgraded">
-        <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
-            <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
-            </div>
-            <div class="mdl-layout--large-screen-only title">
-                <h3>Genius-Android</h3>
-                <h5>A Android Material Design Theme UI and Tool Library.</h5>
-            </div>
-            <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
-            </div>
-            <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-                {% include header.html %}
-            </div>
-        </header>
-        <main class="mdl-layout__content">
-            <div class="content">
-                <section class="section--center mdl-grid mdl-grid--no-spacing">
-                </section>
-                <section class="section--center mdl-grid mdl-grid--no-spacing">
-                    <div class="mdl-cell mdl-cell--12-col">
-                        {{ content }}
-                    </div>
-                </section>
-                <section class="section--center mdl-grid mdl-grid--no-spacing">
-                </section>
-            </div>
-            <footer class="mdl-mega-footer">
-                {% include footer.html %}
-            </footer>
-        </main>
+<body>
+    <div class="mdl-genius mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+        <div class="mdl-layout mdl-layout--fixed-header has-tabs is-upgraded">
+            <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
+                </div>
+                <div class="mdl-layout--large-screen-only title">
+                    <h3>Genius-Android</h3>
+                    <h5>A Android Material Design Theme UI and Tool Library.</h5>
+                </div>
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
+                </div>
+                <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+                    {% include header.html %}
+                </div>
+            </header>
+            <main class="mdl-layout__content">
+                <div class="content">
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    </section>
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                        <div class="mdl-cell mdl-cell--12-col">
+                            {{ content }}
+                        </div>
+                    </section>
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    </section>
+                </div>
+            </main>
+        </div>
+        <div class="body-content-push"></div>
     </div>
-
+    <footer class="mdl-mega-footer">
+        {% include footer.html %}
+    </footer>
     <a href="https://github.com/qiujuer/Genius-Android" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
     <script type="text/javascript" src="{{ page.root }}assets/lib/material.min.js"></script>
     <script type="text/javascript" src="{{ page.root }}assets/lib/prism.js"></script>
