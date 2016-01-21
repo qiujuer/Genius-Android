@@ -26,6 +26,22 @@ footer {
     height: 68px;
 }
 
+code {
+    padding: 0 3px;
+    margin: 0 2px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 3px;
+    font-family: 'monaco', 'Consolas', "Liberation Mono", Courier, monospace;
+}
+
+pre[class*="language-"] {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+code[class*="language-"] {
+    background: rgba(0, 0, 0, 0);
+}
+
 .mdl-genius {
     min-height: 100%;
     margin: 0 auto -100px;
