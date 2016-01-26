@@ -7,11 +7,17 @@ root: ../
 
 ### Start
 
-This is `CAPRICE` branch use guide.
+`CAPRICE` branch use guide. This library include modules: 
+
+* `Ui` Research and development in **Color-Drive** and **Material Design** style.
+* `Resource` Include Material Design **Color** and Lay **Size**.
+* `Kit` Include **command**、**net** and same **util** class.
+* `Blur`Include **blur** image by **java** and **jni** method.
+
 
 #### Gradle:
 
-`Ui` `Blur` `Resource` `Kit`
+`Ui` `Resource` `Blur` `Kit`
 
 {% prism java %}
 dependencies {
