@@ -43,7 +43,36 @@ This module provide same plate :
 {% highlight xml %}
 <net.qiujuer.genius.ui.widget.TextView
     android:text="Border TB"
+    app:gFont="roboto.ttf"
     app:gBorder="top|bottom"
     app:gBorderColor="@color/teal_500"
     app:gBorderSize="1dp" />
 {% endhighlight %}
+
+* `gFont`: Set text font file name, the path's **"assets\fonts\roboto.ttf"**
+* `gBorder`: Set show border, you can set: `all`, `top`, `top|bottom`
+    * **all** 
+    * **left**, **top**, **right**, **bottom**
+* `gBorderColor`: Set border color, you can set: `@color/teal_500` or `#ff000000`
+* `gBorderSize`: Set border size, the unit is **dp**
+
+
+#### Button 
+
+![Img](../assets/images/button.gif)
+
+{% highlight xml %}
+<net.qiujuer.genius.ui.widget.TextView
+    android:text="Border TB"
+    app:gFont="roboto.ttf"
+    app:gBorder="top|bottom"
+    app:gBorderColor="@color/teal_500"
+    app:gBorderSize="1dp" />
+{% endhighlight %}
+
+* `gFont`: Set text font file name, the path's **"assets\fonts\roboto.ttf"**
+* `gBorder`: Set show border, you can set: `all`, `top`, `top|bottom`
+    * **all** 
+    * **left**, **top**, **right**, **bottom**
+* `gBorderColor`: Set border color, you can set: `@color/teal_500` or `#ff000000`
+* `gBorderSize`: Set border size, the unit is **dp**
