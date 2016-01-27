@@ -7,12 +7,43 @@ root: ../
 
 ### Ui Module
 
-You in use if you have any question, please timely feedback to me, you can use the following contact information to communicate with me
+This module provide same plate :
 
-* Project: [`Submit Bug or Idea`](https://github.com/qiujuer/Genius-Android/issues)
-* Email: [`qiujuer@live.cn`](mailto:qiujuer@live.cn)
-* QQ: `756069544`
-* QQ Group: [`387403637`](http://shang.qq.com/wpa/qunwpa?idkey=3f1ed8e41ed84b07775ca593032c5d956fbd8c3320ce94817bace00549d58a8f)
-* Weibo: [`@qiujuer`](http://weibo.com/qiujuer)
-* Websit:[`www.qiujuer.net`](http://www.qiujuer.net)
+* `widget` include:
 
+    * `TextView` quick set boder and boder
+    * `Button` have touch press button
+    * `FloatActionButton` have shadow button
+    * `CheckBox` have click animation
+    * `EditText` a MD line edit    
+    * `ImageView` the imageview support touch press
+    * `Loading` loading progress widget
+    * `SeekBar` have move popup view seekbar
+    
+* `drawable` This is widget drawable and same abs class.
+* `ui kit` It have font, color, attr and size convert.
+
+
+### First 
+
+{% highlight xml %}
+// First of all specified in the root container:
+<YourLayout
+    ...
+    xmlns:app="http://schemas.android.com/apk/res-auto"/>
+{% endhighlight %}
+
+
+### Widget 
+
+#### TextView 
+
+![Img](../assets/images/textview.png)
+
+{% highlight xml %}
+<net.qiujuer.genius.ui.widget.TextView
+    android:text="Border TB"
+    app:gBorder="top|bottom"
+    app:gBorderColor="@color/teal_500"
+    app:gBorderSize="1dp" />
+{% endhighlight %}
