@@ -26,25 +26,49 @@ footer {
     height: 68px;
 }
 
+blockquote {
+    background: none;
+    padding: 0px 8px;
+    padding-top: 2px;
+    border-left: 4px solid rgba(0, 0, 0, 0.1);
+}
+
+blockquote::before {
+    content: none;
+}
+
+blockquote::after {
+    content: none;
+}
+
 code {
     padding: 0 3px;
     margin: 0 2px;
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(33, 150, 243, 0.75);
+    color: white;
     border-radius: 3px;
     font-family: 'monaco', 'Consolas', "Liberation Mono", Courier, monospace;
 }
 
 figure {
-    padding: 4px 8px;
+    padding: 12px 16px;
     margin-left: 0px;
     margin-right: 0px;
-    background: rgba(0, 0, 0, 0.025);
+    background: rgba(0, 0, 0, 0.05);
     border-radius: 3px;
     font-family: 'monaco', 'Consolas', "Liberation Mono", Courier, monospace;
 }
 
-code[class*="language-"] {
+figure pre {
+    margin: 0px;
+    padding: 0px;
+}
+
+figure pre code[class*="language-"] {
     background: rgba(0, 0, 0, 0);
+    margin: 0px;
+    padding: 0px;
+    border-radius: 0;
 }
 
 .mdl-genius {
