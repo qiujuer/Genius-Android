@@ -7,20 +7,26 @@ root: ../
 
 ### Start
 
-This is `CAPRICE` branch use guide.
+`CAPRICE` branch use guide. This library include modules: 
+
+* `Ui` Research and development in **Color-Drive** and **Material Design** style.
+* `Resource` Include Material Design **Color** and Lay **Size**.
+* `Kit` Include **command**、**net** and same **util** class.
+* `Blur`Include **blur** image by **java** and **jni** method.
+
 
 #### Gradle:
 
-`Ui` `Blur` `Resource` `Kit`
+`Ui` `Resource` `Blur` `Kit`
 
-{% prism java %}
+{% highlight gradle %}
 dependencies {
   compile 'net.qiujuer.genius:ui:1.5.0'
   compile 'net.qiujuer.genius:res:1.5.0'
   compile 'net.qiujuer.genius:kit:1.5.0'
   compile 'net.qiujuer.genius:blur:1.5.0'
 }
-{% endprism %}
+{% endhighlight %}
 
 **Note: Each module is independent and can be used independently to dependency.**
 
@@ -28,46 +34,46 @@ dependencies {
 
 `Ui`
 
-{% prism xml %}
+{% highlight xml %}
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>ui</artifactId>
     <version>1.5.0</version>
 </dependency>
-{% endprism %}
+{% endhighlight %}
 
 
 `Res`
 
-{% prism xml %}
+{% highlight xml %}
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>res</artifactId>
     <version>1.5.0</version>
 </dependency>
-{% endprism %}
+{% endhighlight %}
 
 
 `Kit`
 
-{% prism xml %}
+{% highlight xml %}
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>kit</artifactId>
     <version>1.5.0</version>
 </dependency>
-{% endprism %}
+{% endhighlight %}
 
 
 `Blur`
 
-{% prism xml %}
+{% highlight xml %}
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>blur</artifactId>
     <version>1.5.0</version>
 </dependency>
-{% endprism %}
+{% endhighlight %}
 
 
 

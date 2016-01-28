@@ -28,11 +28,12 @@
 
     <link media="all" rel="stylesheet" type="text/css" href="{{ page.root }}assets/lib/material.min.css" />
     <link media="all" rel="stylesheet" type="text/css" href="{{ page.root }}assets/lib/material.icon.css" />
-    <link media="all" rel="stylesheet" type="text/css" href="{{ page.root }}assets/lib/prism.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="{{ page.root }}assets/lib/highlight.css" />
     <link media="all" rel="stylesheet" type="text/css" href="{{ page.root }}assets/styles/styles.css" />
 
     <script type="text/javascript" src="{{ page.root }}assets/scripts/jquery.min.js"></script>
     <script type="text/javascript" src="{{ page.root }}assets/scripts/mobilecheck.js"></script>
+    <script type="text/javascript" src="{{ page.root }}assets/lib/highlight.js"></script>
     <script type="text/javascript">
         if(mobilecheck()){
             $('<link/>', {
@@ -42,6 +43,7 @@
                 href: '{{ page.root }}assets/styles/styles.css'
             }).appendTo('head')
         }
+        hljs.initHighlightingOnLoad();
     </script>
 
     <style>
@@ -58,7 +60,7 @@
 </head>
 
 <body>
-    <div class="mdl-genius mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    <div class="mdl-genius mdl-color-text--grey-900 mdl-base">
         <div class="mdl-layout mdl-layout--fixed-header has-tabs is-upgraded">
             <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
                 <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
@@ -94,7 +96,6 @@
     </footer>
     <a href="https://github.com/qiujuer/Genius-Android" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
     <script type="text/javascript" src="{{ page.root }}assets/lib/material.min.js"></script>
-    <script type="text/javascript" src="{{ page.root }}assets/lib/prism.js"></script>
 </body>
 
 </html>

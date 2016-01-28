@@ -10,4 +10,4 @@ collections:
     output: true
 
 kramdown:
-    syntax_highlighter: coderay
+    syntax_highlighter: syntax_highlighter_opts
