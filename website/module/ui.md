@@ -50,12 +50,12 @@ This module provide same plate :
     app:gBorderSize="1dp" />
 {% endhighlight %}
 
-* `gFont`: Set text font file name, the path's **"assets\fonts\roboto.ttf"**
+* `gFont`: Set text font file name, the path's **"assets\fonts\roboto.ttf"**.
 * `gBorder`: Set show border, you can set: `all`, `top`, `top|bottom`
     * **all** 
-    * **left**, **top**, **right**, **bottom**
-* `gBorderColor`: Set border color, you can set: `@color/teal_500` or `#ff000000`
-* `gBorderSize`: Set border size, the unit is **dp**
+    * **left**, **top**, **right**, **bottom**.
+* `gBorderColor`: Set border color, you can set: `@color/teal_500` or `#ff000000`.
+* `gBorderSize`: Set border size, the unit is **dp**.
 
 
 #### Button 
@@ -78,7 +78,7 @@ This module provide same plate :
 {% endhighlight %}
 
 * `gFont`: See textview xml.
-* `gTouchColor`: Set the touch press color, you can set: `@color/black_alpha_64` or `#80000000`
+* `gTouchColor`: Set the touch press color, you can set: `@color/black_alpha_64` or `#80000000`.
 * `gTouchEffect`: Set the touch press type, include:
     * **none** Not have touch effect.
     * **auto** This effect is default by MD, spread from your touch point.
@@ -112,8 +112,8 @@ If need **fast** you can set `0.0~1.0`; if you need **slow**, you can set `1~10`
     app:gTouchColor="@color/black_alpha_64"/>
 {% endhighlight %}
 
-* `gBackgroundColor`: If you want change bg color, you need use it. you can set: `@color/cyan_500` or `#aa000000`
-* `gTouchColor`: Set the touch press color, you can set: `@color/black_alpha_64` or `#80000000`
+* `gBackgroundColor`: If you want change bg color, you need use it. you can set: `@color/cyan_500` or `#aa000000`.
+* `gTouchColor`: Set the touch press color, you can set: `@color/black_alpha_64` or `#80000000`.
 
 You can add create drawable in the src by java:
 
@@ -155,10 +155,10 @@ The **AddLineShape** in [this](https://github.com/qiujuer/Genius-Android/blob/ma
 {% endhighlight %}
 
 * `gFont`: See textview xml.
-* `gBorderSize`: Set ring drawable size
-* `gIntervalSize`: Set ring to circle interval size
-* `gMarkSize`: Set mark drawable size; if you not set, the size is **Math.min(width, hight)**
-* `gMarkColor`: Set mark color, the color allow set **ColorStateList**
+* `gBorderSize`: Set ring drawable size.
+* `gIntervalSize`: Set ring to circle interval size.
+* `gMarkSize`: Set mark drawable size; if you not set, the size is **Math.min(width, hight)**.
+* `gMarkColor`: Set mark color, the color allow set **ColorStateList**.
     * `#ff000000`
     * `@color/black_alpha_64`
     * `color drawable:`
@@ -191,17 +191,17 @@ The **AddLineShape** in [this](https://github.com/qiujuer/Genius-Android/blob/ma
     app:gLineSize="2dp" />
 {% endhighlight %}
 
-* `gFont`: See textview xml
+* `gFont`: See textview xml.
 * `gHintTitle`: Set Hint title style type:
-    * **none** Not hava hint
-    * **slide** Slide show title, this is Deafault
-* `gHintTitlePaddingBottom`: Set title padding bottom
-* `gHintTitlePaddingLeft`: Set title padding left, if align left, default by TextView padding left
-* `gHintTitlePaddingRight`: Set title padding right, if align right, default by TextView padding right
-* `gHintTitlePaddingTop`: Set title padding top
-* `gHintTitleTextSize`: Set title text size
-* `gLineColor`: Set EditText bottom line color
-* `gLineSize`: Set EditText bottom line size
+    * **none** Not hava hint.
+    * **slide** Slide show title, this is Deafault.
+* `gHintTitlePaddingBottom`: Set title padding bottom.
+* `gHintTitlePaddingLeft`: Set title padding left, if align left, default by TextView padding left.
+* `gHintTitlePaddingRight`: Set title padding right, if align right, default by TextView padding right.
+* `gHintTitlePaddingTop`: Set title padding top.
+* `gHintTitleTextSize`: Set title text size.
+* `gLineColor`: Set EditText bottom line color.
+* `gLineSize`: Set EditText bottom line size.
 
 
 
@@ -220,14 +220,14 @@ The **AddLineShape** in [this](https://github.com/qiujuer/Genius-Android/blob/ma
     app:gTouchDurationRate="0.7" />
 {% endhighlight %}
 
-* `gTouchColor`: Set the touch press color, you can set: `@color/black_alpha_64` or `#80000000`
-* `gTouchEffect`: Set the touch press type, see **Button** attr, default none
+* `gTouchColor`: Set the touch press color, you can set: `@color/black_alpha_64` or `#80000000`.
+* `gTouchEffect`: Set the touch press type, see **Button** attr, default none.
 * `gTouchCornerRadius`: Set the touch effect edge corner radius, this is set four corners.
 * `gTouchCornerRadiusTL`: Set the corner radius between **top** and **left**.
 * `gTouchCornerRadiusTR`: Set the corner radius between **top** and **right**.
 * `gTouchCornerRadiusBL`: Set the corner radius between **bottom** and **left**.
 * `gTouchCornerRadiusBR`: Set the corner radius between **bottom** and **right**.
-* `gTouchDurationRate`: Set touch press speed. you must `>0.0`, see **Button** attr
+* `gTouchDurationRate`: Set touch press speed. you must `>0.0`, see **Button** attr.
 
 
 
@@ -264,9 +264,9 @@ The **AddLineShape** in [this](https://github.com/qiujuer/Genius-Android/blob/ma
     app:gAllowTrackClickToDrag="true"/>
 {% endhighlight %}
 
-* `gFont`:  See textview xml
-* `gMax`: Set the touch press type, see **Button** attr, default none
-* `gMin`: Set the touch effect edge corner radius, this is set four corners.
+* `gFont`:  See textview xml.
+* `gMax`: Set seekbar max value, the value must greater than `gMin` value.
+* `gMin`: Set seekbar max value, the value must greater than `gMin` value.
 * `gValue`: Set the corner radius between **top** and **left**.
 * `gIndicator`: Set the corner radius between **top** and **right**.
 * `gIndicatorTextPadding`: Set the corner radius between **bottom** and **left**.
@@ -302,9 +302,9 @@ The **AddLineShape** in [this](https://github.com/qiujuer/Genius-Android/blob/ma
     app:gAutoRun="false"/>
 {% endhighlight %}
 
-* `gBackgroundLineSize`:  The loading line background size
-* `gForegroundLineSize`: The loading line foreground size
-* `gBackgroundColor`: The loading line background color
-* `gForegroundColor`: The loading line foreground color
-* `gProgressFloat`: If you need hava progress set it. the value `0.0~1.0`, if you set it, the loading isn't running
-* `gAutoRun`: Show the widget, auto running, default is **true**
+* `gBackgroundLineSize`:  The loading line background size.
+* `gForegroundLineSize`: The loading line foreground size.
+* `gBackgroundColor`: The loading line background color.
+* `gForegroundColor`: The loading line foreground color.
+* `gProgressFloat`: If you need hava progress set it. the value `0.0~1.0`, if you set it, the loading isn't running.
+* `gAutoRun`: Show the widget, auto running, default is **true**.
