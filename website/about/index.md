@@ -5,9 +5,7 @@ id: about
 root: ../
 ---
 
-![GeniusUI](../assets/images/logo.png)
-
-## Feedback
+### Feedback
 
 You in use if you have any question, please timely feedback to me, you can use the following contact information to communicate with me
 
@@ -19,13 +17,13 @@ You in use if you have any question, please timely feedback to me, you can use t
 * Websit:[`www.qiujuer.net`](http://www.qiujuer.net)
 
 
-## Giving developers
+### Giving developers
 
 Are interested in and write a `free`, have joy, also there is sweat, I hope you like my work, but also can support it.
 Of course, rich holds a money (AliPay: `qiujuer@live.cn`); No money holds personal field, thank you.
 
 
-## About me
+### About me
 
 {% highlight javascript %}
   var info = {
