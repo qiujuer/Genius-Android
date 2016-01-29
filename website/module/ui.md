@@ -519,4 +519,4 @@ public class CustomControl extends FrameLayout implements TouchEffectDrawable.Pe
 }
 {% endhighlight %}
 
-[Custom View Source](http://)
+[Custom View Source](https://github.com/qiujuer/Genius-Android/blob/master/caprice/release/CustomControl.java)
