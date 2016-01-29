@@ -266,25 +266,36 @@ The **AddLineShape** in [this](https://github.com/qiujuer/Genius-Android/blob/ma
 
 * `gFont`:  See textview xml.
 * `gMax`: Set seekbar max value, the value must greater than `gMin` value.
-* `gMin`: Set seekbar max value, the value must greater than `gMin` value.
-* `gValue`: Set the corner radius between **top** and **left**.
-* `gIndicator`: Set the corner radius between **top** and **right**.
-* `gIndicatorTextPadding`: Set the corner radius between **bottom** and **left**.
-* `gIndicatorBackgroundColor`: Set the corner radius between **bottom** and **right**.
-* `gIndicatorFormatter`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gIndicatorSeparation`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gIndicatorTextAppearance`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gRippleColor`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gScrubberColor`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gScrubberStroke`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gThumbColor`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gThumbSize`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gTickSize`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gTouchSize`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gTrackColor`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gTrackStroke`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gMirrorForRtl`: Set touch press speed. you must `>0.0`, see **Button** attr
-* `gAllowTrackClickToDrag`: Set touch press speed. you must `>0.0`, see **Button** attr
+* `gMin`: Set seekbar min value, the value must less than `gMax` value.
+* `gValue`: Set the progress value, the value between `gMin` and `gMax`.
+* `gIndicator`: This's seekbar popup view, set the type.
+    * `none` not show popup view.
+    * `auto` if user move progress the view will show.
+    * `always` the view always show, **in development**.
+* `gIndicatorTextPadding`: The popup text view padding.
+* `gIndicatorBackgroundColor`: The popup view background.
+* `gIndicatorFormatter`: The popup textview formatter, eg: `(∩_∩)%d`, `-_-%d` or `^%d^`.
+* `gIndicatorSeparation`: The popup float height.
+* `gIndicatorTextAppearance`: If you need custom textview style, you can set it. This's style xml.
+{% highlight xml %}
+<style name="Genius.Widget.BalloonMarker.TextAppearance" parent="android:TextAppearance.Small">
+    <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+</style>
+{% endhighlight %}
+
+* `gThumbColor`: Set seekbar thumb color.
+* `gThumbSize`: Set seekbar thumb **diameter** size.
+* `gTouchSize`: On state is active will show a circle, the circle will follow finger movement. This's set the circle **diameter** size.
+* `gRippleColor`: On you touch the thumb, seekbar will to active state and ripple a circle. This's set ripple color.
+* `gTickSize`: Set seebkar value of the tick point **diameter** size.
+
+* `gScrubberColor`: This's seekbar foreground line color.
+* `gScrubberStroke`:This's seekbar foreground line size.
+* `gTrackColor`: This's seekbar background line color.
+* `gTrackStroke`: This's seekbar background line size.
+
+* `gMirrorForRtl`: If want let seekbar draw right to left, you can set `false`, default is `true`.
+* `gAllowTrackClickToDrag`: Allows to change the value of the progress bar. default is `true`. if you set `false`, you can only move thumb to change the progress value.
 
 
 #### Loading
