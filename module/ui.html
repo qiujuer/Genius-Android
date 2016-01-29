@@ -1,0 +1,643 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A Android Material Design Theme UI and Tool Library.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ui Module - Genius-Android Helper Site</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Ui Module - Genius-Android Helper Site">
+
+    <link rel="apple-touch-icon-precomposed" href="../favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../favicon.ico" sizes="32x32" />
+    <link rel="icon" href="../favicon.ico" sizes="64x64" />
+    <link rel="icon" href="../favicon.ico" sizes="128x128" />
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="../favicon.ico">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/material.min.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/material.icon.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/highlight.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/styles/styles.css" />
+
+    <script type="text/javascript" src="../assets/scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/scripts/mobilecheck.js"></script>
+    <script type="text/javascript" src="../assets/lib/highlight.js"></script>
+    <script type="text/javascript">
+        if(mobilecheck()){
+            $('<link/>', {
+                media: 'all',
+                rel: 'stylesheet',
+                type: 'text/css',
+                href: '../assets/styles/styles.css'
+            }).appendTo('head')
+        }
+        hljs.initHighlightingOnLoad();
+    </script>
+
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mdl-genius mdl-color-text--grey-900 mdl-base">
+        <div class="mdl-layout mdl-layout--fixed-header has-tabs is-upgraded">
+            <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
+                </div>
+                <div class="mdl-layout--large-screen-only title">
+                    <h3>Genius-Android</h3>
+                    <h5>A Android Material Design Theme UI and Tool Library.</h5>
+                </div>
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
+                </div>
+                <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+                    <a href="../." class="mdl-layout__tab ">Welcome</a>
+<a href="../started/index.html" class="mdl-layout__tab ">GETTING STARTED</a>
+<a href="../module/ui.html" class="mdl-layout__tab  is-active ">UI Module</a>
+<a href="../module/res.html" class="mdl-layout__tab ">Res Module</a>
+<a href="../module/kit.html" class="mdl-layout__tab ">Kit Module</a>
+<a href="../module/blur.html" class="mdl-layout__tab ">Blur Module</a>
+<a href="../about/index.html" class="mdl-layout__tab ">About</a>
+                </div>
+            </header>
+            <main class="mdl-layout__content">
+                <div class="content">
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    </section>
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                        <div class="mdl-cell mdl-cell--12-col">
+                            <h3 id="ui-module">Ui Module</h3>
+
+<p>This module provide same plate :</p>
+
+<ul>
+  <li>
+    <p><code>widget</code> include:</p>
+
+    <ul>
+      <li><code>TextView</code> quick set boder and boder</li>
+      <li><code>Button</code> have touch press button</li>
+      <li><code>FloatActionButton</code> have shadow button</li>
+      <li><code>CheckBox</code> have click animation</li>
+      <li><code>EditText</code> a MD line edit</li>
+      <li><code>ImageView</code> the imageview support touch press</li>
+      <li><code>SeekBar</code> have move popup view seekbar</li>
+      <li><code>Loading</code> loading progress widget</li>
+    </ul>
+  </li>
+  <li><code>drawable</code> This is widget drawable and same abs class.</li>
+  <li><code>ui kit</code> It have font, color, attr and size convert.</li>
+</ul>
+
+<h3 id="first">First</h3>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml">// First of all specified in the root container:
+<span class="nt">&lt;YourLayout</span>
+    <span class="err">...</span>
+    <span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span><span class="nt">/&gt;</span></code></pre></figure>
+
+<h3 id="widget">Widget</h3>
+
+<h4 id="textview">TextView</h4>
+
+<p><img src="../assets/images/textview.png" alt="Img" /></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.TextView</span>
+    <span class="err">...</span>
+    <span class="na">android:text=</span><span class="s">"Border TB"</span>
+    <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
+    <span class="na">app:gBorder=</span><span class="s">"top|bottom"</span>
+    <span class="na">app:gBorderColor=</span><span class="s">"@color/teal_500"</span>
+    <span class="na">app:gBorderSize=</span><span class="s">"1dp"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gFont</code>: Set text font file name, the path’s <strong>“assets\fonts\roboto.ttf”</strong>.</li>
+  <li><code>gBorder</code>: Set show border, you can set: <code>all</code>, <code>top</code>, <code>top|bottom</code>
+    <ul>
+      <li><strong>all</strong></li>
+      <li><strong>left</strong>, <strong>top</strong>, <strong>right</strong>, <strong>bottom</strong>.</li>
+    </ul>
+  </li>
+  <li><code>gBorderColor</code>: Set border color, you can set: <code>@color/teal_500</code> or <code>#ff000000</code>.</li>
+  <li><code>gBorderSize</code>: Set border size, the unit is <strong>dp</strong>.</li>
+</ul>
+
+<h4 id="button">Button</h4>
+
+<p><img src="../assets/images/button.gif" alt="Img" /></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.Button</span>
+    <span class="err">...</span>
+    <span class="na">android:background=</span><span class="s">"@drawable/g_button_background"</span>
+    <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
+    <span class="na">app:gTouchColor=</span><span class="s">"@color/black_alpha_224"</span>
+    <span class="na">app:gTouchEffect=</span><span class="s">"auto"</span>
+    <span class="na">app:gTouchCornerRadius=</span><span class="s">"@dimen/lay_12"</span>
+    <span class="na">app:gTouchCornerRadiusTL=</span><span class="s">"@dimen/lay_16"</span>
+    <span class="na">app:gTouchCornerRadiusTR=</span><span class="s">"@dimen/lay_16"</span>
+    <span class="na">app:gTouchCornerRadiusBL=</span><span class="s">"@dimen/lay_16"</span>
+    <span class="na">app:gTouchCornerRadiusBR=</span><span class="s">"@dimen/lay_16"</span>
+    <span class="na">app:gTouchDurationRate=</span><span class="s">"0.7"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gFont</code>: See textview xml.</li>
+  <li><code>gTouchColor</code>: Set the touch press color, you can set: <code>@color/black_alpha_64</code> or <code>#80000000</code>.</li>
+  <li><code>gTouchEffect</code>: Set the touch press type, include:
+    <ul>
+      <li><strong>none</strong> Not have touch effect.</li>
+      <li><strong>auto</strong> This effect is default by MD, spread from your touch point.</li>
+      <li><strong>ease</strong> This is Gradually fade effect.</li>
+      <li><strong>press</strong> The spread effect from center.</li>
+      <li><strong>ripple</strong> This is ripple effect.</li>
+    </ul>
+  </li>
+  <li><code>gTouchCornerRadius</code>: Set the touch effect edge corner radius, this is set four corners.</li>
+  <li><code>gTouchCornerRadiusTL</code>: Set the corner radius between <strong>top</strong> and <strong>left</strong>.</li>
+  <li><code>gTouchCornerRadiusTR</code>: Set the corner radius between <strong>top</strong> and <strong>right</strong>.</li>
+  <li><code>gTouchCornerRadiusBL</code>: Set the corner radius between <strong>bottom</strong> and <strong>left</strong>.</li>
+  <li>
+    <p><code>gTouchCornerRadiusBR</code>: Set the corner radius between <strong>bottom</strong> and <strong>right</strong>.</p>
+
+    <blockquote>
+      <p>In this, if you set <strong>gTouchCornerRadius=”12dp”</strong> and <strong>gTouchCornerRadiusTL=”16dp”</strong>,<br />
+The four corners of the rectangle are 16, 12, 12, 12, respectively.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><code>gTouchDurationRate</code>: Set touch press speed. 
+If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <strong>slow</strong>, you can set <code>1~10</code></p>
+
+    <blockquote>
+      <p>Default <strong>1.0</strong>, EnterDuration=<strong>280ms</strong>, ExitDuration=<strong>160ms</strong></p>
+    </blockquote>
+  </li>
+</ul>
+
+<h4 id="floatactionbutton">FloatActionButton</h4>
+
+<p><img src="../assets/images/fab.gif" alt="Img" /></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.FloatActionButton</span>
+    <span class="err">...</span> 
+    <span class="na">android:id=</span><span class="s">"@+id/action_add"</span>    
+    <span class="na">app:gBackgroundColor=</span><span class="s">"@color/cyan_500"</span>
+    <span class="na">app:gTouchColor=</span><span class="s">"@color/black_alpha_64"</span><span class="nt">/&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gBackgroundColor</code>: If you want change bg color, you need use it. you can set: <code>@color/cyan_500</code> or <code>#aa000000</code>.</li>
+  <li><code>gTouchColor</code>: Set the touch press color, you can set: <code>@color/black_alpha_64</code> or <code>#80000000</code>.</li>
+</ul>
+
+<p>You can add create drawable in the src by java:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">initFloatActionButton</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="kt">float</span> <span class="n">density</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getDisplayMetrics</span><span class="o">().</span><span class="na">density</span><span class="o">;</span>
+    <span class="n">FloatActionButton</span> <span class="n">addButton</span> <span class="o">=</span> <span class="o">(</span><span class="n">FloatActionButton</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">action_add</span><span class="o">);</span>
+    <span class="n">AddLineShape</span> <span class="n">lineShape</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AddLineShape</span><span class="o">();</span>
+    <span class="n">ShapeDrawable</span> <span class="n">drawable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ShapeDrawable</span><span class="o">(</span><span class="n">lineShape</span><span class="o">);</span>
+    <span class="n">Paint</span> <span class="n">paint</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="na">getPaint</span><span class="o">();</span>
+    <span class="n">paint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
+    <span class="n">paint</span><span class="o">.</span><span class="na">setAntiAlias</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="n">paint</span><span class="o">.</span><span class="na">setDither</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="n">paint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="mh">0xc0ffffff</span><span class="o">);</span>
+    <span class="n">paint</span><span class="o">.</span><span class="na">setStrokeCap</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">Cap</span><span class="o">.</span><span class="na">ROUND</span><span class="o">);</span>
+    <span class="n">paint</span><span class="o">.</span><span class="na">setStrokeWidth</span><span class="o">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">density</span><span class="o">);</span>
+    <span class="n">drawable</span><span class="o">.</span><span class="na">setIntrinsicWidth</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+    <span class="n">drawable</span><span class="o">.</span><span class="na">setIntrinsicHeight</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+    <span class="n">addButton</span><span class="o">.</span><span class="na">setImageDrawable</span><span class="o">(</span><span class="n">drawable</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>The <strong>AddLineShape</strong> in <a href="https://github.com/qiujuer/Genius-Android/blob/master/caprice/sample/src/main/java/net/qiujuer/sample/genius/drawable/AddLineShape.java">this</a>.</p>
+
+<h4 id="checkbox">CheckBox</h4>
+
+<p><img src="../assets/images/checkbox.gif" alt="Img" /></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.CheckBox</span>
+    <span class="err">...</span>
+    <span class="na">android:background=</span><span class="s">"@null"</span>
+    <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
+    <span class="na">app:gBorderSize=</span><span class="s">"1dp"</span>
+    <span class="na">app:gIntervalSize=</span><span class="s">"2dp"</span>
+    <span class="na">app:gMarkSize=</span><span class="s">"22dp"</span>
+    <span class="na">app:gMarkColor=</span><span class="s">"@color/m_check_box"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gFont</code>: See textview xml.</li>
+  <li><code>gBorderSize</code>: Set ring drawable size.</li>
+  <li><code>gIntervalSize</code>: Set ring to circle interval size.</li>
+  <li><code>gMarkSize</code>: Set mark drawable size; if you not set, the size is <strong>Math.min(width, hight)</strong>.</li>
+  <li><code>gMarkColor</code>: Set mark color, the color allow set <strong>ColorStateList</strong>.
+    <ul>
+      <li><code>#ff000000</code></li>
+      <li><code>@color/black_alpha_64</code></li>
+      <li><code>color drawable:</code></li>
+    </ul>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"@color/grey_400"</span> <span class="na">android:state_checked=</span><span class="s">"false"</span> <span class="na">android:state_enabled=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"@color/grey_300"</span> <span class="na">android:state_checked=</span><span class="s">"false"</span> <span class="na">android:state_enabled=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"@color/cyan_500"</span> <span class="na">android:state_checked=</span><span class="s">"true"</span> <span class="na">android:state_enabled=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"@color/cyan_300"</span> <span class="na">android:state_checked=</span><span class="s">"true"</span> <span class="na">android:state_enabled=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/selector&gt;</span></code></pre></figure>
+
+<h4 id="edittext">EditText</h4>
+
+<p><img src="../assets/images/edittext.gif" alt="Img" /></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.EditText</span>
+    <span class="err">...</span>
+    <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
+    <span class="na">app:gHintTitle=</span><span class="s">"slide"</span>
+    <span class="na">app:gHintTitlePaddingBottom=</span><span class="s">"2dp"</span>
+    <span class="na">app:gHintTitlePaddingLeft=</span><span class="s">"0dp"</span>
+    <span class="na">app:gHintTitlePaddingRight=</span><span class="s">"0dp"</span>
+    <span class="na">app:gHintTitlePaddingTop=</span><span class="s">"0dp"</span>
+    <span class="na">app:gHintTitleTextSize=</span><span class="s">"14sp"</span>
+    <span class="na">app:gLineColor=</span><span class="s">"@color/m_edit_view_line"</span>
+    <span class="na">app:gLineSize=</span><span class="s">"2dp"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gFont</code>: See textview xml.</li>
+  <li><code>gHintTitle</code>: Set Hint title style type:
+    <ul>
+      <li><strong>none</strong> Not hava hint.</li>
+      <li><strong>slide</strong> Slide show title, this is Deafault.</li>
+    </ul>
+  </li>
+  <li><code>gHintTitlePaddingBottom</code>: Set title padding bottom.</li>
+  <li><code>gHintTitlePaddingLeft</code>: Set title padding left, if align left, default by TextView padding left.</li>
+  <li><code>gHintTitlePaddingRight</code>: Set title padding right, if align right, default by TextView padding right.</li>
+  <li><code>gHintTitlePaddingTop</code>: Set title padding top.</li>
+  <li><code>gHintTitleTextSize</code>: Set title text size.</li>
+  <li><code>gLineColor</code>: Set EditText bottom line color.</li>
+  <li><code>gLineSize</code>: Set EditText bottom line size.</li>
+</ul>
+
+<h4 id="imageview">ImageView</h4>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.ImageView</span>
+    <span class="err">...</span>
+    <span class="na">app:gTouchColor=</span><span class="s">"@color/black_alpha_224"</span>
+    <span class="na">app:gTouchEffect=</span><span class="s">"auto"</span>
+    <span class="na">app:gTouchCornerRadius=</span><span class="s">"@dimen/lay_12"</span>
+    <span class="na">app:gTouchCornerRadiusTL=</span><span class="s">"@dimen/lay_16"</span>
+    <span class="na">app:gTouchCornerRadiusTR=</span><span class="s">"@dimen/lay_16"</span>
+    <span class="na">app:gTouchCornerRadiusBL=</span><span class="s">"@dimen/lay_16"</span>
+    <span class="na">app:gTouchCornerRadiusBR=</span><span class="s">"@dimen/lay_16"</span>
+    <span class="na">app:gTouchDurationRate=</span><span class="s">"0.7"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gTouchColor</code>: Set the touch press color, you can set: <code>@color/black_alpha_64</code> or <code>#80000000</code>.</li>
+  <li><code>gTouchEffect</code>: Set the touch press type, see <strong>Button</strong> attr, default none.</li>
+  <li><code>gTouchCornerRadius</code>: Set the touch effect edge corner radius, this is set four corners.</li>
+  <li><code>gTouchCornerRadiusTL</code>: Set the corner radius between <strong>top</strong> and <strong>left</strong>.</li>
+  <li><code>gTouchCornerRadiusTR</code>: Set the corner radius between <strong>top</strong> and <strong>right</strong>.</li>
+  <li><code>gTouchCornerRadiusBL</code>: Set the corner radius between <strong>bottom</strong> and <strong>left</strong>.</li>
+  <li><code>gTouchCornerRadiusBR</code>: Set the corner radius between <strong>bottom</strong> and <strong>right</strong>.</li>
+  <li><code>gTouchDurationRate</code>: Set touch press speed. you must <code>&gt;0.0</code>, see <strong>Button</strong> attr.</li>
+</ul>
+
+<h4 id="seekbar">SeekBar</h4>
+
+<p><img src="../assets/images/seekbar.gif" alt="Img" /></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.SeekBar</span>
+    <span class="err">...</span>
+    <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
+    <span class="na">app:gMax=</span><span class="s">"10"</span>
+    <span class="na">app:gMin=</span><span class="s">"0"</span>
+    <span class="na">app:gValue=</span><span class="s">"2"</span> 
+    
+    <span class="na">app:gIndicator=</span><span class="s">"auto"</span>
+    <span class="na">app:gIndicatorTextPadding=</span><span class="s">"2dp"</span>
+    <span class="na">app:gIndicatorBackgroundColor=</span><span class="s">"@color/m_seek_bar_indicator_bg"</span>
+    <span class="na">app:gIndicatorFormatter=</span><span class="s">"(∩_∩)%d"</span>
+    <span class="na">app:gIndicatorSeparation=</span><span class="s">"14dp"</span>
+    <span class="na">app:gIndicatorTextAppearance=</span><span class="s">"@style/Genius.Widget.BalloonMarker.TextAppearance"</span>
+    
+    <span class="na">app:gRippleColor=</span><span class="s">"@color/m_seek_bar_ripple"</span>
+    <span class="na">app:gScrubberColor=</span><span class="s">"@color/m_seek_bar_scrubber"</span>
+    <span class="na">app:gScrubberStroke=</span><span class="s">"4dp"</span>
+    <span class="na">app:gThumbColor=</span><span class="s">"@color/m_seek_bar_thumb"</span>
+    <span class="na">app:gThumbSize=</span><span class="s">"6dp"</span>
+    <span class="na">app:gTickSize=</span><span class="s">"3dp"</span>
+    <span class="na">app:gTouchSize=</span><span class="s">"12dp"</span>
+    <span class="na">app:gTrackColor=</span><span class="s">"@color/grey_500"</span>
+    <span class="na">app:gTrackStroke=</span><span class="s">"2dp"</span>
+    
+    <span class="na">app:gMirrorForRtl=</span><span class="s">"true"</span>
+    <span class="na">app:gAllowTrackClickToDrag=</span><span class="s">"true"</span><span class="nt">/&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gFont</code>:  See textview xml.</li>
+  <li><code>gMax</code>: Set seekbar max value, the value must greater than <code>gMin</code> value.</li>
+  <li><code>gMin</code>: Set seekbar min value, the value must less than <code>gMax</code> value.</li>
+  <li><code>gValue</code>: Set the progress value, the value between <code>gMin</code> and <code>gMax</code>.</li>
+  <li><code>gIndicator</code>: This’s seekbar popup view, set the type.
+    <ul>
+      <li><code>none</code> not show popup view.</li>
+      <li><code>auto</code> if user move progress the view will show.</li>
+      <li><code>always</code> the view always show, <strong>in development</strong>.</li>
+    </ul>
+  </li>
+  <li><code>gIndicatorTextPadding</code>: The popup text view padding.</li>
+  <li><code>gIndicatorBackgroundColor</code>: The popup view background.</li>
+  <li><code>gIndicatorFormatter</code>: The popup textview formatter, eg: <code>(∩_∩)%d</code>, <code>-_-%d</code> or <code>^%d^</code>.</li>
+  <li><code>gIndicatorSeparation</code>: The popup float height.</li>
+  <li><code>gIndicatorTextAppearance</code>: If you need custom textview style, you can set it. This’s style xml.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"Genius.Widget.BalloonMarker.TextAppearance"</span> <span class="na">parent=</span><span class="s">"android:TextAppearance.Small"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:textColor"</span><span class="nt">&gt;</span>?android:attr/textColorPrimaryInverse<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gThumbColor</code>: Set seekbar thumb color.</li>
+  <li><code>gThumbSize</code>: Set seekbar thumb <strong>diameter</strong> size.</li>
+  <li><code>gTouchSize</code>: On state is active will show a circle, the circle will follow finger movement. This’s set the circle <strong>diameter</strong> size.</li>
+  <li><code>gRippleColor</code>: On you touch the thumb, seekbar will to active state and ripple a circle. This’s set ripple color.</li>
+  <li>
+    <p><code>gTickSize</code>: Set seebkar value of the tick point <strong>diameter</strong> size.</p>
+  </li>
+  <li><code>gScrubberColor</code>: This’s seekbar foreground line color.</li>
+  <li><code>gScrubberStroke</code>:This’s seekbar foreground line size.</li>
+  <li><code>gTrackColor</code>: This’s seekbar background line color.</li>
+  <li>
+    <p><code>gTrackStroke</code>: This’s seekbar background line size.</p>
+  </li>
+  <li><code>gMirrorForRtl</code>: If want let seekbar draw right to left, you can set <code>false</code>, default is <code>true</code>.</li>
+  <li><code>gAllowTrackClickToDrag</code>: Allows to change the value of the progress bar. default is <code>true</code>. if you set <code>false</code>, you can only move thumb to change the progress value.</li>
+</ul>
+
+<h4 id="loading">Loading</h4>
+
+<p><img src="../assets/images/loading.gif" alt="Img" /></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.Loading</span>
+    <span class="err">...</span>    
+    <span class="na">app:gBackgroundLineSize=</span><span class="s">"1dp"</span>
+    <span class="na">app:gForegroundLineSize=</span><span class="s">"3dp"</span>
+    <span class="na">app:gBackgroundColor=</span><span class="s">"@color/yellow_500"</span>
+    <span class="na">app:gForegroundColor=</span><span class="s">"@color/deep_orange_500"</span>
+    <span class="na">app:gProgressFloat=</span><span class="s">"0.65"</span>
+    <span class="na">app:gAutoRun=</span><span class="s">"false"</span><span class="nt">/&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code>gBackgroundLineSize</code>:  The loading line background size.</li>
+  <li><code>gForegroundLineSize</code>: The loading line foreground size.</li>
+  <li><code>gBackgroundColor</code>: The loading line background color.</li>
+  <li><code>gForegroundColor</code>: The loading line foreground color.</li>
+  <li><code>gProgressFloat</code>: If you need hava progress set it. the value <code>0.0~1.0</code>, if you set it, the loading isn’t running.</li>
+  <li><code>gAutoRun</code>: Show the widget, auto running, default is <strong>true</strong>.</li>
+</ul>
+
+<h3 id="extend">Extend</h3>
+
+<p>If you want to use the button click effect on other controls.
+You can do:</p>
+
+<h4 id="one">One</h4>
+<p>Cretate new custom control, in this extends <strong>FrameLayout</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">android.content.Context</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.util.AttributeSet</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.widget.FrameLayout</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleAttr</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">,</span> <span class="n">defStyleAttr</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleAttr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleRes</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">,</span> <span class="n">defStyleAttr</span><span class="o">,</span> <span class="n">defStyleRes</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="two">Two</h4>
+
+<p>Implements <strong>TouchEffectDrawable.PerformClicker</strong>, in this you can delay response button click.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="kd">implements</span> <span class="n">TouchEffectDrawable</span><span class="o">.</span><span class="na">PerformClicker</span> <span class="o">{</span>
+    <span class="n">TouchEffectDrawable</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+    <span class="o">...</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">perform</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Runnable</span> <span class="n">runnable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">performClick</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+
+        <span class="k">if</span> <span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">runnable</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">performClick</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">performClick</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">TouchEffectDrawable</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="na">isPerformClick</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="kd">super</span><span class="o">.</span><span class="na">performClick</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span>
+            <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">performClick</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="three">Three</h4>
+
+<p>Now you can init the drawable size and call draw.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="kd">implements</span> <span class="n">TouchEffectDrawable</span><span class="o">.</span><span class="na">PerformClicker</span> <span class="o">{</span>
+    <span class="n">TouchEffectDrawable</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+    <span class="o">...</span>
+
+    
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onSizeChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">w</span><span class="o">,</span> <span class="kt">int</span> <span class="n">h</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldw</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldh</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onSizeChanged</span><span class="o">(</span><span class="n">w</span><span class="o">,</span> <span class="n">h</span><span class="o">,</span> <span class="n">oldw</span><span class="o">,</span> <span class="n">oldh</span><span class="o">);</span>
+        <span class="n">TouchEffectDrawable</span> <span class="n">drawable</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">drawable</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">drawable</span><span class="o">.</span><span class="na">setBounds</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">getWidth</span><span class="o">(),</span> <span class="n">getHeight</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">boolean</span> <span class="n">verifyDrawable</span><span class="o">(</span><span class="n">Drawable</span> <span class="n">who</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Drawable</span> <span class="n">drawable</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">drawable</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">who</span> <span class="o">==</span> <span class="n">drawable</span><span class="o">)</span> <span class="o">||</span> <span class="kd">super</span><span class="o">.</span><span class="na">verifyDrawable</span><span class="o">(</span><span class="n">who</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="n">onDraw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onDraw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
+
+        <span class="c1">// draw the effect on the image
+</span>
+        <span class="kd">final</span> <span class="n">TouchEffectDrawable</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">d</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">onTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">TouchEffectDrawable</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">isEnabled</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">d</span><span class="o">.</span><span class="na">onTouch</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+            <span class="kd">super</span><span class="o">.</span><span class="na">onTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">onTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>If you set the drawable to the view background, you don’t need <strong>onSizeChanged</strong>, <strong>verifyDrawable</strong> and <strong>onDraw</strong>.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="kd">implements</span> <span class="n">TouchEffectDrawable</span><span class="o">.</span><span class="na">PerformClicker</span> <span class="o">{</span>
+    <span class="n">TouchEffectDrawable</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+    <span class="o">...</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="n">init</span><span class="o">()</span> <span class="o">{</span>
+        <span class="o">...</span>
+        <span class="n">setBackgrdound</span><span class="o">(</span><span class="n">mTouchDrawable</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">onTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">TouchEffectDrawable</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">isEnabled</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">d</span><span class="o">.</span><span class="na">onTouch</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+            <span class="kd">super</span><span class="o">.</span><span class="na">onTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">onTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="end">End</h4>
+
+<p>Okey, in the end, you can init the TouchEffectDrawable, and call in your Constructor.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="kd">implements</span> <span class="n">TouchEffectDrawable</span><span class="o">.</span><span class="na">PerformClicker</span> <span class="o">{</span>
+    <span class="n">TouchEffectDrawable</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
+    <span class="o">...</span>
+    
+    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="n">init</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">void</span> <span class="n">init</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mTouchDrawable</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mTouchDrawable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TouchEffectDrawable</span><span class="o">();</span>
+            <span class="n">mTouchDrawable</span><span class="o">.</span><span class="na">setCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+            <span class="n">mTouchDrawable</span><span class="o">.</span><span class="na">setPerformClicker</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// set the touch effect
+</span>
+        <span class="n">mTouchDrawable</span><span class="o">.</span><span class="na">setEffect</span><span class="o">(</span><span class="k">new</span> <span class="n">AutoEffect</span><span class="o">());</span>
+        <span class="c1">//mTouchDrawable.setEffect(new EaseEffect());
+</span>
+        <span class="c1">//mTouchDrawable.setEffect(new PressEffect());
+</span>
+        <span class="c1">//mTouchDrawable.setEffect(new RippleEffect());
+</span>
+
+        <span class="c1">// set the touch color
+</span>
+        <span class="n">mTouchDrawable</span><span class="o">.</span><span class="na">getPaint</span><span class="o">().</span><span class="na">setColor</span><span class="o">(</span><span class="mh">0x30000000</span><span class="o">);</span>
+
+        <span class="c1">// set the touch duration rate
+</span>
+        <span class="n">mTouchDrawable</span><span class="o">.</span><span class="na">setEnterDuration</span><span class="o">(</span><span class="mf">0.8f</span><span class="o">);</span>
+        <span class="n">mTouchDrawable</span><span class="o">.</span><span class="na">setExitDuration</span><span class="o">(</span><span class="mf">0.8f</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="na">isInEditMode</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">float</span><span class="o">[]</span> <span class="n">radius</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">};</span>
+            <span class="n">ClipFilletFactory</span> <span class="n">touchFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClipFilletFactory</span><span class="o">(</span><span class="n">radius</span><span class="o">);</span>
+            <span class="c1">// ClipFilletFactory touchFactory = new ClipFilletFactory(2);
+</span>
+
+            <span class="c1">// Touch factory
+</span>
+            <span class="n">mTouchDrawable</span><span class="o">.</span><span class="na">setClipFactory</span><span class="o">(</span><span class="n">touchFactory</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">//setBackground(mTouchDrawable);
+</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><a href="https://github.com/qiujuer/Genius-Android/blob/master/caprice/release/CustomControl.java">Custom View Source</a></p>
+
+                        </div>
+                    </section>
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    </section>
+                </div>
+            </main>
+        </div>
+        <div class="body-content-push"></div>
+    </div>
+    <footer class="mdl-mega-footer">
+        <div class="mdl-mega-footer--bottom-section">
+    <div class="mdl-logo">
+        More Information
+    </div>
+    <ul class="mdl-mega-footer--link-list">
+        <li><a href="http://www.qiujuer.net/">About Qiujuer</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/issues">FQA</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/pulls">Pull</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/wiki">Wiki</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/releases">Releases</a></li>
+        <li><a href="http://genius.qiujuer.net/"> COPYRIGHT QIUJUER 2013 - 2016</a></li>
+    </ul>
+</div>
+    </footer>
+    <a href="https://github.com/qiujuer/Genius-Android" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
+    <script type="text/javascript" src="../assets/lib/material.min.js"></script>
+</body>
+
+</html>

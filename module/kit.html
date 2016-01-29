@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A Android Material Design Theme UI and Tool Library.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kit Module - Genius-Android Helper Site</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Kit Module - Genius-Android Helper Site">
+
+    <link rel="apple-touch-icon-precomposed" href="../favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../favicon.ico" sizes="32x32" />
+    <link rel="icon" href="../favicon.ico" sizes="64x64" />
+    <link rel="icon" href="../favicon.ico" sizes="128x128" />
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="../favicon.ico">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/material.min.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/material.icon.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/highlight.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/styles/styles.css" />
+
+    <script type="text/javascript" src="../assets/scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/scripts/mobilecheck.js"></script>
+    <script type="text/javascript" src="../assets/lib/highlight.js"></script>
+    <script type="text/javascript">
+        if(mobilecheck()){
+            $('<link/>', {
+                media: 'all',
+                rel: 'stylesheet',
+                type: 'text/css',
+                href: '../assets/styles/styles.css'
+            }).appendTo('head')
+        }
+        hljs.initHighlightingOnLoad();
+    </script>
+
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mdl-genius mdl-color-text--grey-900 mdl-base">
+        <div class="mdl-layout mdl-layout--fixed-header has-tabs is-upgraded">
+            <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
+                </div>
+                <div class="mdl-layout--large-screen-only title">
+                    <h3>Genius-Android</h3>
+                    <h5>A Android Material Design Theme UI and Tool Library.</h5>
+                </div>
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
+                </div>
+                <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+                    <a href="../." class="mdl-layout__tab ">Welcome</a>
+<a href="../started/index.html" class="mdl-layout__tab ">GETTING STARTED</a>
+<a href="../module/ui.html" class="mdl-layout__tab ">UI Module</a>
+<a href="../module/res.html" class="mdl-layout__tab ">Res Module</a>
+<a href="../module/kit.html" class="mdl-layout__tab  is-active ">Kit Module</a>
+<a href="../module/blur.html" class="mdl-layout__tab ">Blur Module</a>
+<a href="../about/index.html" class="mdl-layout__tab ">About</a>
+                </div>
+            </header>
+            <main class="mdl-layout__content">
+                <div class="content">
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    </section>
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                        <div class="mdl-cell mdl-cell--12-col">
+                            <h3 id="kit-module">Kit Module</h3>
+
+<p>Is writing…</p>
+
+<h3 id="permission">Permission</h3>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- Internet permission --&gt;</span>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span> <span class="nt">/&gt;</span>
+<span class="c">&lt;!-- Log file permission --&gt;</span>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.WRITE_EXTERNAL_STORAGE"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.READ_EXTERNAL_STORAGE"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<h3 id="uikit">UiKit</h3>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// "Runnable" implementation method "run()"
+</span>
+<span class="c1">// "run()" run in the main thread, the can interface
+</span>
+<span class="c1">// Synchronization to enter the main thread, waiting for the main thread processing to continue after the completion of the subprocess
+</span>
+<span class="n">UiKit</span><span class="o">.</span><span class="na">runOnMainThreadSync</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">runnable</span><span class="o">);</span>
+<span class="c1">// Asynchronous into the main thread, without waiting for
+</span>
+<span class="n">UiKit</span><span class="o">.</span><span class="na">runOnMainThreadAsync</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">runnable</span><span class="o">);</span>
+<span class="c1">// Synchronously But the child thread just wait for the waitTime long
+</span>
+<span class="c1">// @param runnable Runnable Interface
+</span>
+<span class="c1">// @param waitTime wait for the main thread run Time
+</span>
+<span class="c1">// @param cancel   on the child thread cancel the runnable task
+</span>
+<span class="n">UiKit</span><span class="o">.</span><span class="na">runOnMainThreadSync</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">runnable</span><span class="o">,</span> <span class="kt">int</span> <span class="n">waitTime</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">cancel</span><span class="o">)</span></code></pre></figure>
+
+<h3 id="command">Command</h3>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Execute the command, the background service automatic control
+</span>
+<span class="c1">// The same way call way and the ProcessBuilder mass participation
+</span>
+<span class="c1">// Timeout: Task timeout, optional parameters
+</span>
+<span class="c1">// Params: executing params,such as: "/system/bin/ping","-c", "4", "-s", "100","www.baidu.com"
+</span>
+<span class="n">Command</span> <span class="n">command</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Command</span><span class="o">(</span><span class="kt">int</span> <span class="n">timeout</span><span class="o">,</span> <span class="n">String</span><span class="o">...</span> <span class="n">params</span><span class="o">);</span>
+
+<span class="c1">// Synchronous
+</span>
+<span class="c1">// After the completion of the results returned directly
+</span>
+<span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">Command</span><span class="o">.</span><span class="na">command</span><span class="o">(</span><span class="k">new</span> <span class="n">Command</span><span class="o">(</span><span class="n">Command</span><span class="o">.</span><span class="na">TIMEOUT</span><span class="o">,</span> <span class="s">"..."</span><span class="o">));</span>
+
+<span class="c1">// Asynchronous
+</span>
+<span class="c1">// Results to event callback method returns
+</span>
+<span class="n">Command</span> <span class="n">command</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Command</span><span class="o">(</span><span class="s">"..."</span><span class="o">);</span>
+<span class="n">Command</span><span class="o">.</span><span class="na">command</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="k">new</span> <span class="n">Command</span><span class="o">.</span><span class="na">CommandListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onCompleted</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onCancel</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onError</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+
+<span class="c1">// To cancel a task command
+</span>
+<span class="n">Command</span><span class="o">.</span><span class="na">cancel</span><span class="o">(</span><span class="n">Command</span> <span class="n">command</span><span class="o">);</span>
+
+<span class="c1">// Restart the Command service
+</span>
+<span class="n">Command</span><span class="o">.</span><span class="na">restart</span><span class="o">();</span>
+
+<span class="c1">// Destroy
+</span>
+<span class="c1">// Using 'Genius.dispose()' method is run this destroy
+</span>
+<span class="n">Command</span><span class="o">.</span><span class="na">dispose</span><span class="o">();</span></code></pre></figure>
+
+<h3 id="nettool">NetTool</h3>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Ping
+</span>
+<span class="c1">// Introduced to the domain name or IP
+</span>
+<span class="c1">// Result: delay, packet loss
+</span>
+<span class="n">Ping</span> <span class="n">ping</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ping</span><span class="o">(</span><span class="s">"www.baidu.com"</span><span class="o">);</span>
+<span class="c1">// Start
+</span>
+<span class="n">ping</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="c1">// Return
+</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">ping</span><span class="o">.</span><span class="na">getError</span><span class="o">()</span> <span class="o">==</span> <span class="n">NetModel</span><span class="o">.</span><span class="na">SUCCEED</span><span class="o">)</span> <span class="o">{}</span>
+<span class="k">else</span> <span class="o">{}</span>
+<span class="o">...</span>
+<span class="n">Others</span> <span class="n">similarly</span>
+<span class="o">...</span></code></pre></figure>
+
+<h3 id="utils">Utils</h3>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// ===================FixedList===================
+</span>
+<span class="c1">// Fixed length queue
+</span>
+<span class="c1">// Can specify length, using methods similar to ordinary queue
+</span>
+<span class="c1">// When join the element number to a specified number elements will pop up
+</span>
+<span class="c1">// Insert the tail pop-up head, tail insertion head pops up
+</span>
+
+<span class="c1">// Initialize the maximum length of 5
+</span>
+<span class="n">FixedList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FixedList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">5</span><span class="o">);</span>
+
+<span class="c1">// To obtain the maximum capacity
+</span>
+<span class="n">list</span><span class="o">.</span><span class="na">getMaxSize</span><span class="o">();</span>
+<span class="c1">// Adjust the maximum length; Narrow length will be automatically deleted when the head redundant elements
+</span>
+<span class="n">list</span><span class="o">.</span><span class="na">setMaxSize</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+
+<span class="c1">// Using List to operation
+</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FixedList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">2</span><span class="o">);</span>
+
+
+<span class="c1">// ====================HashUtils==================
+</span>
+<span class="c1">// Hash to calculate(Md5)
+</span>
+<span class="c1">// String with the file can be calculated Md5 value
+</span>
+
+<span class="c1">// Get the MD5
+</span>
+<span class="n">String</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">HashUtils</span><span class="o">.</span><span class="na">getMD5String</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">);</span>
+<span class="c1">// Access to the file MD5
+</span>
+<span class="n">String</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">HashUtils</span><span class="o">.</span><span class="na">getMD5String</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">);</span>
+
+
+<span class="c1">// ======================Log======================
+</span>
+<span class="c1">// Log class
+</span>
+<span class="c1">// Calls the method with using Android as the default method
+</span>
+<span class="c1">// Can be set if the store log information
+</span>
+<span class="c1">// Can copy the log information to SD card
+</span>
+<span class="c1">// Can add the event callback in the main interface, the interface, real-time display the log
+</span>
+
+<span class="c1">// Add a callback
+</span>
+<span class="c1">// The callback class
+</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">LogCallbackListener</span> <span class="n">listener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LogCallbackListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onLogArrived</span><span class="o">(</span><span class="n">Log</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="c1">// Adding
+</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">addCallbackListener</span><span class="o">(</span><span class="n">listener</span><span class="o">);</span>
+
+<span class="c1">// Whether Android call system Log, can control whether to display
+</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">setCallLog</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+<span class="c1">// Is open to a file, the file number, a single file size (Mb)
+</span>
+<span class="c1">// The default is stored in the application directory is /Genius/Logs
+</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">setSaveLog</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+<span class="c1">// Set whether to monitor external storage inserts
+</span>
+<span class="c1">// Open: insert an external device (SD), will copy the log files to external storage
+</span>
+<span class="c1">// This operation depends on whether written to the file open function, not open, this method is invalid
+</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">setCopyExternalStorage</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="s">"Test/Logs"</span><span class="o">);</span>
+
+<span class="c1">// Copies of internal storage log files to external storage(SD)
+</span>
+<span class="c1">// This operation depends on whether written to the file open function, not open, this method is invalid
+</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">copyToExternalStorage</span><span class="o">(</span><span class="s">"Test/Logs"</span><span class="o">);</span>
+
+<span class="c1">// Set the log level
+</span>
+<span class="c1">// ALL(show all)，VERBOSE to ERROR decreasing
+</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">setLevel</span><span class="o">(</span><span class="n">Log</span><span class="o">.</span><span class="na">ALL</span><span class="o">);</span>
+
+<span class="c1">// Add log
+</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"DEBUG "</span><span class="o">);</span>
+
+
+<span class="c1">// ====================Tools====================
+</span>
+<span class="c1">// Commonly used toolkit
+</span>
+<span class="c1">// Are all static methods, later will continue to add
+</span>
+
+<span class="c1">// Thread sleep
+</span>
+<span class="n">Tools</span><span class="o">.</span><span class="na">sleepIgnoreInterrupt</span><span class="o">(</span><span class="kt">long</span> <span class="n">time</span><span class="o">);</span>
+<span class="c1">// Copy the files
+</span>
+<span class="n">Tools</span><span class="o">.</span><span class="na">copyFile</span><span class="o">(</span><span class="n">File</span> <span class="n">source</span><span class="o">,</span> <span class="n">File</span> <span class="n">target</span><span class="o">);</span>
+<span class="c1">// AndroidId
+</span>
+<span class="n">Tools</span><span class="o">.</span><span class="na">getAndroidId</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">);</span>
+<span class="c1">// SN Id
+</span>
+<span class="n">Tools</span><span class="o">.</span><span class="na">getSerialNumber</span><span class="o">();</span></code></pre></figure>
+
+                        </div>
+                    </section>
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    </section>
+                </div>
+            </main>
+        </div>
+        <div class="body-content-push"></div>
+    </div>
+    <footer class="mdl-mega-footer">
+        <div class="mdl-mega-footer--bottom-section">
+    <div class="mdl-logo">
+        More Information
+    </div>
+    <ul class="mdl-mega-footer--link-list">
+        <li><a href="http://www.qiujuer.net/">About Qiujuer</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/issues">FQA</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/pulls">Pull</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/wiki">Wiki</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/releases">Releases</a></li>
+        <li><a href="http://genius.qiujuer.net/"> COPYRIGHT QIUJUER 2013 - 2016</a></li>
+    </ul>
+</div>
+    </footer>
+    <a href="https://github.com/qiujuer/Genius-Android" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
+    <script type="text/javascript" src="../assets/lib/material.min.js"></script>
+</body>
+
+</html>

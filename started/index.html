@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A Android Material Design Theme UI and Tool Library.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Getting Started - Genius-Android Helper Site</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Getting Started - Genius-Android Helper Site">
+
+    <link rel="apple-touch-icon-precomposed" href="../favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../favicon.ico" sizes="32x32" />
+    <link rel="icon" href="../favicon.ico" sizes="64x64" />
+    <link rel="icon" href="../favicon.ico" sizes="128x128" />
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="../favicon.ico">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/material.min.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/material.icon.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/lib/highlight.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../assets/styles/styles.css" />
+
+    <script type="text/javascript" src="../assets/scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/scripts/mobilecheck.js"></script>
+    <script type="text/javascript" src="../assets/lib/highlight.js"></script>
+    <script type="text/javascript">
+        if(mobilecheck()){
+            $('<link/>', {
+                media: 'all',
+                rel: 'stylesheet',
+                type: 'text/css',
+                href: '../assets/styles/styles.css'
+            }).appendTo('head')
+        }
+        hljs.initHighlightingOnLoad();
+    </script>
+
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mdl-genius mdl-color-text--grey-900 mdl-base">
+        <div class="mdl-layout mdl-layout--fixed-header has-tabs is-upgraded">
+            <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
+                </div>
+                <div class="mdl-layout--large-screen-only title">
+                    <h3>Genius-Android</h3>
+                    <h5>A Android Material Design Theme UI and Tool Library.</h5>
+                </div>
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row title">
+                </div>
+                <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+                    <a href="../." class="mdl-layout__tab ">Welcome</a>
+<a href="../started/index.html" class="mdl-layout__tab  is-active ">GETTING STARTED</a>
+<a href="../module/ui.html" class="mdl-layout__tab ">UI Module</a>
+<a href="../module/res.html" class="mdl-layout__tab ">Res Module</a>
+<a href="../module/kit.html" class="mdl-layout__tab ">Kit Module</a>
+<a href="../module/blur.html" class="mdl-layout__tab ">Blur Module</a>
+<a href="../about/index.html" class="mdl-layout__tab ">About</a>
+                </div>
+            </header>
+            <main class="mdl-layout__content">
+                <div class="content">
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    </section>
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                        <div class="mdl-cell mdl-cell--12-col">
+                            <h3 id="start">Start</h3>
+
+<p><code>CAPRICE</code> branch use guide. This library include modules:</p>
+
+<ul>
+  <li><code>Ui</code> Research and development in <strong>Color-Drive</strong> and <strong>Material Design</strong> style.</li>
+  <li><code>Resource</code> Include Material Design <strong>Color</strong> and Lay <strong>Size</strong>.</li>
+  <li><code>Kit</code> Include <strong>command</strong>、<strong>net</strong> and same <strong>util</strong> class.</li>
+  <li><code>Blur</code>Include <strong>blur</strong> image by <strong>java</strong> and <strong>jni</strong> method.</li>
+</ul>
+
+<h4 id="gradle">Gradle:</h4>
+
+<p><code>Ui</code> <code>Resource</code> <code>Blur</code> <code>Kit</code></p>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle">dependencies {
+  compile 'net.qiujuer.genius:ui:1.5.0'
+  compile 'net.qiujuer.genius:res:1.5.0'
+  compile 'net.qiujuer.genius:kit:1.5.0'
+  compile 'net.qiujuer.genius:blur:1.5.0'
+}</code></pre></figure>
+
+<p><strong>Note: Each module is independent and can be used independently to dependency.</strong></p>
+
+<h4 id="maven">Maven</h4>
+
+<p><code>Ui</code></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>ui<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.5.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+
+<p><code>Res</code></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>res<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.5.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+
+<p><code>Kit</code></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>kit<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.5.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+
+<p><code>Blur</code></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>blur<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.5.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+
+<h3 id="developer">Developer</h3>
+
+<p><a href="https://github.com/qiujuer/Genius-Android/archive/master.zip">Download</a> the project, the project can be imported into <code>Android Studio</code>, Android Studio &gt;= 2.0, SDK:23.</p>
+
+<p>Project which contains a library and a test project, the library can be imported into your own project use.</p>
+
+<p><code>Eclipse</code> Cannot import directly in the program, please create a project in accordance with the corresponding category replacement to their projects.</p>
+
+                        </div>
+                    </section>
+                    <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    </section>
+                </div>
+            </main>
+        </div>
+        <div class="body-content-push"></div>
+    </div>
+    <footer class="mdl-mega-footer">
+        <div class="mdl-mega-footer--bottom-section">
+    <div class="mdl-logo">
+        More Information
+    </div>
+    <ul class="mdl-mega-footer--link-list">
+        <li><a href="http://www.qiujuer.net/">About Qiujuer</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/issues">FQA</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/pulls">Pull</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/wiki">Wiki</a></li>
+        <li><a href="https://github.com/qiujuer/Genius-Android/releases">Releases</a></li>
+        <li><a href="http://genius.qiujuer.net/"> COPYRIGHT QIUJUER 2013 - 2016</a></li>
+    </ul>
+</div>
+    </footer>
+    <a href="https://github.com/qiujuer/Genius-Android" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
+    <script type="text/javascript" src="../assets/lib/material.min.js"></script>
+</body>
+
+</html>
