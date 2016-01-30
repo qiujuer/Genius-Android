@@ -40,6 +40,22 @@
 
 ## Add Library To Your Project
 
+### `CAPRICE`
+
+`Ui` `Blur` `Resource` `Kit`
+
+```
+dependencies {
+  compile 'net.qiujuer.genius:ui:1.5.0'
+  compile 'net.qiujuer.genius:res:1.5.0'
+  compile 'net.qiujuer.genius:kit:1.5.0'
+  compile 'net.qiujuer.genius:blur:1.5.0'
+}
+```
+
+**Note: Each module is independent and can be used independently to dependency.**
+
+
 ### `STEADY`
 
 ```
@@ -49,27 +65,31 @@ dependencies {
 ```
 
 
-### `CAPRICE`
-
-`Ui` `Blur` `Resource` `Kit`
-
-```
-dependencies {
-  compile 'net.qiujuer.genius:ui:1.2.0'
-  compile 'net.qiujuer.genius:blur:1.0.1'
-  compile 'net.qiujuer.genius:res:1.0.0'
-  compile 'net.qiujuer.genius:kit:1.0.0'
-}
-```
-
-**Note: Each module is independent and can be used independently to dependency.**
-
-
 
 ## More Documents And Develop
 
 *  [`http://genius.qiujuer.net`](http://genius.qiujuer.net)
 *  [`Wiki`](https://github.com/qiujuer/Genius-Android/wiki)
+
+
+
+## Feedback
+
+You in use if you have any question, please timely feedback to me, you can use the following contact information to communicate with me
+
+* Project: [`Submit Bug or Idea`](https://github.com/qiujuer/Genius-Android/issues)
+* Email: [`qiujuer@live.cn`](mailto:qiujuer@live.cn)
+* QQ: `756069544`
+* QQ Group: [`387403637`](http://shang.qq.com/wpa/qunwpa?idkey=3f1ed8e41ed84b07775ca593032c5d956fbd8c3320ce94817bace00549d58a8f)
+* WeiBo: [`@qiujuer`](http://weibo.com/qiujuer)
+* WebSit:[`www.qiujuer.net`](http://www.qiujuer.net)
+
+
+## Giving developers
+
+Are interested in and write a `free`, have joy, also there is sweat, I hope you like my work, but also can support it.
+Of course, rich holds a money (AliPay: `qiujuer@live.cn`); No money holds personal field, thank you.
+
 
 
 ## About me
@@ -80,6 +100,7 @@ dependencies {
     site : "http://www.qiujuer.net"
   }
 ```
+
 
 
 License
