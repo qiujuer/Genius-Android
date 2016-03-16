@@ -15,9 +15,9 @@ root: ../
 // "canReuseInBitmap" Whether directly using the "bitmap" fuzzy,
 // "false" will copy the "bitmap" to doing fuzzy
 // Java blur
-BlurKit.blur(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+StackBlur.blur(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 // Jni blur, To the Jni is a kind of Bitmap images
-BlurKit.blurNatively(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+StackBlur.blurNatively(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 // Jni blur, To the Jni is image collection "pixel"
-BlurKit.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
+StackBlur.blurNativelyPixels(Bitmap bitmap, int radius, boolean canReuseInBitmap);
 {% endhighlight %}
