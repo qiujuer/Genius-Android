@@ -45,6 +45,7 @@ android {
 
 dependencies {
     compile 'net.qiujuer.genius:res:1.5.0'
+    testCompile 'junit:junit:4.12'
 }
 
 
