@@ -44,7 +44,7 @@
 
 `Ui` `Blur` `Resource` `Kit`
 
-```
+```groovy
 dependencies {
   compile 'net.qiujuer.genius:ui:1.5.1'
   compile 'net.qiujuer.genius:res:1.5.0'
@@ -58,7 +58,7 @@ dependencies {
 
 ### `STEADY`
 
-```
+```groovy
 dependencies {
   compile 'com.github.qiujuer:genius:2.4.1'
 }
