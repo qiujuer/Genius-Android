@@ -509,6 +509,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/lay_16"
         android:layout_marginRight="@dimen/lay_16"
+        android:padding="@dimen/lay_16"
+        android:src="@drawable/m_ic_add"
         app:gBackgroundColor="@color/cyan_500"
         app:gTouchColor="@color/black_alpha_64"
         tools:ignore="RtlHardcoded" />
