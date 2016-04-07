@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:genius="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="net.qiujuer.sample.genius.SeekBarActivity">
+
+    <net.qiujuer.genius.ui.widget.TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SeekBar: Min:0, Max:10, Progress:0" />
+
+    <net.qiujuer.genius.ui.widget.SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_16"
+        genius:gAllowTrackClickToDrag="false"
+        genius:gIndicator="auto"
+        genius:gMax="10"
+        genius:gMin="0"
+        genius:gTickSize="2dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/lay_36"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <net.qiujuer.genius.ui.widget.EditText
+            android:id="@+id/edit_min"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/lay_4"
+            android:layout_marginRight="@dimen/lay_4"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="Min"
+            android:inputType="numberSigned"
+            android:lines="1"
+            android:text="0" />
+
+        <net.qiujuer.genius.ui.widget.EditText
+            android:id="@+id/edit_max"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/lay_4"
+            android:layout_marginRight="@dimen/lay_4"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="Max"
+            android:inputType="numberSigned"
+            android:lines="1"
+            android:text="10" />
+    </LinearLayout>
+
+    <net.qiujuer.genius.ui.widget.Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/lay_4"
+        android:layout_marginRight="@dimen/lay_4"
+        android:layout_marginTop="@dimen/lay_8"
+        android:text="Change"
+        android:textColor="@color/white_alpha_224"
+        genius:gTouchEffect="ripple" />
+</LinearLayout>
