@@ -25,11 +25,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -143,6 +145,19 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 if (typeface != null) setTypeface(typeface);
             }
         }
+
+        // We must set layer type is View.LAYER_TYPE_SOFTWARE,
+        // to support Canvas.clipPath()
+        if (getLayerType() != View.LAYER_TYPE_SOFTWARE)
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+    }
+
+    @Override
+    public void setLayerType(int layerType, Paint paint) {
+        // In this, to support Canvas.clipPath(),
+        // must set layerType is View.LAYER_TYPE_SOFTWARE
+        layerType = View.LAYER_TYPE_SOFTWARE;
+        super.setLayerType(layerType, paint);
     }
 
     /**
