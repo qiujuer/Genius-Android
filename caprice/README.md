@@ -6,7 +6,7 @@ This is `CAPRICE` Branch development sources files.
 License
 --------
 
-    Copyright 2014-2015 Qiujuer.
+    Copyright 2014-2016 Qiujuer.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

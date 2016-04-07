@@ -46,7 +46,7 @@
 
 ```groovy
 dependencies {
-  compile 'net.qiujuer.genius:ui:1.5.1'
+  compile 'net.qiujuer.genius:ui:1.5.2'
   compile 'net.qiujuer.genius:res:1.5.0'
   compile 'net.qiujuer.genius:kit:1.5.0'
   compile 'net.qiujuer.genius:blur:1.5.0'
@@ -106,7 +106,7 @@ Of course, rich holds a money (AliPay: `qiujuer@live.cn`); No money holds person
 License
 --------
 
-    Copyright 2014-2015 Qiujuer.
+    Copyright 2014-2016 Qiujuer.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
