@@ -62,6 +62,6 @@ public class SeekBarActivity extends AppCompatActivity {
     }
 
     void showStatus() {
-        mStatus.setText(String.format("SeekBar: Min:%s, Max:%s, Progress:%s", mBar.getMin(), mBar.getMax(), mBar.getProgress()));
+        mStatus.setText(String.format("Min:%s, Max:%s, Progress:%s", mBar.getMin(), mBar.getMax(), mBar.getProgress()));
     }
 }
