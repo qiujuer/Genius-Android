@@ -6,6 +6,7 @@
     <string name="action_back">Back</string>
     <string name="action_blur">Blur</string>
     <string name="action_kit">Kit</string>
+    <string name="action_seekBar">SeekBar</string>
     <string name="title_activity_blur">BlurActivity</string>
     <string name="title_activity_kit">KitActivity</string>
 </resources>

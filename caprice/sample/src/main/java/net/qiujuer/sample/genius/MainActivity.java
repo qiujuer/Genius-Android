@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.action_kit) {
             Intent intent = new Intent(MainActivity.this, KitActivity.class);
             startActivity(intent);
+        } else if (id == R.id.action_seekBar) {
+            Intent intent = new Intent(MainActivity.this, SeekBarActivity.class);
+            startActivity(intent);
         }
 
         return true;
