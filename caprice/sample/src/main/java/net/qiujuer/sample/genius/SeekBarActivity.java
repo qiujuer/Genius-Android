@@ -1,6 +1,7 @@
 package net.qiujuer.sample.genius;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -19,6 +20,13 @@ public class SeekBarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seek_bar);
+
+        // init bar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
         mMin = (EditText) findViewById(R.id.edit_min);
         mMax = (EditText) findViewById(R.id.edit_max);
@@ -48,10 +56,20 @@ public class SeekBarActivity extends AppCompatActivity {
         mBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int min = Integer.valueOf(mMin.getText().toString());
+                int min = 0;
+                try {
+                    min = Integer.valueOf(mMin.getText().toString());
+                } catch (NumberFormatException e) {
+                    mMin.setText(String.valueOf(0));
+                }
                 mBar.setMin(min);
 
-                int max = Integer.valueOf(mMax.getText().toString());
+                int max = 0;
+                try {
+                    max = Integer.valueOf(mMax.getText().toString());
+                } catch (NumberFormatException e) {
+                    mMax.setText(String.valueOf(0));
+                }
                 mBar.setMax(max);
 
                 showStatus();
@@ -62,6 +80,12 @@ public class SeekBarActivity extends AppCompatActivity {
     }
 
     void showStatus() {
-        mStatus.setText(String.format("SeekBar: Min:%s, Max:%s, Progress:%s", mBar.getMin(), mBar.getMax(), mBar.getProgress()));
+        mStatus.setText(String.format("Min:%s, Max:%s, Value:%s", mBar.getMin(), mBar.getMax(), mBar.getProgress()));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

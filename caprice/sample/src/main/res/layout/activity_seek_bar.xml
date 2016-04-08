@@ -13,9 +13,14 @@
 
     <net.qiujuer.genius.ui.widget.TextView
         android:id="@+id/tv_status"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SeekBar: Min:0, Max:10, Progress:0" />
+        android:layout_marginBottom="@dimen/lay_36"
+        android:layout_marginTop="@dimen/lay_16"
+        android:gravity="center"
+        android:text="Min:0, Max:10, Progress:0aa"
+        android:textColor="@color/orange_800"
+        android:textSize="@dimen/font_18" />
 
     <net.qiujuer.genius.ui.widget.SeekBar
         android:id="@+id/seekBar"

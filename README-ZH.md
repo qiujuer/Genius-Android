@@ -47,7 +47,7 @@
 
 ```
 dependencies {
-  compile 'net.qiujuer.genius:ui:1.5.2'
+  compile 'net.qiujuer.genius:ui:1.6.0'
   compile 'net.qiujuer.genius:res:1.5.0'
   compile 'net.qiujuer.genius:kit:1.5.0'
   compile 'net.qiujuer.genius:blur:1.5.0'
