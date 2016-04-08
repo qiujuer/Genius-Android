@@ -16,7 +16,7 @@
             android:paddingBottom="@dimen/lay_32"
             android:paddingLeft="@dimen/lay_12"
             android:paddingRight="@dimen/lay_12"
-            android:paddingTop="@dimen/abc_action_bar_default_height_material">
+            android:paddingTop="@dimen/size_56">
 
             <net.qiujuer.genius.ui.widget.TextView
                 android:layout_width="wrap_content"
@@ -496,10 +496,10 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/title"
+        style="@style/ToolBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/abc_action_bar_default_height_material"
-        android:paddingBottom="@dimen/lay_16" />
+        android:paddingBottom="@dimen/lay_8" />
 
     <net.qiujuer.genius.ui.widget.FloatActionButton
         android:id="@+id/action_add"

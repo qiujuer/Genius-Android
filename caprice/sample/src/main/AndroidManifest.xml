@@ -31,7 +31,7 @@
         <activity
             android:name=".KitActivity"
             android:label="@string/title_activity_kit" />
-        <activity android:name=".SeekBarActivity"></activity>
+        <activity android:name=".SeekBarActivity" />
     </application>
 
 </manifest>
