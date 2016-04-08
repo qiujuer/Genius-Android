@@ -21,7 +21,7 @@ root: ../
 
 {% highlight gradle %}
 dependencies {
-  compile 'net.qiujuer.genius:ui:1.5.1'
+  compile 'net.qiujuer.genius:ui:1.6.0'
   compile 'net.qiujuer.genius:res:1.5.0'
   compile 'net.qiujuer.genius:kit:1.5.0'
   compile 'net.qiujuer.genius:blur:1.5.0'
@@ -38,7 +38,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>ui</artifactId>
-    <version>1.5.1</version>
+    <version>1.6.0</version>
 </dependency>
 {% endhighlight %}
 
