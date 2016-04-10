@@ -5,6 +5,6 @@ id: lib-res
 root: ../
 ---
 
-### Res
+### Res Module
 
 Is writing...
