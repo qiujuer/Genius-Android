@@ -5,23 +5,16 @@
 
 ## Genius-Android
 
-![branchs](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/global/06C15426.png)
+![branchs](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/branchs.png)
 
 **Genius-Android:** by `Material Design` style and some commonly used packages.  Starting in 2015, The divided into two branches: `STEADY` and `CAPRICE`.
-* `STEADY` will continue to research and development in a `Theme-Drive` style
-	> *  **app:** UiKit、BlurKit
-	> * **animation:** TouchEffectAnimator
-	> * **drawable:** Material Design Draw
-	> * **widget:** Material Design
-	> * **command:** Run Command In Process
-	> * **net tool:** Ping、Dns、Telnet、Tracert
-	> * **util:** Log、Hash、Tools、FixedList
+* `STEADY` [END](https://github.com/qiujuer/Genius-Android/tree/steady)
 
 * `CAPRICE` a new branch in the branch, containing `Ui` and `Kit` libraries
 	> * **Ui Lib:** research and development in `Color-Drive` and `Material Design` style
 	> * **Kit Lib:** Include `command`、`net`、`util`
 	> * **Blur Lib:** Include `blur`
-  > * **Resource Lib** Include `Material Design` Color and Lay Size
+    > * **Resource Lib** Include `Material Design` Color and Lay Size
 
 **`Note:` `STEADY` with `CAPRICE` libraries are not compatible, is completely independent branch!**
 
@@ -29,18 +22,15 @@
 
 ## Sample APK
 
-*  [`STEADY`](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/simple-steady_2.4.0.apk)
-*  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/sample.apk)
+*  [`sample.apk`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/sample.apk)
 
 
 ## Video
 
-*  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/video.mp4)
+*  [`video.mp4`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/video.mp4)
 
 
 ## Add Library To Your Project
-
-### `CAPRICE`
 
 `Ui` `Blur` `Resource` `Kit`
 
@@ -54,15 +44,6 @@ dependencies {
 ```
 
 **Note: Each module is independent and can be used independently to dependency.**
-
-
-### `STEADY`
-
-```groovy
-dependencies {
-  compile 'com.github.qiujuer:genius:2.4.1'
-}
-```
 
 
 
