@@ -504,7 +504,7 @@ Download the project, the project can be imported into `Android Studio`, Android
 
 Project which contains a library and a test project, the library can be imported into your own project use.
 
-[`Eclipse`](EclipseImport) Cannot import directly in the program, please create a project in accordance with the corresponding category replacement to their projects.
+[`Eclipse`](https://github.com/qiujuer/BeFoot/tree/master/blog/import-aar-eclipse) Cannot import directly in the program, please create a project in accordance with the corresponding category replacement to their projects.
 
 
 ## Feedback

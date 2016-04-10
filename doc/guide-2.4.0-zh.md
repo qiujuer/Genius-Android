@@ -503,7 +503,7 @@ Tools.getSerialNumber();
 
 项目中含有一个库以及一个测试项目，可将库导入到自己的项目中使用。
 
-[`Eclipse`](EclipseImport) 中无法直接导入项目，请先建立一个项目按照对应目录拷贝到项目中。
+[`Eclipse`](https://github.com/qiujuer/BeFoot/tree/master/blog/import-aar-eclipse) 中无法直接导入项目，请先建立一个项目按照对应目录拷贝到项目中。
 
 
 ## 反馈
