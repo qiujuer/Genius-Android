@@ -7,18 +7,33 @@
 * `Version 1.0.0`
   > *  [`English`](doc/guide-1.0.0.md)
   > *  [`中文`](doc/guide-1.0.0-zh.md)
+  
+  
+  
+### Maven
+
+```groovy
+dependencies {
+  compile 'com.github.qiujuer:genius:2.4.1'
+}
+```
 
 
-#### Sample
+### Sample
 
 * [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/simple-steady_2.4.0.apk)
 
 
-#### Release
+### Release
 
 * [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/release-steady_2.4.0.zip)
 
 
-#### EclipseLibraries
+### EclipseLibraries
 
 * [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/eclipse-steady_2.4.0.zip)
+
+
+### Eclipse Import
+
+* [`import-aar-eclipse`](https://github.com/qiujuer/BeFoot/tree/master/blog/import-aar-eclipse)
