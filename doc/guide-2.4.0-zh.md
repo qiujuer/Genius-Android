@@ -1,11 +1,11 @@
 ## Version 2.4.0 Guide
 
-[`中文`](SteadyGuide-2.4.0-ZH) [`English`](SteadyGuide-2.4.0) [`Sample`](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/simple-steady_2.4.0.apk)
+[`中文`](SteadyGuide-2.4.0-ZH) [`English`](SteadyGuide-2.4.0) [`Sample`](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/simple-steady_2.4.0.apk)
 
 
 ## Genius-Android是什么?
 
-![icon](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/62EA232A.png)
+![icon](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/62EA232A.png)
 
 **Genius-Android** 是 **Android** 中一些常用的的方法集合, **Genius** 提供6个基本板块：
 
@@ -22,25 +22,25 @@
 ##### GeniusUI
 
 ###### CheckBox
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/64633441.gif)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/64633441.gif)
 
 ###### Button
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/D8320195.gif)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/D8320195.gif)
 
 ###### EditText
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/E34FB6E8.gif)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/E34FB6E8.gif)
 
 ###### SeekBar
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/6B2FACAC.gif)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/6B2FACAC.gif)
 
 ##### BlurKit
-![BlurKit](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/20505B1D.png)
+![BlurKit](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/20505B1D.png)
 
 ##### ThemeColors
-![ThemeColors](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/AA31BFB4.png)
+![ThemeColors](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/AA31BFB4.png)
 
 ###### All
-![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/second/172755E3.png)
+![GeniusUI](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/172755E3.png)
 
 
 ## 功能模块

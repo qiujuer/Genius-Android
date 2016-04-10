@@ -11,14 +11,14 @@
 
 #### Sample
 
-* [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/simple-steady_2.4.0.apk)
+* [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/simple-steady_2.4.0.apk)
 
 
 #### Release
 
-* [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/release-steady_2.4.0.zip)
+* [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/release-steady_2.4.0.zip)
 
 
 #### EclipseLibraries
 
-* [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/eclipse-steady_2.4.0.zip)
+* [Steady_2.4.0](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/eclipse-steady_2.4.0.zip)

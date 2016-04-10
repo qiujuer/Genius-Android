@@ -13,13 +13,13 @@
 ## 截图
 
 ##### MaterialButton
-![MaterialButton](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/first/6A589E80.gif)
+![MaterialButton](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/6A589E80.gif)
 
 ##### Themes
-![Themes](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/first/82891FA0.png)
+![Themes](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/82891FA0.png)
 
 ##### BlurKit
-![BlurKit](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/first/EA925260.png)
+![BlurKit](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/images/EA925260.png)
 
 
 ## 功能模块
