@@ -1,7 +1,5 @@
 ## Version 1.0.0 Guide
 
-[`中文`](SteadyGuide-1.0.0-ZH) [`English`](SteadyGuide-1.0.0) 
-
 
 ## Genius-Android是什么?
 
@@ -95,7 +93,7 @@
 
 * 版本：`1.0.0`
 * 日期：`2014-12-26 00:20`
-* 日志：[`更新日志`](SteadyNotes)
+* 日志：[`更新日志`](update-log.md)
 
 
 ## 使用方法

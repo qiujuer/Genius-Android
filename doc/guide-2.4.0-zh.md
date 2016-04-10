@@ -1,7 +1,5 @@
 ## Version 2.4.0 Guide
 
-[`中文`](SteadyGuide-2.4.0-ZH) [`English`](SteadyGuide-2.4.0) [`Sample`](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/simple-steady_2.4.0.apk)
-
 
 ## Genius-Android是什么?
 
@@ -108,7 +106,7 @@ dependencies {
 
 * 版本：`2.4.0`
 * 日期：`2015-03-02`
-* 日志：[`更新日志`](SteadyNotes)
+* 日志：[`更新日志`](update-log.md)
 
 
 ## 使用方法

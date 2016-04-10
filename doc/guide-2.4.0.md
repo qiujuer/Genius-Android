@@ -1,7 +1,5 @@
 ## Version 2.4.0 Guide
 
-[`中文`](SteadyGuide-2.4.0-ZH) [`English`](SteadyGuide-2.4.0) [`Sample`](https://raw.githubusercontent.com/qiujuer/Genius-Android/steady/release/simple-steady_2.4.0.apk)
-
 
 ##What is Genius-Android?
 
@@ -108,7 +106,7 @@ dependencies {
 
 * Version: `2.4.0`
 * Date: `2015-03-02`
-* Log: [`Notes`](SteadyNotes)
+* Log: [`Notes`](update-log.md)
 
 
 ## Method of application
