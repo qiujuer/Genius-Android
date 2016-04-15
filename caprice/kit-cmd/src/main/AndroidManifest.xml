@@ -1,0 +1,18 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.qiujuer.genius.kit.cmd">
+
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true">
+        <service
+            android:name=".CommandService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":CmdCommandService">
+            <intent-filter>
+                <action android:name="net.qiujuer.genius.kit.cmd.ICommandInterface" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
