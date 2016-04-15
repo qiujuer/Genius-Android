@@ -1,1 +1,1 @@
-include ':sample', ':kit', ':res', ':ui', ':blur'
+include ':sample', ':res', ':ui', ':blur', ':kit', ':kit-handler', ':kit-cmd'
