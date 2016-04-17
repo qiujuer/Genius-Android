@@ -125,7 +125,7 @@ public final class Command {
                         Thread.sleep(5000);
                         dispose();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                     }
                     DESTROY_THREAD = null;
                 }
