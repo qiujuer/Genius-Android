@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 01/14/2015
- * Changed 03/08/2015
- * Version 3.0.0
+ * Created 12/25/2014
+ * Changed 04/17/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ class TraceRouteThread extends Thread {
         String res = launchRoute(ip, ttl);
         if (!this.isInterrupted() && res != null && res.length() > 0) {
             res = res.toLowerCase();
-            if (res.contains(NetModel.PING_EXCEED) || !res.contains(NetModel.PING_UNREACHABLE)) {
+            if (res.contains(Cmd.PING_EXCEED) || !res.contains(Cmd.PING_UNREACHABLE)) {
                 // Succeed
                 String pIp = parseIpFromRoute(res);
                 if (!this.isInterrupted() && pIp != null && pIp.length() > 0) {
@@ -106,13 +106,13 @@ class TraceRouteThread extends Thread {
     private String parseIpFromRoute(String ping) {
         String ip = null;
         try {
-            if (ping.contains(NetModel.PING_FROM)) {
+            if (ping.contains(Cmd.PING_FROM)) {
                 // Get ip when ttl exceeded
-                int index = ping.indexOf(NetModel.PING_FROM);
+                int index = ping.indexOf(Cmd.PING_FROM);
                 ip = ping.substring(index + 5);
-                if (ip.contains(NetModel.PING_PAREN_THESE_OPEN)) {
-                    int indexOpen = ip.indexOf(NetModel.PING_PAREN_THESE_OPEN);
-                    int indexClose = ip.indexOf(NetModel.PING_PAREN_THESE_CLOSE);
+                if (ip.contains(Cmd.PING_PAREN_THESE_OPEN)) {
+                    int indexOpen = ip.indexOf(Cmd.PING_PAREN_THESE_OPEN);
+                    int indexClose = ip.indexOf(Cmd.PING_PAREN_THESE_CLOSE);
                     ip = ip.substring(indexOpen + 1, indexClose);
                 } else {
                     // Get ip when after from
@@ -123,9 +123,9 @@ class TraceRouteThread extends Thread {
                         index = ip.indexOf(" ");
                     ip = ip.substring(0, index);
                 }
-            } else if (ping.contains(NetModel.PING)) {
-                int indexOpen = ping.indexOf(NetModel.PING_PAREN_THESE_OPEN);
-                int indexClose = ping.indexOf(NetModel.PING_PAREN_THESE_CLOSE);
+            } else if (ping.contains(Cmd.PING)) {
+                int indexOpen = ping.indexOf(Cmd.PING_PAREN_THESE_OPEN);
+                int indexClose = ping.indexOf(Cmd.PING_PAREN_THESE_CLOSE);
                 ip = ping.substring(indexOpen + 1, indexClose);
             }
         } catch (Exception e) {

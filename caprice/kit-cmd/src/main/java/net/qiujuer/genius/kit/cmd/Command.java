@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 08/13/2014
- * Changed 2015/11/21
- * Version 3.0.0
+ * Created 12/25/2014
+ * Changed 04/17/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,6 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Command same cmd line
@@ -37,8 +35,6 @@ public final class Command {
     public static final int TIMEOUT = 90000;
     // IService Lock
     private static final Object I_LOCK = new Object();
-    // Threads
-    private static ExecutorService EXECUTORSERVICE = null;
     // ICommandInterface
     private static ICommandInterface I_COMMAND = null;
     // Mark If Bind Service
@@ -87,7 +83,7 @@ public final class Command {
     private boolean isCancel = false;
 
     /**
-     * Get a Command
+     * Execute a Command
      *
      * @param params params eg: "/system/bin/ping", "-c", "4", "-s", "100","www.qiujuer.net"
      */
@@ -119,29 +115,33 @@ public final class Command {
 
     // Destroy Service After 5 seconds run
     private static void destroyService() {
-        if (DESTROY_THREAD == null) {
-            DESTROY_THREAD = new Thread() {
+        Thread thread = DESTROY_THREAD;
+        if (thread == null) {
+            thread = new Thread() {
                 @Override
                 public void run() {
                     try {
-                        sleep(5000);
+                        // we wait 5000ms, because the service maybe can use
+                        Thread.sleep(5000);
                         dispose();
                     } catch (InterruptedException e) {
-                        //e.printStackTrace();
+                        e.printStackTrace();
                     }
                     DESTROY_THREAD = null;
                 }
             };
-            DESTROY_THREAD.setDaemon(true);
-            DESTROY_THREAD.start();
+            thread.setDaemon(true);
+            DESTROY_THREAD = thread;
+            thread.start();
         }
     }
 
     // Cancel Destroy Service
     private static void cancelDestroyService() {
-        if (DESTROY_THREAD != null) {
-            DESTROY_THREAD.interrupt();
+        Thread thread = DESTROY_THREAD;
+        if (thread != null) {
             DESTROY_THREAD = null;
+            thread.interrupt();
         }
     }
 
@@ -151,11 +151,11 @@ public final class Command {
     private static void bindService() {
         synchronized (Command.class) {
             if (!IS_BIND) {
-                Context context = null;
+                Context context = Cmd.getContext();
                 if (context == null) {
-                    throw new NullPointerException("Application is not null.Please Genius.initialize(Application)");
+                    throw new NullPointerException("Context not should null. Please call Cmd.init(Context)");
                 } else {
-                    // Init service
+                    // Cmd service
                     context.bindService(new Intent(context, CommandService.class), I_CONN, Context.BIND_AUTO_CREATE);
                     IS_BIND = true;
                 }
@@ -187,6 +187,7 @@ public final class Command {
         cancelDestroyService();
 
         // Get result
+        // In this we should try 5 count get the result
         int count = 5;
         Exception error = null;
         while (count > 0) {
@@ -235,13 +236,19 @@ public final class Command {
      * @param command Command
      * @return Results
      */
-    public static String command(Command command) {
+    public static String command(Command command) throws Exception {
         // Check Service
         if (!IS_BIND)
             bindService();
 
         // Return
-        return commandRun(command);
+        try {
+            return commandRun(command);
+        } catch (Exception e) {
+            e.printStackTrace();
+            restart();
+            throw e;
+        }
     }
 
     /**
@@ -249,35 +256,9 @@ public final class Command {
      *
      * @param command Command
      */
-    public static void command(final Command command, CommandListener listener) {
+    public static String command(final Command command, CommandListener listener) throws Exception {
         command.mListener = listener;
-        // Check Service
-        if (!IS_BIND)
-            bindService();
-
-        // Check and init executor
-        if (EXECUTORSERVICE == null) {
-            synchronized (Command.class) {
-                if (EXECUTORSERVICE == null) {
-                    // Init threads executor
-                    int size = Runtime.getRuntime().availableProcessors();
-                    EXECUTORSERVICE = Executors.newFixedThreadPool(size > 0 ? size : 1);
-                }
-            }
-        }
-
-        // Add executorService thread in executor run
-        try {
-            EXECUTORSERVICE.execute(new Runnable() {
-                @Override
-                public void run() {
-                    commandRun(command);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            restart();
-        }
+        return command(command);
     }
 
     /**
@@ -285,12 +266,13 @@ public final class Command {
      */
     public static void cancel(Command command) {
         command.isCancel = true;
-        if (I_COMMAND != null)
+        if (I_COMMAND != null) {
             try {
                 I_COMMAND.cancel(command.mId);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
     }
 
     /**
@@ -306,16 +288,8 @@ public final class Command {
      */
     public static void dispose() {
         synchronized (Command.class) {
-            if (EXECUTORSERVICE != null) {
-                try {
-                    EXECUTORSERVICE.shutdownNow();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                EXECUTORSERVICE = null;
-            }
             if (IS_BIND) {
-                Context context = null;
+                Context context = Cmd.getContext();
                 if (context != null) {
                     try {
                         context.unbindService(I_CONN);
@@ -339,11 +313,11 @@ public final class Command {
     /**
      * CommandListener
      */
-    public static interface CommandListener {
-        public void onCompleted(String str);
+    public interface CommandListener {
+        void onCompleted(String str);
 
-        public void onCancel();
+        void onCancel();
 
-        public void onError(Exception e);
+        void onError(Exception e);
     }
 }

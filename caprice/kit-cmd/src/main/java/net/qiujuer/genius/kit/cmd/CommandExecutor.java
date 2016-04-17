@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/17/2014
- * Changed 03/08/2015
- * Version 3.0.0
+ * Created 12/25/2014
+ * Changed 04/17/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,21 +24,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Command line run executor
  * Executed command line and return the final result
  */
-class CommandExecutor {
+class CommandExecutor implements Runnable {
+    // Threads
+    private static final ExecutorService EXECUTORSERVICE = Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors() > 0 ?
+                    Runtime.getRuntime().availableProcessors() : 1);
     // TAG
     private static final String TAG = CommandExecutor.class.getSimpleName();
     // Final
     private static final String BREAK_LINE = "\n";
     private static final int BUFFER_LENGTH = 128;
     private static final byte[] BUFFER = new byte[BUFFER_LENGTH];
-    private static final Lock LOCK = new ReentrantLock();
     // ProcessBuilder
     private static final ProcessBuilder PRC = new ProcessBuilder();
 
@@ -54,7 +57,6 @@ class CommandExecutor {
     private InputStream mInStream;
     private InputStream mErrStream;
     private OutputStream mOutStream;
-    private InputStreamReader mInStreamReader = null;
     private BufferedReader mInStreamBuffer = null;
 
     // Is end
@@ -71,8 +73,8 @@ class CommandExecutor {
      *
      * @param process Process
      */
-    private CommandExecutor(Process process, int timeout) {
-        // Init
+    private CommandExecutor(Process process, int timeout) throws IOException {
+        // Cmd
         this.mTimeout = timeout;
         this.mStartTime = System.currentTimeMillis();
         this.mProcess = process;
@@ -83,22 +85,20 @@ class CommandExecutor {
 
         // In
         if (mInStream != null) {
-            mInStreamReader = new InputStreamReader(mInStream);
-            mInStreamBuffer = new BufferedReader(mInStreamReader, BUFFER_LENGTH);
+            mInStreamBuffer = new BufferedReader(
+                    new InputStreamReader(mInStream),
+                    BUFFER_LENGTH);
         }
-
-        mResult = new StringBuilder();
 
         if (mInStream != null) {
             // Start read thread
-            Thread processThread = new Thread(TAG) {
-                @Override
-                public void run() {
-                    startRead();
-                }
-            };
-            processThread.setDaemon(true);
-            processThread.start();
+            mResult = new StringBuilder();
+            EXECUTORSERVICE.execute(this);
+        } else {
+            // if init error we can close the stream
+            close();
+            destroy();
+            throw new IOException("The Process.getInputStream() is null.");
         }
     }
 
@@ -110,23 +110,23 @@ class CommandExecutor {
     protected static CommandExecutor create(int timeout, String param) {
         String[] params = param.split(" ");
         CommandExecutor processModel = null;
-        try {
-            LOCK.lock();
-            Process process = PRC.command(params)
-                    .redirectErrorStream(true)
-                    .start();
-            processModel = new CommandExecutor(process, timeout);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // Sleep 10 to create next
+        synchronized (PRC) {
             try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
+                Process process = PRC.command(params)
+                        .redirectErrorStream(true)
+                        .start();
+                processModel = new CommandExecutor(process, timeout);
+                // Sleep 10 to create next
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            LOCK.unlock();
         }
+
         return processModel;
     }
 
@@ -146,49 +146,6 @@ class CommandExecutor {
         }
     }
 
-    /**
-     * Run thread
-     */
-    private void startRead() {
-        // While to end
-        while (true) {
-            try {
-                mProcess.exitValue();
-                //read last
-                read();
-                break;
-            } catch (IllegalThreadStateException e) {
-                read();
-            }
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Read end
-        int len;
-        if (mInStream != null) {
-            try {
-                while (true) {
-                    len = mInStream.read(BUFFER);
-                    if (len <= 0)
-                        break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Close destroy and done the read
-        close();
-        destroy();
-
-        isDone = true;
-
-    }
-
 
     /**
      * *********************************************************************************************
@@ -201,48 +158,16 @@ class CommandExecutor {
      */
     private void close() {
         // Out
-        if (mOutStream != null) {
-            try {
-                mOutStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mOutStream = null;
-        }
+        Cmd.closeIO(mOutStream);
+        mOutStream = null;
         // Err
-        if (mErrStream != null) {
-            try {
-                mErrStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mErrStream = null;
-        }
+        Cmd.closeIO(mErrStream);
+        mErrStream = null;
         // In
-        if (mInStream != null) {
-            try {
-                mInStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mInStream = null;
-        }
-        if (mInStreamReader != null) {
-            try {
-                mInStreamReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mInStreamReader = null;
-        }
-        if (mInStreamBuffer != null) {
-            try {
-                mInStreamBuffer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mInStreamBuffer = null;
-        }
+        Cmd.closeIO(mInStreamBuffer);
+        mInStreamBuffer = null;
+        Cmd.closeIO(mInStream);
+        mInStream = null;
     }
 
     /**
@@ -298,5 +223,46 @@ class CommandExecutor {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void run() {
+        // While to end
+        while (true) {
+            try {
+                mProcess.exitValue();
+                //read last
+                read();
+                break;
+            } catch (IllegalThreadStateException e) {
+                read();
+            }
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Read end
+        int len;
+        if (mInStream != null) {
+            try {
+                while (true) {
+                    len = mInStream.read(BUFFER);
+                    if (len <= 0)
+                        break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Close destroy and done the read
+        close();
+        destroy();
+
+        isDone = true;
+
     }
 }

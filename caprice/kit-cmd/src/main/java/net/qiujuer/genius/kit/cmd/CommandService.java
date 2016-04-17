@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/17/2014
- * Changed 03/08/2015
- * Version 3.0.0
+ * Created 12/25/2014
+ * Changed 04/17/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,6 @@ import android.os.RemoteException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Command Service
@@ -65,9 +63,10 @@ public class CommandService extends Service {
      */
     @Override
     public void onDestroy() {
-        if (mImpl != null) {
-            mImpl.destroy();
+        CommandServiceImpl impl = mImpl;
+        if (impl != null) {
             mImpl = null;
+            impl.destroy();
         }
         super.onDestroy();
         // Kill process
@@ -78,20 +77,18 @@ public class CommandService extends Service {
      * CommandServiceImpl extends {@link ICommandInterface.Stub} with a aidl Interface
      */
     private class CommandServiceImpl extends ICommandInterface.Stub {
-        private Map<String, CommandExecutor> mCommandExecutorMap = new HashMap<String, CommandExecutor>();
-        private Lock mMapLock = new ReentrantLock();
+        private final Map<String, CommandExecutor> mCommandExecutorMap = new HashMap<String, CommandExecutor>();
         private Thread mTimeoutThread;
 
         public CommandServiceImpl() {
-            // Init
-            mTimeoutThread = new Thread(CommandServiceImpl.class.getName()) {
+            // Cmd
+            Thread thread = new Thread(CommandServiceImpl.class.getName()) {
                 @Override
                 public void run() {
                     // When thread is not destroy
                     while (mTimeoutThread == this && !this.isInterrupted()) {
-                        if (mCommandExecutorMap != null && mCommandExecutorMap.size() > 0) {
-                            try {
-                                mMapLock.lock();
+                        if (mCommandExecutorMap.size() > 0) {
+                            synchronized (mCommandExecutorMap) {
                                 Collection<CommandExecutor> commandExecutors = mCommandExecutorMap.values();
                                 for (CommandExecutor executor : commandExecutors) {
                                     // Kill Service Process
@@ -100,8 +97,6 @@ public class CommandService extends Service {
                                     if (mTimeoutThread != this && this.isInterrupted())
                                         break;
                                 }
-                            } finally {
-                                mMapLock.unlock();
                             }
                         }
                         // Sleep 10 Second
@@ -113,26 +108,24 @@ public class CommandService extends Service {
                     }
                 }
             };
-            mTimeoutThread.setDaemon(true);
-            mTimeoutThread.start();
+            thread.setDaemon(true);
+            mTimeoutThread = thread;
+            thread.start();
         }
 
         /**
          * Destroy
          */
-        protected void destroy() {
-            if (mTimeoutThread != null) {
-                mTimeoutThread.interrupt();
+        void destroy() {
+            // dispose thread
+            Thread thread = mTimeoutThread;
+            if (thread != null) {
                 mTimeoutThread = null;
+                thread.interrupt();
             }
-            try {
-                mMapLock.lock();
+            // clear the map
+            synchronized (mCommandExecutorMap) {
                 mCommandExecutorMap.clear();
-                mCommandExecutorMap = null;
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                mMapLock.unlock();
             }
         }
 
@@ -148,29 +141,28 @@ public class CommandService extends Service {
         public String command(String id, int timeout, String params) throws RemoteException {
             CommandExecutor executor = mCommandExecutorMap.get(id);
             if (executor == null) {
-                try {
-                    mMapLock.lock();
+                synchronized (mCommandExecutorMap) {
                     executor = mCommandExecutorMap.get(id);
                     if (executor == null) {
                         executor = CommandExecutor.create(timeout, params);
-                        mCommandExecutorMap.put(id, executor);
+                        if (executor != null) {
+                            mCommandExecutorMap.put(id, executor);
+                        }
                     }
-                } finally {
-                    mMapLock.unlock();
                 }
             }
 
             // Get Result
-            String result = executor.getResult();
+            String result = executor != null ? executor.getResult() : null;
 
-            try {
-                mMapLock.lock();
-                mCommandExecutorMap.remove(id);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                mMapLock.unlock();
+            synchronized (mCommandExecutorMap) {
+                try {
+                    mCommandExecutorMap.remove(id);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
             return result;
         }
 
@@ -184,13 +176,12 @@ public class CommandService extends Service {
         public void cancel(String id) throws RemoteException {
             CommandExecutor executor = mCommandExecutorMap.get(id);
             if (executor != null) {
-                try {
-                    mMapLock.lock();
-                    mCommandExecutorMap.remove(id);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    mMapLock.unlock();
+                synchronized (mCommandExecutorMap) {
+                    try {
+                        mCommandExecutorMap.remove(id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 executor.destroy();
             }
@@ -204,8 +195,6 @@ public class CommandService extends Service {
          */
         @Override
         public int getTaskCount() throws RemoteException {
-            if (mCommandExecutorMap == null)
-                return 0;
             return mCommandExecutorMap.size();
         }
     }

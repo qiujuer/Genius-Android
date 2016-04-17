@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/21/2014
- * Changed 03/08/2015
- * Version 3.0.0
+ * Created 12/25/2014
+ * Changed 04/17/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * TraceRoute class
- * extends {@link NetModel}
+ * extends {@link AbsNet}
  * implements {@link TraceRouteThread.TraceThreadInterface}
  * <p>
  * TraceRoute url or ip
  */
-public class TraceRoute extends NetModel implements TraceRouteThread.TraceThreadInterface {
+public class TraceRoute extends AbsNet implements TraceRouteThread.TraceThreadInterface {
     private final static int ONCE_COUNT = Runtime.getRuntime().availableProcessors();
     private final static int LOOP_COUNT = 30 / ONCE_COUNT;
 
@@ -103,11 +103,11 @@ public class TraceRoute extends NetModel implements TraceRouteThread.TraceThread
         DnsResolve dns = new DnsResolve(mTarget);
         dns.start();
         List<String> ips = dns.getAddresses();
-        if (dns.getError() != NetModel.SUCCEED || ips == null || ips.size() == 0)
+        if (dns.getError() != Cmd.SUCCEED || ips == null || ips.size() == 0)
             return;
         mIP = ips.get(0);
 
-        // Init List
+        // Cmd List
         routeContainers = new ArrayList<>();
         threads = new ArrayList<>(ONCE_COUNT);
 

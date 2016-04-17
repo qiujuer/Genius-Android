@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/20/2014
- * Changed 03/08/2015
- * Version 3.0.0
+ * Created 12/25/2014
+ * Changed 04/17/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DnsResolve class extends {@link net.qiujuer.genius.kit.cmd.NetModel}
+ * DnsResolve class extends {@link AbsNet}
  * Resolve url to ip string
  */
-public class DnsResolve extends NetModel {
+public class DnsResolve extends AbsNet {
     private static final byte[] ID = new byte[]{(byte) 2, (byte) 6};
     private static final int TIME_OUT = 8000;
     private String mHostName;
@@ -70,7 +70,7 @@ public class DnsResolve extends NetModel {
     private ArrayList<String> resolve(String domain, InetAddress dnsServer) {
         // Pointer
         int pos = 12;
-        // Init buffer
+        // Cmd buffer
         byte[] sendBuffer = new byte[100];
         // Message head
         sendBuffer[0] = ID[0];
@@ -177,7 +177,7 @@ public class DnsResolve extends NetModel {
         }
 
         // Get ip form data
-        ArrayList<String> iPs = new ArrayList<String>();
+        ArrayList<String> iPs = new ArrayList<>();
         for (int i = 0; i < answerCount; i++) {
             if (receiveBuffer[pos] == (byte) 0xC0) {
                 pos += 2;
@@ -199,7 +199,7 @@ public class DnsResolve extends NetModel {
                     if (address[n] < 0)
                         address[n] += 256;
                 }
-                iPs.add(String.format("%d.%d.%d.%d", address[0], address[1], address[2], address[3]));
+                iPs.add(String.format("%s.%s.%s.%S", address[0], address[1], address[2], address[3]));
             }
             pos += dataLength;
         }

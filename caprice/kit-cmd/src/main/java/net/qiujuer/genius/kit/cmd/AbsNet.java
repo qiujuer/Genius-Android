@@ -17,13 +17,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// ICommandInterface.aidl
 package net.qiujuer.genius.kit.cmd;
 
-// Declare any non-default types here with import statements
+/**
+ * This is AbsNet to internet
+ */
+public abstract class AbsNet {
+    // Default status
+    protected int mError = Cmd.SUCCEED;
 
-interface ICommandInterface {
-    String command(String id, int timeout, String params);
-    void cancel(String id);
-    int getTaskCount();
+    /**
+     * Run to doing
+     */
+    public abstract void start();
+
+    /**
+     * Cancel do
+     */
+    public abstract void cancel();
+
+    /**
+     * Get error code
+     *
+     * @return errorCode
+     */
+    public int getError() {
+        return mError;
+    }
 }

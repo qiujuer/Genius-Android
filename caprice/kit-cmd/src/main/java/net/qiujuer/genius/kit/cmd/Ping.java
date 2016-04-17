@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/21/2014
- * Changed 03/08/2015
- * Version 3.0.0
+ * Created 12/25/2014
+ * Changed 04/17/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@
 package net.qiujuer.genius.kit.cmd;
 
 /**
- * Ping class extends {@link net.qiujuer.genius.kit.cmd.NetModel}
+ * Ping class extends {@link AbsNet}
  * Ping url or ip
  */
-public class Ping extends NetModel {
+public class Ping extends AbsNet {
     private String mTarget;
     private String mIp = null;
     private float mLossRate = 1f;
@@ -101,9 +101,9 @@ public class Ping extends NetModel {
     private String parseIp(String ping) {
         String ip = null;
         try {
-            if (ping.contains(NetModel.PING)) {
-                int indexOpen = ping.indexOf(NetModel.PING_PAREN_THESE_OPEN);
-                int indexClose = ping.indexOf(NetModel.PING_PAREN_THESE_CLOSE);
+            if (ping.contains(Cmd.PING)) {
+                int indexOpen = ping.indexOf(Cmd.PING_PAREN_THESE_OPEN);
+                int indexClose = ping.indexOf(Cmd.PING_PAREN_THESE_CLOSE);
                 ip = ping.substring(indexOpen + 1, indexClose);
             }
         } catch (Exception e) {
@@ -115,19 +115,19 @@ public class Ping extends NetModel {
     private float parseLoss(String ping) {
         float transmit = 0f, error = 0f, receive = 0f, lossRate = 0f;
         try {
-            if (ping.contains(NetModel.PING_STATISTICS)) {
-                String lossStr = ping.substring(ping.indexOf(NetModel.PING_BREAK_LINE, ping.indexOf(NetModel.PING_STATISTICS)) + 1);
-                lossStr = lossStr.substring(0, lossStr.indexOf(NetModel.PING_BREAK_LINE));
-                String strArray[] = lossStr.split(NetModel.PING_COMMA);
+            if (ping.contains(Cmd.PING_STATISTICS)) {
+                String lossStr = ping.substring(ping.indexOf(Cmd.PING_BREAK_LINE, ping.indexOf(Cmd.PING_STATISTICS)) + 1);
+                lossStr = lossStr.substring(0, lossStr.indexOf(Cmd.PING_BREAK_LINE));
+                String strArray[] = lossStr.split(Cmd.PING_COMMA);
                 for (String str : strArray) {
-                    if (str.contains(NetModel.PING_TRANSMIT))
-                        transmit = Float.parseFloat(str.substring(0, str.indexOf(NetModel.PING_TRANSMIT)));
-                    else if (str.contains(NetModel.PING_RECEIVED))
-                        receive = Float.parseFloat(str.substring(0, str.indexOf(NetModel.PING_RECEIVED)));
-                    else if (str.contains(NetModel.PING_ERRORS))
-                        error = Float.parseFloat(str.substring(0, str.indexOf(NetModel.PING_ERRORS)));
-                    else if (str.contains(NetModel.PING_LOSS))
-                        lossRate = Float.parseFloat(str.substring(0, str.indexOf(NetModel.PING_RATE)));
+                    if (str.contains(Cmd.PING_TRANSMIT))
+                        transmit = Float.parseFloat(str.substring(0, str.indexOf(Cmd.PING_TRANSMIT)));
+                    else if (str.contains(Cmd.PING_RECEIVED))
+                        receive = Float.parseFloat(str.substring(0, str.indexOf(Cmd.PING_RECEIVED)));
+                    else if (str.contains(Cmd.PING_ERRORS))
+                        error = Float.parseFloat(str.substring(0, str.indexOf(Cmd.PING_ERRORS)));
+                    else if (str.contains(Cmd.PING_LOSS))
+                        lossRate = Float.parseFloat(str.substring(0, str.indexOf(Cmd.PING_RATE)));
                 }
             }
             if (transmit != 0)
@@ -143,10 +143,10 @@ public class Ping extends NetModel {
     private float parseDelay(String ping) {
         float delay = 0;
         try {
-            if (ping.contains(NetModel.PING_RTT)) {
-                String lossStr = ping.substring(ping.indexOf(NetModel.PING_RTT));
-                lossStr = lossStr.substring(lossStr.indexOf(NetModel.PING_EQUAL) + 2);
-                String strArray[] = lossStr.split(NetModel.PING_SLASH);
+            if (ping.contains(Cmd.PING_RTT)) {
+                String lossStr = ping.substring(ping.indexOf(Cmd.PING_RTT));
+                lossStr = lossStr.substring(lossStr.indexOf(Cmd.PING_EQUAL) + 2);
+                String strArray[] = lossStr.split(Cmd.PING_SLASH);
                 delay = Float.parseFloat(strArray[1]);
             }
         } catch (Exception e) {
@@ -166,10 +166,10 @@ public class Ping extends NetModel {
         String res = launchPing();
         if (res != null && res.length() > 0) {
             res = res.toLowerCase();
-            if (res.contains(NetModel.PING_UNREACHABLE) && !res.contains(NetModel.PING_EXCEED)) {
+            if (res.contains(Cmd.PING_UNREACHABLE) && !res.contains(Cmd.PING_EXCEED)) {
                 // Failed
                 mLossRate = 1f;
-                mError = HOST_UNREACHABLE_ERROR;
+                mError = Cmd.HOST_UNREACHABLE_ERROR;
             } else {
                 // Succeed
                 mLossRate = parseLoss(res);
@@ -178,7 +178,7 @@ public class Ping extends NetModel {
                     mIp = parseIp(res);
             }
         } else {
-            mError = DROP_DATA_ERROR;
+            mError = Cmd.DROP_DATA_ERROR;
         }
     }
 
