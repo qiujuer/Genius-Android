@@ -1,1 +1,1 @@
-include ':sample', ':res', ':ui', ':blur', ':kit', ':kit-handler', ':kit-cmd'
+include ':sample', ':res', ':ui', ':blur', ':kit', ':kit-handler', ':kit-cmd', ':deprecated', ':kit-reflect'
