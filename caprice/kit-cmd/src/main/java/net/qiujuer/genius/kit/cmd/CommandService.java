@@ -27,6 +27,7 @@ import android.os.RemoteException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Command Service
@@ -126,6 +127,13 @@ public class CommandService extends Service {
             // clear the map
             synchronized (mCommandExecutorMap) {
                 mCommandExecutorMap.clear();
+            }
+
+            try {
+                CommandExecutor.EXECUTORSERVICE.shutdown();
+                CommandExecutor.EXECUTORSERVICE.shutdownNow();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

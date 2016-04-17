@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
  */
 class CommandExecutor implements Runnable {
     // Threads
-    private static final ExecutorService EXECUTORSERVICE = Executors.newFixedThreadPool(
+    static final ExecutorService EXECUTORSERVICE = Executors.newFixedThreadPool(
             Runtime.getRuntime().availableProcessors() > 0 ?
                     Runtime.getRuntime().availableProcessors() : 1);
     // TAG

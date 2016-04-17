@@ -21,6 +21,7 @@ package net.qiujuer.genius.kit.cmd;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -28,11 +29,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * TraceRoute class
  * extends {@link AbsNet}
- * implements {@link TraceRouteThread.TraceThreadInterface}
  * <p>
  * TraceRoute url or ip
  */
-public class TraceRoute extends AbsNet implements TraceRouteThread.TraceThreadInterface {
+public class TraceRoute extends AbsNet {
     private final static int ONCE_COUNT = Runtime.getRuntime().availableProcessors();
     private final static int LOOP_COUNT = 30 / ONCE_COUNT;
 
@@ -58,7 +58,6 @@ public class TraceRoute extends AbsNet implements TraceRouteThread.TraceThreadIn
         this.mTarget = target;
     }
 
-
     /**
      * Clear List
      */
@@ -70,28 +69,6 @@ public class TraceRoute extends AbsNet implements TraceRouteThread.TraceThreadIn
                 }
             }
         }
-    }
-
-    @Override
-    public void complete(TraceRouteThread trace, boolean isError, boolean isArrived, TraceRouteContainer routeContainer) {
-        if (threads != null) {
-            synchronized (mLock) {
-                try {
-                    threads.remove(trace);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        if (!isDone) {
-            if (isError)
-                this.errorCount++;
-            this.isArrived = isArrived;
-            if (routeContainers != null && routeContainer != null)
-                routeContainers.add(routeContainer);
-        }
-        if (countDownLatch != null && countDownLatch.getCount() > 0)
-            countDownLatch.countDown();
     }
 
     /**
@@ -202,8 +179,217 @@ public class TraceRoute extends AbsNet implements TraceRouteThread.TraceThreadIn
         return mRoutes;
     }
 
+    /**
+     * Will the run thread is complete should call this method
+     *
+     * @param trace          TraceRouteThread
+     * @param isError        The run status
+     * @param isArrived      Is Arrived the ip
+     * @param routeContainer TraceRouteContainer
+     */
+    void onComplete(TraceRouteThread trace, boolean isError, boolean isArrived, TraceRouteContainer routeContainer) {
+        if (threads != null) {
+            synchronized (mLock) {
+                try {
+                    threads.remove(trace);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (!isDone) {
+            if (isError)
+                this.errorCount++;
+            this.isArrived = isArrived;
+            if (routeContainers != null && routeContainer != null)
+                routeContainers.add(routeContainer);
+        }
+        if (countDownLatch != null && countDownLatch.getCount() > 0)
+            countDownLatch.countDown();
+    }
+
     @Override
     public String toString() {
         return "IP:" + mIP + " Routes:" + (mRoutes == null ? "[]" : mRoutes.toString());
+    }
+
+    /**
+     * Routing information to {@link TraceRoute}
+     */
+    static class TraceRouteContainer {
+        public String mIP;
+        public int mTTL;
+        public float mLoss;
+        public float mDelay;
+
+        public TraceRouteContainer(int ttl, String ip, float loss, float delay) {
+            this.mTTL = ttl;
+            this.mIP = ip;
+            this.mLoss = loss;
+            this.mDelay = delay;
+        }
+
+        @Override
+        public String toString() {
+            return "Ttl:" + mTTL + " " + mIP + " Loss:" + mLoss + " Delay:" + mDelay;
+        }
+
+        /**
+         * The TraceRouteRoute results are sorted to sort the TraceRouteThread result
+         */
+        protected static class TraceRouteContainerComparator implements Comparator<TraceRouteContainer> {
+            public int compare(TraceRouteContainer container1, TraceRouteContainer container2) {
+                if (container1 == null)
+                    return 1;
+                if (container2 == null)
+                    return -1;
+                if (container1.mTTL < container2.mTTL)
+                    return -1;
+                else if (container1.mTTL == container2.mTTL)
+                    return 0;
+                else
+                    return 1;
+            }
+        }
+    }
+
+
+    /**
+     * This is run in thread to get ping by ip and ttl values
+     * extends {@link #Thread}
+     */
+    static class TraceRouteThread extends Thread {
+        private int mTTL;
+        private String mIP;
+        private Ping mPing;
+        private Command mCommand;
+        private TraceRoute mInterface;
+
+        private boolean isArrived;
+        private boolean isError;
+
+
+        public TraceRouteThread(String ip, int ttl, TraceRoute traceThreadInterface) {
+            this.mIP = ip;
+            this.mTTL = ttl;
+            this.mInterface = traceThreadInterface;
+
+            this.setName("TraceThread:" + ip + " " + ttl);
+            this.setDaemon(true);
+            this.start();
+        }
+
+        /**
+         * TTL Route
+         *
+         * @param ip  ip
+         * @param ttl ttl
+         * @return isError
+         */
+        private TraceRouteContainer trace(String ip, int ttl) {
+            String res = launchRoute(ip, ttl);
+            if (!this.isInterrupted() && res != null && res.length() > 0) {
+                res = res.toLowerCase();
+                if (res.contains(Cmd.PING_EXCEED) || !res.contains(Cmd.PING_UNREACHABLE)) {
+                    // Succeed
+                    String pIp = parseIpFromRoute(res);
+                    if (!this.isInterrupted() && pIp != null && pIp.length() > 0) {
+                        Ping ping = new Ping(4, 32, pIp, false);
+                        mPing = ping;
+                        ping.start();
+                        TraceRouteContainer routeContainer = new TraceRouteContainer(ttl, pIp, mPing.getLossRate(), mPing.getDelay());
+                        mPing = null;
+                        isArrived = pIp.contains(ip);
+                        return routeContainer;
+                    }
+                }
+            }
+            isError = true;
+            return null;
+        }
+
+        /**
+         * Get TTL IP
+         *
+         * @param ip  Target IP
+         * @param ttl TTL
+         * @return Ping IP and TTL Result
+         */
+        private String launchRoute(String ip, int ttl) {
+            mCommand = new Command("/system/bin/ping",
+                    "-c", "4",
+                    "-s", "32",
+                    "-t", String.valueOf(ttl),
+                    ip);
+
+            String str = null;
+            try {
+                str = Command.command(mCommand);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                mCommand = null;
+            }
+            return str;
+        }
+
+        /**
+         * Parsing IP address
+         *
+         * @param ping Ping IP and TTL Result
+         * @return IP Address
+         */
+        private String parseIpFromRoute(String ping) {
+            String ip = null;
+            try {
+                if (ping.contains(Cmd.PING_FROM)) {
+                    // Get ip when ttl exceeded
+                    int index = ping.indexOf(Cmd.PING_FROM);
+                    ip = ping.substring(index + 5);
+                    if (ip.contains(Cmd.PING_PAREN_THESE_OPEN)) {
+                        int indexOpen = ip.indexOf(Cmd.PING_PAREN_THESE_OPEN);
+                        int indexClose = ip.indexOf(Cmd.PING_PAREN_THESE_CLOSE);
+                        ip = ip.substring(indexOpen + 1, indexClose);
+                    } else {
+                        // Get ip when after from
+                        ip = ip.substring(0, ip.indexOf("\n"));
+                        if (ip.contains(":"))
+                            index = ip.indexOf(":");
+                        else
+                            index = ip.indexOf(" ");
+                        ip = ip.substring(0, index);
+                    }
+                } else if (ping.contains(Cmd.PING)) {
+                    int indexOpen = ping.indexOf(Cmd.PING_PAREN_THESE_OPEN);
+                    int indexClose = ping.indexOf(Cmd.PING_PAREN_THESE_CLOSE);
+                    ip = ping.substring(indexOpen + 1, indexClose);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return ip;
+        }
+
+        @Override
+        public void run() {
+            TraceRouteContainer routeContainer = trace(mIP, mTTL);
+            mInterface.onComplete(this, this.isError, this.isArrived, routeContainer);
+            mInterface = null;
+        }
+
+        /**
+         * Cancel
+         */
+        public void cancel() {
+            if (mPing != null)
+                mPing.cancel();
+            if (mCommand != null)
+                Command.cancel(mCommand);
+            try {
+                this.interrupt();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

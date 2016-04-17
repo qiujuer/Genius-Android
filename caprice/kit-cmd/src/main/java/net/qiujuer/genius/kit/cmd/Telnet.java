@@ -68,12 +68,13 @@ public class Telnet extends AbsNet {
         } catch (IOException e) {
             mError = Cmd.TCP_LINK_ERROR;
         } finally {
-            if (socket != null)
+            if (socket != null) {
                 try {
                     socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
         }
     }
 

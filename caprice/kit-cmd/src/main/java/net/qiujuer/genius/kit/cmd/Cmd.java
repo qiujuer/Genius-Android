@@ -50,7 +50,7 @@ public class Cmd {
     /**
      * Get the Context to run service
      *
-     * @return
+     * @return Context
      */
     static Context getContext() {
         return CONTEXT;
@@ -72,27 +72,8 @@ public class Cmd {
     }
 
     /**
-     * Convert IP string to byte
-     *
-     * @param ip IP
-     * @return IP Byte
-     */
-    static byte[] convertIpToByte(String ip) {
-        String str[] = ip.split("\\.");
-        byte[] bIp = new byte[str.length];
-        try {
-            for (int i = 0, len = str.length; i < len; i++) {
-                bIp[i] = (byte) (Integer.parseInt(str[i], 10));
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        return bIp;
-    }
-
-    /**
      * Init the Cmd
-     * You should call the method before use: {@link Ping }
+     * You should call the method before use: {@link Ping } or {@link TraceRoute}
      *
      * @param context Context
      */

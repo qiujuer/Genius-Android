@@ -131,16 +131,21 @@ public class DnsResolve extends AbsNet {
             receiveBuffer = new byte[len];
             System.arraycopy(dp.getData(), 0, receiveBuffer, 0, len);
         } catch (UnknownHostException e) {
-            mError = UNKNOWN_HOST_ERROR;
+            mError = Cmd.UNKNOWN_HOST_ERROR;
         } catch (SocketException e) {
-            mError = NETWORK_SOCKET_ERROR;
+            mError = Cmd.NETWORK_SOCKET_ERROR;
             e.printStackTrace();
         } catch (IOException e) {
-            mError = NETWORK_IO_ERROR;
+            mError = Cmd.NETWORK_IO_ERROR;
             e.printStackTrace();
         } finally {
-            if (ds != null)
-                ds.close();
+            if (ds != null) {
+                try {
+                    ds.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         /**
@@ -148,7 +153,7 @@ public class DnsResolve extends AbsNet {
          */
 
         // Check is return
-        if (mError != SUCCEED || receiveBuffer == null)
+        if (mError != Cmd.SUCCEED || receiveBuffer == null)
             return null;
 
         // ID
@@ -218,16 +223,16 @@ public class DnsResolve extends AbsNet {
                         mIPs.add(add.getHostAddress());
                 }
             } catch (UnknownHostException e) {
-                mError = UNKNOWN_HOST_ERROR;
+                mError = Cmd.UNKNOWN_HOST_ERROR;
             } catch (Exception e) {
-                mError = UNKNOWN_ERROR;
+                mError = Cmd.UNKNOWN_ERROR;
             }
         } else {
             try {
                 mIPs = resolve(mHostName, mServer);
             } catch (Exception e) {
-                if (mError == SUCCEED)
-                    mError = UNKNOWN_ERROR;
+                if (mError == Cmd.SUCCEED)
+                    mError = Cmd.UNKNOWN_ERROR;
                 e.printStackTrace();
             }
         }
