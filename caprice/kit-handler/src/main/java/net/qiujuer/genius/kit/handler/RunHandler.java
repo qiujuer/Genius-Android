@@ -33,7 +33,7 @@ import java.util.Queue;
  * <p/>
  * In class have two queue with {@link #mAsyncPool,#mSyncPool}
  */
-final class RunHandlerPoster extends Handler {
+final class RunHandler extends Handler {
     private static final int ASYNC = 0x1;
     private static final int SYNC = 0x2;
     private final Queue<Runnable> mAsyncPool;
@@ -48,7 +48,7 @@ final class RunHandlerPoster extends Handler {
      * @param looper                       Handler Looper
      * @param maxMillisInsideHandleMessage The maximum time occupied the main thread each cycle
      */
-    RunHandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
+    RunHandler(Looper looper, int maxMillisInsideHandleMessage) {
         super(looper);
         this.mMaxMillisInsideHandleMessage = maxMillisInsideHandleMessage;
         mAsyncPool = new LinkedList<>();

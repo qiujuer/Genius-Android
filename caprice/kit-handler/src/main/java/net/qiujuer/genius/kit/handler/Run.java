@@ -2,7 +2,7 @@
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 11/24/2014
- * Changed 04/15/2016
+ * Changed 04/19/2016
  * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,9 @@ package net.qiujuer.genius.kit.handler;
 
 import android.os.Looper;
 
+import net.qiujuer.genius.kit.handler.runable.Action;
+import net.qiujuer.genius.kit.handler.runable.Func;
+
 /**
  * This is UI operation class
  * You can run thread on MainThread By Async and Sync
@@ -29,14 +32,14 @@ import android.os.Looper;
  * You should call {@link #dispose()} operation for destruction.
  */
 final public class Run {
-    private static RunHandlerPoster mainPoster = null;
+    private static RunHandler mainPoster = null;
 
-    private static RunHandlerPoster getMainPoster() {
+    private static RunHandler getMainPoster() {
         if (mainPoster == null) {
             synchronized (Run.class) {
                 if (mainPoster == null) {
                     // This time is 1000/60 (60fps)
-                    mainPoster = new RunHandlerPoster(Looper.getMainLooper(), 16);
+                    mainPoster = new RunHandler(Looper.getMainLooper(), 16);
                 }
             }
         }
@@ -48,14 +51,14 @@ final public class Run {
      * The child thread asynchronous run relative to the main thread,
      * not blocking the child thread
      *
-     * @param runnable Runnable Interface
+     * @param action Action Interface
      */
-    public static void onUiAsync(Runnable runnable) {
+    public static void onUiAsync(Action action) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            runnable.run();
+            action.call();
             return;
         }
-        getMainPoster().async(runnable);
+        getMainPoster().async(new ActionAsyncRunnable(action));
     }
 
     /**
@@ -64,14 +67,14 @@ final public class Run {
      * blocking the child thread,
      * thread for the main thread to complete
      *
-     * @param runnable Runnable Interface
+     * @param action Action Interface
      */
-    public static void onUiSync(Runnable runnable) {
+    public static void onUiSync(Action action) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            runnable.run();
+            action.call();
             return;
         }
-        SyncRunnable poster = new SyncRunnable(runnable);
+        ActionSyncRunnable poster = new ActionSyncRunnable(action);
         getMainPoster().sync(poster);
         poster.waitRun();
     }
@@ -83,19 +86,102 @@ final public class Run {
      * thread for the main thread to complete
      * But the child thread just wait for the waitTime long.
      *
-     * @param runnable Runnable Interface
-     * @param waitTime wait for the main thread run Time
-     * @param cancel   on the child thread cancel the runnable task
+     * @param action     Action Interface
+     * @param waitMillis wait for the main thread run millis Time
+     * @param cancel     on the child thread cancel the runnable task
      */
-    public static void onUiSync(Runnable runnable, int waitTime, boolean cancel) {
+    public static void onUiSync(Action action, int waitMillis, boolean cancel) {
+        onUiSync(action, waitMillis, 0, cancel);
+    }
+
+    /**
+     * Synchronously
+     * The child thread relative thread synchronization operation,
+     * blocking the child thread,
+     * thread for the main thread to complete
+     * But the child thread just wait for the waitTime long.
+     *
+     * @param action     Action Interface
+     * @param waitMillis wait for the main thread run millis Time
+     * @param waitNanos  wait for the main thread run nanos Time
+     * @param cancel     on the child thread cancel the runnable task
+     */
+    public static void onUiSync(Action action, int waitMillis, int waitNanos, boolean cancel) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            runnable.run();
+            action.call();
             return;
         }
-        SyncRunnable poster = new SyncRunnable(runnable);
+        ActionSyncRunnable poster = new ActionSyncRunnable(action);
         getMainPoster().sync(poster);
-        poster.waitRun(waitTime, cancel);
+        poster.waitRun(waitMillis, waitNanos, cancel);
     }
+
+
+    /**
+     * Synchronously
+     * <p/>
+     * In this you can receiver {@link Func#call()} return
+     * <p/>
+     * The child thread relative thread synchronization operation,
+     * blocking the child thread,
+     * thread for the main thread to complete
+     *
+     * @param func Func Interface
+     */
+    public static <T> T onUiSync(Func<T> func) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            return func.call();
+        }
+
+        FuncSyncRunnable<T> poster = new FuncSyncRunnable<T>(func);
+        getMainPoster().sync(poster);
+        return poster.waitRun();
+    }
+
+    /**
+     * Synchronously
+     * <p/>
+     * In this you can receiver {@link Func#call()} return
+     * <p/>
+     * The child thread relative thread synchronization operation,
+     * blocking the child thread,
+     * thread for the main thread to complete
+     * But the child thread just wait for the waitTime long.
+     *
+     * @param func       Func Interface
+     * @param waitMillis wait for the main thread run millis Time
+     * @param cancel     on the child thread cancel the runnable task
+     */
+    public static <T> T onUiSync(Func<T> func, int waitMillis, boolean cancel) {
+        return onUiSync(func, waitMillis, 0, cancel);
+    }
+
+
+    /**
+     * Synchronously
+     * <p/>
+     * In this you can receiver {@link Func#call()} return
+     * <p/>
+     * The child thread relative thread synchronization operation,
+     * blocking the child thread,
+     * thread for the main thread to complete
+     * But the child thread just wait for the waitTime long.
+     *
+     * @param func       Func Interface
+     * @param waitMillis wait for the main thread run millis Time
+     * @param waitNanos  wait for the main thread run nanos Time
+     * @param cancel     on the child thread cancel the runnable task
+     */
+    public static <T> T onUiSync(Func<T> func, int waitMillis, int waitNanos, boolean cancel) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            return func.call();
+        }
+
+        FuncSyncRunnable<T> poster = new FuncSyncRunnable<T>(func);
+        getMainPoster().sync(poster);
+        return poster.waitRun(waitMillis, waitNanos, cancel);
+    }
+
 
     /**
      * Call this on you need dispose
