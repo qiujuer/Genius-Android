@@ -45,11 +45,10 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
      */
     @Override
     public T call() {
-        T result = null;
         if (!isEnd) {
             synchronized (this) {
                 if (!isEnd) {
-                    result = mFunc.call();
+                    mResult = mFunc.call();
                     isEnd = true;
                     try {
                         this.notifyAll();
@@ -59,7 +58,7 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
                 }
             }
         }
-        return result;
+        return mResult;
     }
 
     /**
@@ -67,7 +66,7 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
      */
     @Override
     public void run() {
-        mResult = call();
+        call();
     }
 
     /**
