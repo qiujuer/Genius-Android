@@ -16,6 +16,8 @@ import net.qiujuer.genius.kit.cmd.Ping;
 import net.qiujuer.genius.kit.cmd.Telnet;
 import net.qiujuer.genius.kit.cmd.TraceRoute;
 import net.qiujuer.genius.kit.handler.Run;
+import net.qiujuer.genius.kit.handler.runable.Action;
+import net.qiujuer.genius.kit.handler.runable.Func;
 import net.qiujuer.genius.ui.widget.Button;
 
 import java.net.InetAddress;
@@ -62,16 +64,18 @@ public class KitActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void showLog(String tag, final String msg) {
-        Log.d(tag, msg);
-        // Async to show
-        // 异步显示到界面
-        Run.onUiAsync(new Runnable() {
+        // call ui thread to show
+        // 切换到主线程更新
+        String ret = Run.onUiSync(new Func<String>() {
             @Override
-            public void run() {
+            public String call() {
                 if (mText != null)
                     mText.append("\n" + msg);
+                return "LOG " + msg;
             }
         });
+
+        Log.d(tag, ret);
     }
 
     private static void sleepIgnoreInterrupt(int time) {
@@ -121,13 +125,31 @@ public class KitActivity extends AppCompatActivity implements View.OnClickListen
                 // in this mode method first to execute commands on the queue, waiting for the main thread
                 // 测试同步模式，在该模式下
                 // 该方法首先会将要执行的命令放到队列中，等待主线程执行
-                Run.onUiSync(new Runnable() {
+                Run.onUiSync(new Action() {
                     @Override
-                    public void run() {
+                    public void call() {
                         sleepIgnoreInterrupt(20);
                     }
                 });
                 msg += "Sync Time:" + (System.currentTimeMillis() - start) + ", ";
+
+
+                start = System.currentTimeMillis();
+
+                // Test synchronization func return mode
+                // in this mode method first to execute commands on the queue, waiting for the main thread
+                // 测试同步返回模式，在该模式下
+                // 该方法首先会将要执行的命令放到队列中，等待主线程执行, 在执行后会返回执行后的结果
+                long time = Run.onUiSync(new Func<Long>() {
+                    @Override
+                    public Long call() {
+                        sleepIgnoreInterrupt(20);
+                        return System.currentTimeMillis();
+                    }
+                });
+
+                msg += "Sync Func Time:" + (time - start) + ", ";
+
 
                 start = System.currentTimeMillis();
 
@@ -135,9 +157,9 @@ public class KitActivity extends AppCompatActivity implements View.OnClickListen
                 // in this mode the child thread calls the method added to the queue, can continue to go down, will not be blocked
                 // 测试异步模式，在该模式下
                 // 子线程调用该方法加入到队列后，可继续往下走，并不会阻塞
-                Run.onUiAsync(new Runnable() {
+                Run.onUiAsync(new Action() {
                     @Override
-                    public void run() {
+                    public void call() {
                         sleepIgnoreInterrupt(20);
                     }
                 });
@@ -270,9 +292,9 @@ public class KitActivity extends AppCompatActivity implements View.OnClickListen
                 private void add() {
                     count++;
                     final long cur = count;
-                    Run.onUiAsync(new Runnable() {
+                    Run.onUiAsync(new Action() {
                         @Override
-                        public void run() {
+                        public void call() {
                             mAsync.setText(cur + "/" + getCount());
                         }
                     });
@@ -307,9 +329,9 @@ public class KitActivity extends AppCompatActivity implements View.OnClickListen
                 private void add() {
                     count++;
                     final long cur = count;
-                    Run.onUiSync(new Runnable() {
+                    Run.onUiSync(new Action() {
                         @Override
-                        public void run() {
+                        public void call() {
                             mSync.setText(cur + "/" + getCount());
                         }
                     });
