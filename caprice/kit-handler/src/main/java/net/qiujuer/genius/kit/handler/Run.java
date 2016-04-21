@@ -127,6 +127,8 @@ final public class Run {
      * thread for the main thread to complete
      *
      * @param func Func Interface
+     * @param <T>  you can set any type to return
+     * @return {@link T}
      */
     public static <T> T onUiSync(Func<T> func) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -151,6 +153,8 @@ final public class Run {
      * @param func       Func Interface
      * @param waitMillis wait for the main thread run millis Time
      * @param cancel     on the child thread cancel the runnable task
+     * @param <T>        you can set any type to return
+     * @return {@link T}
      */
     public static <T> T onUiSync(Func<T> func, int waitMillis, boolean cancel) {
         return onUiSync(func, waitMillis, 0, cancel);
@@ -171,6 +175,8 @@ final public class Run {
      * @param waitMillis wait for the main thread run millis Time
      * @param waitNanos  wait for the main thread run nanos Time
      * @param cancel     on the child thread cancel the runnable task
+     * @param <T>        you can set any type to return
+     * @return {@link T}
      */
     public static <T> T onUiSync(Func<T> func, int waitMillis, int waitNanos, boolean cancel) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
