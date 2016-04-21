@@ -2,7 +2,7 @@
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 11/24/2014
- * Changed 04/15/2016
+ * Changed 04/21/2016
  * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,16 +31,14 @@ import java.util.Queue;
 /**
  * Run Handler Poster extends Handler
  * <p/>
- * In class have two queue with {@link #mAsyncPool,#mSyncPool}
+ * In class have two Runner with {@link #mAsyncRunner,#mSyncRunner}
  */
 final class RunHandler extends Handler {
     private static final int ASYNC = 0x1;
     private static final int SYNC = 0x2;
-    private final Queue<Runnable> mAsyncPool;
-    private final Queue<Runnable> mSyncPool;
-    private final int mMaxMillisInsideHandleMessage;
-    private boolean isAsyncActive;
-    private boolean isSyncActive;
+    private static int MAX_MILLIS_INSIDE_HANDLE_MESSAGE = 16;
+    private final Runner mAsyncRunner;
+    private final Runner mSyncRunner;
 
     /**
      * Init this
@@ -50,9 +48,27 @@ final class RunHandler extends Handler {
      */
     RunHandler(Looper looper, int maxMillisInsideHandleMessage) {
         super(looper);
-        this.mMaxMillisInsideHandleMessage = maxMillisInsideHandleMessage;
-        mAsyncPool = new LinkedList<>();
-        mSyncPool = new LinkedList<>();
+        // inside time
+        MAX_MILLIS_INSIDE_HANDLE_MESSAGE = maxMillisInsideHandleMessage;
+
+        // async runner
+        mAsyncRunner = new Runner(new LinkedList<Runnable>(),
+                new Runner.IPoster() {
+                    @Override
+                    public void sendMessage() {
+                        RunHandler.this.sendMessage(ASYNC);
+                    }
+                });
+
+        // sync runner
+        mSyncRunner = new Runner(new LinkedList<Runnable>(),
+                new Runner.IPoster() {
+                    @Override
+                    public void sendMessage() {
+                        RunHandler.this.sendMessage(SYNC);
+                    }
+                });
+
     }
 
     /**
@@ -60,8 +76,8 @@ final class RunHandler extends Handler {
      */
     void dispose() {
         this.removeCallbacksAndMessages(null);
-        this.mAsyncPool.clear();
-        this.mSyncPool.clear();
+        this.mAsyncRunner.dispose();
+        this.mSyncRunner.dispose();
     }
 
     /**
@@ -70,13 +86,7 @@ final class RunHandler extends Handler {
      * @param runnable Runnable
      */
     void async(Runnable runnable) {
-        synchronized (mAsyncPool) {
-            mAsyncPool.offer(runnable);
-            if (!isAsyncActive) {
-                isAsyncActive = true;
-                sendMessage(ASYNC);
-            }
-        }
+        mAsyncRunner.offer(runnable);
     }
 
     /**
@@ -85,13 +95,7 @@ final class RunHandler extends Handler {
      * @param runnable Runnable
      */
     void sync(Runnable runnable) {
-        synchronized (mSyncPool) {
-            mSyncPool.offer(runnable);
-            if (!isSyncActive) {
-                isSyncActive = true;
-                sendMessage(SYNC);
-            }
-        }
+        mSyncRunner.offer(runnable);
     }
 
     /**
@@ -102,92 +106,10 @@ final class RunHandler extends Handler {
     @Override
     public void handleMessage(Message msg) {
         if (msg.what == ASYNC) {
-            boolean rescheduled = false;
-            try {
-                long started = SystemClock.uptimeMillis();
-                while (true) {
-                    Runnable runnable = poolAsyncPost();
-                    if (runnable == null) {
-                        synchronized (mAsyncPool) {
-                            // Check again, this time in synchronized
-                            runnable = poolAsyncPost();
-                            if (runnable == null) {
-                                isAsyncActive = false;
-                                return;
-                            }
-                        }
-                    }
-                    runnable.run();
-                    long timeInMethod = SystemClock.uptimeMillis() - started;
-                    if (timeInMethod >= mMaxMillisInsideHandleMessage) {
-                        sendMessage(ASYNC);
-                        rescheduled = true;
-                        return;
-                    }
-                }
-            } finally {
-                isAsyncActive = rescheduled;
-            }
+            mAsyncRunner.dispatch();
         } else if (msg.what == SYNC) {
-            boolean rescheduled = false;
-            try {
-                long started = SystemClock.uptimeMillis();
-                while (true) {
-                    Runnable runnable = poolSyncPost();
-                    if (runnable == null) {
-                        synchronized (mSyncPool) {
-                            // Check again, this time in synchronized
-                            runnable = poolSyncPost();
-                            if (runnable == null) {
-                                isSyncActive = false;
-                                return;
-                            }
-                        }
-                    }
-                    runnable.run();
-                    long timeInMethod = SystemClock.uptimeMillis() - started;
-                    if (timeInMethod >= mMaxMillisInsideHandleMessage) {
-                        sendMessage(SYNC);
-                        rescheduled = true;
-                        return;
-                    }
-                }
-            } finally {
-                isSyncActive = rescheduled;
-            }
+            mSyncRunner.dispatch();
         } else super.handleMessage(msg);
-    }
-
-    /**
-     * pool a Runnable form AsyncPool
-     *
-     * @return Runnable
-     */
-    private Runnable poolAsyncPost() {
-        synchronized (mAsyncPool) {
-            try {
-                return mAsyncPool.poll();
-            } catch (NoSuchElementException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
-
-    /**
-     * pool a Runnable form SyncPool
-     *
-     * @return Runnable
-     */
-    private Runnable poolSyncPost() {
-        synchronized (mSyncPool) {
-            try {
-                return mSyncPool.poll();
-            } catch (NoSuchElementException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
     }
 
     /**
@@ -198,6 +120,107 @@ final class RunHandler extends Handler {
     private void sendMessage(int what) {
         if (!sendMessage(obtainMessage(what))) {
             throw new RuntimeException("Could not send handler message");
+        }
+    }
+
+
+    /**
+     * This's main Runner
+     */
+    static class Runner {
+        private final Queue<Runnable> mPool;
+        private IPoster mPoster;
+        private boolean isActive;
+
+        public Runner(Queue<Runnable> pool, IPoster poster) {
+            mPool = pool;
+            mPoster = poster;
+        }
+
+        /**
+         * offer to {@link #mPool}
+         *
+         * @param runnable Runnable
+         */
+        public void offer(Runnable runnable) {
+            synchronized (mPool) {
+                mPool.offer(runnable);
+                if (!isActive) {
+                    isActive = true;
+                    // send again message
+                    IPoster poster = mPoster;
+                    if (poster != null)
+                        poster.sendMessage();
+                }
+            }
+        }
+
+        /**
+         * dispatch form {@link #mPool}
+         */
+        public void dispatch() {
+            boolean rescheduled = false;
+            try {
+                long started = SystemClock.uptimeMillis();
+                while (true) {
+                    Runnable runnable = poll();
+                    if (runnable == null) {
+                        synchronized (mPool) {
+                            // Check again, this time in synchronized
+                            runnable = poll();
+                            if (runnable == null) {
+                                isActive = false;
+                                return;
+                            }
+                        }
+                    }
+                    runnable.run();
+                    long timeInMethod = SystemClock.uptimeMillis() - started;
+                    if (timeInMethod >= MAX_MILLIS_INSIDE_HANDLE_MESSAGE) {
+                        // send again message
+                        IPoster poster = mPoster;
+                        if (poster != null)
+                            poster.sendMessage();
+
+                        // rescheduled is true
+                        rescheduled = true;
+                        return;
+                    }
+                }
+            } finally {
+                isActive = rescheduled;
+            }
+        }
+
+        /**
+         * dispose the Runner on your no't need use
+         */
+        public void dispose() {
+            mPool.clear();
+            mPoster = null;
+        }
+
+        /**
+         * poll a Runnable form {@link #mPool}
+         *
+         * @return Runnable
+         */
+        private Runnable poll() {
+            synchronized (mPool) {
+                try {
+                    return mPool.poll();
+                } catch (NoSuchElementException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+
+        /**
+         * This's poster can to send refresh message
+         */
+        interface IPoster {
+            void sendMessage();
         }
     }
 }
