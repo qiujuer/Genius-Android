@@ -119,6 +119,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
         a.recycle();
 
+        // set background on user not set background
         if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
             // Set Background
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -127,6 +128,18 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 setBackgroundDrawable(drawable);
             } else
                 setBackgroundResource(R.drawable.g_button_background);
+        }
+
+        // the lollipop new attrs
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // outlineProvider
+            if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "outlineProvider") == null) {
+                setOutlineProvider(null);
+            }
+            // elevation
+            if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "elevation") == null) {
+                setElevation(0);
+            }
         }
 
         // SetTouch
