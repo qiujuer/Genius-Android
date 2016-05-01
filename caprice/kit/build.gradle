@@ -41,6 +41,9 @@ android {
 
 dependencies {
     testCompile 'junit:junit:4.12'
+    compile project(':kit-cmd')
+    compile project(':kit-handler')
+    compile project(':kit-reflect')
 }
 
 apply from: '../script/gradle-jcenter-push.gradle'
