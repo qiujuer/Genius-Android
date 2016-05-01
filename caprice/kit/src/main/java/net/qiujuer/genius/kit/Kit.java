@@ -10,7 +10,7 @@ import net.qiujuer.genius.kit.reflect.Reflect;
  */
 public class Kit {
     public static Application getApplication() {
-        return Reflect.on("android.app.ActivityThread")
+        return Reflect.with("android.app.ActivityThread")
                 .call("currentApplication")
                 .get();
     }
