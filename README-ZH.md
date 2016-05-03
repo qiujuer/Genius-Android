@@ -5,23 +5,16 @@
 
 ## Genius-Android
 
-![branchs](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/images/global/06C15426.png)
+![branchs](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/branchs.png)
 
 **Genius-Android** ：由 `Material Design` 控件和一些常用类库组合而成。从2015年开始，划分为两个分支：`STEADY` 和 `CAPRICE`。
-* `STEADY` 延续以主题驱动的风格进行研发
-	> *  **app:** UiKit、BlurKit
-	> * **animation:** TouchEffectAnimator
-	> * **drawable:** Material Design Draw
-	> * **widget:** Material Design
-	> * **command:** Run Command In Process
-	> * **net tool:** Ping、Dns、Telnet、Tracert
-	> * **util:** Log、Hash、Tools、FixedList
+* `STEADY` [END](https://github.com/qiujuer/Genius-Android/tree/steady)
 
 * `CAPRICE` 一个新的分支，在该分支中包含 `Ui` 与 `Kit` 库
 	> * **Ui Lib** 主打颜色驱动`Material Design`风格进行研发
 	> * **Kit Lib** 包含：`command`、`net`、`util` 等包
 	> * **Blur Lib** 包含：`StackBlr` 对图片进行模糊
-  > * **Resource Lib** 包含：`Material Design` 的颜色与布局大小
+    > * **Resource Lib** 包含：`Material Design` 的颜色与布局大小
 
 **`请注意：` `STEADY` 与 `CAPRICE` 库并不兼容，是完全独立的两个分支！**
 
@@ -30,40 +23,29 @@
 
 ## Sample APK
 
-*  [`STEADY`](https://raw.githubusercontent.com/qiujuer/Genius-Android/resource/release/simple-steady_2.4.0.apk)
-*  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/sample.apk)
+*  [`sample.apk`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/sample.apk)
 
 
 ## Video
 
-*  [`CAPRICE`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/video.mp4)
+*  [`video.mp4`](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/video.mp4)
 
 
 ## 添加项目
 
-### `CAPRICE`
-
 `Ui` `Blur` `Resource` `Kit`
 
-```
+```groovy
 dependencies {
-  compile 'net.qiujuer.genius:ui:1.5.0'
-  compile 'net.qiujuer.genius:res:1.5.0'
-  compile 'net.qiujuer.genius:kit:1.5.0'
-  compile 'net.qiujuer.genius:blur:1.5.0'
+  compile 'net.qiujuer.genius:ui:2.0.0-beta2'
+  compile 'net.qiujuer.genius:res:2.0.0-beta2'
+  compile 'net.qiujuer.genius:blur:2.0.0-beta2'
+  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
+  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
 }
 ```
 
 **提示：每个模块都是独立的，可单独依赖使用。**
-
-
-### `STEADY`
-
-```
-dependencies {
-  compile 'com.github.qiujuer:genius:2.4.1'
-}
-```
 
 
 
@@ -108,7 +90,7 @@ dependencies {
 License
 --------
 
-    Copyright 2014-2015 Qiujuer.
+    Copyright 2014-2016 Qiujuer.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -131,8 +131,8 @@ public class EditText extends android.widget.EditText {
         setLineSize(lineSize);
         setLineColor(lineColor);
 
-        setHintTitleModel(titleModel);
         setHintTitleTextSize(titleTextSize);
+        setHintTitleModel(titleModel);
 
         // check for IDE preview render
         if (!this.isInEditMode()) {
@@ -221,21 +221,15 @@ public class EditText extends android.widget.EditText {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (isShowTitle()) {
-                            boolean have = s != null && s.length() > 0;
-                            if (have != isHaveText) {
-                                isHaveText = have;
-                                animateShowTitle(isHaveText);
-                            }
-                        }
+                        checkShowTitle(s, false);
                     }
                 };
                 addTextChangedListener(mTextWatcher);
             }
 
-            // Show
-            Editable editable = getText();
-            animateShowTitle(editable != null && editable.length() > 0);
+            // try show
+            Editable editable = getEditableText();
+            checkShowTitle(editable, false);
         } else {
             if (mTextWatcher != null) {
                 removeTextChangedListener(mTextWatcher);
@@ -245,6 +239,24 @@ public class EditText extends android.widget.EditText {
             mTitlePaint = null;
             mCurTitleProperty = null;
             mAnimator = null;
+        }
+    }
+
+    /**
+     * Check show hint title
+     *
+     * @param s          The text, if the have same string we should move hint
+     * @param skipChange on showed we not refresh ui, but skipChange=true,
+     *                   we can skip the check
+     */
+    private void checkShowTitle(Editable s, boolean skipChange) {
+        // in this we can check width
+        if (isShowTitle() && getWidth() > 0) {
+            boolean have = s != null && s.length() > 0;
+            if (have != isHaveText || (have && skipChange)) {
+                isHaveText = have;
+                animateShowTitle(isHaveText);
+            }
         }
     }
 
@@ -405,9 +417,20 @@ public class EditText extends android.widget.EditText {
             super.invalidate();
     }
 
-    private void setTitleProperty(TitleProperty value) {
-        mCurTitleProperty = value;
-        invalidate();
+    @Override
+    public void setGravity(int gravity) {
+        int old = getGravity();
+        super.setGravity(gravity);
+        // on change the gravity, we should try refresh hint
+        if (old != gravity)
+            checkShowTitle(getEditableText(), true);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        // on change the size, we should try refresh hint
+        checkShowTitle(getEditableText(), true);
     }
 
     /**
@@ -415,6 +438,16 @@ public class EditText extends android.widget.EditText {
      * The Animate
      * =============================================================================================
      */
+
+    /**
+     * Refresh hint ui by this
+     *
+     * @param value Hint TitleProperty
+     */
+    private void setTitleProperty(TitleProperty value) {
+        mCurTitleProperty = value;
+        invalidate();
+    }
 
     private int getTextLen() {
         Paint paint = getPaint();
@@ -530,7 +563,7 @@ public class EditText extends android.widget.EditText {
      * =============================================================================================
      */
 
-    public final static class TitleProperty {
+    final static class TitleProperty {
         private int mTextSize;
         private int mAlpha = 255;
         private int mLeft;

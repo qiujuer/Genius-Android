@@ -25,11 +25,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -117,6 +119,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
         a.recycle();
 
+        // set background on user not set background
         if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
             // Set Background
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -125,6 +128,18 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 setBackgroundDrawable(drawable);
             } else
                 setBackgroundResource(R.drawable.g_button_background);
+        }
+
+        // the lollipop new attrs
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // outlineProvider
+            if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "outlineProvider") == null) {
+                setOutlineProvider(null);
+            }
+            // elevation
+            if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "elevation") == null) {
+                setElevation(0);
+            }
         }
 
         // SetTouch
@@ -143,6 +158,19 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 if (typeface != null) setTypeface(typeface);
             }
         }
+
+        // We must set layer type is View.LAYER_TYPE_SOFTWARE,
+        // to support Canvas.clipPath()
+        if (getLayerType() != View.LAYER_TYPE_SOFTWARE)
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+    }
+
+    @Override
+    public void setLayerType(int layerType, Paint paint) {
+        // In this, to support Canvas.clipPath(),
+        // must set layerType is View.LAYER_TYPE_SOFTWARE
+        layerType = View.LAYER_TYPE_SOFTWARE;
+        super.setLayerType(layerType, paint);
     }
 
     /**

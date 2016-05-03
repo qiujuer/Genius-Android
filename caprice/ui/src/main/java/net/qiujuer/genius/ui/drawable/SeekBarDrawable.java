@@ -79,6 +79,7 @@ public class SeekBarDrawable extends SeekBarStateDrawable implements Animatable 
 
     public void setNumSegments(int numSegments) {
         this.mNumSegments = numSegments;
+        this.mTickDistance = (float) this.mContentWidth / (float) numSegments;
     }
 
     public int getTickRadius() {
@@ -253,7 +254,7 @@ public class SeekBarDrawable extends SeekBarStateDrawable implements Animatable 
         }
 
         // Ticks Left
-        if (mThumbRadius > halfLeft) {
+        if (mTickRadius > halfLeft) {
             paint.setColor(colorLeft);
             for (int i = 0; i <= mNumSegments; i++) {
                 float x = i * mTickDistance + startLeft;

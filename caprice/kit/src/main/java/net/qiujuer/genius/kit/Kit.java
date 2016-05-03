@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/17/2014
- * Changed 2015/11/21
- * Version 3.0.0
+ * Created 03/08/2015
+ * Changed 05/03/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,44 +21,13 @@ package net.qiujuer.genius.kit;
 
 import android.app.Application;
 
-import net.qiujuer.genius.kit.command.Command;
-import net.qiujuer.genius.kit.util.Log;
-import net.qiujuer.genius.kit.util.UiKit;
+import net.qiujuer.genius.kit.reflect.Reflect;
 
-/**
- * This is Genius-Android Kit class
- * If use Command/Log
- * You should call {@link #initialize(Application)}
- * The End should call {@link #dispose()}  }
- */
-public final class Kit {
-    private static Application application;
 
-    /**
-     * Get this Application
-     *
-     * @return Application
-     */
+public class Kit {
     public static Application getApplication() {
-        return application;
-    }
-
-    /**
-     * Init this Application
-     *
-     * @param application Application
-     */
-    public static void initialize(Application application) {
-        Kit.application = application;
-    }
-
-    /**
-     * When you app exit you should call this
-     */
-    public static void dispose() {
-        Command.dispose();
-        Log.dispose();
-        UiKit.dispose();
-        Kit.application = null;
+        return Reflect.with("android.app.ActivityThread")
+                .call("currentApplication")
+                .get();
     }
 }
