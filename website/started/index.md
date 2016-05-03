@@ -11,8 +11,8 @@ root: ../
 
 * `Ui` Research and development in **Color-Drive** and **Material Design** style.
 * `Resource` Include Material Design **Color** and Lay **Size**.
-* `Kit` Include **command**、**net** and same **util** class.
 * `Blur`Include **blur** image by **java** and **jni** method.
+* `Kit` Include **kit-cmd**、**kit-handler** and **kit-reflect** class.
 
 
 #### Gradle:
@@ -21,14 +21,26 @@ root: ../
 
 {% highlight gradle %}
 dependencies {
-  compile 'net.qiujuer.genius:ui:1.6.0'
-  compile 'net.qiujuer.genius:res:1.5.0'
-  compile 'net.qiujuer.genius:kit:1.5.0'
-  compile 'net.qiujuer.genius:blur:1.5.0'
+  // ui module
+  compile 'net.qiujuer.genius:ui:2.0.0-beta2'
+  compile 'net.qiujuer.genius:res:2.0.0-beta2'
+
+  // blur module
+  compile 'net.qiujuer.genius:blur:2.0.0-beta2'
+
+  // kit module
+  compile 'net.qiujuer.genius:kit:2.0.0-beta2'
+  // or
+  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
+  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
+  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta2'
 }
 {% endhighlight %}
 
+**Note: 'Kit' module included ‘kit-cmd’, ‘kit-handler‘, 'kit-reflect’ modules. **
+
 **Note: Each module is independent and can be used independently to dependency.**
+
 
 #### Maven
 
@@ -38,7 +50,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>ui</artifactId>
-    <version>1.6.0</version>
+    <version>2.0.0-beta2</version>
 </dependency>
 {% endhighlight %}
 
@@ -49,18 +61,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>res</artifactId>
-    <version>1.5.0</version>
-</dependency>
-{% endhighlight %}
-
-
-`Kit`
-
-{% highlight xml %}
-<dependency>
-    <groupId>net.qiujuer.genius</groupId>
-    <artifactId>kit</artifactId>
-    <version>1.5.0</version>
+    <version>2.0.0-beta2</version>
 </dependency>
 {% endhighlight %}
 
@@ -71,11 +72,53 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>blur</artifactId>
-    <version>1.5.0</version>
+    <version>2.0.0-beta2</version>
 </dependency>
 {% endhighlight %}
 
 
+`Kit`
+
+{% highlight xml %}
+<dependency>
+    <groupId>net.qiujuer.genius</groupId>
+    <artifactId>kit</artifactId>
+    <version>2.0.0-beta2</version>
+</dependency>
+{% endhighlight %}
+
+
+`Kit Cmd`
+
+{% highlight xml %}
+<dependency>
+    <groupId>net.qiujuer.genius</groupId>
+    <artifactId>kit-cmd</artifactId>
+    <version>2.0.0-beta2</version>
+</dependency>
+{% endhighlight %}
+
+
+`Kit Handler`
+
+{% highlight xml %}
+<dependency>
+    <groupId>net.qiujuer.genius</groupId>
+    <artifactId>kit-handler</artifactId>
+    <version>2.0.0-beta2</version>
+</dependency>
+{% endhighlight %}
+
+
+`Kit Reflect`
+
+{% highlight xml %}
+<dependency>
+    <groupId>net.qiujuer.genius</groupId>
+    <artifactId>kit-reflect</artifactId>
+    <version>2.0.0-beta2</version>
+</dependency>
+{% endhighlight %}
 
 
 
