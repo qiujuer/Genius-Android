@@ -36,10 +36,11 @@
 
 ```groovy
 dependencies {
-  compile 'net.qiujuer.genius:ui:1.6.0'
-  compile 'net.qiujuer.genius:res:1.5.0'
-  compile 'net.qiujuer.genius:kit:1.5.0'
-  compile 'net.qiujuer.genius:blur:1.5.0'
+  compile 'net.qiujuer.genius:ui:2.0.0-beta2'
+  compile 'net.qiujuer.genius:res:2.0.0-beta2'
+  compile 'net.qiujuer.genius:blur:2.0.0-beta2'
+  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
+  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
 }
 ```
 
