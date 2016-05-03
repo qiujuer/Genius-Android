@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2016 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 03/08/2015
- * Changed 1/7/2016
- * Version 1.5.0
+ * Changed 05/03/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,8 +41,9 @@ android {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile project(':kit-cmd')
-    compile project(':kit-handler')
+    compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
+    compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
+    //compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta2'
     compile project(':kit-reflect')
 }
 
