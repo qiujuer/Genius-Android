@@ -36,13 +36,23 @@
 
 ```groovy
 dependencies {
+  // ui module
   compile 'net.qiujuer.genius:ui:2.0.0-beta2'
   compile 'net.qiujuer.genius:res:2.0.0-beta2'
+  
+  // blur module
   compile 'net.qiujuer.genius:blur:2.0.0-beta2'
+  
+  // kit module
+  compile 'net.qiujuer.genius:kit:2.0.0-beta2'
+  // or
   compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
   compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
+  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta2'
 }
 ```
+
+**Note: 'Kit' module included ‘kit-cmd’, ‘kit-handler‘, 'kit-reflect’ modules. **
 
 **Note: Each module is independent and can be used independently to dependency.**
 
