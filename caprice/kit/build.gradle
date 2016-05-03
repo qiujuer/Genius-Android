@@ -43,8 +43,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
     compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
-    //compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta2'
-    compile project(':kit-reflect')
+    compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta2'
 }
 
 apply from: '../script/gradle-jcenter-push.gradle'
