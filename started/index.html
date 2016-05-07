@@ -102,25 +102,28 @@
 
 <p><code>Ui</code> <code>Resource</code> <code>Blur</code> <code>Kit</code></p>
 
-<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle">dependencies {
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle">def genius_version = "2.0.0-beta2"
+
+dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.0-beta2'
-  compile 'net.qiujuer.genius:res:2.0.0-beta2'
+  compile "net.qiujuer.genius:ui:${genius_version}"
+  compile "net.qiujuer.genius:res:${genius_version}"
 
   // blur module
-  compile 'net.qiujuer.genius:blur:2.0.0-beta2'
+  compile "net.qiujuer.genius:blur:${genius_version}"
 
   // kit module
-  compile 'net.qiujuer.genius:kit:2.0.0-beta2'
+  compile "net.qiujuer.genius:kit:${genius_version}"
   // or
-  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
-  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
-  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta2'
+  compile "net.qiujuer.genius:kit-cmd:${genius_version}"
+  compile "net.qiujuer.genius:kit-handler:${genius_version}"
+  compile "net.qiujuer.genius:kit-reflect:${genius_version}"
 }</code></pre></figure>
 
-<p>**Note: ‘Kit’ module included ‘kit-cmd’, ‘kit-handler‘, ‘kit-reflect’ modules. **</p>
-
-<p><strong>Note: Each module is independent and can be used independently to dependency.</strong></p>
+<ul>
+  <li><strong>Note: Kit module included kit-cmd, kit-handler, kit-reflect modules.</strong></li>
+  <li><strong>Note: Each module is independent and can be used independently to dependency.</strong></li>
+</ul>
 
 <h4 id="maven">Maven</h4>
 
@@ -129,7 +132,7 @@
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>ui<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>2.0.0-beta2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
 <p><code>Res</code></p>
@@ -137,7 +140,7 @@
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>res<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>2.0.0-beta2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
 <p><code>Blur</code></p>
@@ -145,7 +148,7 @@
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>blur<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>2.0.0-beta2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
 <p><code>Kit</code></p>
@@ -153,7 +156,7 @@
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>kit<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>2.0.0-beta2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
 <p><code>Kit Cmd</code></p>
@@ -161,7 +164,7 @@
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>kit-cmd<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>2.0.0-beta2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
 <p><code>Kit Handler</code></p>
@@ -169,7 +172,7 @@
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>kit-handler<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>2.0.0-beta2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
 <p><code>Kit Reflect</code></p>
@@ -177,7 +180,7 @@
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>kit-reflect<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>2.0.0-beta2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
 <h3 id="developer">Developer</h3>
