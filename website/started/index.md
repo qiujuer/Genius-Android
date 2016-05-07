@@ -40,7 +40,7 @@ dependencies {
 {% endhighlight %}
 
 
-* **Note: 'Kit' module included ‘kit-cmd’, ‘kit-handler‘, 'kit-reflect’ modules. **
+* **Note: Kit module included kit-cmd, kit-handler, kit-reflect modules.**
 * **Note: Each module is independent and can be used independently to dependency.**
 
 
