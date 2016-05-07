@@ -53,7 +53,7 @@ dependencies {
 }
 ```
 
-**提示：‘Kit’ 包含了 ‘kit-cmd’、‘kit-handler‘、'kit-reflect’。 **
+**提示：Kit 包含了 kit-cmd、kit-handler、kit-reflect。 **
 
 **提示：每个模块都是独立的，可单独依赖使用。**
 
