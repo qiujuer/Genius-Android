@@ -15,31 +15,33 @@ root: ../
 * `Kit` Include **kit-cmd**、**kit-handler** and **kit-reflect** class.
 
 
-#### Gradle:
+#### Gradle: 
 
 `Ui` `Resource` `Blur` `Kit`
 
 {% highlight gradle %}
+def genius_version = "2.0.0-beta2"
+
 dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.0-beta2'
-  compile 'net.qiujuer.genius:res:2.0.0-beta2'
+  compile "net.qiujuer.genius:ui:${genius_version}"
+  compile "net.qiujuer.genius:res:${genius_version}"
 
   // blur module
-  compile 'net.qiujuer.genius:blur:2.0.0-beta2'
+  compile "net.qiujuer.genius:blur:${genius_version}"
 
   // kit module
-  compile 'net.qiujuer.genius:kit:2.0.0-beta2'
+  compile "net.qiujuer.genius:kit:${genius_version}"
   // or
-  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
-  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
-  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta2'
+  compile "net.qiujuer.genius:kit-cmd:${genius_version}"
+  compile "net.qiujuer.genius:kit-handler:${genius_version}"
+  compile "net.qiujuer.genius:kit-reflect:${genius_version}"
 }
 {% endhighlight %}
 
-**Note: 'Kit' module included ‘kit-cmd’, ‘kit-handler‘, 'kit-reflect’ modules. **
 
-**Note: Each module is independent and can be used independently to dependency.**
+* **Note: Kit module included kit-cmd, kit-handler, kit-reflect modules.**
+* **Note: Each module is independent and can be used independently to dependency.**
 
 
 #### Maven
@@ -50,7 +52,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>ui</artifactId>
-    <version>2.0.0-beta2</version>
+    <version>{insert genius_version}</version>
 </dependency>
 {% endhighlight %}
 
@@ -61,7 +63,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>res</artifactId>
-    <version>2.0.0-beta2</version>
+    <version>{insert genius_version}</version>
 </dependency>
 {% endhighlight %}
 
@@ -72,7 +74,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>blur</artifactId>
-    <version>2.0.0-beta2</version>
+    <version>{insert genius_version}</version>
 </dependency>
 {% endhighlight %}
 
@@ -83,7 +85,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>kit</artifactId>
-    <version>2.0.0-beta2</version>
+    <version>{insert genius_version}</version>
 </dependency>
 {% endhighlight %}
 
@@ -94,7 +96,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>kit-cmd</artifactId>
-    <version>2.0.0-beta2</version>
+    <version>{insert genius_version}</version>
 </dependency>
 {% endhighlight %}
 
@@ -105,7 +107,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>kit-handler</artifactId>
-    <version>2.0.0-beta2</version>
+    <version>{insert genius_version}</version>
 </dependency>
 {% endhighlight %}
 
@@ -116,7 +118,7 @@ dependencies {
 <dependency>
     <groupId>net.qiujuer.genius</groupId>
     <artifactId>kit-reflect</artifactId>
-    <version>2.0.0-beta2</version>
+    <version>{insert genius_version}</version>
 </dependency>
 {% endhighlight %}
 
