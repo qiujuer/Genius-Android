@@ -10,4 +10,12 @@ collections:
     output: true
 
 kramdown:
+    input: GFM
+    extensions:
+        - autolink
+        - footnotes
+        - smart
     syntax_highlighter: syntax_highlighter_opts
+    parse_block_html: true
+    coderay:
+        coderay_line_numbers:  nil
