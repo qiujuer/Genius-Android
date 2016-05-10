@@ -7,7 +7,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
  * on 16/4/19.
  */
 class ActionAsyncRunnable implements Action, Runnable {
-    private Action mAction;
+    private final Action mAction;
 
     ActionAsyncRunnable(Action action) {
         mAction = action;

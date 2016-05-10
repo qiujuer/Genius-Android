@@ -28,8 +28,8 @@ import net.qiujuer.genius.kit.handler.runable.Func;
  * See {@link Run}
  */
 final class ActionSyncRunnable implements Action, Runnable {
-    private Action mAction;
-    private boolean isEnd = false;
+    private final Action mAction;
+    private boolean mDone = false;
 
 
     ActionSyncRunnable(Action action) {
@@ -42,15 +42,14 @@ final class ActionSyncRunnable implements Action, Runnable {
      */
     @Override
     public void call() {
-        if (!isEnd) {
+        if (!mDone) {
             synchronized (this) {
-                if (!isEnd) {
+                if (!mDone) {
                     mAction.call();
-                    isEnd = true;
+                    mDone = true;
                     try {
                         this.notifyAll();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception ignored) {
                     }
                 }
             }
@@ -69,13 +68,12 @@ final class ActionSyncRunnable implements Action, Runnable {
      * Wait to run end
      */
     public void waitRun() {
-        if (!isEnd) {
+        if (!mDone) {
             synchronized (this) {
-                if (!isEnd) {
+                while (!mDone) {
                     try {
                         this.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    } catch (InterruptedException ignored) {
                     }
                 }
             }
@@ -85,21 +83,20 @@ final class ActionSyncRunnable implements Action, Runnable {
     /**
      * Wait for a period of time to run end
      *
-     * @param waitMillis wait millis time
-     * @param waitNanos  wait millis time
+     * @param waitMillis wait milliseconds time
+     * @param waitNanos  wait nanoseconds time
      * @param cancel     when wait end cancel the run
      */
-    public void waitRun(int waitMillis, int waitNanos, boolean cancel) {
-        if (!isEnd) {
+    public void waitRun(long waitMillis, int waitNanos, boolean cancel) {
+        if (!mDone) {
             synchronized (this) {
-                if (!isEnd) {
+                if (!mDone) {
                     try {
                         this.wait(waitMillis, waitNanos);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    } catch (InterruptedException ignored) {
                     } finally {
-                        if (!isEnd && cancel)
-                            isEnd = true;
+                        if (!mDone && cancel)
+                            mDone = true;
                     }
                 }
             }

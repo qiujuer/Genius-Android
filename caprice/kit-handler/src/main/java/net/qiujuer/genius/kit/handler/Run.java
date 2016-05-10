@@ -87,10 +87,10 @@ final public class Run {
      * But the child thread just wait for the waitTime long.
      *
      * @param action     Action Interface
-     * @param waitMillis wait for the main thread run millis Time
+     * @param waitMillis wait for the main thread run milliseconds Time
      * @param cancel     on the child thread cancel the runnable task
      */
-    public static void onUiSync(Action action, int waitMillis, boolean cancel) {
+    public static void onUiSync(Action action, long waitMillis, boolean cancel) {
         onUiSync(action, waitMillis, 0, cancel);
     }
 
@@ -102,11 +102,11 @@ final public class Run {
      * But the child thread just wait for the waitTime long.
      *
      * @param action     Action Interface
-     * @param waitMillis wait for the main thread run millis Time
-     * @param waitNanos  wait for the main thread run nanos Time
+     * @param waitMillis wait for the main thread run milliseconds Time
+     * @param waitNanos  wait for the main thread run nanoseconds Time
      * @param cancel     on the child thread cancel the runnable task
      */
-    public static void onUiSync(Action action, int waitMillis, int waitNanos, boolean cancel) {
+    public static void onUiSync(Action action, long waitMillis, int waitNanos, boolean cancel) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             action.call();
             return;
@@ -151,12 +151,12 @@ final public class Run {
      * But the child thread just wait for the waitTime long.
      *
      * @param func       Func Interface
-     * @param waitMillis wait for the main thread run millis Time
+     * @param waitMillis wait for the main thread run milliseconds Time
      * @param cancel     on the child thread cancel the runnable task
      * @param <T>        you can set any type to return
      * @return {@link T}
      */
-    public static <T> T onUiSync(Func<T> func, int waitMillis, boolean cancel) {
+    public static <T> T onUiSync(Func<T> func, long waitMillis, boolean cancel) {
         return onUiSync(func, waitMillis, 0, cancel);
     }
 
@@ -172,13 +172,13 @@ final public class Run {
      * But the child thread just wait for the waitTime long.
      *
      * @param func       Func Interface
-     * @param waitMillis wait for the main thread run millis Time
-     * @param waitNanos  wait for the main thread run nanos Time
+     * @param waitMillis wait for the main thread run milliseconds Time
+     * @param waitNanos  wait for the main thread run nanoseconds Time
      * @param cancel     on the child thread cancel the runnable task
      * @param <T>        you can set any type to return
      * @return {@link T}
      */
-    public static <T> T onUiSync(Func<T> func, int waitMillis, int waitNanos, boolean cancel) {
+    public static <T> T onUiSync(Func<T> func, long waitMillis, int waitNanos, boolean cancel) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             return func.call();
         }

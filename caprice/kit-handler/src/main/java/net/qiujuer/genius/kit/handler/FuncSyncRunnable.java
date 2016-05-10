@@ -28,9 +28,9 @@ import net.qiujuer.genius.kit.handler.runable.Func;
  */
 @SuppressWarnings("unused")
 final class FuncSyncRunnable<T> implements Func<T>, Runnable {
-    private Func<T> mFunc;
+    private final Func<T> mFunc;
     private T mResult;
-    private boolean isEnd = false;
+    private boolean mDone = false;
 
 
     FuncSyncRunnable(Func<T> func) {
@@ -45,15 +45,14 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
      */
     @Override
     public T call() {
-        if (!isEnd) {
+        if (!mDone) {
             synchronized (this) {
-                if (!isEnd) {
+                if (!mDone) {
                     mResult = mFunc.call();
-                    isEnd = true;
+                    mDone = true;
                     try {
                         this.notifyAll();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception ignored) {
                     }
                 }
             }
@@ -75,13 +74,12 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
      * @return T
      */
     public T waitRun() {
-        if (!isEnd) {
+        if (!mDone) {
             synchronized (this) {
-                if (!isEnd) {
+                while (!mDone) {
                     try {
                         this.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    } catch (InterruptedException ignored) {
                     }
                 }
             }
@@ -92,22 +90,21 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
     /**
      * Wait for a period of time to run end
      *
-     * @param waitMillis wait millis time
-     * @param waitNanos  wait millis time
-     * @param cancel     when wait end cancel the run
+     * @param waitMillis wait milliseconds time
+     * @param waitNanos  wait nanoseconds time
+     * @param cancel     True if when wait end cancel the run
      * @return T
      */
-    public T waitRun(int waitMillis, int waitNanos, boolean cancel) {
-        if (!isEnd) {
+    public T waitRun(long waitMillis, int waitNanos, boolean cancel) {
+        if (!mDone) {
             synchronized (this) {
-                if (!isEnd) {
+                if (!mDone) {
                     try {
                         this.wait(waitMillis, waitNanos);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    } catch (InterruptedException ignored) {
                     } finally {
-                        if (!isEnd && cancel)
-                            isEnd = true;
+                        if (!mDone && cancel)
+                            mDone = true;
                     }
                 }
             }
