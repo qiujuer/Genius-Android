@@ -32,6 +32,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initCheckBox();
         initLoading();
 
+        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BlurActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
