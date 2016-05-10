@@ -222,7 +222,7 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
     }
 
     @Override
-    public void perform() {
+    public void postPerformClick() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

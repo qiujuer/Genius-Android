@@ -258,7 +258,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     }
 
     @Override
-    public void perform() {
+    public void postPerformClick() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

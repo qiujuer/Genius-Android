@@ -276,7 +276,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     }
 
     @Override
-    public void perform() {
+    public void postPerformClick() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -310,5 +310,10 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         }
 
         super.onDraw(canvas);
+    }
+
+    @Override
+    public boolean performLongClick() {
+        return super.performLongClick();
     }
 }

@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 07/24/2015
- * Changed 07/27/2015
+ * Changed 05/10/2016
  * Version 2.0.0
  * Author Qiujuer
  *
@@ -61,10 +61,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     protected boolean isPerformClick = false;
     private WeakReference<PerformClicker> mPerformClicker = null;
 
-
     // Animation
-    private boolean isRunning = false;
-    private boolean isEnterAnimating = false;
     private long mStartTime;
     private Interpolator mEnterInterpolator = new DecelerateInterpolator(2.6f);
     private Interpolator mExitInterpolator = new AccelerateInterpolator();
@@ -358,7 +355,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             mState.mEffect.touchReleased(x, y);
 
             // Start Exit animation
-            if (!isEnterAnimating) {
+            if (mEnterAnimate.mDone) {
                 startExitAnim();
             }
         }
@@ -501,7 +498,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
      * This drawable call view perform by interface
      */
     public interface PerformClicker {
-        void perform();
+        void postPerformClick();
     }
 
     public boolean isPerformClick() {
@@ -509,7 +506,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             isPerformClick = true;
             return false;
         } else {
-            if (isRunning)
+            if (!mEnterAnimate.mDone)
                 return false;
             else {
                 isPerformClick = false;
@@ -522,7 +519,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         if (isPerformClick) {
             PerformClicker clicker = getPerformClicker();
             if (clicker != null) {
-                clicker.perform();
+                clicker.postPerformClick();
             }
         }
     }
@@ -541,13 +538,12 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     @Override
     public void start() {
-
+        startEnterAnim();
     }
 
     @Override
     public void stop() {
-        unscheduleSelf(mEnterAnimate);
-        unscheduleSelf(mExitAnimate);
+        cancelAnim();
     }
 
     /**
@@ -557,7 +553,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
      */
     @Override
     public boolean isRunning() {
-        return isRunning;
+        return !(mEnterAnimate.mDone && mExitAnimate.mDone);
     }
 
     public int getEnterDuration() {
@@ -597,8 +593,8 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     private void startEnterAnim() {
-        isEnterAnimating = true;
-        isRunning = true;
+        // Change the enter status
+        mEnterAnimate.mDone = false;
 
         // Start animation
         mStartTime = SystemClock.uptimeMillis();
@@ -606,18 +602,35 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     private void startExitAnim() {
+        // Change the enter status
+        mExitAnimate.mDone = false;
+
+        // Click
+        performClick();
+
         // Start animation
         mStartTime = SystemClock.uptimeMillis();
         scheduleSelf(mExitAnimate, mStartTime);
     }
 
     private void cancelAnim() {
+        // cancel
         unscheduleSelf(mEnterAnimate);
         unscheduleSelf(mExitAnimate);
-        isRunning = false;
+        // change status
+        mEnterAnimate.mDone = true;
+        mExitAnimate.mDone = true;
     }
 
-    private final Runnable mEnterAnimate = new Runnable() {
+    /**
+     * A animation post runnable {@link Runnable}
+     * The class have animation status
+     */
+    static abstract class AnimRunnable implements Runnable {
+        public boolean mDone = true;
+    }
+
+    private final AnimRunnable mEnterAnimate = new AnimRunnable() {
         @Override
         public void run() {
             long currentTime = SystemClock.uptimeMillis();
@@ -644,7 +657,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         }
     };
 
-    private final Runnable mExitAnimate = new Runnable() {
+    private final AnimRunnable mExitAnimate = new AnimRunnable() {
         @Override
         public void run() {
             long currentTime = SystemClock.uptimeMillis();
@@ -681,16 +694,13 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     protected void onEnterAnimateEnd() {
         // End
-        isEnterAnimating = false;
+        mEnterAnimate.mDone = true;
         // Is un touch auto startExitAnim()
         if (isTouchReleased) startExitAnim();
-
     }
 
     protected void onExitAnimateEnd() {
         // End
-        isRunning = false;
-        // Click
-        performClick();
+        mExitAnimate.mDone = true;
     }
 }
