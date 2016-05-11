@@ -104,10 +104,6 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         return mBackgroundPaint.getColor();
     }
 
-    public void setForegroundColor(int color) {
-        setForegroundColor(new int[]{color});
-    }
-
     public void setForegroundColor(int[] colors) {
         if (colors == null)
             return;
@@ -120,7 +116,7 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         return mForegroundColor;
     }
 
-    public int getNextForegroundColor() {
+    int getNextForegroundColor() {
         if (mForegroundColor.length > 1) {
             mForegroundColorIndex++;
             if (mForegroundColorIndex >= mForegroundColor.length)

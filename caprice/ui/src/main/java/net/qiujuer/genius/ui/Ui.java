@@ -20,6 +20,7 @@
  */
 package net.qiujuer.genius.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -242,6 +243,29 @@ public class Ui {
             }
         }
         return color;
+    }
+
+    /**
+     * Get color array values form array resource
+     *
+     * @param resources Resources
+     * @param resId     Resources id
+     * @return color array
+     */
+    public static int[] getColorsFromArrayRes(Resources resources, int resId) {
+        try {
+            @SuppressLint("Recycle") TypedArray array = resources.obtainTypedArray(resId);
+            if (array != null && array.length() > 0) {
+                final int len = array.length();
+                final int[] colors = new int[len];
+                for (int i = 0; i < len; i++) {
+                    colors[i] = array.getColor(i, 0);
+                }
+                return colors;
+            }
+        } catch (Resources.NotFoundException ignored) {
+        }
+        return null;
     }
 
     /**
