@@ -120,24 +120,25 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         a.recycle();
 
         // set background on user not set background
-        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
+        if (!Ui.isHaveAttribute(attrs, "background")) {
             // Set Background
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
                 //noinspection deprecation
                 Drawable drawable = getResources().getDrawable(R.drawable.g_button_background);
+                //noinspection deprecation
                 setBackgroundDrawable(drawable);
             } else
                 setBackgroundResource(R.drawable.g_button_background);
         }
 
         // the lollipop new attrs
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !this.isInEditMode()) {
             // outlineProvider
-            if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "outlineProvider") == null) {
+            if (!Ui.isHaveAttribute(attrs, "outlineProvider")) {
                 setOutlineProvider(null);
             }
             // elevation
-            if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "elevation") == null) {
+            if (!Ui.isHaveAttribute(attrs, "elevation")) {
                 setElevation(0);
             }
         }
@@ -225,12 +226,12 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
      * Set the touch animation duration.
      * This setting about enter animation
      * and exit animation.
-     * <p>
+     * <p/>
      * Default:
      * EnterDuration: 280ms
      * ExitDuration: 160ms
      * FactorRate: 1.0
-     * <p>
+     * <p/>
      * This set will calculation: factor * duration
      * This factor need > 0
      *
