@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 07/23/2015
- * Changed 12/15/2015
- * Version 3.0.0
+ * Created 12/15/2015
+ * Changed 05/10/2016
+ * Version 2.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -162,6 +162,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
         // We must set layer type is View.LAYER_TYPE_SOFTWARE,
         // to support Canvas.clipPath()
+        // on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
         if (getLayerType() != View.LAYER_TYPE_SOFTWARE)
             setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }

@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 07/29/2015
- * Changed 08/13/2015
- * Version 3.0.0
+ * Created 12/15/2015
+ * Changed 05/10/2016
+ * Version 2.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,15 +27,19 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
+import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
@@ -131,14 +135,17 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
             //ViewCompat.setElevation(this, Ui.SHADOW_ELEVATION * density);
             setElevation(Ui.SHADOW_ELEVATION * density);
         } else {
-            OvalShape oval = new OvalShadowShape(mShadowRadius);
+            Shape oval =
+                    new OvalShadowShape(mShadowRadius);
             background = new ShapeDrawable(oval);
 
             // We want set this LayerType type on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
             setLayerType(LAYER_TYPE_SOFTWARE, background.getPaint());
 
-            background.getPaint().setShadowLayer(mShadowRadius - maxShadowOffset, shadowXOffset, shadowYOffset,
-                    Ui.KEY_SHADOW_COLOR);
+            if (!isInEditMode()) {
+                background.getPaint().setShadowLayer(mShadowRadius - maxShadowOffset, shadowXOffset, shadowYOffset,
+                        Ui.KEY_SHADOW_COLOR);
+            }
             final int padding = mShadowRadius;
             // set padding so the inner image sits correctly within the shadow.
             setPadding(Math.max(padding, getPaddingLeft()),
@@ -158,6 +165,14 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         mTouchDrawable = new TouchEffectDrawable(new FloatEffect(), ColorStateList.valueOf(touchColor));
         mTouchDrawable.setCallback(this);
         mTouchDrawable.setPerformClicker(this);
+    }
+
+    @Override
+    public void setLayerType(int layerType, Paint paint) {
+        // In this, to support Canvas.clipPath(),
+        // must set layerType is View.LAYER_TYPE_SOFTWARE
+        layerType = View.LAYER_TYPE_SOFTWARE;
+        super.setLayerType(layerType, paint);
     }
 
     @Override
@@ -289,12 +304,20 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
     }
 
-    private static class OvalShadowShape extends OvalShape {
+    private static class OvalShadowShape extends Shape {
         private Paint mShadowPaint;
         private float mCenterX;
         private float mCenterY;
         private float mRadius;
         private int mShadowRadius;
+        private RectF mRect = new RectF();
+
+        /**
+         * Returns the RectF that defines this rectangle's bounds.
+         */
+        protected final RectF rect() {
+            return mRect;
+        }
 
 
         public OvalShadowShape(int shadowRadius) {
@@ -306,6 +329,9 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         @Override
         protected void onResize(float width, float height) {
             super.onResize(width, height);
+
+            mRect.set(0, 0, width, height);
+
             mCenterX = width / 2;
             mCenterY = height / 2;
             mRadius = Math.min(mCenterX, mCenterY);
@@ -321,6 +347,15 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         public void draw(Canvas canvas, Paint paint) {
             canvas.drawCircle(mCenterX, mCenterY, mRadius, mShadowPaint);
             canvas.drawCircle(mCenterX, mCenterY, mRadius - mShadowRadius, paint);
+        }
+
+        @Override
+        public void getOutline(Outline outline) {
+            final RectF rect = rect();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                outline.setOval((int) Math.ceil(rect.left), (int) Math.ceil(rect.top),
+                        (int) Math.floor(rect.right), (int) Math.floor(rect.bottom));
+            }
         }
     }
 }
