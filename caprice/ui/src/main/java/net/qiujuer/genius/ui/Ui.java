@@ -206,13 +206,15 @@ public class Ui {
 
     /**
      * Get the attribute have enabled value
+     * Form android styles namespace
      *
-     * @param context Context
-     * @param attrs   AttributeSet
-     * @return IsEnabled
+     * @param attrs        AttributeSet
+     * @param attribute    The attribute to retrieve
+     * @param defaultValue What to return if the attribute isn't found
+     * @return Resulting value
      */
-    public static boolean isEnableAttr(Context context, AttributeSet attrs) {
-        return attrs.getAttributeBooleanValue(Ui.androidStyleNameSpace, "enabled", true);
+    public static boolean isTrueFromAttribute(AttributeSet attrs, String attribute, boolean defaultValue) {
+        return attrs.getAttributeBooleanValue(Ui.androidStyleNameSpace, attribute, defaultValue);
     }
 
     /**
@@ -225,8 +227,8 @@ public class Ui {
     public static int getBackgroundColor(Context context, AttributeSet attrs) {
         int color = Color.TRANSPARENT;
 
-        String attributeValue = attrs.getAttributeValue(Ui.androidStyleNameSpace, "background");
-        if (attributeValue != null) {
+        int resourceValue = attrs.getAttributeResourceValue(Ui.androidStyleNameSpace, "background", -1);
+        if (resourceValue != -1 && resourceValue != 0) {
             int styleId = attrs.getStyleAttribute();
             int[] attributesArray = new int[]{android.R.attr.background};
 
@@ -240,6 +242,18 @@ public class Ui {
             }
         }
         return color;
+    }
+
+    /**
+     * Check the AttributeSet values have a attribute String, on user set the attribute resource.
+     * Form android styles namespace
+     *
+     * @param attrs     AttributeSet
+     * @param attribute The attribute to retrieve
+     * @return If have the attribute return True
+     */
+    public static boolean isHaveAttribute(AttributeSet attrs, String attribute) {
+        return attrs.getAttributeResourceValue(Ui.androidStyleNameSpace, attribute, -1) != -1;
     }
 
     /**
