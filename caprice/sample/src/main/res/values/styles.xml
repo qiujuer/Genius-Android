@@ -19,6 +19,7 @@
         <item name="gSeekBarStyle">@style/Genius.Widget.SeekBar</item>
         <item name="gCheckBoxStyle">@style/Genius.Widget.CompoundButton.CheckBox</item>
         <item name="gEditTextStyle">@style/Genius.Widget.EditText</item>
+        <item name="gLoadingStyle">@style/Genius.Widget.Loading</item>
 
         <!-- Toolbar styles -->
         <item name="toolbarStyle">@style/ToolBarStyle</item>
