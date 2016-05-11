@@ -83,7 +83,6 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     }
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         if (attrs == null)
             return;
@@ -101,12 +100,20 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         a.recycle();
 
         // Enable
-        boolean enable = Ui.isEnableAttr(context, attrs);
+        boolean enable = Ui.isTrueFromAttribute(attrs, "enabled", true);
         setEnabled(enable);
 
         // BackgroundColor
         if (bgColor == null) {
-            bgColor = resource.getColorStateList(R.color.g_default_float_action_bg);
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    bgColor = resource.getColorStateList(R.color.g_default_float_action_bg, null);
+                } else {
+                    //noinspection deprecation
+                    bgColor = resource.getColorStateList(R.color.g_default_float_action_bg);
+                }
+            } catch (Resources.NotFoundException ignored) {
+            }
         }
 
         // Background drawable
@@ -119,7 +126,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         mShadowRadius += maxShadowOffset;
 
         ShapeDrawable background;
-        if (Ui.SUPPER_LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             background = new ShapeDrawable(new OvalShape());
             //ViewCompat.setElevation(this, Ui.SHADOW_ELEVATION * density);
             setElevation(Ui.SHADOW_ELEVATION * density);
@@ -139,7 +146,12 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
                     Math.max(padding, getPaddingRight()),
                     Math.max(padding, getPaddingBottom()));
         }
-        setBackgroundDrawable(background);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(background);
+        } else {
+            //noinspection deprecation
+            setBackgroundDrawable(background);
+        }
         setBackgroundColor(bgColor);
 
         // TouchDrawable
@@ -156,6 +168,12 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
     }
 
+    /**
+     * Set background by {@link ColorStateList}
+     * The color will apply to {@link Drawable} ShapeDrawable
+     *
+     * @param colorStateList ColorStateList
+     */
     public void setBackgroundColor(ColorStateList colorStateList) {
         if (colorStateList != null && mBackgroundColor != colorStateList) {
             mBackgroundColor = colorStateList;
