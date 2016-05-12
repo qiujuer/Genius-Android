@@ -38,8 +38,8 @@
 ```groovy
 dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.0-beta2'
-  compile 'net.qiujuer.genius:res:2.0.0-beta2'
+  compile 'net.qiujuer.genius:ui:2.0.0-beta3'
+  compile 'net.qiujuer.genius:res:2.0.0-beta3'
   
   // blur module
   compile 'net.qiujuer.genius:blur:2.0.0-beta2'
