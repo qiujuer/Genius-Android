@@ -52,7 +52,12 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     // Time
     public static final int ANIM_ENTER_DURATION = 280;
     public static final int ANIM_EXIT_DURATION = 160;
-    public static final int ANIM_DELAY_START_TIME = 80;
+    public static final int ANIM_DELAY_START_TIME = 86;
+
+    // Speed
+    private final static int SPEED_NORMAL = 1;
+    private final static int SPEED_FAST = 2;
+    private final static int SPEED_SLOW = 3;
 
     // Base
     private TouchEffectState mState;
@@ -65,6 +70,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     // Animation
     private boolean isRealRunning = false;
+    private float mAnimSpeed = 1;
 
     public TouchEffectDrawable() {
         this(new TouchEffectState(null), null, null);
@@ -373,12 +379,10 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             mState.mEffect.touchReleased(x, y);
 
             // change the animation speed
-            changeSpeed(1f);
+            changeSpeed(SPEED_NORMAL);
 
             // Start Exit animation
-            if (mEnterAnimate.mDone) {
-                startExitAnim();
-            }
+            startExitAnim();
         }
     }
 
@@ -393,7 +397,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             mState.mEffect.touchMove(x, y);
 
             // change the animation speed
-            changeSpeed(0.35f);
+            changeSpeed(SPEED_SLOW);
         }
     }
 
@@ -445,7 +449,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             isPerformClick = true;
             return false;
         } else {
-            if (!mEnterAnimate.mDone)
+            if (mEnterAnimate.isRunning())
                 return false;
             else {
                 isPerformClick = false;
@@ -484,6 +488,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     public void stop() {
         mEnterAnimate.stop();
         mExitAnimate.stop();
+        changeSpeed(SPEED_NORMAL);
     }
 
     /**
@@ -555,6 +560,10 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     private void startExitAnim() {
+        // check is running
+        if (mEnterAnimate.isRunning())
+            return;
+
         // Click
         performClick();
 
@@ -564,18 +573,33 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     private void cancelAnim() {
         if (isRealRunning) {
-            changeSpeed(2f);
-            if (mEnterAnimate.mDone) {
-                startExitAnim();
-            }
+            changeSpeed(SPEED_FAST);
+            startExitAnim();
         } else {
             stop();
         }
     }
 
-    private void changeSpeed(float speed) {
-        mEnterAnimate.setSpeed(speed);
-        mExitAnimate.setSpeed(speed);
+    private void changeSpeed(int speedType) {
+        float speed;
+        switch (speedType) {
+            case SPEED_FAST:
+                speed = 2f;
+                break;
+            case SPEED_SLOW:
+                speed = 0.28f;
+                break;
+            default:
+                speed = 1f;
+                break;
+        }
+
+
+        if (mAnimSpeed != speed) {
+            mAnimSpeed = speed;
+            mEnterAnimate.reckonIncremental();
+            mExitAnimate.reckonIncremental();
+        }
     }
 
 
@@ -719,10 +743,9 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     abstract class AnimRunnable implements Runnable {
         boolean mDone = true;
         Config mConfig;
-        long mStartTime;
-        long mEndTime;
-        // No run speed
-        float mSpeed = 1;
+        float mProgress = 0;
+        // Incremental value
+        float mInc = 0;
 
         AnimRunnable() {
             init();
@@ -738,43 +761,25 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             return !mDone;
         }
 
-        public void setSpeed(float speed) {
-            if (speed > 0 && speed != mSpeed) {
-                final float multiple = speed / mSpeed;
-                mSpeed = speed;
-                if (!mDone) {
-                    final long currentTime = SystemClock.uptimeMillis();
-                    if (currentTime > mEndTime)
-                        return;
-
-                    final float fullTime = mEndTime - mStartTime;
-                    final float passTime = currentTime - mStartTime;
-                    if (passTime <= 0) {
-                        mEndTime = mStartTime + (long) (mConfig.mDuration / mSpeed);
-                    } else {
-                        float surplusPercent = (1f - (passTime / fullTime));
-                        mEndTime = mStartTime + (long) (surplusPercent * fullTime / multiple);
-                    }
-
-                    Log.e(TouchEffectDrawable.class.getName(), currentTime + " mEndTime: " + mEndTime);
-                }
-            }
+        public void reckonIncremental() {
+            mInc = (FRAME_DURATION / (float) mConfig.mDuration) * mAnimSpeed;
         }
 
         public void start(int delay) {
             // Change the enter status
             mDone = false;
             // Set start time after delay time
-            mStartTime = SystemClock.uptimeMillis() + delay;
-            // set the end time
-            mEndTime = mStartTime + (long) (mConfig.mDuration / mSpeed);
+            long startTime = SystemClock.uptimeMillis() + delay;
+
+            // Progress added unit
+            mInc = (FRAME_DURATION / (float) mConfig.mDuration) * mAnimSpeed;
+            mProgress = 0;
             // notify run
-            scheduleSelf(this, mStartTime);
+            scheduleSelf(this, startTime);
         }
 
         public void stop() {
             unscheduleSelf(this);
-            mSpeed = 1;
             mDone = true;
         }
 
@@ -788,16 +793,16 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             isRealRunning = true;
 
             // check time
-            final long currentTime = SystemClock.uptimeMillis();
-            if (currentTime < mEndTime) {
-                final long diff = currentTime - mStartTime;
-                final float percent = diff / (float) (mEndTime - mStartTime);
-                final float interpolation = mConfig.mInterpolator.getInterpolation(percent);
+            mProgress += mInc;
+
+            if (mProgress < 1) {
+                final float interpolation = mConfig.mInterpolator.getInterpolation(mProgress);
                 // Notify
                 onAnimateUpdate(interpolation);
                 invalidateSelf();
 
                 // Next
+                final long currentTime = SystemClock.uptimeMillis();
                 scheduleSelf(this, currentTime + FRAME_DURATION);
             } else {
                 mDone = true;
