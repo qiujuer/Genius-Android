@@ -34,6 +34,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -50,7 +51,8 @@ import java.lang.ref.WeakReference;
 public class TouchEffectDrawable extends StatePaintDrawable implements Animatable {
     // Time
     public static final int ANIM_ENTER_DURATION = 280;
-    public static final int ANIM_Exit_DURATION = 160;
+    public static final int ANIM_EXIT_DURATION = 160;
+    public static final int ANIM_DELAY_START_TIME = 80;
 
     // Base
     private TouchEffectState mState;
@@ -62,12 +64,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     private WeakReference<PerformClicker> mPerformClicker = null;
 
     // Animation
-    private long mStartTime;
-    private Interpolator mEnterInterpolator = new DecelerateInterpolator(2.6f);
-    private Interpolator mExitInterpolator = new AccelerateInterpolator();
-    private int mEnterDuration = ANIM_ENTER_DURATION;
-    private int mExitDuration = ANIM_Exit_DURATION;
-
+    private boolean isRealRunning = false;
 
     public TouchEffectDrawable() {
         this(new TouchEffectState(null), null, null);
@@ -307,7 +304,11 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     public boolean onTouch(MotionEvent event) {
         switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_CANCEL: {
+                isTouchReleased = true;
+                onTouchCancel(event.getX(), event.getY());
+            }
+            break;
             case MotionEvent.ACTION_UP: {
                 isTouchReleased = true;
                 onTouchReleased(event.getX(), event.getY());
@@ -318,13 +319,30 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
                 onTouchDown(event.getX(), event.getY());
             }
             break;
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE: {
                 onTouchMove(event.getX(), event.getY());
-                break;
+            }
+            break;
             default:
                 return false;
         }
         return true;
+    }
+
+    protected void onTouchCancel(float x, float y) {
+        if (mState.mEffect != null) {
+            final Rect r = getBounds();
+            if (x > r.right) x = r.width();
+            else x = x - r.left;
+
+            if (y > r.bottom) y = r.height();
+            else y = y - r.top;
+
+            mState.mEffect.touchCancel(x, y);
+
+            // Cancel
+            cancelAnim();
+        }
     }
 
     protected void onTouchDown(float x, float y) {
@@ -338,8 +356,8 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
             mState.mEffect.touchDown(x, y);
 
-            // Cancel and Start new animation
-            cancelAnim();
+            // Start new animation so we should call stop
+            stop();
             startEnterAnim();
         }
     }
@@ -353,6 +371,9 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             if (y > r.bottom) y = r.height();
             else y = y - r.top;
             mState.mEffect.touchReleased(x, y);
+
+            // change the animation speed
+            changeSpeed(1f);
 
             // Start Exit animation
             if (mEnterAnimate.mDone) {
@@ -370,6 +391,9 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             if (y > r.bottom) y = r.height();
             else y = y - r.top;
             mState.mEffect.touchMove(x, y);
+
+            // change the animation speed
+            changeSpeed(0.35f);
         }
     }
 
@@ -392,50 +416,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         invalidateSelf();
     }
 
-    final static class TouchEffectState extends ConstantState {
-        int[] mThemeAttrs;
-        int mChangingConfigurations;
-        Effect mEffect;
-        Rect mPadding;
-        int mIntrinsicWidth;
-        int mIntrinsicHeight;
-        ShaderFactory mShaderFactory;
-        ClipFactory mClipFactory;
-
-
-        TouchEffectState(TouchEffectState orig) {
-            if (orig != null) {
-                mThemeAttrs = orig.mThemeAttrs;
-                mEffect = orig.mEffect;
-                mPadding = orig.mPadding;
-                mIntrinsicWidth = orig.mIntrinsicWidth;
-                mIntrinsicHeight = orig.mIntrinsicHeight;
-                mShaderFactory = orig.mShaderFactory;
-                mClipFactory = orig.mClipFactory;
-            }
-        }
-
-        @Override
-        public boolean canApplyTheme() {
-            return mThemeAttrs != null;
-        }
-
-        @Override
-        public Drawable newDrawable() {
-            return new TouchEffectDrawable(this, null, null);
-        }
-
-        @Override
-        public Drawable newDrawable(Resources res) {
-            return new TouchEffectDrawable(this, res, null);
-        }
-
-        @Override
-        public int getChangingConfigurations() {
-            return mChangingConfigurations;
-        }
-    }
-
     /**
      * The one constructor to rule them all. This is called by all public
      * constructors to set the state and initialize local properties.
@@ -443,47 +423,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     private TouchEffectDrawable(TouchEffectState state, Resources res, ColorStateList color) {
         super(color);
         mState = state;
-    }
-
-    public static abstract class ClipFactory {
-        /**
-         * The dimensions of the Drawable are passed because they may be needed to
-         * adjust how the Canvas.clip.. is configured for drawing. This is called by
-         * EffectDrawable.updateEffect().
-         *
-         * @param width  the width of the Drawable being drawn
-         * @param height the height of the Drawable being drawn
-         */
-        public abstract void resize(int width, int height);
-
-        /**
-         * Returns the Canvas clip to be drawn when a Drawable is drawn.
-         *
-         * @param canvas The drawable Canvas
-         * @return The Canvas clip.. status
-         */
-        public abstract boolean clip(Canvas canvas);
-    }
-
-    /**
-     * Base class defines a factory object that is called each time the drawable
-     * is resized (has a new width or height). Its resize() method returns a
-     * corresponding shader, or null. Implement this class if you'd like your
-     * EffectDrawable to use a special {@link Shader}, such as a
-     * {@link android.graphics.LinearGradient}.
-     */
-    public static abstract class ShaderFactory {
-        /**
-         * Returns the Shader to be drawn when a Drawable is drawn. The
-         * dimensions of the Drawable are passed because they may be needed to
-         * adjust how the Shader is configured for drawing. This is called by
-         * TouchEffectDrawable.updateEffect().
-         *
-         * @param width  the width of the Drawable being drawn
-         * @param height the height of the Drawable being drawn
-         * @return the Shader to be drawn
-         */
-        public abstract Shader resize(int width, int height);
     }
 
     static TypedArray obtainAttributes(
@@ -543,7 +482,8 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     @Override
     public void stop() {
-        cancelAnim();
+        mEnterAnimate.stop();
+        mExitAnimate.stop();
     }
 
     /**
@@ -553,134 +493,366 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
      */
     @Override
     public boolean isRunning() {
-        return !(mEnterAnimate.mDone && mExitAnimate.mDone);
+        return isRealRunning;
     }
 
     public int getEnterDuration() {
-        return mEnterDuration;
+        return mEnterAnimate.mConfig.mDuration;
     }
 
     public int getExitDuration() {
-        return mExitDuration;
+        return mExitAnimate.mConfig.mDuration;
     }
 
     public void setEnterDuration(float factor) {
         if (factor > 0) {
-            mEnterDuration = (int) (factor * ANIM_ENTER_DURATION);
+            mEnterAnimate.mConfig = mEnterAnimate.mConfig
+                    .reBuild()
+                    .setDuration((int) (factor * ANIM_ENTER_DURATION))
+                    .build();
         }
     }
 
     public void setExitDuration(float factor) {
         if (factor > 0) {
-            mExitDuration = (int) (factor * ANIM_Exit_DURATION);
+            mExitAnimate.mConfig = mExitAnimate.mConfig
+                    .reBuild()
+                    .setDuration((int) (factor * ANIM_EXIT_DURATION))
+                    .build();
         }
     }
 
     public Interpolator getEnterInterpolator() {
-        return mEnterInterpolator;
+        return mEnterAnimate.mConfig.mInterpolator;
     }
 
     public Interpolator getExitInterpolator() {
-        return mExitInterpolator;
+        return mExitAnimate.mConfig.mInterpolator;
     }
 
     public void setEnterInterpolator(Interpolator inInterpolator) {
-        this.mEnterInterpolator = inInterpolator;
+        if (inInterpolator == null)
+            return;
+        mEnterAnimate.mConfig = mEnterAnimate.mConfig
+                .reBuild()
+                .setInterpolator(inInterpolator)
+                .build();
     }
 
-    public void setExitInterpolator(Interpolator inInterpolator) {
-        this.mExitInterpolator = inInterpolator;
+    public void setExitInterpolator(Interpolator outInterpolator) {
+        if (outInterpolator == null)
+            return;
+        mExitAnimate.mConfig = mExitAnimate.mConfig
+                .reBuild()
+                .setInterpolator(outInterpolator)
+                .build();
     }
 
     private void startEnterAnim() {
-        // Change the enter status
-        mEnterAnimate.mDone = false;
-
-        // Start animation
-        mStartTime = SystemClock.uptimeMillis();
-        scheduleSelf(mEnterAnimate, mStartTime);
+        // Start animation by delay
+        // the delay time use to can cancel the animation 64ms
+        mEnterAnimate.start(ANIM_DELAY_START_TIME);
     }
 
     private void startExitAnim() {
-        // Change the enter status
-        mExitAnimate.mDone = false;
-
         // Click
         performClick();
 
-        // Start animation
-        mStartTime = SystemClock.uptimeMillis();
-        scheduleSelf(mExitAnimate, mStartTime);
+        // Start animation by not delay
+        mExitAnimate.start(0);
     }
 
     private void cancelAnim() {
-        // cancel
-        unscheduleSelf(mEnterAnimate);
-        unscheduleSelf(mExitAnimate);
-        // change status
-        mEnterAnimate.mDone = true;
-        mExitAnimate.mDone = true;
+        if (isRealRunning) {
+            changeSpeed(2f);
+            if (mEnterAnimate.mDone) {
+                startExitAnim();
+            }
+        } else {
+            stop();
+        }
+    }
+
+    private void changeSpeed(float speed) {
+        mEnterAnimate.setSpeed(speed);
+        mExitAnimate.setSpeed(speed);
+    }
+
+
+    final static class TouchEffectState extends ConstantState {
+        int[] mThemeAttrs;
+        int mChangingConfigurations;
+        Effect mEffect;
+        Rect mPadding;
+        int mIntrinsicWidth;
+        int mIntrinsicHeight;
+        ShaderFactory mShaderFactory;
+        ClipFactory mClipFactory;
+
+
+        TouchEffectState(TouchEffectState orig) {
+            if (orig != null) {
+                mThemeAttrs = orig.mThemeAttrs;
+                mEffect = orig.mEffect;
+                mPadding = orig.mPadding;
+                mIntrinsicWidth = orig.mIntrinsicWidth;
+                mIntrinsicHeight = orig.mIntrinsicHeight;
+                mShaderFactory = orig.mShaderFactory;
+                mClipFactory = orig.mClipFactory;
+            }
+        }
+
+        @Override
+        public boolean canApplyTheme() {
+            return mThemeAttrs != null;
+        }
+
+        @Override
+        public Drawable newDrawable() {
+            return new TouchEffectDrawable(this, null, null);
+        }
+
+        @Override
+        public Drawable newDrawable(Resources res) {
+            return new TouchEffectDrawable(this, res, null);
+        }
+
+        @Override
+        public int getChangingConfigurations() {
+            return mChangingConfigurations;
+        }
+    }
+
+
+    public static abstract class ClipFactory {
+        /**
+         * The dimensions of the Drawable are passed because they may be needed to
+         * adjust how the Canvas.clip.. is configured for drawing. This is called by
+         * EffectDrawable.updateEffect().
+         *
+         * @param width  the width of the Drawable being drawn
+         * @param height the height of the Drawable being drawn
+         */
+        public abstract void resize(int width, int height);
+
+        /**
+         * Returns the Canvas clip to be drawn when a Drawable is drawn.
+         *
+         * @param canvas The drawable Canvas
+         * @return The Canvas clip.. status
+         */
+        public abstract boolean clip(Canvas canvas);
+    }
+
+    /**
+     * Base class defines a factory object that is called each time the drawable
+     * is resized (has a new width or height). Its resize() method returns a
+     * corresponding shader, or null. Implement this class if you'd like your
+     * EffectDrawable to use a special {@link Shader}, such as a
+     * {@link android.graphics.LinearGradient}.
+     */
+    public static abstract class ShaderFactory {
+        /**
+         * Returns the Shader to be drawn when a Drawable is drawn. The
+         * dimensions of the Drawable are passed because they may be needed to
+         * adjust how the Shader is configured for drawing. This is called by
+         * TouchEffectDrawable.updateEffect().
+         *
+         * @param width  the width of the Drawable being drawn
+         * @param height the height of the Drawable being drawn
+         * @return the Shader to be drawn
+         */
+        public abstract Shader resize(int width, int height);
+    }
+
+    /**
+     * Config to animation time and {@link Interpolator}
+     */
+    public static class Config {
+        // This is user init animation running time
+        private final int mDuration;
+        // This is animation running Interpolator type
+        public final Interpolator mInterpolator;
+
+        Config(int duration, Interpolator interpolator) {
+            mDuration = duration;
+            mInterpolator = interpolator;
+        }
+
+        public Builder reBuild() {
+            Builder builder = new Builder();
+            builder.setDuration(mDuration);
+            builder.setInterpolator(mInterpolator);
+            return builder;
+        }
+
+        /**
+         * Config's Builder
+         */
+        public static class Builder {
+            private int duration;
+            private Interpolator interpolator;
+
+            public Builder() {
+            }
+
+            public Builder setDuration(int duration) {
+                this.duration = duration;
+                return this;
+            }
+
+            public Builder setInterpolator(Interpolator interpolator) {
+                this.interpolator = interpolator;
+                return this;
+            }
+
+            public Config build() {
+                return new Config(duration, interpolator);
+            }
+        }
     }
 
     /**
      * A animation post runnable {@link Runnable}
      * The class have animation status
      */
-    static abstract class AnimRunnable implements Runnable {
-        public boolean mDone = true;
-    }
+    abstract class AnimRunnable implements Runnable {
+        boolean mDone = true;
+        Config mConfig;
+        long mStartTime;
+        long mEndTime;
+        // No run speed
+        float mSpeed = 1;
 
-    private final AnimRunnable mEnterAnimate = new AnimRunnable() {
+        AnimRunnable() {
+            init();
+        }
+
+        abstract void init();
+
+        abstract void onAnimateUpdate(float interpolation);
+
+        abstract void onAnimateEnd();
+
+        public boolean isRunning() {
+            return !mDone;
+        }
+
+        public void setSpeed(float speed) {
+            if (speed > 0 && speed != mSpeed) {
+                final float multiple = speed / mSpeed;
+                mSpeed = speed;
+                if (!mDone) {
+                    final long currentTime = SystemClock.uptimeMillis();
+                    if (currentTime > mEndTime)
+                        return;
+
+                    final float fullTime = mEndTime - mStartTime;
+                    final float passTime = currentTime - mStartTime;
+                    if (passTime <= 0) {
+                        mEndTime = mStartTime + (long) (mConfig.mDuration / mSpeed);
+                    } else {
+                        float surplusPercent = (1f - (passTime / fullTime));
+                        mEndTime = mStartTime + (long) (surplusPercent * fullTime / multiple);
+                    }
+
+                    Log.e(TouchEffectDrawable.class.getName(), currentTime + " mEndTime: " + mEndTime);
+                }
+            }
+        }
+
+        public void start(int delay) {
+            // Change the enter status
+            mDone = false;
+            // Set start time after delay time
+            mStartTime = SystemClock.uptimeMillis() + delay;
+            // set the end time
+            mEndTime = mStartTime + (long) (mConfig.mDuration / mSpeed);
+            // notify run
+            scheduleSelf(this, mStartTime);
+        }
+
+        public void stop() {
+            unscheduleSelf(this);
+            mSpeed = 1;
+            mDone = true;
+        }
+
         @Override
         public void run() {
-            long currentTime = SystemClock.uptimeMillis();
-            long diff = currentTime - mStartTime;
-            if (diff < mEnterDuration) {
-                float interpolation = mEnterInterpolator.getInterpolation((float) diff / (float) mEnterDuration);
+            // check the anim is finish
+            if (mDone)
+                return;
+
+            // In this we can set the state to running
+            isRealRunning = true;
+
+            // check time
+            final long currentTime = SystemClock.uptimeMillis();
+            if (currentTime < mEndTime) {
+                final long diff = currentTime - mStartTime;
+                final float percent = diff / (float) (mEndTime - mStartTime);
+                final float interpolation = mConfig.mInterpolator.getInterpolation(percent);
                 // Notify
-                onEnterAnimateUpdate(interpolation);
+                onAnimateUpdate(interpolation);
                 invalidateSelf();
 
                 // Next
                 scheduleSelf(this, currentTime + FRAME_DURATION);
             } else {
-
+                mDone = true;
                 unscheduleSelf(this);
 
                 // Notify
-                onEnterAnimateUpdate(1f);
+                onAnimateUpdate(1f);
                 invalidateSelf();
 
                 // Call end
-                onEnterAnimateEnd();
+                onAnimateEnd();
             }
+        }
+    }
+
+    private final AnimRunnable mEnterAnimate = new AnimRunnable() {
+        @Override
+        void init() {
+            // init config
+            Config.Builder builder = new Config.Builder();
+            builder.setDuration(ANIM_ENTER_DURATION);
+            builder.setInterpolator(new DecelerateInterpolator(2.6f));
+            mConfig = builder.build();
+        }
+
+        @Override
+        void onAnimateUpdate(float interpolation) {
+            // call to enter
+            onEnterAnimateUpdate(interpolation);
+        }
+
+        @Override
+        void onAnimateEnd() {
+            onEnterAnimateEnd();
         }
     };
 
     private final AnimRunnable mExitAnimate = new AnimRunnable() {
         @Override
-        public void run() {
-            long currentTime = SystemClock.uptimeMillis();
-            long diff = currentTime - mStartTime;
-            if (diff < mExitDuration) {
-                float interpolation = mExitInterpolator.getInterpolation((float) diff / (float) mExitDuration);
-                // Notify
-                onExitAnimateUpdate(interpolation);
-                invalidateSelf();
+        void init() {
+            Config.Builder builder = new Config.Builder();
+            builder.setDuration(ANIM_EXIT_DURATION);
+            builder.setInterpolator(new AccelerateInterpolator());
+            mConfig = builder.build();
+        }
 
-                // Next
-                scheduleSelf(this, currentTime + FRAME_DURATION);
-            } else {
+        @Override
+        void onAnimateUpdate(float interpolation) {
+            // call to enter
+            onExitAnimateUpdate(interpolation);
+        }
 
-                unscheduleSelf(this);
-
-                // Notify
-                onExitAnimateUpdate(1f);
-                invalidateSelf();
-
-                // Call end
-                onExitAnimateEnd();
-            }
+        @Override
+        void onAnimateEnd() {
+            onExitAnimateEnd();
         }
     };
 
@@ -693,14 +865,12 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     protected void onEnterAnimateEnd() {
-        // End
-        mEnterAnimate.mDone = true;
         // Is un touch auto startExitAnim()
         if (isTouchReleased) startExitAnim();
     }
 
     protected void onExitAnimateEnd() {
-        // End
-        mExitAnimate.mDone = true;
+        // doing something
+        isRealRunning = false;
     }
 }
