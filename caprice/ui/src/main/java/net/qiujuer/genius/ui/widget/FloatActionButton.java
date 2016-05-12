@@ -269,14 +269,16 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        //return super.onTouchEvent(event);
+        final boolean ret = super.onTouchEvent(event);
+
+        // send to touch drawable
         final TouchEffectDrawable d = mTouchDrawable;
-        if (d != null && isEnabled()) {
+        if (ret && d != null && isEnabled()) {
             d.onTouch(event);
-            super.onTouchEvent(event);
-            return true;
         }
 
-        return super.onTouchEvent(event);
+        return ret;
     }
 
     @Override

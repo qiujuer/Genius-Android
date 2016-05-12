@@ -305,7 +305,6 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
             d.onTouch(event);
         }
 
-        Log.e(Button.class.getName(), "Action:" + event.getAction() + " Masked:" + event.getActionMasked() + " Ret:" + ret);
         return ret;
     }
 
