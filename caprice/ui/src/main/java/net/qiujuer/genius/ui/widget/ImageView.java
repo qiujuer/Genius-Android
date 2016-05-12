@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 12/15/2015
- * Changed 12/15/2015
- * Version 1.0.0
+ * Changed 05/10/2016
+ * Version 2.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -157,6 +157,8 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
             else if (touchEffect == TOUCH_EFFECT_RIPPLE)
                 mTouchDrawable.setEffect(new RippleEffect());
 
+            // We want set this LayerType type on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+            setLayerType(LAYER_TYPE_SOFTWARE, null);
         }
     }
 
@@ -178,12 +180,12 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
      * Set the touch animation duration.
      * This setting about enter animation
      * and exit animation.
-     * <p>
+     * <p/>
      * Default:
      * EnterDuration: 280ms
      * ExitDuration: 160ms
      * FactorRate: 1.0
-     * <p>
+     * <p/>
      * This set will calculation: factor * duration
      * This factor need > 0
      *
@@ -222,7 +224,7 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
     }
 
     @Override
-    public void perform() {
+    public void postPerformClick() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

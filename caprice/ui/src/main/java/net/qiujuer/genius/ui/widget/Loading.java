@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 09/28/2015
- * Changed 12/15/2015
- * Version 1.0.0
+ * Changed 05/10/2016
+ * Version 2.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -100,26 +100,24 @@ public class Loading extends View {
         setForegroundLineSize(fgLineSize);
         setBackgroundColor(bgColor);
 
-        String type = "";
         // Check for IDE preview render
-        if (!this.isInEditMode())
-            type = resource.getResourceTypeName(fgColorId);
-
-        try {
-            switch (type) {
-                case "color":
-                    setForegroundColor(resource.getColor(fgColorId));
-                    break;
-                case "array":
-                    setForegroundColor(resource.getIntArray(fgColorId));
-                    break;
-                default:
-                    setForegroundColor(resource.getIntArray(R.array.g_default_loading_fg));
-                    break;
+        if (!isInEditMode()) {
+            String type = resource.getResourceTypeName(fgColorId);
+            try {
+                switch (type) {
+                    case "color":
+                        setForegroundColor(resource.getColor(fgColorId));
+                        break;
+                    case "array":
+                        setForegroundColor(resource.getIntArray(fgColorId));
+                        break;
+                    default:
+                        setForegroundColor(resource.getIntArray(R.array.g_default_loading_fg));
+                        break;
+                }
+            } catch (Exception e) {
+                setForegroundColor(resource.getIntArray(R.array.g_default_loading_fg));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            setForegroundColor(resource.getIntArray(R.array.g_default_loading_fg));
         }
     }
 
@@ -162,7 +160,7 @@ public class Loading extends View {
     }
 
     public void setForegroundColor(int color) {
-        mDrawable.setForegroundColor(color);
+        setForegroundColor(new int[]{color});
     }
 
     public void setForegroundColor(int[] colors) {

@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 08/10/2015
- * Changed 08/23/2015
- * Version 3.0.0
+ * Created 12/15/2015
+ * Changed 05/10/2016
+ * Version 2.0.0
  * Author Qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,9 +40,15 @@ public abstract class CheckStateDrawable extends Drawable {
     protected boolean mChecked = false;
     protected boolean mEnabled = true;
 
+    protected boolean mInEditMode = false;
+
     public CheckStateDrawable(ColorStateList tintStateList) {
         super();
         setColorStateList(tintStateList);
+    }
+
+    public void inEditMode(boolean inEditMode) {
+        mInEditMode = inEditMode;
     }
 
     @Override

@@ -122,7 +122,7 @@ public class EditText extends android.widget.EditText {
         if (lineColor == null)
             lineColor = resources.getColorStateList(R.color.g_default_edit_view_line);
 
-        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "textColorHint") == null || getHintTextColors() == null) {
+        if (!Ui.isHaveAttribute(attrs, "textColorHint") || getHintTextColors() == null) {
             ColorStateList hintColor = resources.getColorStateList(R.color.g_default_edit_view_hint);
             setHintTextColor(hintColor);
         }
@@ -144,7 +144,7 @@ public class EditText extends android.widget.EditText {
         }
 
         // Init background and title
-        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
+        if (!Ui.isHaveAttribute(attrs, "background")) {
             initBackground();
         }
 

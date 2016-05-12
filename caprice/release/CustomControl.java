@@ -66,7 +66,7 @@ public class CustomControl extends FrameLayout implements TouchEffectDrawable.Pe
     }
 
     @Override
-    public void perform() {
+    public void postPerformClick() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

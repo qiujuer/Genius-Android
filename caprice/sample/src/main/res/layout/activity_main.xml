@@ -140,6 +140,7 @@
                     app:gTouchEffect="press" />
 
                 <net.qiujuer.genius.ui.widget.Button
+                    android:id="@+id/btn"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/size_52"
                     android:layout_marginLeft="@dimen/lay_4"
@@ -229,7 +230,7 @@
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
                     android:layout_weight="1"
-                    android:background="@color/trans"
+                    android:background="@null"
                     android:text="Submit"
                     android:textColor="@color/cyan_700"
                     app:gTouchColor="#7000bcd4"

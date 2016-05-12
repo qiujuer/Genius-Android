@@ -33,6 +33,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'net.qiujuer.genius:blur:2.0.0-beta2'
     compile 'net.qiujuer.genius:res:2.0.0-beta2'
-    compile 'net.qiujuer.genius:ui:2.0.0-beta2'
     compile 'net.qiujuer.genius:kit:2.0.0-beta2'
+    compile project(':ui')
 }
