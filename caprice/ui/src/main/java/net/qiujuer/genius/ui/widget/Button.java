@@ -38,10 +38,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
-import net.qiujuer.genius.ui.drawable.effect.AutoEffect;
-import net.qiujuer.genius.ui.drawable.effect.EaseEffect;
-import net.qiujuer.genius.ui.drawable.effect.PressEffect;
-import net.qiujuer.genius.ui.drawable.effect.RippleEffect;
+import net.qiujuer.genius.ui.drawable.effect.EffectFactory;
 import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
 
 /**
@@ -50,12 +47,6 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * And supper custom font
  */
 public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
-    public static final int TOUCH_EFFECT_NONE = 0;
-    public static final int TOUCH_EFFECT_AUTO = 1;
-    public static final int TOUCH_EFFECT_EASE = 2;
-    public static final int TOUCH_EFFECT_PRESS = 3;
-    public static final int TOUCH_EFFECT_RIPPLE = 4;
-
     private TouchEffectDrawable mTouchDrawable;
     private int mTouchColor;
 
@@ -103,7 +94,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 attrs, R.styleable.Button, defStyleAttr, defStyleRes);
 
         String fontFile = a.getString(R.styleable.Button_gFont);
-        int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, TOUCH_EFFECT_NONE);
+        int touchEffect = a.getInt(R.styleable.Button_gTouchEffect, EffectFactory.TOUCH_EFFECT_NONE);
         int touchColor = a.getColor(R.styleable.Button_gTouchColor, Ui.TOUCH_PRESS_COLOR);
 
         // Load clip touch corner radius
@@ -159,19 +150,15 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 if (typeface != null) setTypeface(typeface);
             }
         }
-
-        // We must set layer type is View.LAYER_TYPE_SOFTWARE,
-        // to support Canvas.clipPath()
-        // on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-        if (getLayerType() != View.LAYER_TYPE_SOFTWARE)
-            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
     @Override
     public void setLayerType(int layerType, Paint paint) {
         // In this, to support Canvas.clipPath(),
         // must set layerType is View.LAYER_TYPE_SOFTWARE
-        layerType = View.LAYER_TYPE_SOFTWARE;
+        // on your need touch draw
+        if (mTouchDrawable != null)
+            layerType = View.LAYER_TYPE_SOFTWARE;
         super.setLayerType(layerType, paint);
     }
 
@@ -194,17 +181,15 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 mTouchDrawable = new TouchEffectDrawable();
                 mTouchDrawable.getPaint().setColor(mTouchColor);
                 mTouchDrawable.setCallback(this);
-                mTouchDrawable.setPerformClicker(this);
             }
 
-            if (touchEffect == TOUCH_EFFECT_AUTO)
-                mTouchDrawable.setEffect(new AutoEffect());
-            else if (touchEffect == TOUCH_EFFECT_EASE)
-                mTouchDrawable.setEffect(new EaseEffect());
-            else if (touchEffect == TOUCH_EFFECT_PRESS)
-                mTouchDrawable.setEffect(new PressEffect());
-            else if (touchEffect == TOUCH_EFFECT_RIPPLE)
-                mTouchDrawable.setEffect(new RippleEffect());
+            mTouchDrawable.setEffect(EffectFactory.creator(touchEffect));
+
+            // We must set layer type is View.LAYER_TYPE_SOFTWARE,
+            // to support Canvas.clipPath()
+            // on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+            if (getLayerType() != View.LAYER_TYPE_SOFTWARE)
+                setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         }
     }
@@ -272,7 +257,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         final TouchEffectDrawable d = mTouchDrawable;
 
         if (d != null) {
-            return d.isPerformClick() && super.performClick();
+            return d.performClick(this) && super.performClick();
         } else
             return super.performClick();
     }
@@ -293,14 +278,16 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        //return super.onTouchEvent(event);
+        final boolean ret = super.onTouchEvent(event);
+
+        // send to touch drawable
         final TouchEffectDrawable d = mTouchDrawable;
-        if (d != null && isEnabled()) {
+        if (ret && d != null && isEnabled()) {
             d.onTouch(event);
-            super.onTouchEvent(event);
-            return true;
         }
 
-        return super.onTouchEvent(event);
+        return ret;
     }
 
     @Override

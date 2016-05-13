@@ -140,7 +140,6 @@
                     app:gTouchEffect="press" />
 
                 <net.qiujuer.genius.ui.widget.Button
-                    android:id="@+id/btn"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/size_52"
                     android:layout_marginLeft="@dimen/lay_4"
@@ -225,6 +224,7 @@
                     app:gTouchEffect="ripple" />
 
                 <net.qiujuer.genius.ui.widget.Button
+                    android:id="@+id/btn"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/size_52"
                     android:layout_marginLeft="@dimen/lay_4"

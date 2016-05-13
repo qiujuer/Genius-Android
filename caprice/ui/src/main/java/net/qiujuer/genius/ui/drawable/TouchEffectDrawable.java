@@ -50,7 +50,13 @@ import java.lang.ref.WeakReference;
 public class TouchEffectDrawable extends StatePaintDrawable implements Animatable {
     // Time
     public static final int ANIM_ENTER_DURATION = 280;
-    public static final int ANIM_Exit_DURATION = 160;
+    public static final int ANIM_EXIT_DURATION = 160;
+    public static final int ANIM_DELAY_START_TIME = 90;
+
+    // Speed
+    private final static int SPEED_NORMAL = 1;
+    private final static int SPEED_FAST = 2;
+    private final static int SPEED_SLOW = 3;
 
     // Base
     private TouchEffectState mState;
@@ -58,16 +64,11 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     // Touch
     protected boolean isTouchReleased = false;
-    protected boolean isPerformClick = false;
     private WeakReference<PerformClicker> mPerformClicker = null;
 
     // Animation
-    private long mStartTime;
-    private Interpolator mEnterInterpolator = new DecelerateInterpolator(2.6f);
-    private Interpolator mExitInterpolator = new AccelerateInterpolator();
-    private int mEnterDuration = ANIM_ENTER_DURATION;
-    private int mExitDuration = ANIM_Exit_DURATION;
-
+    private boolean isRealRunning = false;
+    private float mAnimSpeed = 1;
 
     public TouchEffectDrawable() {
         this(new TouchEffectState(null), null, null);
@@ -307,7 +308,11 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     public boolean onTouch(MotionEvent event) {
         switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_CANCEL: {
+                isTouchReleased = true;
+                onTouchCancel(event.getX(), event.getY());
+            }
+            break;
             case MotionEvent.ACTION_UP: {
                 isTouchReleased = true;
                 onTouchReleased(event.getX(), event.getY());
@@ -318,13 +323,30 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
                 onTouchDown(event.getX(), event.getY());
             }
             break;
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE: {
                 onTouchMove(event.getX(), event.getY());
-                break;
+            }
+            break;
             default:
                 return false;
         }
         return true;
+    }
+
+    protected void onTouchCancel(float x, float y) {
+        if (mState.mEffect != null) {
+            final Rect r = getBounds();
+            if (x > r.right) x = r.width();
+            else x = x - r.left;
+
+            if (y > r.bottom) y = r.height();
+            else y = y - r.top;
+
+            mState.mEffect.touchCancel(x, y);
+
+            // Cancel
+            cancelAnim();
+        }
     }
 
     protected void onTouchDown(float x, float y) {
@@ -338,8 +360,8 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
             mState.mEffect.touchDown(x, y);
 
-            // Cancel and Start new animation
-            cancelAnim();
+            // Start new animation so we should call stop
+            stop();
             startEnterAnim();
         }
     }
@@ -354,10 +376,11 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             else y = y - r.top;
             mState.mEffect.touchReleased(x, y);
 
+            // change the animation speed
+            changeSpeed(SPEED_NORMAL);
+
             // Start Exit animation
-            if (mEnterAnimate.mDone) {
-                startExitAnim();
-            }
+            startExitAnim();
         }
     }
 
@@ -370,6 +393,9 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             if (y > r.bottom) y = r.height();
             else y = y - r.top;
             mState.mEffect.touchMove(x, y);
+
+            // change the animation speed
+            changeSpeed(SPEED_SLOW);
         }
     }
 
@@ -391,6 +417,190 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         }
         invalidateSelf();
     }
+
+    /**
+     * The one constructor to rule them all. This is called by all public
+     * constructors to set the state and initialize local properties.
+     */
+    private TouchEffectDrawable(TouchEffectState state, Resources res, ColorStateList color) {
+        super(color);
+        mState = state;
+    }
+
+    static TypedArray obtainAttributes(
+            Resources res, Resources.Theme theme, AttributeSet set, int[] attrs) {
+        if (theme == null) {
+            return res.obtainAttributes(set, attrs);
+        }
+        return theme.obtainStyledAttributes(set, attrs, 0, 0);
+    }
+
+    /**
+     * This drawable call view perform by interface
+     */
+    public interface PerformClicker {
+        void postPerformClick();
+    }
+
+    public boolean performClick(PerformClicker clicker) {
+        PerformClicker saveValue = getPerformClicker();
+        if (saveValue == null) {
+            savePerformClicker(clicker);
+            return false;
+        } else {
+            if (mEnterAnimate.isRunning())
+                return false;
+            else {
+                clearPerformClicker();
+                return true;
+            }
+        }
+    }
+
+    protected void postPerformClick() {
+        PerformClicker clicker = getPerformClicker();
+        if (clicker != null) {
+            clicker.postPerformClick();
+        }
+    }
+
+    private void savePerformClicker(PerformClicker clicker) {
+        synchronized (this) {
+            mPerformClicker = new WeakReference<PerformClicker>(clicker);
+        }
+    }
+
+    private PerformClicker getPerformClicker() {
+        synchronized (this) {
+            if (mPerformClicker != null) {
+                return mPerformClicker.get();
+            }
+            return null;
+        }
+    }
+
+    private void clearPerformClicker() {
+        synchronized (this) {
+            if (mPerformClicker != null) {
+                mPerformClicker.clear();
+                mPerformClicker = null;
+            }
+        }
+    }
+
+    @Override
+    public void start() {
+        startEnterAnim();
+    }
+
+    @Override
+    public void stop() {
+        mEnterAnimate.stop();
+        mExitAnimate.stop();
+        changeSpeed(SPEED_NORMAL);
+    }
+
+    /**
+     * Return this draw animation is running
+     *
+     * @return isRunning
+     */
+    @Override
+    public boolean isRunning() {
+        return isRealRunning;
+    }
+
+    public int getEnterDuration() {
+        return mEnterAnimate.mDuration;
+    }
+
+    public int getExitDuration() {
+        return mExitAnimate.mDuration;
+    }
+
+    public void setEnterDuration(float factor) {
+        if (factor > 0) {
+            mEnterAnimate.mDuration = (int) (factor * ANIM_ENTER_DURATION);
+        }
+    }
+
+    public void setExitDuration(float factor) {
+        if (factor > 0) {
+            mExitAnimate.mDuration = (int) (factor * ANIM_EXIT_DURATION);
+        }
+    }
+
+    public Interpolator getEnterInterpolator() {
+        return mEnterAnimate.mInterpolator;
+    }
+
+    public Interpolator getExitInterpolator() {
+        return mExitAnimate.mInterpolator;
+    }
+
+    public void setEnterInterpolator(Interpolator interpolator) {
+        if (interpolator == null)
+            return;
+        mEnterAnimate.mInterpolator = interpolator;
+    }
+
+    public void setExitInterpolator(Interpolator interpolator) {
+        if (interpolator == null)
+            return;
+        mExitAnimate.mInterpolator = interpolator;
+    }
+
+    private void startEnterAnim() {
+        // onStart Anim we need clear old PerformClicker
+        clearPerformClicker();
+        // Start animation by delay
+        // the delay time use to can cancel the animation 64ms
+        mEnterAnimate.start(ANIM_DELAY_START_TIME);
+    }
+
+    private void startExitAnim() {
+        // check is running
+        if (mEnterAnimate.isRunning())
+            return;
+
+        // Post Click
+        postPerformClick();
+
+        // Start animation by not delay
+        mExitAnimate.start(0);
+    }
+
+    private void cancelAnim() {
+        if (isRealRunning) {
+            changeSpeed(SPEED_FAST);
+            startExitAnim();
+        } else {
+            stop();
+        }
+    }
+
+    private void changeSpeed(int speedType) {
+        float speed;
+        switch (speedType) {
+            case SPEED_FAST:
+                speed = 2f;
+                break;
+            case SPEED_SLOW:
+                speed = 0.28f;
+                break;
+            default:
+                speed = 1f;
+                break;
+        }
+
+
+        if (mAnimSpeed != speed) {
+            mAnimSpeed = speed;
+            mEnterAnimate.reckonIncremental();
+            mExitAnimate.reckonIncremental();
+        }
+    }
+
 
     final static class TouchEffectState extends ConstantState {
         int[] mThemeAttrs;
@@ -436,14 +646,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         }
     }
 
-    /**
-     * The one constructor to rule them all. This is called by all public
-     * constructors to set the state and initialize local properties.
-     */
-    private TouchEffectDrawable(TouchEffectState state, Resources res, ColorStateList color) {
-        super(color);
-        mState = state;
-    }
 
     public static abstract class ClipFactory {
         /**
@@ -486,201 +688,130 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         public abstract Shader resize(int width, int height);
     }
 
-    static TypedArray obtainAttributes(
-            Resources res, Resources.Theme theme, AttributeSet set, int[] attrs) {
-        if (theme == null) {
-            return res.obtainAttributes(set, attrs);
-        }
-        return theme.obtainStyledAttributes(set, attrs, 0, 0);
-    }
-
-    /**
-     * This drawable call view perform by interface
-     */
-    public interface PerformClicker {
-        void postPerformClick();
-    }
-
-    public boolean isPerformClick() {
-        if (!isPerformClick) {
-            isPerformClick = true;
-            return false;
-        } else {
-            if (!mEnterAnimate.mDone)
-                return false;
-            else {
-                isPerformClick = false;
-                return true;
-            }
-        }
-    }
-
-    protected void performClick() {
-        if (isPerformClick) {
-            PerformClicker clicker = getPerformClicker();
-            if (clicker != null) {
-                clicker.postPerformClick();
-            }
-        }
-    }
-
-    public final void setPerformClicker(PerformClicker clicker) {
-        mPerformClicker = new WeakReference<PerformClicker>(clicker);
-    }
-
-    public PerformClicker getPerformClicker() {
-        if (mPerformClicker != null) {
-            return mPerformClicker.get();
-        }
-        return null;
-    }
-
-
-    @Override
-    public void start() {
-        startEnterAnim();
-    }
-
-    @Override
-    public void stop() {
-        cancelAnim();
-    }
-
-    /**
-     * Return this draw animation is running
-     *
-     * @return isRunning
-     */
-    @Override
-    public boolean isRunning() {
-        return !(mEnterAnimate.mDone && mExitAnimate.mDone);
-    }
-
-    public int getEnterDuration() {
-        return mEnterDuration;
-    }
-
-    public int getExitDuration() {
-        return mExitDuration;
-    }
-
-    public void setEnterDuration(float factor) {
-        if (factor > 0) {
-            mEnterDuration = (int) (factor * ANIM_ENTER_DURATION);
-        }
-    }
-
-    public void setExitDuration(float factor) {
-        if (factor > 0) {
-            mExitDuration = (int) (factor * ANIM_Exit_DURATION);
-        }
-    }
-
-    public Interpolator getEnterInterpolator() {
-        return mEnterInterpolator;
-    }
-
-    public Interpolator getExitInterpolator() {
-        return mExitInterpolator;
-    }
-
-    public void setEnterInterpolator(Interpolator inInterpolator) {
-        this.mEnterInterpolator = inInterpolator;
-    }
-
-    public void setExitInterpolator(Interpolator inInterpolator) {
-        this.mExitInterpolator = inInterpolator;
-    }
-
-    private void startEnterAnim() {
-        // Change the enter status
-        mEnterAnimate.mDone = false;
-
-        // Start animation
-        mStartTime = SystemClock.uptimeMillis();
-        scheduleSelf(mEnterAnimate, mStartTime);
-    }
-
-    private void startExitAnim() {
-        // Change the enter status
-        mExitAnimate.mDone = false;
-
-        // Click
-        performClick();
-
-        // Start animation
-        mStartTime = SystemClock.uptimeMillis();
-        scheduleSelf(mExitAnimate, mStartTime);
-    }
-
-    private void cancelAnim() {
-        // cancel
-        unscheduleSelf(mEnterAnimate);
-        unscheduleSelf(mExitAnimate);
-        // change status
-        mEnterAnimate.mDone = true;
-        mExitAnimate.mDone = true;
-    }
-
     /**
      * A animation post runnable {@link Runnable}
      * The class have animation status
      */
-    static abstract class AnimRunnable implements Runnable {
-        public boolean mDone = true;
+    abstract class AnimRunnable implements Runnable {
+        private boolean mDone = true;
+        // The draw progress
+        private float mProgress = 0;
+        // Incremental value
+        private float mInc = 0;
+
+        // This is user init animation running time
+        int mDuration;
+        // This is animation running Interpolator type
+        Interpolator mInterpolator;
+
+        AnimRunnable() {
+            init();
+        }
+
+        abstract void init();
+
+        abstract void onAnimateUpdate(float interpolation);
+
+        abstract void onAnimateEnd();
+
+        public boolean isRunning() {
+            return !mDone;
+        }
+
+        public void reckonIncremental() {
+            mInc = (FRAME_DURATION / (float) mDuration) * mAnimSpeed;
+        }
+
+        public void start(int delay) {
+            // Change the enter status
+            mDone = false;
+            // Set start time after delay time
+            long startTime = SystemClock.uptimeMillis() + delay;
+
+            // Progress added unit
+            mInc = (FRAME_DURATION / (float) mDuration) * mAnimSpeed;
+            mProgress = 0;
+            // notify run
+            scheduleSelf(this, startTime);
+        }
+
+        public void stop() {
+            unscheduleSelf(this);
+            mDone = true;
+        }
+
+        @Override
+        public void run() {
+            // check the anim is finish
+            if (mDone)
+                return;
+
+            // In this we can set the state to running
+            isRealRunning = true;
+
+            // check time
+            mProgress += mInc;
+
+            if (mProgress < 1) {
+                final float interpolation = mInterpolator.getInterpolation(mProgress);
+                // Notify
+                onAnimateUpdate(interpolation);
+                invalidateSelf();
+
+                // Next
+                final long currentTime = SystemClock.uptimeMillis();
+                scheduleSelf(this, currentTime + FRAME_DURATION);
+            } else {
+                mDone = true;
+                unscheduleSelf(this);
+
+                // Notify
+                onAnimateUpdate(1f);
+                invalidateSelf();
+
+                // Call end
+                onAnimateEnd();
+            }
+        }
+
     }
 
     private final AnimRunnable mEnterAnimate = new AnimRunnable() {
         @Override
-        public void run() {
-            long currentTime = SystemClock.uptimeMillis();
-            long diff = currentTime - mStartTime;
-            if (diff < mEnterDuration) {
-                float interpolation = mEnterInterpolator.getInterpolation((float) diff / (float) mEnterDuration);
-                // Notify
-                onEnterAnimateUpdate(interpolation);
-                invalidateSelf();
+        void init() {
+            // init config
+            mDuration = ANIM_ENTER_DURATION;
+            mInterpolator = new DecelerateInterpolator(2.6f);
+        }
 
-                // Next
-                scheduleSelf(this, currentTime + FRAME_DURATION);
-            } else {
+        @Override
+        void onAnimateUpdate(float interpolation) {
+            // call to enter
+            onEnterAnimateUpdate(interpolation);
+        }
 
-                unscheduleSelf(this);
-
-                // Notify
-                onEnterAnimateUpdate(1f);
-                invalidateSelf();
-
-                // Call end
-                onEnterAnimateEnd();
-            }
+        @Override
+        void onAnimateEnd() {
+            onEnterAnimateEnd();
         }
     };
 
     private final AnimRunnable mExitAnimate = new AnimRunnable() {
         @Override
-        public void run() {
-            long currentTime = SystemClock.uptimeMillis();
-            long diff = currentTime - mStartTime;
-            if (diff < mExitDuration) {
-                float interpolation = mExitInterpolator.getInterpolation((float) diff / (float) mExitDuration);
-                // Notify
-                onExitAnimateUpdate(interpolation);
-                invalidateSelf();
+        void init() {
+            mDuration = ANIM_EXIT_DURATION;
+            mInterpolator = new AccelerateInterpolator();
+        }
 
-                // Next
-                scheduleSelf(this, currentTime + FRAME_DURATION);
-            } else {
+        @Override
+        void onAnimateUpdate(float interpolation) {
+            // call to enter
+            onExitAnimateUpdate(interpolation);
+        }
 
-                unscheduleSelf(this);
-
-                // Notify
-                onExitAnimateUpdate(1f);
-                invalidateSelf();
-
-                // Call end
-                onExitAnimateEnd();
-            }
+        @Override
+        void onAnimateEnd() {
+            onExitAnimateEnd();
         }
     };
 
@@ -693,14 +824,12 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     protected void onEnterAnimateEnd() {
-        // End
-        mEnterAnimate.mDone = true;
         // Is un touch auto startExitAnim()
         if (isTouchReleased) startExitAnim();
     }
 
     protected void onExitAnimateEnd() {
-        // End
-        mExitAnimate.mDone = true;
+        // doing something
+        isRealRunning = false;
     }
 }

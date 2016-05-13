@@ -41,9 +41,9 @@ android {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta2'
-    compile 'net.qiujuer.genius:kit-handler:2.0.0-beta2'
-    compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta2'
+    compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta4'
+    compile 'net.qiujuer.genius:kit-handler:2.0.0-beta4'
+    compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta4'
 }
 
 apply from: '../script/gradle-jcenter-push.gradle'

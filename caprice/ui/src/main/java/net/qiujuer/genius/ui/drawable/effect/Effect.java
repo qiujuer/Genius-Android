@@ -78,6 +78,10 @@ public abstract class Effect {
         }
     }
 
+    public void touchCancel(float x, float y) {
+
+    }
+
     public void touchDown(float x, float y) {
 
     }

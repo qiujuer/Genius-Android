@@ -164,7 +164,6 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         // TouchDrawable
         mTouchDrawable = new TouchEffectDrawable(new FloatEffect(), ColorStateList.valueOf(touchColor));
         mTouchDrawable.setCallback(this);
-        mTouchDrawable.setPerformClicker(this);
     }
 
     @Override
@@ -262,21 +261,23 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         final TouchEffectDrawable d = mTouchDrawable;
 
         if (d != null) {
-            return d.isPerformClick() && super.performClick();
+            return d.performClick(this) && super.performClick();
         } else
             return super.performClick();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        //return super.onTouchEvent(event);
+        final boolean ret = super.onTouchEvent(event);
+
+        // send to touch drawable
         final TouchEffectDrawable d = mTouchDrawable;
-        if (d != null && isEnabled()) {
+        if (ret && d != null && isEnabled()) {
             d.onTouch(event);
-            super.onTouchEvent(event);
-            return true;
         }
 
-        return super.onTouchEvent(event);
+        return ret;
     }
 
     @Override
