@@ -34,7 +34,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -52,7 +51,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     // Time
     public static final int ANIM_ENTER_DURATION = 280;
     public static final int ANIM_EXIT_DURATION = 160;
-    public static final int ANIM_DELAY_START_TIME = 86;
+    public static final int ANIM_DELAY_START_TIME = 90;
 
     // Speed
     private final static int SPEED_NORMAL = 1;
@@ -65,7 +64,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
     // Touch
     protected boolean isTouchReleased = false;
-    protected boolean isPerformClick = false;
     private WeakReference<PerformClicker> mPerformClicker = null;
 
     // Animation
@@ -444,40 +442,51 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         void postPerformClick();
     }
 
-    public boolean isPerformClick() {
-        if (!isPerformClick) {
-            isPerformClick = true;
+    public boolean performClick(PerformClicker clicker) {
+        PerformClicker saveValue = getPerformClicker();
+        if (saveValue == null) {
+            savePerformClicker(clicker);
             return false;
         } else {
             if (mEnterAnimate.isRunning())
                 return false;
             else {
-                isPerformClick = false;
+                clearPerformClicker();
                 return true;
             }
         }
     }
 
-    protected void performClick() {
-        if (isPerformClick) {
-            PerformClicker clicker = getPerformClicker();
-            if (clicker != null) {
-                clicker.postPerformClick();
+    protected void postPerformClick() {
+        PerformClicker clicker = getPerformClicker();
+        if (clicker != null) {
+            clicker.postPerformClick();
+        }
+    }
+
+    private void savePerformClicker(PerformClicker clicker) {
+        synchronized (this) {
+            mPerformClicker = new WeakReference<PerformClicker>(clicker);
+        }
+    }
+
+    private PerformClicker getPerformClicker() {
+        synchronized (this) {
+            if (mPerformClicker != null) {
+                return mPerformClicker.get();
+            }
+            return null;
+        }
+    }
+
+    private void clearPerformClicker() {
+        synchronized (this) {
+            if (mPerformClicker != null) {
+                mPerformClicker.clear();
+                mPerformClicker = null;
             }
         }
     }
-
-    public final void setPerformClicker(PerformClicker clicker) {
-        mPerformClicker = new WeakReference<PerformClicker>(clicker);
-    }
-
-    public PerformClicker getPerformClicker() {
-        if (mPerformClicker != null) {
-            return mPerformClicker.get();
-        }
-        return null;
-    }
-
 
     @Override
     public void start() {
@@ -502,58 +511,48 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     public int getEnterDuration() {
-        return mEnterAnimate.mConfig.mDuration;
+        return mEnterAnimate.mDuration;
     }
 
     public int getExitDuration() {
-        return mExitAnimate.mConfig.mDuration;
+        return mExitAnimate.mDuration;
     }
 
     public void setEnterDuration(float factor) {
         if (factor > 0) {
-            mEnterAnimate.mConfig = mEnterAnimate.mConfig
-                    .reBuild()
-                    .setDuration((int) (factor * ANIM_ENTER_DURATION))
-                    .build();
+            mEnterAnimate.mDuration = (int) (factor * ANIM_ENTER_DURATION);
         }
     }
 
     public void setExitDuration(float factor) {
         if (factor > 0) {
-            mExitAnimate.mConfig = mExitAnimate.mConfig
-                    .reBuild()
-                    .setDuration((int) (factor * ANIM_EXIT_DURATION))
-                    .build();
+            mExitAnimate.mDuration = (int) (factor * ANIM_EXIT_DURATION);
         }
     }
 
     public Interpolator getEnterInterpolator() {
-        return mEnterAnimate.mConfig.mInterpolator;
+        return mEnterAnimate.mInterpolator;
     }
 
     public Interpolator getExitInterpolator() {
-        return mExitAnimate.mConfig.mInterpolator;
+        return mExitAnimate.mInterpolator;
     }
 
-    public void setEnterInterpolator(Interpolator inInterpolator) {
-        if (inInterpolator == null)
+    public void setEnterInterpolator(Interpolator interpolator) {
+        if (interpolator == null)
             return;
-        mEnterAnimate.mConfig = mEnterAnimate.mConfig
-                .reBuild()
-                .setInterpolator(inInterpolator)
-                .build();
+        mEnterAnimate.mInterpolator = interpolator;
     }
 
-    public void setExitInterpolator(Interpolator outInterpolator) {
-        if (outInterpolator == null)
+    public void setExitInterpolator(Interpolator interpolator) {
+        if (interpolator == null)
             return;
-        mExitAnimate.mConfig = mExitAnimate.mConfig
-                .reBuild()
-                .setInterpolator(outInterpolator)
-                .build();
+        mExitAnimate.mInterpolator = interpolator;
     }
 
     private void startEnterAnim() {
+        // onStart Anim we need clear old PerformClicker
+        clearPerformClicker();
         // Start animation by delay
         // the delay time use to can cancel the animation 64ms
         mEnterAnimate.start(ANIM_DELAY_START_TIME);
@@ -564,8 +563,8 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         if (mEnterAnimate.isRunning())
             return;
 
-        // Click
-        performClick();
+        // Post Click
+        postPerformClick();
 
         // Start animation by not delay
         mExitAnimate.start(0);
@@ -690,62 +689,20 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     /**
-     * Config to animation time and {@link Interpolator}
-     */
-    public static class Config {
-        // This is user init animation running time
-        private final int mDuration;
-        // This is animation running Interpolator type
-        public final Interpolator mInterpolator;
-
-        Config(int duration, Interpolator interpolator) {
-            mDuration = duration;
-            mInterpolator = interpolator;
-        }
-
-        public Builder reBuild() {
-            Builder builder = new Builder();
-            builder.setDuration(mDuration);
-            builder.setInterpolator(mInterpolator);
-            return builder;
-        }
-
-        /**
-         * Config's Builder
-         */
-        public static class Builder {
-            private int duration;
-            private Interpolator interpolator;
-
-            public Builder() {
-            }
-
-            public Builder setDuration(int duration) {
-                this.duration = duration;
-                return this;
-            }
-
-            public Builder setInterpolator(Interpolator interpolator) {
-                this.interpolator = interpolator;
-                return this;
-            }
-
-            public Config build() {
-                return new Config(duration, interpolator);
-            }
-        }
-    }
-
-    /**
      * A animation post runnable {@link Runnable}
      * The class have animation status
      */
     abstract class AnimRunnable implements Runnable {
-        boolean mDone = true;
-        Config mConfig;
-        float mProgress = 0;
+        private boolean mDone = true;
+        // The draw progress
+        private float mProgress = 0;
         // Incremental value
-        float mInc = 0;
+        private float mInc = 0;
+
+        // This is user init animation running time
+        int mDuration;
+        // This is animation running Interpolator type
+        Interpolator mInterpolator;
 
         AnimRunnable() {
             init();
@@ -762,7 +719,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         }
 
         public void reckonIncremental() {
-            mInc = (FRAME_DURATION / (float) mConfig.mDuration) * mAnimSpeed;
+            mInc = (FRAME_DURATION / (float) mDuration) * mAnimSpeed;
         }
 
         public void start(int delay) {
@@ -772,7 +729,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             long startTime = SystemClock.uptimeMillis() + delay;
 
             // Progress added unit
-            mInc = (FRAME_DURATION / (float) mConfig.mDuration) * mAnimSpeed;
+            mInc = (FRAME_DURATION / (float) mDuration) * mAnimSpeed;
             mProgress = 0;
             // notify run
             scheduleSelf(this, startTime);
@@ -796,7 +753,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             mProgress += mInc;
 
             if (mProgress < 1) {
-                final float interpolation = mConfig.mInterpolator.getInterpolation(mProgress);
+                final float interpolation = mInterpolator.getInterpolation(mProgress);
                 // Notify
                 onAnimateUpdate(interpolation);
                 invalidateSelf();
@@ -816,16 +773,15 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
                 onAnimateEnd();
             }
         }
+
     }
 
     private final AnimRunnable mEnterAnimate = new AnimRunnable() {
         @Override
         void init() {
             // init config
-            Config.Builder builder = new Config.Builder();
-            builder.setDuration(ANIM_ENTER_DURATION);
-            builder.setInterpolator(new DecelerateInterpolator(2.6f));
-            mConfig = builder.build();
+            mDuration = ANIM_ENTER_DURATION;
+            mInterpolator = new DecelerateInterpolator(2.6f);
         }
 
         @Override
@@ -843,10 +799,8 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     private final AnimRunnable mExitAnimate = new AnimRunnable() {
         @Override
         void init() {
-            Config.Builder builder = new Config.Builder();
-            builder.setDuration(ANIM_EXIT_DURATION);
-            builder.setInterpolator(new AccelerateInterpolator());
-            mConfig = builder.build();
+            mDuration = ANIM_EXIT_DURATION;
+            mInterpolator = new AccelerateInterpolator();
         }
 
         @Override
