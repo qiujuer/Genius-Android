@@ -30,15 +30,13 @@ import java.util.Queue;
 
 /**
  * Run Handler Poster extends Handler
- * <p/>
- * In class have two Runner with {@link #mAsyncRunner,#mSyncRunner}
+ * <p>
+ * In class have two Dispatcher with {@link #mAsyncDispatcher ,#mSyncDispatcher}
  */
-final class RunHandler extends Handler {
-    private static final int ASYNC = 0x1;
-    private static final int SYNC = 0x2;
+final class HandlerPoster extends Handler implements Poster {
     private static int MAX_MILLIS_INSIDE_HANDLE_MESSAGE = 16;
-    private final Runner mAsyncRunner;
-    private final Runner mSyncRunner;
+    private final Dispatcher mAsyncDispatcher;
+    private final Dispatcher mSyncDispatcher;
 
     /**
      * Init this
@@ -46,26 +44,26 @@ final class RunHandler extends Handler {
      * @param looper                       Handler Looper
      * @param maxMillisInsideHandleMessage The maximum time occupied the main thread each cycle
      */
-    RunHandler(Looper looper, int maxMillisInsideHandleMessage) {
+    HandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
         super(looper);
         // inside time
         MAX_MILLIS_INSIDE_HANDLE_MESSAGE = maxMillisInsideHandleMessage;
 
         // async runner
-        mAsyncRunner = new Runner(new LinkedList<Runnable>(),
-                new Runner.IPoster() {
+        mAsyncDispatcher = new Dispatcher(new LinkedList<Runnable>(),
+                new Dispatcher.IPoster() {
                     @Override
                     public void sendMessage() {
-                        RunHandler.this.sendMessage(ASYNC);
+                        HandlerPoster.this.sendMessage(ASYNC);
                     }
                 });
 
         // sync runner
-        mSyncRunner = new Runner(new LinkedList<Runnable>(),
-                new Runner.IPoster() {
+        mSyncDispatcher = new Dispatcher(new LinkedList<Runnable>(),
+                new Dispatcher.IPoster() {
                     @Override
                     public void sendMessage() {
-                        RunHandler.this.sendMessage(SYNC);
+                        HandlerPoster.this.sendMessage(SYNC);
                     }
                 });
 
@@ -74,10 +72,10 @@ final class RunHandler extends Handler {
     /**
      * Pool clear
      */
-    void dispose() {
+    public void dispose() {
         this.removeCallbacksAndMessages(null);
-        this.mAsyncRunner.dispose();
-        this.mSyncRunner.dispose();
+        this.mAsyncDispatcher.dispose();
+        this.mSyncDispatcher.dispose();
     }
 
     /**
@@ -85,8 +83,8 @@ final class RunHandler extends Handler {
      *
      * @param runnable Runnable
      */
-    void async(Runnable runnable) {
-        mAsyncRunner.offer(runnable);
+    public void async(Runnable runnable) {
+        mAsyncDispatcher.offer(runnable);
     }
 
     /**
@@ -94,8 +92,8 @@ final class RunHandler extends Handler {
      *
      * @param runnable Runnable
      */
-    void sync(Runnable runnable) {
-        mSyncRunner.offer(runnable);
+    public void sync(Runnable runnable) {
+        mSyncDispatcher.offer(runnable);
     }
 
     /**
@@ -106,9 +104,9 @@ final class RunHandler extends Handler {
     @Override
     public void handleMessage(Message msg) {
         if (msg.what == ASYNC) {
-            mAsyncRunner.dispatch();
+            mAsyncDispatcher.dispatch();
         } else if (msg.what == SYNC) {
-            mSyncRunner.dispatch();
+            mSyncDispatcher.dispatch();
         } else super.handleMessage(msg);
     }
 
@@ -125,14 +123,14 @@ final class RunHandler extends Handler {
 
 
     /**
-     * This's main Runner
+     * This's main Dispatcher
      */
-    static class Runner {
+    static class Dispatcher {
         private final Queue<Runnable> mPool;
         private IPoster mPoster;
         private boolean isActive;
 
-        public Runner(Queue<Runnable> pool, IPoster poster) {
+        public Dispatcher(Queue<Runnable> pool, IPoster poster) {
             mPool = pool;
             mPoster = poster;
         }
@@ -193,7 +191,7 @@ final class RunHandler extends Handler {
         }
 
         /**
-         * dispose the Runner on your no't need use
+         * dispose the Dispatcher on your no't need use
          */
         public void dispose() {
             mPool.clear();

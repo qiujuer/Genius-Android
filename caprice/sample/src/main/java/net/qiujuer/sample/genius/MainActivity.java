@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.ui.drawable.LoadingCircleDrawable;
 import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 import net.qiujuer.genius.ui.drawable.RipAnimDrawable;
@@ -48,6 +49,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
+        Run.getThreadHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                Log.e(MainActivity.class.getName(), "Runnable");
+            }
+        });
     }
 
     @Override

@@ -15,11 +15,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.qiujuer.genius.kit.handler.runable;
+package net.qiujuer.genius.kit.handler;
 
 /**
- * Run callback
+ * This is common poster to run same work by async or sync
  */
-public interface Action {
-    void call();
+interface Poster {
+    int ASYNC = 0x10101010;
+    int SYNC = 0x20202020;
+
+    /**
+     * Add a async post to Handler pool
+     *
+     * @param runnable Runnable
+     */
+    void async(Runnable runnable);
+
+    /**
+     * Add a async post to Handler pool
+     *
+     * @param runnable Runnable
+     */
+    void sync(Runnable runnable);
+
+
+    /**
+     * To dispose the resource
+     */
+    void dispose();
 }

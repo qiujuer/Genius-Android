@@ -1,9 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 11/24/2014
- * Changed 04/19/2016
- * Version 2.0.0
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +17,7 @@
  */
 package net.qiujuer.genius.kit.handler;
 
+import android.os.Handler;
 import android.os.Looper;
 
 import net.qiujuer.genius.kit.handler.runable.Action;
@@ -32,19 +31,68 @@ import net.qiujuer.genius.kit.handler.runable.Func;
  * You should call {@link #dispose()} operation for destruction.
  */
 final public class Run {
-    private static RunHandler mainPoster = null;
+    private static HandlerPoster uiPoster = null;
+    private static HandlerPoster threadPoster = null;
 
-    private static RunHandler getMainPoster() {
-        if (mainPoster == null) {
+    public static Handler getUiHandler() {
+        return getUiPoster();
+    }
+
+    private static HandlerPoster getUiPoster() {
+        if (uiPoster == null) {
             synchronized (Run.class) {
-                if (mainPoster == null) {
+                if (uiPoster == null) {
                     // This time is 1000/60 (60fps)
-                    mainPoster = new RunHandler(Looper.getMainLooper(), 16);
+                    uiPoster = new HandlerPoster(Looper.getMainLooper(), 16);
                 }
             }
         }
-        return mainPoster;
+        return uiPoster;
     }
+
+    public static Handler getThreadHandler() {
+        return getThreadPoster();
+    }
+
+    private static HandlerPoster getThreadPoster() {
+        if (threadPoster == null) {
+            synchronized (Run.class) {
+                if (threadPoster == null) {
+                    // This time is 1000/60 (60fps)
+                    Thread thread = new Thread("ThreadRunHandler") {
+                        @Override
+                        public void run() {
+                            Looper.prepare();
+                            synchronized (Run.class) {
+                                threadPoster = new HandlerPoster(Looper.myLooper(), 16);
+                                // notify run next
+                                try {
+                                    Run.class.notifyAll();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            Looper.loop();
+                        }
+                    };
+
+                    threadPoster.getLooper().quit();
+                    thread.setDaemon(true);
+                    //thread.setPriority(Thread.MAX_PRIORITY);
+                    thread.start();
+
+                    // in this we can wait set the threadPoster
+                    try {
+                        Run.class.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return threadPoster;
+    }
+
 
     /**
      * Asynchronously
@@ -58,7 +106,7 @@ final public class Run {
             action.call();
             return;
         }
-        getMainPoster().async(new ActionAsyncRunnable(action));
+        getUiPoster().async(new ActionAsyncRunnable(action));
     }
 
     /**
@@ -75,7 +123,7 @@ final public class Run {
             return;
         }
         ActionSyncRunnable poster = new ActionSyncRunnable(action);
-        getMainPoster().sync(poster);
+        getUiPoster().sync(poster);
         poster.waitRun();
     }
 
@@ -112,7 +160,7 @@ final public class Run {
             return;
         }
         ActionSyncRunnable poster = new ActionSyncRunnable(action);
-        getMainPoster().sync(poster);
+        getUiPoster().sync(poster);
         poster.waitRun(waitMillis, waitNanos, cancel);
     }
 
@@ -136,7 +184,7 @@ final public class Run {
         }
 
         FuncSyncRunnable<T> poster = new FuncSyncRunnable<T>(func);
-        getMainPoster().sync(poster);
+        getUiPoster().sync(poster);
         return poster.waitRun();
     }
 
@@ -184,7 +232,7 @@ final public class Run {
         }
 
         FuncSyncRunnable<T> poster = new FuncSyncRunnable<T>(func);
-        getMainPoster().sync(poster);
+        getUiPoster().sync(poster);
         return poster.waitRun(waitMillis, waitNanos, cancel);
     }
 
@@ -193,9 +241,9 @@ final public class Run {
      * Call this on you need dispose
      */
     public static void dispose() {
-        if (mainPoster != null) {
-            mainPoster.dispose();
-            mainPoster = null;
+        if (uiPoster != null) {
+            uiPoster.dispose();
+            uiPoster = null;
         }
     }
 }
