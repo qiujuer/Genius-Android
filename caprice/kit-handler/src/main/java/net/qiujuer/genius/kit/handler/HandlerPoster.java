@@ -43,8 +43,9 @@ final class HandlerPoster extends Handler implements Poster {
      *
      * @param looper                       Handler Looper
      * @param maxMillisInsideHandleMessage The maximum time occupied the main thread each cycle
+     * @param onlyAsync                    If TRUE the {@link #mSyncDispatcher} same as {@link #mAsyncDispatcher}
      */
-    HandlerPoster(Looper looper, int maxMillisInsideHandleMessage) {
+    HandlerPoster(Looper looper, int maxMillisInsideHandleMessage, boolean onlyAsync) {
         super(looper);
         // inside time
         MAX_MILLIS_INSIDE_HANDLE_MESSAGE = maxMillisInsideHandleMessage;
@@ -59,14 +60,17 @@ final class HandlerPoster extends Handler implements Poster {
                 });
 
         // sync runner
-        mSyncDispatcher = new Dispatcher(new LinkedList<Runnable>(),
-                new Dispatcher.IPoster() {
-                    @Override
-                    public void sendMessage() {
-                        HandlerPoster.this.sendMessage(SYNC);
-                    }
-                });
-
+        if (onlyAsync) {
+            mSyncDispatcher = mAsyncDispatcher;
+        } else {
+            mSyncDispatcher = new Dispatcher(new LinkedList<Runnable>(),
+                    new Dispatcher.IPoster() {
+                        @Override
+                        public void sendMessage() {
+                            HandlerPoster.this.sendMessage(SYNC);
+                        }
+                    });
+        }
     }
 
     /**
@@ -125,12 +129,12 @@ final class HandlerPoster extends Handler implements Poster {
     /**
      * This's main Dispatcher
      */
-    static class Dispatcher {
+    private static class Dispatcher {
         private final Queue<Runnable> mPool;
         private IPoster mPoster;
         private boolean isActive;
 
-        public Dispatcher(Queue<Runnable> pool, IPoster poster) {
+        Dispatcher(Queue<Runnable> pool, IPoster poster) {
             mPool = pool;
             mPoster = poster;
         }
@@ -140,7 +144,7 @@ final class HandlerPoster extends Handler implements Poster {
          *
          * @param runnable Runnable
          */
-        public void offer(Runnable runnable) {
+        void offer(Runnable runnable) {
             synchronized (mPool) {
                 mPool.offer(runnable);
                 if (!isActive) {
@@ -156,7 +160,7 @@ final class HandlerPoster extends Handler implements Poster {
         /**
          * dispatch form {@link #mPool}
          */
-        public void dispatch() {
+        void dispatch() {
             boolean rescheduled = false;
             try {
                 long started = SystemClock.uptimeMillis();
@@ -193,7 +197,7 @@ final class HandlerPoster extends Handler implements Poster {
         /**
          * dispose the Dispatcher on your no't need use
          */
-        public void dispose() {
+        void dispose() {
             mPool.clear();
             mPoster = null;
         }

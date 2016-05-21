@@ -65,7 +65,7 @@ final class ActionSyncRunnable implements Action, Runnable {
     /**
      * Wait to run end
      */
-    public void waitRun() {
+    void waitRun() {
         if (!mDone) {
             synchronized (this) {
                 while (!mDone) {
@@ -85,7 +85,7 @@ final class ActionSyncRunnable implements Action, Runnable {
      * @param waitNanos  wait nanoseconds time
      * @param cancel     when wait end cancel the run
      */
-    public void waitRun(long waitMillis, int waitNanos, boolean cancel) {
+    void waitRun(long waitMillis, int waitNanos, boolean cancel) {
         if (!mDone) {
             synchronized (this) {
                 if (!mDone) {

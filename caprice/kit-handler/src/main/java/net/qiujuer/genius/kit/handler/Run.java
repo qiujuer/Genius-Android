@@ -30,10 +30,16 @@ import net.qiujuer.genius.kit.handler.runable.Func;
  * You don't need initialize, but when you don't need run
  * You should call {@link #dispose()} operation for destruction.
  */
+@SuppressWarnings("WeakerAccess")
 final public class Run {
     private static HandlerPoster uiPoster = null;
-    private static HandlerPoster threadPoster = null;
+    private static HandlerPoster backgroundPoster = null;
 
+    /**
+     * Get the Ui thread Handler
+     *
+     * @return Handler
+     */
     public static Handler getUiHandler() {
         return getUiPoster();
     }
@@ -43,28 +49,35 @@ final public class Run {
             synchronized (Run.class) {
                 if (uiPoster == null) {
                     // This time is 1000/60 (60fps)
-                    uiPoster = new HandlerPoster(Looper.getMainLooper(), 16);
+                    // And the async dif to sync method
+                    uiPoster = new HandlerPoster(Looper.getMainLooper(), 16, false);
                 }
             }
         }
         return uiPoster;
     }
 
-    public static Handler getThreadHandler() {
-        return getThreadPoster();
+    /**
+     * Get the Background thread Handler
+     *
+     * @return Handler
+     */
+    public static Handler getBackgroundHandler() {
+        return getBackgroundPoster();
     }
 
-    private static HandlerPoster getThreadPoster() {
-        if (threadPoster == null) {
+    private static HandlerPoster getBackgroundPoster() {
+        if (backgroundPoster == null) {
             synchronized (Run.class) {
-                if (threadPoster == null) {
-                    // This time is 1000/60 (60fps)
+                if (backgroundPoster == null) {
                     Thread thread = new Thread("ThreadRunHandler") {
                         @Override
                         public void run() {
                             Looper.prepare();
                             synchronized (Run.class) {
-                                threadPoster = new HandlerPoster(Looper.myLooper(), 16);
+                                // This time is 1000*3 (3 milliseconds)
+                                // And the async dif to sync method
+                                backgroundPoster = new HandlerPoster(Looper.myLooper(), 3 * 1000, true);
                                 // notify run next
                                 try {
                                     Run.class.notifyAll();
@@ -76,12 +89,12 @@ final public class Run {
                         }
                     };
 
-                    threadPoster.getLooper().quit();
+                    backgroundPoster.getLooper().quit();
                     thread.setDaemon(true);
                     //thread.setPriority(Thread.MAX_PRIORITY);
                     thread.start();
 
-                    // in this we can wait set the threadPoster
+                    // in this we can wait set the backgroundPoster
                     try {
                         Run.class.wait();
                     } catch (InterruptedException e) {
@@ -90,14 +103,30 @@ final public class Run {
                 }
             }
         }
-        return threadPoster;
+        return backgroundPoster;
+    }
+
+    /**
+     * Asynchronously
+     * The current thread asynchronous run relative to the sub thread,
+     * not blocking the current thread
+     *
+     * @param action Action Interface, you can do something in this
+     */
+    public static void onBackgroundAsync(Action action) {
+        final HandlerPoster poster = getBackgroundPoster();
+        if (Looper.myLooper() == poster.getLooper()) {
+            action.call();
+            return;
+        }
+        poster.async(new ActionAsyncRunnable(action));
     }
 
 
     /**
      * Asynchronously
-     * The child thread asynchronous run relative to the main thread,
-     * not blocking the child thread
+     * The current thread asynchronous run relative to the main thread,
+     * not blocking the current thread
      *
      * @param action Action Interface
      */
@@ -111,8 +140,8 @@ final public class Run {
 
     /**
      * Synchronously
-     * The child thread relative thread synchronization operation,
-     * blocking the child thread,
+     * The current thread relative thread synchronization operation,
+     * blocking the current thread,
      * thread for the main thread to complete
      *
      * @param action Action Interface
@@ -129,14 +158,14 @@ final public class Run {
 
     /**
      * Synchronously
-     * The child thread relative thread synchronization operation,
-     * blocking the child thread,
+     * The current thread relative thread synchronization operation,
+     * blocking the current thread,
      * thread for the main thread to complete
-     * But the child thread just wait for the waitTime long.
+     * But the current thread just wait for the waitTime long.
      *
      * @param action     Action Interface
      * @param waitMillis wait for the main thread run milliseconds Time
-     * @param cancel     on the child thread cancel the runnable task
+     * @param cancel     on the current thread cancel the runnable task
      */
     public static void onUiSync(Action action, long waitMillis, boolean cancel) {
         onUiSync(action, waitMillis, 0, cancel);
@@ -144,15 +173,15 @@ final public class Run {
 
     /**
      * Synchronously
-     * The child thread relative thread synchronization operation,
-     * blocking the child thread,
+     * The current thread relative thread synchronization operation,
+     * blocking the current thread,
      * thread for the main thread to complete
-     * But the child thread just wait for the waitTime long.
+     * But the current thread just wait for the waitTime long.
      *
      * @param action     Action Interface
      * @param waitMillis wait for the main thread run milliseconds Time
      * @param waitNanos  wait for the main thread run nanoseconds Time
-     * @param cancel     on the child thread cancel the runnable task
+     * @param cancel     on the current thread cancel the runnable task
      */
     public static void onUiSync(Action action, long waitMillis, int waitNanos, boolean cancel) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -170,8 +199,8 @@ final public class Run {
      * <p/>
      * In this you can receiver {@link Func#call()} return
      * <p/>
-     * The child thread relative thread synchronization operation,
-     * blocking the child thread,
+     * The current thread relative thread synchronization operation,
+     * blocking the current thread,
      * thread for the main thread to complete
      *
      * @param func Func Interface
@@ -193,14 +222,14 @@ final public class Run {
      * <p/>
      * In this you can receiver {@link Func#call()} return
      * <p/>
-     * The child thread relative thread synchronization operation,
-     * blocking the child thread,
+     * The current thread relative thread synchronization operation,
+     * blocking the current thread,
      * thread for the main thread to complete
-     * But the child thread just wait for the waitTime long.
+     * But the current thread just wait for the waitTime long.
      *
      * @param func       Func Interface
      * @param waitMillis wait for the main thread run milliseconds Time
-     * @param cancel     on the child thread cancel the runnable task
+     * @param cancel     on the current thread cancel the runnable task
      * @param <T>        you can set any type to return
      * @return {@link T}
      */
@@ -214,15 +243,15 @@ final public class Run {
      * <p/>
      * In this you can receiver {@link Func#call()} return
      * <p/>
-     * The child thread relative thread synchronization operation,
-     * blocking the child thread,
+     * The current thread relative thread synchronization operation,
+     * blocking the current thread,
      * thread for the main thread to complete
-     * But the child thread just wait for the waitTime long.
+     * But the current thread just wait for the waitTime long.
      *
      * @param func       Func Interface
      * @param waitMillis wait for the main thread run milliseconds Time
      * @param waitNanos  wait for the main thread run nanoseconds Time
-     * @param cancel     on the child thread cancel the runnable task
+     * @param cancel     on the current thread cancel the runnable task
      * @param <T>        you can set any type to return
      * @return {@link T}
      */

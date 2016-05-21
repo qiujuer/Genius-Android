@@ -71,7 +71,7 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
      *
      * @return T
      */
-    public T waitRun() {
+    T waitRun() {
         if (!mDone) {
             synchronized (this) {
                 while (!mDone) {
@@ -93,7 +93,7 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
      * @param cancel     True if when wait end cancel the run
      * @return T
      */
-    public T waitRun(long waitMillis, int waitNanos, boolean cancel) {
+    T waitRun(long waitMillis, int waitNanos, boolean cancel) {
         if (!mDone) {
             synchronized (this) {
                 if (!mDone) {
