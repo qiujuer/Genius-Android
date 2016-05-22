@@ -1,4 +1,4 @@
-package net.qiujuer.genius.blur;
+package net.qiujuer.genius.res;
 
 import org.junit.Test;
 

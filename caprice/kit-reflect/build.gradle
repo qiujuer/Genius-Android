@@ -1,9 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 04/28/2016
- * Changed 05/03/2016
- * Version 2.0.0
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +19,6 @@
 apply plugin: 'com.android.library'
 
 android {
-
     compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
     buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
 
@@ -31,7 +28,6 @@ android {
         versionCode VERSION_CODE as int
         versionName VERSION_NAME
     }
-
     buildTypes {
         release {
             minifyEnabled false

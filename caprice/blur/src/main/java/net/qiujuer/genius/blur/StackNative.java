@@ -25,7 +25,7 @@ import android.graphics.Bitmap;
  * This use jni blur bitmap and pixels
  * Blur arithmetic is StackBlur
  */
-public class StackNative {
+class StackNative {
 
     /**
      * Load genius jni file
