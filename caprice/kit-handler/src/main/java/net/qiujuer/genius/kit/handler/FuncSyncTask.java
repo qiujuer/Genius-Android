@@ -60,7 +60,7 @@ final class FuncSyncTask<T> implements Func<T>, Task {
         if (!mDone) {
             synchronized (this) {
                 if (!mDone) {
-                    call();
+                    mResult = call();
                     mDone = true;
                     try {
                         this.notifyAll();
