@@ -129,7 +129,7 @@ public class EditText extends android.widget.EditText {
 
         if (!Ui.isHaveAttribute(attrs, "textColorHint") || getHintTextColors() == null) {
             ColorStateList hintColor;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 hintColor = resources.getColorStateList(R.color.g_default_edit_view_hint, null);
             } else {
                 //noinspection deprecation
@@ -577,6 +577,8 @@ public class EditText extends android.widget.EditText {
 
     private ObjectAnimator getTitleAnimator() {
         if (mAnimator == null) {
+            if (mCurTitleProperty == null)
+                mCurTitleProperty = new TitleProperty();
             mAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, new TitleEvaluator(mCurTitleProperty), mCurTitleProperty);
             mAnimator.setDuration(ANIMATION_DURATION);
             mAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
@@ -610,7 +612,7 @@ public class EditText extends android.widget.EditText {
 
         private final TitleProperty mProperty;
 
-        public TitleEvaluator(TitleProperty property) {
+        TitleEvaluator(TitleProperty property) {
             mProperty = property;
         }
 
