@@ -89,9 +89,8 @@ final public class Run {
                         }
                     };
 
-                    backgroundPoster.getLooper().quit();
                     thread.setDaemon(true);
-                    //thread.setPriority(Thread.MAX_PRIORITY);
+                    thread.setPriority(Thread.MAX_PRIORITY);
                     thread.start();
 
                     // in this we can wait set the backgroundPoster
@@ -113,13 +112,15 @@ final public class Run {
      *
      * @param action Action Interface, you can do something in this
      */
-    public static void onBackgroundAsync(Action action) {
+    public static Result onBackgroundAsync(Action action) {
         final HandlerPoster poster = getBackgroundPoster();
         if (Looper.myLooper() == poster.getLooper()) {
             action.call();
-            return;
+            return new ActionAsyncTask(action, true);
         }
-        poster.async(new ActionAsyncRunnable(action));
+        ActionAsyncTask task = new ActionAsyncTask(action);
+        poster.async(task);
+        return task;
     }
 
 
@@ -130,12 +131,14 @@ final public class Run {
      *
      * @param action Action Interface
      */
-    public static void onUiAsync(Action action) {
+    public static Result onUiAsync(Action action) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             action.call();
-            return;
+            return new ActionAsyncTask(action, true);
         }
-        getUiPoster().async(new ActionAsyncRunnable(action));
+        ActionAsyncTask task = new ActionAsyncTask(action);
+        getUiPoster().async(task);
+        return task;
     }
 
     /**
@@ -151,7 +154,7 @@ final public class Run {
             action.call();
             return;
         }
-        ActionSyncRunnable poster = new ActionSyncRunnable(action);
+        ActionSyncTask poster = new ActionSyncTask(action);
         getUiPoster().sync(poster);
         poster.waitRun();
     }
@@ -188,7 +191,7 @@ final public class Run {
             action.call();
             return;
         }
-        ActionSyncRunnable poster = new ActionSyncRunnable(action);
+        ActionSyncTask poster = new ActionSyncTask(action);
         getUiPoster().sync(poster);
         poster.waitRun(waitMillis, waitNanos, cancel);
     }
@@ -212,7 +215,7 @@ final public class Run {
             return func.call();
         }
 
-        FuncSyncRunnable<T> poster = new FuncSyncRunnable<T>(func);
+        FuncSyncTask<T> poster = new FuncSyncTask<T>(func);
         getUiPoster().sync(poster);
         return poster.waitRun();
     }
@@ -260,7 +263,7 @@ final public class Run {
             return func.call();
         }
 
-        FuncSyncRunnable<T> poster = new FuncSyncRunnable<T>(func);
+        FuncSyncTask<T> poster = new FuncSyncTask<T>(func);
         getUiPoster().sync(poster);
         return poster.waitRun(waitMillis, waitNanos, cancel);
     }

@@ -50,12 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        Run.getThreadHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                Log.e(MainActivity.class.getName(), "Runnable");
-            }
-        });
+
     }
 
     @Override

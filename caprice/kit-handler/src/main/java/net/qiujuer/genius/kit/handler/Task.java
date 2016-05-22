@@ -17,30 +17,13 @@
  */
 package net.qiujuer.genius.kit.handler;
 
+import java.util.Queue;
+
 /**
- * This is common poster to run same work by async or sync
+ * The Task be used to Poster do something
+ * This Task extends {@link Runnable} and {@link Result}
  */
-interface Poster {
-    int ASYNC = 0x10101010;
-    int SYNC = 0x20202020;
 
-    /**
-     * Add a async post to Handler pool
-     *
-     * @param runnable Runnable
-     */
-    void async(Task runnable);
-
-    /**
-     * Add a async post to Handler pool
-     *
-     * @param runnable Runnable
-     */
-    void sync(Task runnable);
-
-
-    /**
-     * To dispose the resource
-     */
-    void dispose();
+interface Task extends Runnable, Result {
+    void setPool(Queue<Task> pool);
 }

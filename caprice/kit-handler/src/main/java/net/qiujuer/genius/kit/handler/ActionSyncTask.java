@@ -17,36 +17,46 @@
  */
 package net.qiujuer.genius.kit.handler;
 
+import net.qiujuer.genius.kit.handler.runable.Action;
 import net.qiujuer.genius.kit.handler.runable.Func;
 
+import java.util.Queue;
+
 /**
- * FuncSyncRunnable use to {@link Func} and {@link Runnable}
+ * ActionSyncTask use to {@link Action} and {@link Task}
  * <p/>
- * See {@link Run} call this
+ * See {@link Run}
  */
-@SuppressWarnings("unused")
-final class FuncSyncRunnable<T> implements Func<T>, Runnable {
-    private final Func<T> mFunc;
-    private T mResult;
+final class ActionSyncTask implements Action, Task {
+    private final Action mAction;
     private boolean mDone = false;
+    private Queue<Task> mPool = null;
 
-
-    FuncSyncRunnable(Func<T> func) {
-        this.mFunc = func;
+    ActionSyncTask(Action action) {
+        this.mAction = action;
     }
 
     /**
      * In this we call cal the {@link Func}
      * and check should run it
-     *
-     * @return T
      */
     @Override
-    public T call() {
+    public void call() {
+        // Cleanup reference the pool
+        mPool = null;
+        // Doing
+        mAction.call();
+    }
+
+    /**
+     * Run to doing something
+     */
+    @Override
+    public void run() {
         if (!mDone) {
             synchronized (this) {
                 if (!mDone) {
-                    mResult = mFunc.call();
+                    call();
                     mDone = true;
                     try {
                         this.notifyAll();
@@ -55,23 +65,12 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
                 }
             }
         }
-        return mResult;
-    }
-
-    /**
-     * Run to doing something
-     */
-    @Override
-    public void run() {
-        call();
     }
 
     /**
      * Wait to run end
-     *
-     * @return T
      */
-    T waitRun() {
+    void waitRun() {
         if (!mDone) {
             synchronized (this) {
                 while (!mDone) {
@@ -82,7 +81,6 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
                 }
             }
         }
-        return mResult;
     }
 
     /**
@@ -90,10 +88,9 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
      *
      * @param waitMillis wait milliseconds time
      * @param waitNanos  wait nanoseconds time
-     * @param cancel     True if when wait end cancel the run
-     * @return T
+     * @param cancel     when wait end cancel the run
      */
-    T waitRun(long waitMillis, int waitNanos, boolean cancel) {
+    void waitRun(long waitMillis, int waitNanos, boolean cancel) {
         if (!mDone) {
             synchronized (this) {
                 if (!mDone) {
@@ -107,6 +104,40 @@ final class FuncSyncRunnable<T> implements Func<T>, Runnable {
                 }
             }
         }
-        return mResult;
+    }
+
+    @Override
+    public void setPool(Queue<Task> pool) {
+        mPool = pool;
+    }
+
+    @Override
+    public boolean isDone() {
+        return mDone;
+    }
+
+    @Override
+    public void cancel() {
+        if (!mDone) {
+            synchronized (this) {
+                mDone = true;
+
+                // clear the task form pool
+                if (mPool != null) {
+                    //noinspection SynchronizeOnNonFinalField
+                    synchronized (mPool) {
+                        if (mPool != null) {
+                            try {
+                                mPool.remove(this);
+                            } catch (Exception e) {
+                                e.getStackTrace();
+                            } finally {
+                                mPool = null;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

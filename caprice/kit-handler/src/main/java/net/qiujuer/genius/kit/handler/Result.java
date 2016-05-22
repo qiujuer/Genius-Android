@@ -20,24 +20,12 @@ package net.qiujuer.genius.kit.handler;
 import net.qiujuer.genius.kit.handler.runable.Action;
 
 /**
- * ActionAsyncRunnable use to {@link Action} and {@link Runnable}
- * <p/>
- * See {@link Run}
+ * This is {@link Run#onBackgroundAsync(Action)} and {@link Run#onUiAsync(Action)} (Action)} result class
+ * In this you can check done and cancel the asynchronous task
  */
-class ActionAsyncRunnable implements Action, Runnable {
-    private final Action mAction;
 
-    ActionAsyncRunnable(Action action) {
-        mAction = action;
-    }
+public interface Result {
+    boolean isDone();
 
-    @Override
-    public void run() {
-        call();
-    }
-
-    @Override
-    public void call() {
-        mAction.call();
-    }
+    void cancel();
 }

@@ -51,7 +51,7 @@ final class HandlerPoster extends Handler implements Poster {
         MAX_MILLIS_INSIDE_HANDLE_MESSAGE = maxMillisInsideHandleMessage;
 
         // async runner
-        mAsyncDispatcher = new Dispatcher(new LinkedList<Runnable>(),
+        mAsyncDispatcher = new Dispatcher(new LinkedList<Task>(),
                 new Dispatcher.IPoster() {
                     @Override
                     public void sendMessage() {
@@ -63,7 +63,7 @@ final class HandlerPoster extends Handler implements Poster {
         if (onlyAsync) {
             mSyncDispatcher = mAsyncDispatcher;
         } else {
-            mSyncDispatcher = new Dispatcher(new LinkedList<Runnable>(),
+            mSyncDispatcher = new Dispatcher(new LinkedList<Task>(),
                     new Dispatcher.IPoster() {
                         @Override
                         public void sendMessage() {
@@ -85,19 +85,19 @@ final class HandlerPoster extends Handler implements Poster {
     /**
      * Add a async post to Handler pool
      *
-     * @param runnable Runnable
+     * @param task {@link Task}
      */
-    public void async(Runnable runnable) {
-        mAsyncDispatcher.offer(runnable);
+    public void async(Task task) {
+        mAsyncDispatcher.offer(task);
     }
 
     /**
      * Add a async post to Handler pool
      *
-     * @param runnable Runnable
+     * @param task {@link Task}
      */
-    public void sync(Runnable runnable) {
-        mSyncDispatcher.offer(runnable);
+    public void sync(Task task) {
+        mSyncDispatcher.offer(task);
     }
 
     /**
@@ -130,11 +130,11 @@ final class HandlerPoster extends Handler implements Poster {
      * This's main Dispatcher
      */
     private static class Dispatcher {
-        private final Queue<Runnable> mPool;
+        private final Queue<Task> mPool;
         private IPoster mPoster;
         private boolean isActive;
 
-        Dispatcher(Queue<Runnable> pool, IPoster poster) {
+        Dispatcher(Queue<Task> pool, IPoster poster) {
             mPool = pool;
             mPoster = poster;
         }
@@ -142,11 +142,15 @@ final class HandlerPoster extends Handler implements Poster {
         /**
          * offer to {@link #mPool}
          *
-         * @param runnable Runnable
+         * @param task {@link Task}
          */
-        void offer(Runnable runnable) {
+        void offer(Task task) {
             synchronized (mPool) {
-                mPool.offer(runnable);
+                // offer to queue pool
+                mPool.offer(task);
+                // set the task pool reference
+                task.setPool(mPool);
+
                 if (!isActive) {
                     isActive = true;
                     // send again message

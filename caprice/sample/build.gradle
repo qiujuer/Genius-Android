@@ -35,5 +35,9 @@ dependencies {
     compile 'net.qiujuer.genius:res:2.0.0-beta2'
     //compile 'net.qiujuer.genius:kit:2.0.0-beta2'
     compile project(':ui')
-    compile project(':kit')
+
+    compile project(':kit-handler')
+    compile project(':kit-cmd')
+    compile project(':kit-reflect')
+    //compile project(':kit')
 }

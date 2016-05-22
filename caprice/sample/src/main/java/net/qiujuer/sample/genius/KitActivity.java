@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import net.qiujuer.genius.kit.Kit;
 import net.qiujuer.genius.kit.cmd.Cmd;
 import net.qiujuer.genius.kit.cmd.Command;
 import net.qiujuer.genius.kit.cmd.DnsResolve;
@@ -57,9 +56,9 @@ public class KitActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void init() {
-        Application kitApp = Kit.getApplication();
+        //Application kitApp = Kit.getApplication();
         Application application = getApplication();
-        showLog(TAG, "Kit.getApplication() eq getApplication() is:" + (kitApp == application));
+        //showLog(TAG, "Kit.getApplication() eq getApplication() is:" + (kitApp == application));
         Cmd.init(application);
     }
 
