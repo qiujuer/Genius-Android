@@ -1,33 +1,22 @@
-/*
- * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
- * WebSite http://www.qiujuer.net
- * Created 05/28/2015
- * Changed 05/29/2016
- * Version 2.0.0
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package net.qiujuer.genius.blur;
+package net.qiujuer.genius.graphics;
 
 import android.graphics.Bitmap;
 
 /**
- * This is blur image class
- * Use {@link StackNative} fast blur bitmap
- * Blur arithmetic is StackBlur
+ * In this can blurring your image by {@link Bitmap}
+ * The Blurring support:
+ * {@link android.graphics.Bitmap.Config#RGB_565},
+ * {@link android.graphics.Bitmap.Config#ARGB_8888}
  */
-final public class StackBlur extends StackNative {
+public final class Blur {
 
+    /**
+     * Building the bitmap
+     *
+     * @param original         Bitmap
+     * @param canReuseInBitmap True if create new Bitmap
+     * @return Bitmap
+     */
     private static Bitmap buildBitmap(Bitmap original, boolean canReuseInBitmap) {
         // First we should check the original
         if (original == null)
@@ -56,7 +45,7 @@ final public class StackBlur extends StackNative {
      * @param canReuseInBitmap Can reuse In original Bitmap
      * @return Image Bitmap
      */
-    public static Bitmap blurNatively(Bitmap original, int radius, boolean canReuseInBitmap) {
+    public static Bitmap onStackBlur(Bitmap original, int radius, boolean canReuseInBitmap) {
         if (radius < 1) {
             return null;
         }
@@ -69,7 +58,7 @@ final public class StackBlur extends StackNative {
         }
 
         //Jni BitMap Blur
-        blurBitmap(bitmap, radius);
+        nativeStackBlurBitmap(bitmap, radius);
 
         return (bitmap);
     }
@@ -82,7 +71,7 @@ final public class StackBlur extends StackNative {
      * @param canReuseInBitmap Can reuse In original Bitmap
      * @return Image Bitmap
      */
-    public static Bitmap blurNativelyPixels(Bitmap original, int radius, boolean canReuseInBitmap) {
+    public static Bitmap onStackBlurPixels(Bitmap original, int radius, boolean canReuseInBitmap) {
         if (radius < 1) {
             return null;
         }
@@ -101,7 +90,7 @@ final public class StackBlur extends StackNative {
         bitmap.getPixels(pix, 0, w, 0, 0, w, h);
 
         // Jni Pixels Blur
-        blurPixels(pix, w, h, radius);
+        nativeStackBlurPixels(pix, w, h, radius);
 
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
 
@@ -116,7 +105,7 @@ final public class StackBlur extends StackNative {
      * @param canReuseInBitmap Can reuse In original Bitmap
      * @return Image Bitmap
      */
-    public static Bitmap blur(Bitmap original, int radius, boolean canReuseInBitmap) {
+    public static Bitmap onStackBlurJava(Bitmap original, int radius, boolean canReuseInBitmap) {
         // Stack Blur v1.0 from
         // http://www.quasimondo.com/StackBlurForCanvas/StackBlurDemo.html
         //
@@ -353,4 +342,32 @@ final public class StackBlur extends StackNative {
 
         return (bitmap);
     }
+
+
+    /**
+     * Load genius jni file
+     */
+    static {
+        System.loadLibrary("genius_graphics");
+    }
+
+    /**
+     * Blur Image By Pixels
+     *
+     * @param pixels Img pixel array
+     * @param w      Img width
+     * @param h      Img height
+     * @param r      Blur radius
+     * @hide
+     */
+    private static native void nativeStackBlurPixels(int[] pixels, int w, int h, int r);
+
+    /**
+     * Blur Image By Bitmap
+     *
+     * @param bitmap Img Bitmap
+     * @param r      Blur radius
+     * @hide
+     */
+    private static native void nativeStackBlurBitmap(Bitmap bitmap, int r);
 }

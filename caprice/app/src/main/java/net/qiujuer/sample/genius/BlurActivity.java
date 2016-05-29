@@ -11,7 +11,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.qiujuer.genius.blur.StackBlur;
+import net.qiujuer.genius.graphics.Blur;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 
 public class BlurActivity extends AppCompatActivity {
@@ -42,10 +45,40 @@ public class BlurActivity extends AppCompatActivity {
         applyBlur();
     }
 
+    private static Bitmap codec(Bitmap src, Bitmap.CompressFormat format,
+                                int quality) {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        src.compress(format, quality, os);
+
+        byte[] array = os.toByteArray();
+        return BitmapFactory.decodeByteArray(array, 0, array.length);
+    }
+
+    private Bitmap compressImage(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;//每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        BitmapFactory.Options options1 = new BitmapFactory.Options();
+        options1.inPreferredConfig = Bitmap.Config.RGB_565;
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, options1);//把ByteArrayInputStream数据生成图片
+        return bitmap;
+    }
+
 
     private void initBlur() {
         // Find Bitmap
         mBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_blur);
+        //Bitmap.Config config = mBitmap.getConfig();
+        //mBitmap = mBitmap.copy(Bitmap.Config.RGB_565, true);
+        //mBitmap = compressImage(mBitmap);
+
+
         mImageJava = (ImageView) findViewById(R.id.image_blur_java);
         mImageJniPixels = (ImageView) findViewById(R.id.image_blur_jni_pixels);
         mImageJniBitmap = (ImageView) findViewById(R.id.image_blur_jni_bitmap);
@@ -60,6 +93,8 @@ public class BlurActivity extends AppCompatActivity {
         // New Compress bitmap
         mCompressBitmap = Bitmap.createBitmap(mBitmap, 0, 0,
                 mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+
+        mCompressBitmap = mCompressBitmap.copy(Bitmap.Config.RGB_565, true);
 
         // Set On OnCheckedChangeListener
         CheckBox checkBox = (CheckBox) findViewById(R.id.checkbox_blur_isCompress);
@@ -123,15 +158,17 @@ public class BlurActivity extends AppCompatActivity {
             overlay = mCompressBitmap;
         }
 
-        // Java
-        if (i == 1)
-            overlay = StackBlur.blur(overlay, (int) radius, false);
-            // Bitmap JNI Native
-        else if (i == 2)
-            overlay = StackBlur.blurNatively(overlay, (int) radius, false);
+
+        if (i == 1) {
+            // Java
+            overlay = Blur.onStackBlurJava(overlay, (int) radius, false);
+        } else if (i == 2) {
             // Pixels JNI Native
-        else if (i == 3)
-            overlay = StackBlur.blurNativelyPixels(overlay, (int) radius, false);
+            overlay = Blur.onStackBlurPixels(overlay, (int) radius, false);
+        } else if (i == 3) {
+            // Bitmap JNI Native
+            overlay = Blur.onStackBlur(overlay, (int) radius, false);
+        }
 
         // Show
         showDrawable(view, overlay);
