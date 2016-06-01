@@ -43,10 +43,11 @@ import android.view.MotionEvent;
  * Created by QiuJu
  * This is Genius UI Center
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Ui {
     public static boolean SUPPER_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
-    public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
+    private static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
 
     public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48
     public static final int KEY_SHADOW_COLOR = 0x4E000000; //0x1E000000;
@@ -228,8 +229,7 @@ public class Ui {
     public static int getBackgroundColor(Context context, AttributeSet attrs) {
         int color = Color.TRANSPARENT;
 
-        int resourceValue = attrs.getAttributeResourceValue(Ui.androidStyleNameSpace, "background", -1);
-        if (resourceValue != -1 && resourceValue != 0) {
+        if (isHaveAttribute(attrs, "background")) {
             int styleId = attrs.getStyleAttribute();
             int[] attributesArray = new int[]{android.R.attr.background};
 
@@ -242,6 +242,7 @@ public class Ui {
                 e.printStackTrace();
             }
         }
+
         return color;
     }
 
@@ -277,7 +278,7 @@ public class Ui {
      * @return If have the attribute return True
      */
     public static boolean isHaveAttribute(AttributeSet attrs, String attribute) {
-        return attrs.getAttributeResourceValue(Ui.androidStyleNameSpace, attribute, -1) != -1;
+        return attrs.getAttributeValue(Ui.androidStyleNameSpace, attribute) != null;
     }
 
     /**

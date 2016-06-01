@@ -118,8 +118,9 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
                 Drawable drawable = getResources().getDrawable(R.drawable.g_button_background);
                 //noinspection deprecation
                 setBackgroundDrawable(drawable);
-            } else
+            } else {
                 setBackgroundResource(R.drawable.g_button_background);
+            }
         }
 
         // the lollipop new attrs
