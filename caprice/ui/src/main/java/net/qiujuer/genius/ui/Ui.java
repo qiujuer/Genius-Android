@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2016 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/23/2014
- * Changed 1/8/2016
- * Version 1.4.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,23 +18,16 @@
 package net.qiujuer.genius.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.PaintDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.MotionEvent;
 
 /**
  * Created by QiuJu
@@ -72,60 +62,6 @@ public class Ui {
     }
 
     /**
-     * Returns a suitable drawable for ActionBar with theme colors.
-     *
-     * @param theme selected theme
-     * @param dark  boolean for choosing dark colors or primary colors
-     * @return drawable to be used in ActionBar
-     */
-    public static Drawable getActionBarDrawable(Activity activity, int theme, boolean dark) {
-        return getActionBarDrawable(activity, theme, dark, 0);
-    }
-
-    /**
-     * Returns a suitable drawable for ActionBar with theme colors.
-     *
-     * @param theme        selected theme
-     * @param dark         boolean for choosing dark colors or primary colors
-     * @param borderBottom bottom border width
-     * @return drawable to be used in ActionBar
-     */
-    public static Drawable getActionBarDrawable(Activity activity, int theme, boolean dark, float borderBottom) {
-        int[] colors = activity.getResources().getIntArray(theme);
-
-        int color1 = colors[2];
-        int color2 = colors[1];
-
-        if (dark) {
-            color1 = colors[1];
-            color2 = colors[0];
-        }
-
-        borderBottom = dipToPx(activity, borderBottom);
-
-        PaintDrawable front = new PaintDrawable(color1);
-        PaintDrawable bottom = new PaintDrawable(color2);
-        Drawable[] d = {bottom, front};
-        LayerDrawable drawable = new LayerDrawable(d);
-        drawable.setLayerInset(1, 0, 0, 0, (int) borderBottom);
-        return drawable;
-    }
-
-
-    /**
-     * Change Dip to PX
-     *
-     * @param context Context
-     * @param dp      Dip
-     * @return PX
-     */
-    public static float dipToPx(Context context, float dp) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
-    }
-
-
-    /**
      * Change Dip to PX
      *
      * @param resources Resources
@@ -135,19 +71,6 @@ public class Ui {
     public static float dipToPx(Resources resources, float dp) {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
-    }
-
-
-    /**
-     * Change SP to PX
-     *
-     * @param context Context
-     * @param sp      SP
-     * @return PX
-     */
-    public static float spToPx(Context context, float sp) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
     }
 
     /**
@@ -280,52 +203,5 @@ public class Ui {
     public static boolean isHaveAttribute(AttributeSet attrs, String attribute) {
         return attrs.getAttributeValue(Ui.androidStyleNameSpace, attribute) != null;
     }
-
-    /**
-     * MotionEventCompat getActionMasked
-     *
-     * @param event MotionEvent
-     * @return ActionMasked
-     */
-    public static int getActionMasked(MotionEvent event) {
-        return event.getAction() & 255;
-    }
-
-
-    /**
-     * =============================================================================================
-     * Init State List Drawable and Color
-     * =============================================================================================
-     */
-
-    public static StateListDrawable createStateListDrawable(Drawable drawable[]) {
-        if (drawable == null || drawable.length < 4)
-            return null;
-        StateListDrawable states = new StateListDrawable();
-        states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, drawable[0]);
-        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[1]);
-        states.addState(new int[]{android.R.attr.state_enabled}, drawable[2]);
-        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[3]);
-        return states;
-    }
-
-    public static ColorStateList createColorStateList(int normal, int unable) {
-        int[] colors = new int[]{normal, unable};
-        int[][] states = new int[2][];
-        states[0] = new int[]{android.R.attr.state_enabled};
-        states[1] = new int[]{-android.R.attr.state_enabled};
-        return new ColorStateList(states, colors);
-    }
-
-    public static ColorStateList createColorStateList(int normal, int pressed, int unable) {
-        int[] colors = new int[]{pressed, pressed, normal, unable};
-        int[][] states = new int[4][];
-        states[0] = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
-        states[1] = new int[]{android.R.attr.state_focused, android.R.attr.state_enabled};
-        states[2] = new int[]{android.R.attr.state_enabled};
-        states[3] = new int[]{-android.R.attr.state_enabled};
-        return new ColorStateList(states, colors);
-    }
-
 
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -194,7 +195,7 @@ public class EditText extends android.widget.EditText {
             // disabled.getPaint().setAlpha(0xA0);
 
             Drawable[] drawable = new Drawable[]{pressed, focused, normal, disabled};
-            background = Ui.createStateListDrawable(drawable);
+            background = createStateListDrawable(drawable);
 
         }
 
@@ -205,6 +206,17 @@ public class EditText extends android.widget.EditText {
         else
             setBackground(background);
 
+    }
+
+    private static StateListDrawable createStateListDrawable(Drawable drawable[]) {
+        if (drawable == null || drawable.length < 4)
+            return null;
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, drawable[0]);
+        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[1]);
+        states.addState(new int[]{android.R.attr.state_enabled}, drawable[2]);
+        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[3]);
+        return states;
     }
 
     private void initHintTitleText() {

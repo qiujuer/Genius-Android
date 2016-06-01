@@ -1,10 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/15/2015
- * Changed 05/10/2016
- * Version 2.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +59,6 @@ public class CheckBox extends android.widget.CheckBox {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs, defStyleAttr, defStyleRes);
     }
-
 
     @Override
     public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
