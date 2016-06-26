@@ -22,17 +22,31 @@
 -->
 
 <resources>
+    <color name="g_default_base_primaryLight">#4dd0e1</color>
+    <color name="g_default_base_primary">#00bcd4</color>
+    <color name="g_default_base_primaryDark">#0097a7</color>
+    <color name="g_default_base_accentLight">#ffb74d</color>
+    <color name="g_default_base_accent">#ff9800</color>
+    <color name="g_default_base_accentDark">#f57c00</color>
+    <color name="g_default_base_secondaryLight">#e0e0e0</color>
+    <color name="g_default_base_secondary">#9e9e9e</color>
+    <color name="g_default_base_secondaryDark">#616161</color>
+    <color name="g_default_base_backgroundLight">#20000000</color>
+    <color name="g_default_base_background">#40000000</color>
+    <color name="g_default_base_backgroundDark">#60000000</color>
+    <color name="g_default_base_ripple">#30000000</color>
+
     <!-- SeekBar -->
-    <color name="g_default_seek_bar_ripple">@color/cyan_500</color>
-    <color name="g_default_seek_bar_indicator">@color/cyan_500</color>
+    <color name="g_default_seek_bar_ripple">@color/g_default_base_primary</color>
+    <color name="g_default_seek_bar_indicator">@color/g_default_base_primary</color>
 
     <array name="g_default_loading_fg">
-        <item>@color/cyan_500</item>
-        <item>@color/purple_500</item>
-        <item>@color/blue_500</item>
-        <item>@color/orange_500</item>
-        <item>@color/pink_500</item>
+        <item>#00bcd4</item>
+        <item>#9c27b0</item>
+        <item>#5677fc</item>
+        <item>#ff9800</item>
+        <item>#e91e63</item>
     </array>
 
-    <color name="g_default_loading_bg">@color/grey_300</color>
+    <color name="g_default_loading_bg">@color/g_default_base_background</color>
 </resources>

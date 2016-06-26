@@ -22,6 +22,7 @@ package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -34,7 +35,6 @@ import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import net.qiujuer.genius.res.Resource;
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.shape.BorderShape;
@@ -92,12 +92,13 @@ public class TextView extends android.widget.TextView {
             return;
 
         final Context context = getContext();
-        final float density = getResources().getDisplayMetrics().density;
+        final Resources resource = getResources();
+        final float density = resource.getDisplayMetrics().density;
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextView);
         int border = a.getInt(R.styleable.TextView_gBorder, -1);
         int borderSize = a.getDimensionPixelOffset(R.styleable.TextView_gBorderSize, (int) density);
-        int borderColor = a.getColor(R.styleable.TextView_gBorderColor, Resource.Color.GREY);
+        int borderColor = a.getColor(R.styleable.TextView_gBorderColor, resource.getColor(R.color.g_default_base_secondary));
         String fontFile = a.getString(R.styleable.TextView_gFont);
         a.recycle();
 

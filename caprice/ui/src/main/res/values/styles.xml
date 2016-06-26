@@ -27,14 +27,14 @@
 
     <style name="Genius.Widget.Button" parent="android:Widget.Button">
         <item name="gFont">@string/g_font_file</item>
-        <item name="gTouchColor">@color/black_alpha_48</item>
+        <item name="gTouchColor">@color/g_default_base_ripple</item>
         <item name="gTouchEffect">auto</item>
         <item name="gTouchCornerRadius">@dimen/g_button_touch_corners_radius</item>
-        <item name="android:background">@color/cyan_500</item>
+        <item name="android:background">@color/g_default_base_primary</item>
     </style>
 
     <style name="Genius.Widget.FloatActionButton" parent="">
-        <item name="gTouchColor">@color/black_alpha_48</item>
+        <item name="gTouchColor">@color/g_default_base_ripple</item>
         <item name="gBackgroundColor">@color/g_default_float_action_bg</item>
     </style>
 
@@ -112,7 +112,7 @@
     </style>
 
     <style name="Genius.Widget.ImageView" parent="">
-        <item name="gTouchColor">@color/black_alpha_48</item>
+        <item name="gTouchColor">@color/g_default_base_ripple</item>
         <item name="gTouchEffect">none</item>
         <item name="gTouchCornerRadius">@dimen/g_imageView_touch_corners_radius</item>
         <item name="android:background">@null</item>
