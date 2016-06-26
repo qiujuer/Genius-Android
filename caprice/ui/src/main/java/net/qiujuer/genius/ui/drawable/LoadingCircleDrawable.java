@@ -32,11 +32,10 @@ public class LoadingCircleDrawable extends LoadingDrawable {
     private static final int MIN_ANGLE_SWEEP = 3;
     private static final int MAX_ANGLE_SWEEP = 255;
 
-    private RectF mBackgroundOval = new RectF();
-    private RectF mForegroundOval = new RectF();
+    private RectF mOval = new RectF();
 
-    private float mStartAngle;
-    private float mSweepAngle;
+    private float mStartAngle = 0;
+    private float mSweepAngle = MIN_ANGLE_SWEEP;
     private int mAngleIncrement = 3;
 
     public LoadingCircleDrawable() {
@@ -50,18 +49,18 @@ public class LoadingCircleDrawable extends LoadingDrawable {
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
+        if (bounds.left == 0 && bounds.top == 0 && bounds.right == 0 && bounds.bottom == 0) {
+            return;
+        }
 
-        int centerX = bounds.centerX();
-        int centerY = bounds.centerY();
+        final int centerX = bounds.centerX();
+        final int centerY = bounds.centerY();
 
-        int center = Math.min(centerX, centerY);
-        int maxStrokeWidth = (int) Math.max(mForegroundPaint.getStrokeWidth(), mBackgroundPaint.getStrokeWidth());
+        final int radius = Math.min(bounds.height(), bounds.width()) >> 1;
+        final int maxStrokeRadius = ((int) Math.max(getForegroundLineSize(), getBackgroundLineSize()) + 1) >> 1;
+        final int areRadius = radius - maxStrokeRadius;
 
-        int areRadius = center - ((maxStrokeWidth) >> 1) - 1;
-        mBackgroundOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
-
-        areRadius = center - ((maxStrokeWidth) >> 1) - 1;
-        mForegroundOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
+        mOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
     }
 
     @Override
@@ -93,11 +92,11 @@ public class LoadingCircleDrawable extends LoadingDrawable {
 
     @Override
     protected void drawBackground(Canvas canvas, Paint backgroundPaint) {
-        canvas.drawArc(mBackgroundOval, 0, 360, false, backgroundPaint);
+        canvas.drawArc(mOval, 0, 360, false, backgroundPaint);
     }
 
     @Override
     protected void drawForeground(Canvas canvas, Paint foregroundPaint) {
-        canvas.drawArc(mForegroundOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
+        canvas.drawArc(mOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
     }
 }

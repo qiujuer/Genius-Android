@@ -32,8 +32,8 @@ import android.os.SystemClock;
  * The loading draw a Circle
  */
 public abstract class LoadingDrawable extends Drawable implements android.graphics.drawable.Animatable, net.qiujuer.genius.ui.drawable.Animatable {
-    protected static final int LINE_SIZE = 4;
-    protected static int MIN_SIZE = 56;
+    private static final int LINE_SIZE = 4;
+    private static int MIN_SIZE = 56;
 
     protected Paint mForegroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected Paint mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -47,18 +47,20 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     private float mProgress;
 
     public LoadingDrawable() {
-        mBackgroundPaint.setStyle(Paint.Style.STROKE);
-        mBackgroundPaint.setAntiAlias(true);
-        mBackgroundPaint.setDither(true);
-        mBackgroundPaint.setStrokeWidth(LINE_SIZE);
-        mBackgroundPaint.setColor(0x32000000);
+        final Paint bPaint = mBackgroundPaint;
+        bPaint.setStyle(Paint.Style.STROKE);
+        bPaint.setAntiAlias(true);
+        bPaint.setDither(true);
+        bPaint.setStrokeWidth(LINE_SIZE);
+        bPaint.setColor(0x32000000);
 
-        mForegroundPaint.setStyle(Paint.Style.STROKE);
-        mForegroundPaint.setAntiAlias(true);
-        mForegroundPaint.setDither(true);
-        mForegroundPaint.setStrokeWidth(LINE_SIZE);
-        mForegroundPaint.setColor(mForegroundColor[0]);
-        mForegroundPaint.setStrokeCap(Paint.Cap.ROUND);
+        final Paint fPaint = mForegroundPaint;
+        fPaint.setStyle(Paint.Style.STROKE);
+        fPaint.setAntiAlias(true);
+        fPaint.setDither(true);
+        fPaint.setStrokeWidth(LINE_SIZE);
+        fPaint.setColor(mForegroundColor[0]);
+        fPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     public LoadingDrawable(int minSize) {
@@ -82,10 +84,12 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
 
     public void setBackgroundLineSize(float size) {
         mBackgroundPaint.setStrokeWidth(size);
+        onBoundsChange(getBounds());
     }
 
     public void setForegroundLineSize(float size) {
         mForegroundPaint.setStrokeWidth(size);
+        onBoundsChange(getBounds());
     }
 
     public float getBackgroundLineSize() {
@@ -117,16 +121,19 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     }
 
     int getNextForegroundColor() {
-        if (mForegroundColor.length > 1) {
-            mForegroundColorIndex++;
-            if (mForegroundColorIndex >= mForegroundColor.length)
-                mForegroundColorIndex = 0;
+        final int[] colors = mForegroundColor;
+        final Paint fPaint = mForegroundPaint;
+        if (colors.length > 1) {
+            int index = mForegroundColorIndex + 1;
+            if (index >= colors.length)
+                index = 0;
 
-            mForegroundPaint.setColor(mForegroundColor[mForegroundColorIndex]);
+            fPaint.setColor(colors[index]);
+            mForegroundColorIndex = index;
         } else {
-            mForegroundPaint.setColor(mForegroundColor[0]);
+            fPaint.setColor(colors[0]);
         }
-        return mForegroundPaint.getColor();
+        return fPaint.getColor();
     }
 
     /**
@@ -193,11 +200,13 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
 
     @Override
     public void draw(Canvas canvas) {
-        if (mBackgroundPaint.getColor() != 0 && mBackgroundPaint.getStrokeWidth() > 0)
-            drawBackground(canvas, mBackgroundPaint);
+        final Paint bPaint = mBackgroundPaint;
+        if (bPaint.getColor() != 0 && bPaint.getStrokeWidth() > 0)
+            drawBackground(canvas, bPaint);
 
-        if ((mRun || mProgress > 0) && mBackgroundPaint.getColor() != 0 && mBackgroundPaint.getStrokeWidth() > 0)
-            drawForeground(canvas, mForegroundPaint);
+        final Paint fPaint = mForegroundPaint;
+        if ((mRun || mProgress > 0) && fPaint.getColor() != 0 && fPaint.getStrokeWidth() > 0)
+            drawForeground(canvas, fPaint);
     }
 
     @Override
@@ -208,13 +217,15 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     @Override
     public void setColorFilter(ColorFilter cf) {
         boolean needRefresh = false;
-        if (mBackgroundPaint.getColorFilter() != cf) {
-            mBackgroundPaint.setColorFilter(cf);
+        final Paint bPaint = mBackgroundPaint;
+        if (bPaint.getColorFilter() != cf) {
+            bPaint.setColorFilter(cf);
             needRefresh = true;
         }
 
-        if (mForegroundPaint.getColorFilter() != cf) {
-            mForegroundPaint.setColorFilter(cf);
+        final Paint fPaint = mForegroundPaint;
+        if (fPaint.getColorFilter() != cf) {
+            fPaint.setColorFilter(cf);
             needRefresh = true;
         }
 
@@ -224,8 +235,10 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
 
     @Override
     public int getOpacity() {
-        if (mBackgroundPaint.getXfermode() == null && mForegroundPaint.getXfermode() == null) {
-            final int alpha = Color.alpha(mForegroundPaint.getColor());
+        final Paint bPaint = mBackgroundPaint;
+        final Paint fPaint = mForegroundPaint;
+        if (bPaint.getXfermode() == null && fPaint.getXfermode() == null) {
+            final int alpha = Color.alpha(fPaint.getColor());
             if (alpha == 0) {
                 return PixelFormat.TRANSPARENT;
             }

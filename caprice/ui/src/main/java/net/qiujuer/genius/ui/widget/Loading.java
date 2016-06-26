@@ -227,14 +227,22 @@ public class Loading extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (w == h) {
-            mDrawable.setBounds(0, 0, w, h);
-        } else if (w > h) {
-            int offset = (w - h) / 2;
-            mDrawable.setBounds(offset, 0, w - offset, h);
-        } else if (w < h) {
-            int offset = (h - w) / 2;
-            mDrawable.setBounds(0, offset, w, h - offset);
+        final int paddingLeft = getPaddingLeft();
+        final int paddingTop = getPaddingTop();
+        final int paddingRight = getPaddingRight();
+        final int paddingBottom = getPaddingBottom();
+
+        int curW = w - paddingLeft - paddingRight;
+        int curH = h - paddingTop - paddingBottom;
+
+        if (curW == curH) {
+            mDrawable.setBounds(paddingLeft, paddingTop, curW + paddingLeft, curH + paddingTop);
+        } else if (curW > curH) {
+            final int left = paddingLeft + ((curW - curH) >> 1);
+            mDrawable.setBounds(left, paddingTop, curH + left, curH + paddingTop);
+        } else if (curW < curH) {
+            final int top = paddingTop + ((curH - curW) >> 1);
+            mDrawable.setBounds(paddingLeft, top, curW + paddingLeft, curW + top);
         }
     }
 
