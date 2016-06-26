@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LoadingDrawable drawable = new LoadingCircleDrawable();
         Resources resources = getResources();
 
-        drawable.setBackgroundColor(resources.getColor(R.color.g_default_loading_bg));
+        drawable.setBackgroundColor(resources.getColor(R.color.g_default_base_background));
         drawable.setForegroundColor(resources.getIntArray(R.array.g_default_loading_fg));
         drawable.setBackgroundLineSize(2);
         drawable.setForegroundLineSize(4);
