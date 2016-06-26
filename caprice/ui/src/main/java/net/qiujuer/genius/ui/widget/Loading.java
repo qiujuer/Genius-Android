@@ -82,7 +82,7 @@ public class Loading extends View {
         int bgLineSize = a.getDimensionPixelOffset(R.styleable.Loading_gBackgroundLineSize, baseSize);
         int fgLineSize = a.getDimensionPixelOffset(R.styleable.Loading_gForegroundLineSize, baseSize);
 
-        int bgColor = a.getColor(R.styleable.Loading_gBackgroundColor, resource.getColor(R.color.g_default_base_background));
+        int bgColor = a.getColor(R.styleable.Loading_gBackgroundColor, 0); // transparent color
         int fgColorId = a.getResourceId(R.styleable.Loading_gForegroundColor, R.array.g_default_loading_fg);
 
         int lineStyle = a.getInt(R.styleable.Loading_gLineStyle, 1);

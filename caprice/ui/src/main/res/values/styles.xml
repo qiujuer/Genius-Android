@@ -104,7 +104,7 @@
         <item name="gBackgroundLineSize">@dimen/g_loading_lineSize</item>
         <item name="gForegroundLineSize">@dimen/g_loading_lineSize</item>
 
-        <item name="gBackgroundColor">@color/g_default_loading_bg</item>
+        <item name="gBackgroundColor">@color/g_default_base_transparent</item>
         <item name="gForegroundColor">@array/g_default_loading_fg</item>
 
         <item name="gLineStyle">circle</item>

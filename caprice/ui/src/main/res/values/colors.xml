@@ -22,6 +22,7 @@
 -->
 
 <resources>
+    <color name="g_default_base_transparent">#00000000</color>
     <color name="g_default_base_primaryLight">#4dd0e1</color>
     <color name="g_default_base_primary">#00bcd4</color>
     <color name="g_default_base_primaryDark">#0097a7</color>
@@ -47,6 +48,4 @@
         <item>#ff9800</item>
         <item>#e91e63</item>
     </array>
-
-    <color name="g_default_loading_bg">@color/g_default_base_background</color>
 </resources>
