@@ -57,7 +57,7 @@ public class LoadingCircleDrawable extends LoadingDrawable {
         final int centerY = bounds.centerY();
 
         final int radius = Math.min(bounds.height(), bounds.width()) >> 1;
-        final int maxStrokeRadius = ((int) Math.max(getForegroundLineSize(), getBackgroundLineSize()) + 1) >> 1;
+        final int maxStrokeRadius = ((int) Math.max(getForegroundLineSize(), getBackgroundLineSize()) >> 1) + 1;
         final int areRadius = radius - maxStrokeRadius;
 
         mOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
