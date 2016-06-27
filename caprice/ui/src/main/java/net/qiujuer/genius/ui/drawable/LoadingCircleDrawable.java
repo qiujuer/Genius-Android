@@ -35,8 +35,8 @@ public class LoadingCircleDrawable extends LoadingDrawable {
     private RectF mOval = new RectF();
 
     private float mStartAngle = 0;
-    private float mSweepAngle = MIN_ANGLE_SWEEP;
-    private int mAngleIncrement = 3;
+    private float mSweepAngle = 0;
+    private int mAngleIncrement = -3;
 
     public LoadingCircleDrawable() {
         super();
