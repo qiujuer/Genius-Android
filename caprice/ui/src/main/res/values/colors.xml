@@ -32,9 +32,9 @@
     <color name="g_default_base_secondaryLight">#e0e0e0</color>
     <color name="g_default_base_secondary">#9e9e9e</color>
     <color name="g_default_base_secondaryDark">#616161</color>
-    <color name="g_default_base_backgroundLight">#20000000</color>
-    <color name="g_default_base_background">#40000000</color>
-    <color name="g_default_base_backgroundDark">#60000000</color>
+    <color name="g_default_base_backgroundLight">#e2e2e2</color>
+    <color name="g_default_base_background">#bebebe</color>
+    <color name="g_default_base_backgroundDark">#979797</color>
     <color name="g_default_base_ripple">#30000000</color>
 
     <!-- SeekBar -->
