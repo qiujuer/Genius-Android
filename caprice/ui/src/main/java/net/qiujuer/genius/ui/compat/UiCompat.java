@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 07/23/2015
- * Changed 08/08/2015
- * Version 3.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.qiujuer.genius.ui.compat;
 
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
@@ -34,7 +31,6 @@ import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
  *
  * @hide
  */
-@SuppressWarnings("UnusedDeclaration")
 public class UiCompat {
 
     /**
@@ -96,6 +92,20 @@ public class UiCompat {
     public static void setTextDirection(TextView textView, int textDirection) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             UiCompatNotCrash.setTextDirection(textView, textDirection);
+        }
+    }
+
+    /**
+     * Get resource color value
+     * @param resources Resources
+     * @param colorRes Resources color id
+     * @return color value
+     */
+    public static int getColor(Resources resources, int colorRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return resources.getColor(colorRes, null);
+        } else {
+            return resources.getColor(colorRes);
         }
     }
 }
