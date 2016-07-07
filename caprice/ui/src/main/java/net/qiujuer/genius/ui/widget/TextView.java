@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 07/23/2015
- * Changed 08/13/2015
- * Version 3.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +40,7 @@ import net.qiujuer.genius.ui.drawable.shape.BorderShape;
  * TextView this is quickly setup
  * This supper custom font and custom border
  */
+@SuppressWarnings("WeakerAccess")
 public class TextView extends android.widget.TextView {
     public final static int BORDER_LEFT = 0x0001;
     public final static int BORDER_RIGHT = 0x0010;
@@ -95,8 +93,8 @@ public class TextView extends android.widget.TextView {
         final Resources resource = getResources();
         final float density = resource.getDisplayMetrics().density;
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextView);
-        int border = a.getInt(R.styleable.TextView_gBorder, -1);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextView, defStyleAttr, defStyleRes);
+        int border = a.getInt(R.styleable.TextView_gBorder, 0);
         int borderSize = a.getDimensionPixelOffset(R.styleable.TextView_gBorderSize, (int) density);
         int borderColor = a.getColor(R.styleable.TextView_gBorderColor, resource.getColor(R.color.g_default_base_secondary));
         String fontFile = a.getString(R.styleable.TextView_gFont);
@@ -114,68 +112,49 @@ public class TextView extends android.widget.TextView {
     /**
      * In this init BorderSharp and Drawable
      */
-    private void setBorder(int border, int borderSize, int borderColor) {
-        mBorder = border;
-        mBorderSize = borderSize;
-        mBorderColor = borderColor;
-
-        if (mBorder == -1 || mBorder == 0) {
-            mBorderDrawable = null;
-        } else {
-            RectF borderRect;
-            if ((border & BORDER_ALL) == BORDER_ALL)
-                borderRect = new RectF(borderSize, borderSize, borderSize, borderSize);
-            else {
-                int l = 0, t = 0, r = 0, b = 0;
-
-                if ((border & BORDER_LEFT) == BORDER_LEFT)
-                    l = borderSize;
-                if ((border & BORDER_RIGHT) == BORDER_RIGHT)
-                    r = borderSize;
-                if ((border & BORDER_TOP) == BORDER_TOP)
-                    t = borderSize;
-                if ((border & BORDER_BOTTOM) == BORDER_BOTTOM)
-                    b = borderSize;
-
-                borderRect = new RectF(l, t, r, b);
-            }
-
-            if (mBorderDrawable == null) {
-                ShapeDrawable drawable = new ShapeDrawable(new BorderShape(borderRect));
-                Paint paint = drawable.getPaint();
-                paint.setColor(borderColor);
-                mBorderDrawable = drawable;
-            } else {
-                ShapeDrawable drawable = (ShapeDrawable) mBorderDrawable;
-                Paint paint = drawable.getPaint();
-                paint.setColor(borderColor);
-                BorderShape shape = (BorderShape) drawable.getShape();
-                shape.setBorder(borderRect);
-            }
-        }
-
-        if (isAttachedToWindow)
-            invalidate();
-    }
-
-    public void setBorder(int flag) {
-        if (mBorder != flag) {
+    public void setBorder(int flag, int size, int color) {
+        if (mBorder != flag || mBorderSize != size || mBorderColor != color) {
             mBorder = flag;
-            setBorder(mBorder, mBorderSize, mBorderColor);
-        }
-    }
-
-    public void setBorderSize(int size) {
-        if (mBorderSize != size) {
             mBorderSize = size;
-            setBorder(mBorder, mBorderSize, mBorderColor);
-        }
-    }
-
-    public void setBorderColor(int color) {
-        if (mBorderColor != color) {
             mBorderColor = color;
-            setBorder(mBorder, mBorderSize, mBorderColor);
+
+            if (flag <= 0) {
+                mBorderDrawable = null;
+            } else {
+                RectF borderRect;
+                if ((flag & BORDER_ALL) == BORDER_ALL)
+                    borderRect = new RectF(size, size, size, size);
+                else {
+                    int l = 0, t = 0, r = 0, b = 0;
+
+                    if ((flag & BORDER_LEFT) == BORDER_LEFT)
+                        l = size;
+                    if ((flag & BORDER_RIGHT) == BORDER_RIGHT)
+                        r = size;
+                    if ((flag & BORDER_TOP) == BORDER_TOP)
+                        t = size;
+                    if ((flag & BORDER_BOTTOM) == BORDER_BOTTOM)
+                        b = size;
+
+                    borderRect = new RectF(l, t, r, b);
+                }
+
+                if (mBorderDrawable == null) {
+                    ShapeDrawable drawable = new ShapeDrawable(new BorderShape(borderRect));
+                    Paint paint = drawable.getPaint();
+                    paint.setColor(color);
+                    mBorderDrawable = drawable;
+                } else {
+                    ShapeDrawable drawable = (ShapeDrawable) mBorderDrawable;
+                    Paint paint = drawable.getPaint();
+                    paint.setColor(color);
+                    BorderShape shape = (BorderShape) drawable.getShape();
+                    shape.setBorder(borderRect);
+                }
+            }
+
+            if (isAttachedToWindow)
+                invalidate();
         }
     }
 
