@@ -41,6 +41,7 @@ import android.view.ViewParent;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.AlmostRippleDrawable;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
 import net.qiujuer.genius.ui.drawable.SeekBarDrawable;
@@ -52,6 +53,7 @@ import java.util.Locale;
 /**
  * This abstract class use to SeekBar
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class AbsSeekBar extends View {
     //We want to always use a formatter so the indicator numbers are "translated" to specific locales.
     private static final String DEFAULT_FORMATTER = "%d";
@@ -132,12 +134,12 @@ public abstract class AbsSeekBar extends View {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
 
-        mRipple = new AlmostRippleDrawable(resources.getColorStateList(R.color.g_default_seek_bar_ripple));
+        mRipple = new AlmostRippleDrawable(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_ripple));
         mRipple.setCallback(this);
 
-        mSeekBarDrawable = new SeekBarDrawable(resources.getColorStateList(R.color.g_default_seek_bar_track),
-                resources.getColorStateList(R.color.g_default_seek_bar_scrubber),
-                resources.getColorStateList(R.color.g_default_seek_bar_thumb));
+        mSeekBarDrawable = new SeekBarDrawable(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_track),
+                UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_scrubber),
+                UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_thumb));
         mSeekBarDrawable.setCallback(this);
 
         // Init
@@ -151,7 +153,7 @@ public abstract class AbsSeekBar extends View {
             if (notEdit) {
                 mIndicator = new PopupIndicator(context);
                 mIndicator.setListener(mFloaterListener);
-                mIndicator.setIndicatorColor(resources.getColorStateList(R.color.g_default_seek_bar_indicator));
+                mIndicator.setIndicatorColor(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_indicator));
                 mIndicator.setIndicatorClosedSize(mSeekBarDrawable.getThumbRadius() * 2);
             }
 
