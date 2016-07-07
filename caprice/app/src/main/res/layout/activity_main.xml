@@ -45,7 +45,7 @@
                     android:gravity="center"
                     android:text="FontFile"
                     android:textColor="@color/teal_500"
-                    app:gFont="roboto_light.ttf" />
+                    app:gFont="roboto_regular.ttf" />
 
                 <net.qiujuer.genius.ui.widget.TextView
                     android:layout_width="0dp"
