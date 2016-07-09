@@ -52,7 +52,6 @@ public class TextView extends android.widget.TextView {
     private int mBorderColor;
     private int mBorderSize;
     private Drawable mBorderDrawable;
-    private boolean isAttachedToWindow;
 
     public TextView(Context context) {
         super(context);
@@ -110,8 +109,18 @@ public class TextView extends android.widget.TextView {
         }
     }
 
+
     /**
-     * In this init BorderSharp and Drawable
+     * Set the border, You can init border size, color and decision that direction contains border
+     *
+     * @param flag  use {@link #BORDER_ALL } if you need All border,
+     *              or {@link #BORDER_LEFT} the view will have Left border
+     *              of case you can use eg: {@link #BORDER_LEFT}|{@link #BORDER_BOTTOM}
+     *              the view will left and bottom border
+     *              <p>
+     *              if you not use border you need set the flag to 0
+     * @param size  set all border size, unit is px, if you use dp, plx see {@link Ui#dipToPx(Resources, float)} )}
+     * @param color set all border color
      */
     public void setBorder(int flag, int size, int color) {
         if (mBorder != flag || mBorderSize != size || mBorderColor != color) {
@@ -144,6 +153,7 @@ public class TextView extends android.widget.TextView {
                     ShapeDrawable drawable = new ShapeDrawable(new BorderShape(borderRect));
                     Paint paint = drawable.getPaint();
                     paint.setColor(color);
+                    drawable.setCallback(this);
                     mBorderDrawable = drawable;
                 } else {
                     ShapeDrawable drawable = (ShapeDrawable) mBorderDrawable;
@@ -154,28 +164,40 @@ public class TextView extends android.widget.TextView {
                 }
             }
 
-            if (isAttachedToWindow)
-                invalidate();
+            invalidate();
         }
     }
 
+    /**
+     * Get border flag, the include:
+     * {@link #BORDER_BOTTOM}
+     * {@link #BORDER_LEFT}
+     * {@link #BORDER_TOP}
+     * {@link #BORDER_RIGHT}
+     * {@link #BORDER_ALL}
+     *
+     * @return border flag
+     */
     public int getBorder() {
         return mBorder;
     }
 
+    /**
+     * Get all border color
+     *
+     * @return color value
+     */
     public int getBorderColor() {
         return mBorderColor;
     }
 
+    /**
+     * Get all border size
+     *
+     * @return px value
+     */
     public int getBorderSize() {
         return mBorderSize;
-    }
-
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        isAttachedToWindow = true;
     }
 
     @Override
