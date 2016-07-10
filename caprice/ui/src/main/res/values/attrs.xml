@@ -162,7 +162,7 @@
         <attr name="gForegroundLineSize" format="dimension" />
         <attr name="gBackgroundColor" />
         <attr name="gForegroundColor" format="reference|color" />
-        <attr name="gLineStyle">
+        <attr name="gProgressStyle">
             <enum name="circle" value="1" />
             <enum name="line" value="2" />
         </attr>

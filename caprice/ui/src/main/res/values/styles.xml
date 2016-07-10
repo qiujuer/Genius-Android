@@ -107,7 +107,7 @@
         <item name="gBackgroundColor">@color/g_default_base_transparent</item>
         <item name="gForegroundColor">@array/g_default_loading_fg</item>
 
-        <item name="gLineStyle">circle</item>
+        <item name="gProgressStyle">circle</item>
         <item name="gAutoRun">true</item>
     </style>
 
