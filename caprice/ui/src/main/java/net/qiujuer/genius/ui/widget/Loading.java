@@ -312,7 +312,7 @@ public class Loading extends View {
         if (style == STYLE_CIRCLE) {
             drawable = new LoadingCircleDrawable(getResources().getDimensionPixelOffset(R.dimen.g_loading_minSize));
         } else if (style == STYLE_LINE) {
-            drawable = new LoadingLineDrawable(getResources().getDimensionPixelOffset(R.dimen.g_loading_minSize));
+            drawable = new LoadingLineDrawable();
         }
         if (drawable == null) {
             throw new NullPointerException("LoadingDrawable is null, You can only set the STYLE_CIRCLE and STYLE_LINE parameters.");

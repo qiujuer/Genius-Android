@@ -42,8 +42,14 @@ public class LoadingLineDrawable extends LoadingDrawable {
         super();
     }
 
-    public LoadingLineDrawable(int minSize) {
-        super(minSize);
+    @Override
+    public int getIntrinsicHeight() {
+        return (int) Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
+    }
+
+    @Override
+    public int getIntrinsicWidth() {
+        return Integer.MAX_VALUE;
     }
 
     @Override

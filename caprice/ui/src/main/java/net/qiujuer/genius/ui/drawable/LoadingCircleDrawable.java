@@ -31,7 +31,9 @@ public class LoadingCircleDrawable extends LoadingDrawable {
     private static final int ANGLE_ADD = 5;
     private static final int MIN_ANGLE_SWEEP = 3;
     private static final int MAX_ANGLE_SWEEP = 255;
+    private static int MIN_SIZE = 56;
 
+    private int mMinSize = MIN_SIZE;
     private RectF mOval = new RectF();
 
     private float mStartAngle = 0;
@@ -42,8 +44,23 @@ public class LoadingCircleDrawable extends LoadingDrawable {
         super();
     }
 
-    public LoadingCircleDrawable(int minSize) {
-        super(minSize);
+    public LoadingCircleDrawable(int size) {
+        super();
+        mMinSize = size;
+    }
+
+    @Override
+    public int getIntrinsicHeight() {
+        float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
+        int size = (int) (maxLine * 2 + 10);
+        return Math.max(size, mMinSize);
+    }
+
+    @Override
+    public int getIntrinsicWidth() {
+        float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
+        int size = (int) (maxLine * 2 + 10);
+        return Math.max(size, mMinSize);
     }
 
     @Override

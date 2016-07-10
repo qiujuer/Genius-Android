@@ -31,9 +31,9 @@ import android.os.SystemClock;
  * A drawable to draw loading
  * The loading draw a Circle
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class LoadingDrawable extends Drawable implements android.graphics.drawable.Animatable, net.qiujuer.genius.ui.drawable.Animatable {
     private static final int LINE_SIZE = 4;
-    private static int MIN_SIZE = 56;
 
     protected Paint mForegroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected Paint mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -63,23 +63,16 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         fPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
-    public LoadingDrawable(int minSize) {
-        this();
-        MIN_SIZE = minSize;
-    }
-
     @Override
     public int getIntrinsicHeight() {
         float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
-        int size = (int) (maxLine * 2 + 10);
-        return Math.max(size, MIN_SIZE);
+        return (int) (maxLine * 2);
     }
 
     @Override
     public int getIntrinsicWidth() {
         float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
-        int size = (int) (maxLine * 2 + 10);
-        return Math.max(size, MIN_SIZE);
+        return (int) (maxLine * 2);
     }
 
     public void setBackgroundLineSize(float size) {
