@@ -37,6 +37,9 @@
     <color name="g_default_base_backgroundDark">#979797</color>
     <color name="g_default_base_ripple">#30000000</color>
 
+    <color name="g_default_primary">#00bcd4</color>
+    <color name="g_default_accent">#f57c00</color>
+
     <!-- SeekBar -->
     <color name="g_default_seek_bar_ripple">@color/g_default_base_primary</color>
     <color name="g_default_seek_bar_indicator">@color/g_default_base_primary</color>
