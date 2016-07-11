@@ -41,6 +41,11 @@ public class LoadingLineDrawable extends LoadingDrawable {
         super();
     }
 
+    public LoadingLineDrawable(float speed) {
+        super();
+        mSpeed = speed;
+    }
+
     @Override
     public int getIntrinsicHeight() {
         return (int) Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
@@ -48,7 +53,7 @@ public class LoadingLineDrawable extends LoadingDrawable {
 
     @Override
     public int getIntrinsicWidth() {
-        return Integer.MAX_VALUE;
+        return Short.MAX_VALUE;
     }
 
     @Override
@@ -95,38 +100,43 @@ public class LoadingLineDrawable extends LoadingDrawable {
             getNextForegroundColor();
         }
 
-        float center = (mEndX - mStartX) * mForegroundProgress;
+        final float progress = mForegroundProgress;
+        final float maxLine = mMaxForegroundLine;
+        final float centerOffset = (mEndX - mStartX) * progress;
+        float centerX = mStartX + centerOffset;
 
 
         float hrefWidth;
         if (mProgressType == 1) {
-            float width;
-            if (mForegroundProgress > 0.5f) {
-                width = mMaxForegroundLine * (1 - mForegroundProgress) * 2;
+            // in this on progress=0.5 the line have max value
+            if (progress > 0.5f) {
+                hrefWidth = maxLine * (1 - progress);
             } else {
-                width = mMaxForegroundLine * mForegroundProgress * 2;
+                hrefWidth = maxLine * progress;
             }
-
-            hrefWidth = width / 2;
         } else if (mProgressType == 2) {
-            float width = mMaxForegroundLine * mForegroundProgress;
+            // in this the line up to maxLine, then slide to the end, stick to the end until it ends.
+            float width = maxLine * progress;
             hrefWidth = width / 2;
-            if ((center + hrefWidth) > mEndX) {
-                hrefWidth = mEndX - center;
+            if ((centerX + hrefWidth) > mEndX) {
+                hrefWidth = mEndX - centerX;
             }
         } else {
-            hrefWidth = center;
-            if ((hrefWidth + hrefWidth) > mMaxForegroundLine) {
-                hrefWidth = mMaxForegroundLine / 2;
+            // in this the adhesion increases with the head until the maximum value,
+            // sliding to the end, and the end of the adhesive tail.
+            if ((centerOffset + centerOffset) > maxLine) {
+                hrefWidth = maxLine / 2;
+            } else {
+                hrefWidth = centerOffset;
             }
-
-            if ((center + hrefWidth) > mEndX) {
-                hrefWidth = mEndX - center;
+            // if > the end, we cut it
+            if ((centerX + hrefWidth) > mEndX) {
+                hrefWidth = mEndX - centerX;
             }
         }
 
-        mForegroundLeft = center - hrefWidth;
-        mForegroundRight = center + hrefWidth;
+        mForegroundLeft = centerX - hrefWidth;
+        mForegroundRight = centerX + hrefWidth;
 
     }
 

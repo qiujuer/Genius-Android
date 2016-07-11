@@ -187,6 +187,9 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
 
     @Override
     public void draw(Canvas canvas) {
+        int count = canvas.save();
+        canvas.clipRect(getBounds());
+
         final Paint bPaint = mBackgroundPaint;
         if (bPaint.getColor() != 0 && bPaint.getStrokeWidth() > 0)
             drawBackground(canvas, bPaint);
@@ -194,6 +197,8 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         final Paint fPaint = mForegroundPaint;
         if ((mRun || mProgress > 0) && fPaint.getColor() != 0 && fPaint.getStrokeWidth() > 0)
             drawForeground(canvas, fPaint);
+
+        canvas.restoreToCount(count);
     }
 
     @Override

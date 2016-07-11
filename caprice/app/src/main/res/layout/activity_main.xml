@@ -459,10 +459,9 @@
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="wrap_content"
-                    android:layout_height="8dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
-                    app:gBackgroundColor="@color/yellow_500"
                     app:gForegroundLineSize="3dp"
                     app:gProgressStyle="line" />
 
@@ -471,6 +470,7 @@
                     android:layout_height="8dp"
                     android:layout_marginLeft="@dimen/lay_4"
                     android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginTop="@dimen/font_8"
                     app:gBackgroundColor="@color/yellow_500"
                     app:gForegroundColor="@color/deep_orange_500"
                     app:gProgressFloat="0.7"
@@ -492,7 +492,8 @@
                     android:paddingBottom="@dimen/lay_4"
                     android:paddingLeft="@dimen/lay_4"
                     android:paddingRight="@dimen/lay_4"
-                    android:paddingTop="@dimen/lay_4" />
+                    android:paddingTop="@dimen/lay_4"
+                    app:gBackgroundColor="@null" />
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="32dp"
