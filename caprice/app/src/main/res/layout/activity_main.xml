@@ -455,6 +455,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/lay_4"
                 android:layout_marginTop="@dimen/lay_4"
+                android:orientation="vertical">
+
+                <net.qiujuer.genius.ui.widget.Loading
+                    android:layout_width="wrap_content"
+                    android:layout_height="8dp"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    app:gBackgroundColor="@color/yellow_500"
+                    app:gForegroundLineSize="3dp"
+                    app:gProgressStyle="line" />
+
+                <net.qiujuer.genius.ui.widget.Loading
+                    android:layout_width="wrap_content"
+                    android:layout_height="8dp"
+                    android:layout_marginLeft="@dimen/lay_4"
+                    android:layout_marginRight="@dimen/lay_4"
+                    app:gBackgroundColor="@color/yellow_500"
+                    app:gForegroundColor="@color/deep_orange_500"
+                    app:gProgressFloat="0.7"
+                    app:gProgressStyle="line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_4"
+                android:layout_marginTop="@dimen/lay_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.Loading
@@ -484,7 +511,8 @@
                     app:gAutoRun="false"
                     app:gBackgroundColor="@color/g_default_base_backgroundLight"
                     app:gBackgroundLineSize="1dp"
-                    app:gForegroundLineSize="2dp" />
+                    app:gForegroundLineSize="2dp"
+                    app:gProgressFloat="0.7" />
 
                 <net.qiujuer.genius.ui.widget.TextView
                     android:id="@+id/txt_loading"

@@ -38,13 +38,12 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     protected Paint mForegroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected Paint mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-    private long mStartTime;
     private boolean mRun;
 
     private int[] mForegroundColor = new int[]{0xcc000000, 0xfffe7865, 0xff842398};
     private int mForegroundColorIndex = 0;
 
-    private float mProgress;
+    protected float mProgress;
 
     public LoadingDrawable() {
         final Paint bPaint = mBackgroundPaint;
@@ -60,7 +59,6 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         fPaint.setDither(true);
         fPaint.setStrokeWidth(LINE_SIZE);
         fPaint.setColor(mForegroundColor[0]);
-        fPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     @Override
@@ -161,10 +159,9 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         @Override
         public void run() {
             if (mRun) {
-                long curTime = SystemClock.uptimeMillis();
-                refresh(mStartTime, curTime, ANIMATION_DURATION);
+                refresh();
                 invalidateSelf();
-                scheduleSelf(this, curTime + FRAME_DURATION);
+                scheduleSelf(this, SystemClock.uptimeMillis() + FRAME_DURATION);
             } else {
                 unscheduleSelf(this);
             }
@@ -178,8 +175,7 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     public void start() {
         if (!mRun) {
             mRun = true;
-            mStartTime = SystemClock.uptimeMillis();
-            scheduleSelf(mAnim, mStartTime + FRAME_DURATION);
+            scheduleSelf(mAnim, SystemClock.uptimeMillis() + FRAME_DURATION);
         }
     }
 
@@ -244,7 +240,7 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     }
 
 
-    protected abstract void refresh(long startTime, long curTime, long timeLong);
+    protected abstract void refresh();
 
     protected abstract void drawBackground(Canvas canvas, Paint backgroundPaint);
 

@@ -22,21 +22,22 @@ package net.qiujuer.genius.ui.drawable;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 
 /**
- * A drawable to draw loading
+ * A drawable to draw loading form Line Type
  */
 public class LoadingLineDrawable extends LoadingDrawable {
-    private static final int ANGLE_ADD = 5;
-    private static final int MIN_ANGLE_SWEEP = 3;
-    private static final int MAX_ANGLE_SWEEP = 255;
+    private float mCenterY;
+    private float mStartX;
+    private float mEndX;
 
-    private RectF mOval = new RectF();
+    private float mMaxForegroundLine = 400;
+    private float mForegroundLeft;
+    private float mForegroundRight;
+    private float mForegroundProgress;
 
-    private float mStartAngle = 0;
-    private float mSweepAngle = 0;
-    private int mAngleIncrement = -3;
+    private float mSpeed = 0.008f;
+    private int mProgressType = 1;
 
     public LoadingLineDrawable() {
         super();
@@ -59,50 +60,85 @@ public class LoadingLineDrawable extends LoadingDrawable {
             return;
         }
 
-        final int centerX = bounds.centerX();
-        final int centerY = bounds.centerY();
+        mStartX = bounds.left;
+        mEndX = bounds.right;
 
-        final int radius = Math.min(bounds.height(), bounds.width()) >> 1;
-        final int maxStrokeRadius = ((int) Math.max(getForegroundLineSize(), getBackgroundLineSize()) >> 1) + 1;
-        final int areRadius = radius - maxStrokeRadius;
+        mCenterY = bounds.centerY();
 
-        mOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
+        mMaxForegroundLine = (mEndX - mStartX) * 0.5f;
+
+        // in this we update the progress
+        if (mProgress != 0) {
+            onProgressChange(mProgress);
+        }
+    }
+
+    @Override
+    int getNextForegroundColor() {
+        mProgressType++;
+        if (mProgressType > 3)
+            mProgressType = 1;
+        return super.getNextForegroundColor();
     }
 
     @Override
     protected void onProgressChange(float progress) {
-        mStartAngle = 0;
-        mSweepAngle = 360 * progress;
+        mForegroundLeft = mStartX;
+        mForegroundRight = mStartX + ((mEndX - mStartX) * progress);
     }
 
+
     @Override
-    protected void refresh(long startTime, long curTime, long timeLong) {
-        final float angle = ANGLE_ADD;
-        mStartAngle += angle;
+    protected void refresh() {
+        mForegroundProgress = mForegroundProgress + mSpeed;
 
-        if (mStartAngle > 360) {
-            mStartAngle -= 360;
-        }
-
-        if (mSweepAngle > MAX_ANGLE_SWEEP) {
-            mAngleIncrement = -mAngleIncrement;
-        } else if (mSweepAngle < MIN_ANGLE_SWEEP) {
-            mSweepAngle = MIN_ANGLE_SWEEP;
-            return;
-        } else if (mSweepAngle == MIN_ANGLE_SWEEP) {
-            mAngleIncrement = -mAngleIncrement;
+        if (mForegroundProgress > 1) {
+            mForegroundProgress = mForegroundProgress - 1;
             getNextForegroundColor();
         }
-        mSweepAngle += mAngleIncrement;
+
+        float center = (mEndX - mStartX) * mForegroundProgress;
+
+
+        float hrefWidth;
+        if (mProgressType == 1) {
+            float width;
+            if (mForegroundProgress > 0.5f) {
+                width = mMaxForegroundLine * (1 - mForegroundProgress) * 2;
+            } else {
+                width = mMaxForegroundLine * mForegroundProgress * 2;
+            }
+
+            hrefWidth = width / 2;
+        } else if (mProgressType == 2) {
+            float width = mMaxForegroundLine * mForegroundProgress;
+            hrefWidth = width / 2;
+            if ((center + hrefWidth) > mEndX) {
+                hrefWidth = mEndX - center;
+            }
+        } else {
+            hrefWidth = center;
+            if ((hrefWidth + hrefWidth) > mMaxForegroundLine) {
+                hrefWidth = mMaxForegroundLine / 2;
+            }
+
+            if ((center + hrefWidth) > mEndX) {
+                hrefWidth = mEndX - center;
+            }
+        }
+
+        mForegroundLeft = center - hrefWidth;
+        mForegroundRight = center + hrefWidth;
+
     }
 
     @Override
     protected void drawBackground(Canvas canvas, Paint backgroundPaint) {
-        canvas.drawArc(mOval, 0, 360, false, backgroundPaint);
+        canvas.drawLine(mStartX, mCenterY, mEndX, mCenterY, backgroundPaint);
     }
 
     @Override
     protected void drawForeground(Canvas canvas, Paint foregroundPaint) {
-        canvas.drawArc(mOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
+        canvas.drawLine(mForegroundLeft, mCenterY, mForegroundRight, mCenterY, foregroundPaint);
     }
 }

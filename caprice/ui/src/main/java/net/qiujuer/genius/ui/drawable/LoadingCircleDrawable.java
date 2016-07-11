@@ -25,7 +25,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 /**
- * A drawable to draw loading
+ * A drawable to draw loading form Circle Type
  */
 public class LoadingCircleDrawable extends LoadingDrawable {
     private static final int ANGLE_ADD = 5;
@@ -42,6 +42,7 @@ public class LoadingCircleDrawable extends LoadingDrawable {
 
     public LoadingCircleDrawable() {
         super();
+        mForegroundPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     public LoadingCircleDrawable(int size) {
@@ -87,7 +88,7 @@ public class LoadingCircleDrawable extends LoadingDrawable {
     }
 
     @Override
-    protected void refresh(long startTime, long curTime, long timeLong) {
+    protected void refresh() {
         final float angle = ANGLE_ADD;
         mStartAngle += angle;
 

@@ -365,6 +365,7 @@ public class Loading extends View {
         final int paddingRight = getPaddingRight();
         final int paddingBottom = getPaddingBottom();
 
+        /*
         int curW = w - paddingLeft - paddingRight;
         int curH = h - paddingTop - paddingBottom;
 
@@ -377,6 +378,8 @@ public class Loading extends View {
             final int top = paddingTop + ((curH - curW) >> 1);
             mLoadingDrawable.setBounds(paddingLeft, top, curW + paddingLeft, curW + top);
         }
+        */
+        mLoadingDrawable.setBounds(paddingLeft, paddingTop, w - paddingRight, h - paddingBottom);
     }
 
     @Override
