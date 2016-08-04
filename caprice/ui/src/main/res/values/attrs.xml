@@ -46,6 +46,12 @@
         <enum name="press" value="3" />
         <enum name="ripple" value="4" />
     </attr>
+    <attr name="gInterceptEvent">
+        <flag name="all" value="0x0011" />
+        <flag name="none" value="0x0000" />
+        <flag name="click" value="0x0001" />
+        <flag name="longClick" value="0x0010" />
+    </attr>
 
     <!-- TextView -->
     <attr name="gTextViewStyle" format="reference" />
@@ -81,6 +87,7 @@
         <attr name="gTouchCornerRadiusBL" />
         <attr name="gTouchCornerRadiusBR" />
         <attr name="gTouchDurationRate" />
+        <attr name="gInterceptEvent" />
     </declare-styleable>
 
     <!-- BalloonMarker -->

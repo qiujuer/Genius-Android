@@ -1,10 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/15/2015
- * Changed 05/10/2016
- * Version 2.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +43,7 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * Include 'Auto' 'Ease' 'Press' 'Ripple' effect to touch
  * And supper custom font
  */
+@SuppressWarnings("WeakerAccess")
 public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
     private TouchEffectDrawable mTouchDrawable;
     private int mTouchColor;
