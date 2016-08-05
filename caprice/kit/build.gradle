@@ -39,9 +39,9 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
 
-    compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta6'
-    compile 'net.qiujuer.genius:kit-handler:2.0.0-beta6'
-    compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta6'
+    compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta8'
+    compile 'net.qiujuer.genius:kit-handler:2.0.0-beta8'
+    compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta8'
 
     //compile project(':kit-cmd')
     //compile project(':kit-handler')
