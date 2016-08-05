@@ -220,6 +220,13 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     @Override
+    public void draw(Canvas canvas) {
+        // In this, we check the animation state before call draw
+        if (isRunning())
+            super.draw(canvas);
+    }
+
+    @Override
     public void draw(Canvas canvas, Paint paint) {
         final Rect r = getBounds();
         final TouchEffectState state = mState;
