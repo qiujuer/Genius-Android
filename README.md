@@ -37,18 +37,20 @@
 ```groovy
 dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.0-beta7'
-  compile 'net.qiujuer.genius:res:2.0.0-beta6'
+  compile 'net.qiujuer.genius:ui:2.0.0-beta8'
+  compile 'net.qiujuer.genius:res:2.0.0-beta8'
   
   // blur module
   compile 'net.qiujuer.genius:blur:2.0.0'
+  // or use new
+  compile 'net.qiujuer.genius:graphics:2.0.0-beta8'
   
   // kit module
-  compile 'net.qiujuer.genius:kit:2.0.0-beta6'
+  compile 'net.qiujuer.genius:kit:2.0.0-beta8'
   // or
-  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta6'
-  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta6'
-  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta6'
+  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta8'
+  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta8'
+  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta8'
 }
 ```
 
