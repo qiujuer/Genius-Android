@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 08/04/2015
- * Changed 12/15/2015
- * Version 3.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +41,7 @@ import android.view.ViewParent;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.AlmostRippleDrawable;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
 import net.qiujuer.genius.ui.drawable.SeekBarDrawable;
@@ -55,6 +53,7 @@ import java.util.Locale;
 /**
  * This abstract class use to SeekBar
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class AbsSeekBar extends View {
     //We want to always use a formatter so the indicator numbers are "translated" to specific locales.
     private static final String DEFAULT_FORMATTER = "%d";
@@ -135,12 +134,12 @@ public abstract class AbsSeekBar extends View {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
 
-        mRipple = new AlmostRippleDrawable(resources.getColorStateList(R.color.g_default_seek_bar_ripple));
+        mRipple = new AlmostRippleDrawable(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_ripple));
         mRipple.setCallback(this);
 
-        mSeekBarDrawable = new SeekBarDrawable(resources.getColorStateList(R.color.g_default_seek_bar_track),
-                resources.getColorStateList(R.color.g_default_seek_bar_scrubber),
-                resources.getColorStateList(R.color.g_default_seek_bar_thumb));
+        mSeekBarDrawable = new SeekBarDrawable(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_track),
+                UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_scrubber),
+                UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_thumb));
         mSeekBarDrawable.setCallback(this);
 
         // Init
@@ -154,7 +153,7 @@ public abstract class AbsSeekBar extends View {
             if (notEdit) {
                 mIndicator = new PopupIndicator(context);
                 mIndicator.setListener(mFloaterListener);
-                mIndicator.setIndicatorColor(resources.getColorStateList(R.color.g_default_seek_bar_indicator));
+                mIndicator.setIndicatorColor(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_indicator));
                 mIndicator.setIndicatorClosedSize(mSeekBarDrawable.getThumbRadius() * 2);
             }
 
@@ -540,7 +539,7 @@ public abstract class AbsSeekBar extends View {
         if (!isEnabled()) {
             return false;
         }
-        int actionMasked = Ui.getActionMasked(event);
+        int actionMasked = event.getActionMasked();
         switch (actionMasked) {
             case MotionEvent.ACTION_DOWN:
                 mDownX = event.getX();

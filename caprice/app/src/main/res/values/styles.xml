@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/cyan_500</item>
+        <item name="colorPrimaryDark">@color/cyan_700</item>
+        <item name="colorAccent">@color/cyan_500</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- In this custom widget style -->
+        <item name="gTextViewStyle">@style/Genius.Widget.TextView</item>
+        <item name="gButtonStyle">@style/Genius.Widget.Button</item>
+        <item name="gFloatActionButtonStyle">@style/Genius.Widget.FloatActionButton</item>
+        <item name="gSeekBarStyle">@style/Genius.Widget.SeekBar</item>
+        <item name="gCheckBoxStyle">@style/Genius.Widget.CompoundButton.CheckBox</item>
+        <item name="gEditTextStyle">@style/Genius.Widget.EditText</item>
+        <item name="gLoadingStyle">@style/Genius.Widget.Loading</item>
+        
+        <!-- Toolbar styles -->
+        <item name="toolbarStyle">@style/ToolBarStyle</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+</resources>
