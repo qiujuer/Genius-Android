@@ -310,7 +310,9 @@ public class Loading extends View {
     public void setProgressStyle(int style) {
         LoadingDrawable drawable = null;
         if (style == STYLE_CIRCLE) {
-            drawable = new LoadingCircleDrawable(getResources().getDimensionPixelOffset(R.dimen.g_loading_minSize));
+            Resources resources = getResources();
+            drawable = new LoadingCircleDrawable(resources.getDimensionPixelOffset(R.dimen.g_loading_minSize),
+                    resources.getDimensionPixelOffset(R.dimen.g_loading_maxSize));
         } else if (style == STYLE_LINE) {
             drawable = new LoadingLineDrawable();
         }
