@@ -157,9 +157,8 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         @Override
         public void run() {
             if (mRun) {
-                refresh();
+                onRefresh();
                 invalidateSelf();
-                scheduleSelf(this, SystemClock.uptimeMillis() + FRAME_DURATION);
             } else {
                 unscheduleSelf(this);
             }
@@ -188,22 +187,28 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     @Override
     public void draw(Canvas canvas) {
         int count = canvas.save();
-        canvas.clipRect(getBounds());
 
         final Paint bPaint = mBackgroundPaint;
         if (bPaint.getColor() != 0 && bPaint.getStrokeWidth() > 0)
             drawBackground(canvas, bPaint);
 
         final Paint fPaint = mForegroundPaint;
-        if ((mRun || mProgress > 0) && fPaint.getColor() != 0 && fPaint.getStrokeWidth() > 0)
-            drawForeground(canvas, fPaint);
+        if (mRun) {
+            if (fPaint.getColor() != 0 && fPaint.getStrokeWidth() > 0)
+                drawForeground(canvas, fPaint);
+            // invalidate next call in this
+            scheduleSelf(mAnim, SystemClock.uptimeMillis() + FRAME_DURATION);
+        } else if (mProgress > 0) {
+            if (fPaint.getColor() != 0 && fPaint.getStrokeWidth() > 0)
+                drawForeground(canvas, fPaint);
+        }
 
         canvas.restoreToCount(count);
     }
 
     @Override
     public void setAlpha(int alpha) {
-
+        mForegroundPaint.setAlpha(alpha);
     }
 
     @Override
@@ -243,7 +248,7 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     }
 
 
-    protected abstract void refresh();
+    protected abstract void onRefresh();
 
     protected abstract void drawBackground(Canvas canvas, Paint backgroundPaint);
 

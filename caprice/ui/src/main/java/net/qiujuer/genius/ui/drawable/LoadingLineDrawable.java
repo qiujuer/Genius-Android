@@ -92,7 +92,7 @@ public class LoadingLineDrawable extends LoadingDrawable {
 
 
     @Override
-    protected void refresh() {
+    protected void onRefresh() {
         mForegroundProgress = mForegroundProgress + mSpeed;
 
         if (mForegroundProgress > 1) {
