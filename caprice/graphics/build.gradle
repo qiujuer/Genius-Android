@@ -27,6 +27,13 @@ android {
         versionCode VERSION_CODE as int
         versionName VERSION_NAME
 
+        externalNativeBuild {
+            cmake {
+                cppFlags "-DANDROID_NDK -D_RELEASE"
+            }
+        }
+
+        /*
         ndk{
             moduleName "genius_graphics"
             cFlags "-DANDROID_NDK -D_RELEASE"
@@ -34,11 +41,17 @@ android {
             abiFilters "all"
             //stl "stlport_shared"
         }
+        */
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
         }
     }
 }
