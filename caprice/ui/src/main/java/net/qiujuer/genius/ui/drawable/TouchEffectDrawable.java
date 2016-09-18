@@ -300,7 +300,8 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
                 mState.mPadding = new Rect();
             }
             try {
-                mState.mEffect = mState.mEffect.clone();
+                if (mState.mEffect != null)
+                    mState.mEffect = mState.mEffect.clone();
             } catch (CloneNotSupportedException e) {
                 return null;
             }
@@ -525,12 +526,38 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         return mExitAnimate.mDuration;
     }
 
+    /**
+     * Set the touch animation duration.
+     * This setting about enter animation.
+     * <p/>
+     * Default:
+     * EnterDuration: 280ms
+     * FactorRate: 1.0
+     * <p/>
+     * This set will calculation: factor * duration
+     * This factor need > 0
+     *
+     * @param factor Touch duration rate
+     */
     public void setEnterDuration(float factor) {
         if (factor > 0) {
             mEnterAnimate.mDuration = (int) (factor * ANIM_ENTER_DURATION);
         }
     }
 
+    /**
+     * Set the touch animation duration.
+     * This setting about exit animation.
+     * <p/>
+     * Default:
+     * ExitDuration: 160ms
+     * FactorRate: 1.0
+     * <p/>
+     * This set will calculation: factor * duration
+     * This factor need > 0
+     *
+     * @param factor Touch duration rate
+     */
     public void setExitDuration(float factor) {
         if (factor > 0) {
             mExitAnimate.mDuration = (int) (factor * ANIM_EXIT_DURATION);
@@ -823,11 +850,13 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     };
 
     protected void onEnterAnimateUpdate(float factor) {
-        mState.mEffect.animationEnter(factor);
+        if (mState.mEffect != null)
+            mState.mEffect.animationEnter(factor);
     }
 
     protected void onExitAnimateUpdate(float factor) {
-        mState.mEffect.animationExit(factor);
+        if (mState.mEffect != null)
+            mState.mEffect.animationExit(factor);
     }
 
     protected void onEnterAnimateEnd() {
