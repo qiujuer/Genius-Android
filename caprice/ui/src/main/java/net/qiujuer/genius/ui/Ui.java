@@ -178,8 +178,9 @@ public class Ui {
      */
     public static int[] getColorsFromArrayRes(Resources resources, int resId) {
         try {
-            @SuppressLint("Recycle") TypedArray array = resources.obtainTypedArray(resId);
-            if (array != null && array.length() > 0) {
+            @SuppressLint("Recycle")
+            TypedArray array = resources.obtainTypedArray(resId);
+            if (array.length() > 0) {
                 final int len = array.length();
                 final int[] colors = new int[len];
                 for (int i = 0; i < len; i++) {
