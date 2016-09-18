@@ -49,12 +49,11 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     private int mTouchColor;
 
     public Button(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public Button(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(attrs, R.attr.gButtonStyle, R.style.Genius_Widget_Button);
+        this(context, attrs, R.attr.gButtonStyle);
     }
 
     public Button(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -150,6 +149,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
             }
         }
     }
+
 
     @Override
     public void setLayerType(int layerType, Paint paint) {

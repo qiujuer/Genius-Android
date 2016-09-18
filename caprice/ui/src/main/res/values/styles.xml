@@ -24,13 +24,7 @@
         <item name="gFont">@string/g_font_file</item>
     </style>
 
-    <style name="Genius.Widget.Button" parent="android:Widget.Button">
-        <item name="gFont">@string/g_font_file</item>
-        <item name="gTouchColor">@color/g_default_base_ripple</item>
-        <item name="gTouchEffect">auto</item>
-        <item name="gTouchCornerRadius">@dimen/g_button_touch_corners_radius</item>
-        <item name="android:background">@color/g_default_base_primary</item>
-    </style>
+    <style name="Genius.Widget.Button" parent="Genius.Widget.Button.Base" />
 
     <style name="Genius.Widget.FloatActionButton" parent="">
         <item name="gTouchColor">@color/g_default_base_ripple</item>
