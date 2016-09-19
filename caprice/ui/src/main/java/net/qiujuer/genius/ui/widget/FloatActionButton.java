@@ -1,10 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/15/2015
- * Changed 05/10/2016
- * Version 2.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,21 +43,22 @@ import android.widget.ImageView;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
 import net.qiujuer.genius.ui.drawable.effect.FloatEffect;
 
+@SuppressWarnings("unused")
 public class FloatActionButton extends ImageView implements TouchEffectDrawable.PerformClicker {
     private int mShadowRadius;
     private TouchEffectDrawable mTouchDrawable;
     private ColorStateList mBackgroundColor;
 
     public FloatActionButton(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public FloatActionButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(attrs, R.attr.gFloatActionButtonStyle, R.style.Genius_Widget_FloatActionButton);
+        this(context, attrs, R.attr.gFloatActionButtonStyle);
     }
 
     public FloatActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -86,7 +84,6 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         info.setClassName(FloatActionButton.class.getName());
     }
 
-
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         if (attrs == null)
             return;
@@ -104,20 +101,13 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         a.recycle();
 
         // Enable
-        boolean enable = Ui.isTrueFromAttribute(attrs, "enabled", true);
+        boolean enable = Ui.getBoolFormAttribute(context, attrs, android.R.attr.enabled,
+                defStyleAttr, defStyleRes, true);
         setEnabled(enable);
 
         // BackgroundColor
         if (bgColor == null) {
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    bgColor = resource.getColorStateList(R.color.g_default_float_action_bg, null);
-                } else {
-                    //noinspection deprecation
-                    bgColor = resource.getColorStateList(R.color.g_default_float_action_bg);
-                }
-            } catch (Resources.NotFoundException ignored) {
-            }
+            bgColor = UiCompat.getColorStateList(resource, R.color.g_default_float_action_bg);
         }
 
         // Background drawable
@@ -153,12 +143,11 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
                     Math.max(padding, getPaddingRight()),
                     Math.max(padding, getPaddingBottom()));
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            setBackground(background);
-        } else {
-            //noinspection deprecation
-            setBackgroundDrawable(background);
-        }
+
+        // The background initial before setBackgroundColor
+        UiCompat.setBackground(this, background);
+
+        // Set the background color
         setBackgroundColor(bgColor);
 
         // TouchDrawable
@@ -201,7 +190,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
      * @param colorRes Id of a color resource.
      */
     public void setBackgroundColorRes(int colorRes) {
-        setBackgroundColor(getResources().getColor(colorRes));
+        setBackgroundColor(UiCompat.getColor(getResources(), colorRes));
     }
 
     @Override
@@ -212,8 +201,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     }
 
     public void setPressColor(int color) {
-        mTouchDrawable.getPaint().setColor(color);
-        invalidate();
+        mTouchDrawable.setColor(color);
     }
 
     @Override
@@ -249,6 +237,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     protected boolean verifyDrawable(Drawable who) {
         Drawable drawable = mTouchDrawable;
@@ -321,7 +310,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
 
 
-        public OvalShadowShape(int shadowRadius) {
+        OvalShadowShape(int shadowRadius) {
             super();
             mShadowPaint = new Paint();
             mShadowRadius = shadowRadius;
@@ -350,6 +339,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
             canvas.drawCircle(mCenterX, mCenterY, mRadius - mShadowRadius, paint);
         }
 
+        @SuppressWarnings("NullableProblems")
         @Override
         public void getOutline(Outline outline) {
             final RectF rect = rect();

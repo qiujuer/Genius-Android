@@ -143,6 +143,44 @@ public class Ui {
     }
 
     /**
+     * Retrieve styled attribute information in this Context's theme.  See
+     * {@link android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int)}
+     * for more information.
+     *
+     * @param context      Context
+     * @param attrs        The base set of attribute values.  May be null.
+     * @param attr         The desired attributes to be retrieved.
+     * @param defStyleAttr An attribute in the current theme that contains a
+     *                     reference to a style resource that supplies
+     *                     defaults values for the TypedArray.  Can be
+     *                     0 to not look for defaults.
+     * @param defStyleRes  A resource identifier of a style resource that
+     *                     supplies default values for the TypedArray,
+     *                     used only if defStyleAttr is 0 or can not be found
+     *                     in the theme.  Can be 0 to not look for defaults.
+     * @param defaultValue Value to return if the attribute is not defined or
+     *                     cannot be coerced to an integer.
+     * @return Returns a TypedArray holding an array of the attribute values.
+     * @see android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int)
+     */
+    @SuppressWarnings("ResourceType")
+    public static boolean getBoolFormAttribute(Context context,
+                                               AttributeSet attrs,
+                                               int attr,
+                                               int defStyleAttr,
+                                               int defStyleRes,
+                                               boolean defaultValue) {
+        int[] attrsArray = new int[]{attr};
+        TypedArray ta = context.obtainStyledAttributes(attrs, attrsArray, defStyleAttr, defStyleRes);
+        boolean ret = defaultValue;
+        if (ta.length() > 0) {
+            ret = ta.getBoolean(0, ret);
+        }
+        ta.recycle();
+        return ret;
+    }
+
+    /**
      * Get Background color if the attr is color value
      *
      * @param context Context
