@@ -52,6 +52,7 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchCornerRadiusBL Attributes}
  * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchCornerRadiusBR Attributes}
  * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchDurationRate Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_android_enabled Attributes}
  */
 public class ImageView extends android.widget.ImageView implements TouchEffectDrawable.PerformClicker {
     private TouchEffectDrawable mTouchDrawable;
@@ -107,11 +108,9 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
         int touchRadiusTR = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusTR, touchRadius);
         int touchRadiusBL = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusBL, touchRadius);
         int touchRadiusBR = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusBR, touchRadius);
-        float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
-                touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
-        ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
         float touchDurationRate = a.getFloat(R.styleable.ImageView_gTouchDurationRate, 1.0f);
-
+        boolean enabled = a.getBoolean(R.styleable.ImageView_android_enabled,
+                touchEffect != EffectFactory.TOUCH_EFFECT_NONE);
         a.recycle();
 
 
@@ -124,10 +123,16 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
             touchEffectDrawable.setExitDuration(touchDurationRate);
             // Check for IDE preview render to set Touch factory
             if (!this.isInEditMode()) {
+                float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
+                        touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
+                ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
                 touchEffectDrawable.setClipFactory(touchFactory);
             }
             setTouchDrawable(touchEffectDrawable);
         }
+
+        // Change enabled
+        setEnabled(enabled);
     }
 
     /**
