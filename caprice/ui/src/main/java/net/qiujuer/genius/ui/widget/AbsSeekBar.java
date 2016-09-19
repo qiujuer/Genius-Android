@@ -254,7 +254,8 @@ public abstract class AbsSeekBar extends View {
         }
 
         // Enabled
-        setEnabled(Ui.isTrueFromAttribute(attrs, "enabled", isEnabled()));
+        setEnabled(Ui.getBoolFormAttribute(context, attrs, android.R.attr.enabled,
+                defStyleAttr, defStyleRes, isEnabled()));
     }
 
     public void setTrackStroke(int trackStroke) {
