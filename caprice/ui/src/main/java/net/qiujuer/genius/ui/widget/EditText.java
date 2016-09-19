@@ -46,6 +46,7 @@ import android.view.animation.Interpolator;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.shape.BorderShape;
 
 /**
@@ -200,11 +201,7 @@ public class EditText extends android.widget.EditText {
         }
 
         // Set Background
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            //noinspection deprecation
-            setBackgroundDrawable(background);
-        else
-            setBackground(background);
+        UiCompat.setBackground(this, background);
 
     }
 
