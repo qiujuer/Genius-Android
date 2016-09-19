@@ -118,7 +118,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
 
         a.recycle();
 
-        // SetTouch
+        // Initial  TouchEffectDrawable
         if (touchEffect != 0) {
             TouchEffectDrawable touchEffectDrawable = new TouchEffectDrawable();
             touchEffectDrawable.setColor(touchColor);
