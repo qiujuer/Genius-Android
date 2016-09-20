@@ -23,15 +23,12 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -47,6 +44,15 @@ import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
 import net.qiujuer.genius.ui.drawable.effect.FloatEffect;
 
+/**
+ * This is touch effect FloatActionButton
+ * The button extend see{@link ImageView} widget
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_gBackgroundColor Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_gTouchColor Attributes}
+ */
 @SuppressWarnings("unused")
 public class FloatActionButton extends ImageView implements TouchEffectDrawable.PerformClicker {
     private int mShadowRadius;
@@ -90,6 +96,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
 
         final Context context = getContext();
         final Resources resource = getResources();
+        final float density = resource.getDisplayMetrics().density;
 
         // Load attributes
         final TypedArray a = context.obtainStyledAttributes(
@@ -97,13 +104,16 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
 
         ColorStateList bgColor = a.getColorStateList(R.styleable.FloatActionButton_gBackgroundColor);
         int touchColor = a.getColor(R.styleable.FloatActionButton_gTouchColor, Ui.TOUCH_PRESS_COLOR);
-
+        boolean enabled = a.getBoolean(R.styleable.FloatActionButton_android_enabled, true);
+        int shadowColor = a.getInt(R.styleable.FloatActionButton_shadowColor, 0xFF000000);
+        float shadowDx = a.getDimension(R.styleable.FloatActionButton_shadowDx, density * Ui.X_OFFSET);
+        float shadowDy = a.getDimension(R.styleable.FloatActionButton_shadowDy, density * Ui.Y_OFFSET);
+        float shadowR = a.getDimension(R.styleable.FloatActionButton_shadowRadius, (density * Ui.SHADOW_RADIUS));
+        int shadowAlpha = a.getInt(R.styleable.FloatActionButton_shadowAlpha, 0x20);
         a.recycle();
 
-        // Enable
-        boolean enable = Ui.getBoolFormAttribute(context, attrs, android.R.attr.enabled,
-                defStyleAttr, defStyleRes, true);
-        setEnabled(enable);
+        // Enabled
+        setEnabled(enabled);
 
         // BackgroundColor
         if (bgColor == null) {
@@ -111,37 +121,20 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
 
         // Background drawable
-        final float density = resource.getDisplayMetrics().density;
-        final int shadowYOffset = (int) (density * Ui.Y_OFFSET);
-        final int shadowXOffset = (int) (density * Ui.X_OFFSET);
-        final int maxShadowOffset = Math.max(shadowXOffset, shadowYOffset);
+        final float maxShadowOffset = Math.max(shadowDx, shadowDy);
 
-        mShadowRadius = (int) (density * Ui.SHADOW_RADIUS);
+        mShadowRadius = (int) (shadowR + 0.5);
         mShadowRadius += maxShadowOffset;
 
-        ShapeDrawable background;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            background = new ShapeDrawable(new OvalShape());
-            //ViewCompat.setElevation(this, Ui.SHADOW_ELEVATION * density);
-            setElevation(Ui.SHADOW_ELEVATION * density);
-        } else {
-            Shape oval =
-                    new OvalShadowShape(mShadowRadius);
-            background = new ShapeDrawable(oval);
+        ShapeDrawable background = new ShapeDrawable(new OvalShadowShape(mShadowRadius,
+                Ui.changeColorAlpha(shadowColor, 0x70)));
 
-            // We want set this LayerType type on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-            setLayerType(LAYER_TYPE_SOFTWARE, background.getPaint());
+        // Background paint
+        Paint paint = background.getPaint();
 
-            if (!isInEditMode()) {
-                background.getPaint().setShadowLayer(mShadowRadius - maxShadowOffset, shadowXOffset, shadowYOffset,
-                        Ui.KEY_SHADOW_COLOR);
-            }
-            final int padding = mShadowRadius;
-            // set padding so the inner image sits correctly within the shadow.
-            setPadding(Math.max(padding, getPaddingLeft()),
-                    Math.max(padding, getPaddingTop()),
-                    Math.max(padding, getPaddingRight()),
-                    Math.max(padding, getPaddingBottom()));
+        if (!isInEditMode()) {
+            paint.setShadowLayer(mShadowRadius - maxShadowOffset, shadowDx, shadowDy,
+                    Ui.changeColorAlpha(shadowColor, shadowAlpha));
         }
 
         // The background initial before setBackgroundColor
@@ -153,6 +146,16 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         // TouchDrawable
         mTouchDrawable = new TouchEffectDrawable(new FloatEffect(), ColorStateList.valueOf(touchColor));
         mTouchDrawable.setCallback(this);
+
+        // We want set this LayerType type on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+        setLayerType(LAYER_TYPE_SOFTWARE, paint);
+
+        final int padding = mShadowRadius;
+        // set padding so the inner image sits correctly within the shadow.
+        setPadding(Math.max(padding, getPaddingLeft()),
+                Math.max(padding, getPaddingTop()),
+                Math.max(padding, getPaddingRight()),
+                Math.max(padding, getPaddingBottom()));
     }
 
     @Override
@@ -196,7 +199,10 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     @Override
     public void setBackgroundColor(int color) {
         if (getBackground() instanceof ShapeDrawable) {
-            ((ShapeDrawable) getBackground()).getPaint().setColor(color);
+            // set any fill 255 alpha color
+            ((ShapeDrawable) getBackground())
+                    .getPaint()
+                    .setColor(Ui.changeColorAlpha(color, 0xFF));
         }
     }
 
@@ -218,11 +224,8 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        // None lollipop we should set the setMeasuredDimension include shadow length
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            setMeasuredDimension(getMeasuredWidth() + mShadowRadius * 2, getMeasuredHeight()
-                    + mShadowRadius * 2);
-        }
+        setMeasuredDimension(getMeasuredWidth() + mShadowRadius * 2, getMeasuredHeight()
+                + mShadowRadius * 2);
     }
 
     @Override
@@ -230,10 +233,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         super.onSizeChanged(w, h, oldw, oldh);
         Drawable drawable = mTouchDrawable;
         if (drawable != null) {
-            if (Ui.SUPPER_LOLLIPOP)
-                drawable.setBounds(0, 0, getWidth(), getHeight());
-            else
-                drawable.setBounds(mShadowRadius, mShadowRadius, getWidth() - mShadowRadius, getHeight() - mShadowRadius);
+            drawable.setBounds(mShadowRadius, mShadowRadius, getWidth() - mShadowRadius, getHeight() - mShadowRadius);
         }
     }
 
@@ -300,6 +300,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         private float mCenterY;
         private float mRadius;
         private int mShadowRadius;
+        private int mFillColor;
         private RectF mRect = new RectF();
 
         /**
@@ -310,10 +311,14 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
 
 
-        OvalShadowShape(int shadowRadius) {
+        OvalShadowShape(int shadowRadius, int fillColor) {
             super();
-            mShadowPaint = new Paint();
             mShadowRadius = shadowRadius;
+            mFillColor = fillColor;
+            mShadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            mShadowPaint.setStyle(Paint.Style.FILL);
+            mShadowPaint.setAntiAlias(true);
+            mShadowPaint.setDither(true);
         }
 
         @Override
@@ -327,8 +332,8 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
             mRadius = Math.min(mCenterX, mCenterY);
 
             RadialGradient radialGradient = new RadialGradient(mCenterX, mCenterY,
-                    mShadowRadius, new int[]{Ui.FILL_SHADOW_COLOR, Color.TRANSPARENT},
-                    null, Shader.TileMode.CLAMP);
+                    mRadius, new int[]{mFillColor, 0x00ffffff},
+                    new float[]{0.65f, 1}, Shader.TileMode.CLAMP);
             mShadowPaint.setShader(radialGradient);
 
         }
@@ -337,16 +342,6 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         public void draw(Canvas canvas, Paint paint) {
             canvas.drawCircle(mCenterX, mCenterY, mRadius, mShadowPaint);
             canvas.drawCircle(mCenterX, mCenterY, mRadius - mShadowRadius, paint);
-        }
-
-        @SuppressWarnings("NullableProblems")
-        @Override
-        public void getOutline(Outline outline) {
-            final RectF rect = rect();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                outline.setOval((int) Math.ceil(rect.left), (int) Math.ceil(rect.top),
-                        (int) Math.floor(rect.right), (int) Math.floor(rect.bottom));
-            }
         }
     }
 }

@@ -74,10 +74,11 @@
         <attr name="gBackgroundColor" />
         <attr name="gTouchColor" />
         <attr name="android:enabled" />
-        <attr name="android:shadowRadius" />
-        <attr name="android:shadowDy" />
-        <attr name="android:shadowDx" />
-        <attr name="android:shadowColor" />
+        <attr name="shadowRadius" format="dimension" />
+        <attr name="shadowDy" format="dimension" />
+        <attr name="shadowDx" format="dimension" />
+        <attr name="shadowColor" format="color" />
+        <attr name="shadowAlpha" format="integer" />
     </declare-styleable>
 
     <!-- Button -->
