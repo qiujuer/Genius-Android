@@ -20,13 +20,16 @@
 
         <activity
             android:name=".BlurActivity"
-            android:label="@string/title_activity_blur" />
+            android:label="@string/title_activity_blur"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".KitActivity"
-            android:label="@string/title_activity_kit" />
+            android:label="@string/title_activity_kit"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SeekBarActivity"
-            android:label="@string/title_activity_seek" />
+            android:label="@string/title_activity_seek"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
