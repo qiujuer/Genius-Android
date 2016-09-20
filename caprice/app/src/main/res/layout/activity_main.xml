@@ -90,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/lay_4"
                 android:layout_marginRight="@dimen/lay_4"
+
                 android:text="Base"
                 android:textColor="@color/grey_500"
                 android:textSize="@dimen/size_14" />
@@ -546,7 +547,8 @@
         android:padding="@dimen/lay_16"
         android:src="@drawable/m_ic_add"
         app:gBackgroundColor="@color/cyan_500"
-        app:gTouchColor="@color/black_alpha_64"
+        app:gTouchColor="@color/black_alpha_48"
+        app:shadowColor="@color/black"
         tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>
