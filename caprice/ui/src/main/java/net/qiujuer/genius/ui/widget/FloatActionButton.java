@@ -206,7 +206,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
     }
 
-    public void setPressColor(int color) {
+    public void setTouchColor(int color) {
         mTouchDrawable.setColor(color);
     }
 
