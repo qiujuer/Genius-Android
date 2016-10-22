@@ -27,7 +27,7 @@ import java.util.Arrays;
  * The class be used to delegate {@link ParameterizedType#getActualTypeArguments()} method,
  * Returned by call {@link #getActualTypeArguments()}.
  */
-class ParameterizeTypeActualArgsDelegate implements ParameterizedType,
+final class ParameterizeTypeActualArgsDelegate implements ParameterizedType,
         Serializable {
     private static final long serialVersionUID = 246138727267926807L;
     private ParameterizedType delegateType;
