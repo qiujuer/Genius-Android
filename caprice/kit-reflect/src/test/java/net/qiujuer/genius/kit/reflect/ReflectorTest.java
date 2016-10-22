@@ -19,6 +19,7 @@ package net.qiujuer.genius.kit.reflect;
 
 import org.junit.Test;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -39,10 +40,10 @@ public class ReflectorTest {
     private static abstract class BaseGeneric<T, V> {
     }
 
-    private static abstract class ChildOne<T> extends BaseGeneric<T, UserBean> {
+    private static abstract class ChildOne<U, T> extends BaseGeneric<T, U> {
     }
 
-    private static abstract class ChildTwo<M> extends ChildOne<ResultBean<M>> {
+    private static abstract class ChildTwo<M> extends ChildOne<UserBean, ResultBean<M>> {
     }
 
     @Test
@@ -54,7 +55,7 @@ public class ReflectorTest {
         assertEquals(true, types.length == 2);
         assertEquals(true, types[0] instanceof ParameterizeTypeActualArgsDelegate);
 
-        ParameterizeTypeActualArgsDelegate delegate = ((ParameterizeTypeActualArgsDelegate) types[0]);
+        ParameterizedType delegate = ((ParameterizedType) types[0]);
 
         assertEquals(ResultBean.class, delegate.getRawType());
         assertEquals(true, delegate.getActualTypeArguments().length == 1);
