@@ -23,8 +23,19 @@ allprojects {
     }
 }
 
+def int getVersionCode() {
+    def date = new Date()
+    def formattedDate = date.format('yyMMddHHmm')
+    return formattedDate as int
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    versionCode = getVersionCode()
+    versionName = VERSION_NAME
 }
 
 apply plugin: 'android-reporting'
