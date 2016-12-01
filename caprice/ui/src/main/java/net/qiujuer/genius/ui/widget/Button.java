@@ -56,7 +56,7 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchCornerRadiusBR Attributes}
  * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchDurationRate Attributes}
  */
-public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
+public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker, TouchEffectDrawable.PerformLongClicker {
     private TouchEffectDrawable mTouchDrawable;
 
     public Button(Context context) {
@@ -116,6 +116,9 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
         float touchDurationRate = a.getFloat(R.styleable.Button_gTouchDurationRate, 1.0f);
 
+        // Load intercept event type, the default is intercept click event
+        int interceptEvent = a.getInt(R.styleable.Button_gInterceptEvent, 0x0001);
+
         a.recycle();
 
         // Initial  TouchEffectDrawable
@@ -125,6 +128,7 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
             touchEffectDrawable.setEffect(EffectFactory.creator(touchEffect));
             touchEffectDrawable.setEnterDuration(touchDurationRate);
             touchEffectDrawable.setExitDuration(touchDurationRate);
+            touchEffectDrawable.setInterceptEvent(interceptEvent);
             // Check for IDE preview render to set Touch factory
             if (!this.isInEditMode()) {
                 touchEffectDrawable.setClipFactory(touchFactory);
@@ -207,29 +211,6 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         return (drawable != null && who == drawable) || super.verifyDrawable(who);
     }
 
-    @Override
-    public boolean performClick() {
-        final TouchEffectDrawable d = mTouchDrawable;
-
-        if (d != null) {
-            return d.performClick(this) && super.performClick();
-        } else
-            return super.performClick();
-    }
-
-    @Override
-    public void postPerformClick() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                performClick();
-            }
-        };
-
-        if (!this.post(runnable)) {
-            performClick();
-        }
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -257,7 +238,50 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     }
 
     @Override
+    public boolean performClick() {
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performClick(this) && super.performClick();
+        } else
+            return super.performClick();
+    }
+
+    @Override
     public boolean performLongClick() {
-        return super.performLongClick();
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performLongClick(this) && super.performLongClick();
+        } else
+            return super.performLongClick();
+    }
+
+    @Override
+    public void postPerformClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performClick();
+        }
+    }
+
+    @Override
+    public void postPerformLongClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performLongClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performLongClick();
+        }
     }
 }
