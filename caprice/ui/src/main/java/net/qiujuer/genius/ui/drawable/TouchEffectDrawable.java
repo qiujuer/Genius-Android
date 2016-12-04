@@ -850,7 +850,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             long startTime = SystemClock.uptimeMillis() + delay;
 
             // Progress added unit
-            mInc = (FRAME_DURATION / (float) mDuration) * mAnimSpeed;
+            reckonIncremental();
             mProgress = 0;
             // notify run
             scheduleSelf(this, startTime);
@@ -872,7 +872,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
             // check time
             mProgress += mInc;
-
             if (mProgress < 1) {
                 final float interpolation = mInterpolator.getInterpolation(mProgress);
                 // Notify
@@ -882,6 +881,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
                 // Next
                 final long currentTime = SystemClock.uptimeMillis();
                 scheduleSelf(this, currentTime + FRAME_DURATION);
+
             } else {
                 mDone = true;
                 unscheduleSelf(this);
@@ -902,7 +902,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         void init() {
             // init config
             mDuration = ANIM_ENTER_DURATION;
-            mInterpolator = new DecelerateInterpolator(2.6f);
+            mInterpolator = new DecelerateInterpolator(2.4f);
         }
 
         @Override
