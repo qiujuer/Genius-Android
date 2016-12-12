@@ -30,7 +30,6 @@ import android.util.Log;
 import android.util.TypedValue;
 
 /**
- * Created by QiuJu
  * This is Genius UI Center
  */
 @SuppressWarnings({"WeakerAccess", "unused"})

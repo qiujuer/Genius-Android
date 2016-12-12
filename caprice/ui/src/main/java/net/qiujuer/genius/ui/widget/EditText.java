@@ -52,6 +52,18 @@ import net.qiujuer.genius.ui.drawable.shape.BorderShape;
 /**
  * EditText
  * This have a title from hint
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#EditText_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitle Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingBottom Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingLeft Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingRight Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingTop Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitleTextSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gLineColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gLineSize Attributes}
  */
 @SuppressWarnings("unused")
 public class EditText extends android.widget.EditText {

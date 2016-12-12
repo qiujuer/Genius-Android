@@ -52,9 +52,18 @@ import net.qiujuer.genius.ui.drawable.effect.FloatEffect;
  * <p>
  * See {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_gBackgroundColor Attributes},
  * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_gTouchColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_android_enabled Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_shadowColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_shadowDx Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_shadowDy Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_shadowRadius Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_shadowAlpha Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_gInterceptEvent Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#FloatActionButton_gTouchDurationRate Attributes}
  */
 @SuppressWarnings("unused")
-public class FloatActionButton extends ImageView implements TouchEffectDrawable.PerformClicker {
+public class FloatActionButton extends ImageView implements TouchEffectDrawable.PerformClicker,
+        TouchEffectDrawable.PerformLongClicker {
     private int mShadowRadius;
     private TouchEffectDrawable mTouchDrawable;
     private ColorStateList mBackgroundColor;
@@ -110,6 +119,9 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         float shadowDy = a.getDimension(R.styleable.FloatActionButton_shadowDy, density * Ui.Y_OFFSET);
         float shadowR = a.getDimension(R.styleable.FloatActionButton_shadowRadius, (density * Ui.SHADOW_RADIUS));
         int shadowAlpha = a.getInt(R.styleable.FloatActionButton_shadowAlpha, 0x20);
+        float touchDurationRate = a.getFloat(R.styleable.ImageView_gTouchDurationRate, 1.0f);
+        // Load intercept event type, the default is intercept click event
+        int interceptEvent = a.getInt(R.styleable.FloatActionButton_gInterceptEvent, 0x0001);
         a.recycle();
 
         // Enabled
@@ -146,6 +158,9 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         // TouchDrawable
         mTouchDrawable = new TouchEffectDrawable(new FloatEffect(), ColorStateList.valueOf(touchColor));
         mTouchDrawable.setCallback(this);
+        mTouchDrawable.setInterceptEvent(interceptEvent);
+        mTouchDrawable.setEnterDuration(touchDurationRate);
+        mTouchDrawable.setExitDuration(touchDurationRate);
 
         // We want set this LayerType type on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
         setLayerType(LAYER_TYPE_SOFTWARE, paint);
@@ -246,16 +261,6 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
 
 
     @Override
-    public boolean performClick() {
-        final TouchEffectDrawable d = mTouchDrawable;
-
-        if (d != null) {
-            return d.performClick(this) && super.performClick();
-        } else
-            return super.performClick();
-    }
-
-    @Override
     public boolean onTouchEvent(MotionEvent event) {
         //return super.onTouchEvent(event);
         final boolean ret = super.onTouchEvent(event);
@@ -281,6 +286,26 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
     }
 
     @Override
+    public boolean performClick() {
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performClick(this) && super.performClick();
+        } else
+            return super.performClick();
+    }
+
+    @Override
+    public boolean performLongClick() {
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performLongClick(this) && super.performLongClick();
+        } else
+            return super.performLongClick();
+    }
+
+    @Override
     public void postPerformClick() {
         Runnable runnable = new Runnable() {
             @Override
@@ -294,6 +319,34 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         }
     }
 
+    @Override
+    public void postPerformLongClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performLongClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performLongClick();
+        }
+    }
+
+    /**
+     * Get the TouchEffect drawable,
+     * you can set parameters in this
+     *
+     * @return See {@link TouchEffectDrawable}
+     */
+    @SuppressWarnings("unused")
+    public TouchEffectDrawable getTouchDrawable() {
+        return mTouchDrawable;
+    }
+
+    /**
+     * This extends {@link Shape} to apply Shadow
+     */
     private static class OvalShadowShape extends Shape {
         private Paint mShadowPaint;
         private float mCenterX;

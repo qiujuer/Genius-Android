@@ -53,8 +53,10 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchCornerRadiusBR Attributes}
  * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchDurationRate Attributes}
  * {@link net.qiujuer.genius.ui.R.styleable#ImageView_android_enabled Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gInterceptEvent Attributes}
  */
-public class ImageView extends android.widget.ImageView implements TouchEffectDrawable.PerformClicker {
+public class ImageView extends android.widget.ImageView implements TouchEffectDrawable.PerformClicker,
+        TouchEffectDrawable.PerformLongClicker {
     private TouchEffectDrawable mTouchDrawable;
 
     public ImageView(Context context) {
@@ -111,6 +113,8 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
         float touchDurationRate = a.getFloat(R.styleable.ImageView_gTouchDurationRate, 1.0f);
         boolean enabled = a.getBoolean(R.styleable.ImageView_android_enabled,
                 touchEffect != EffectFactory.TOUCH_EFFECT_NONE);
+        // Load intercept event type, the default is intercept click event
+        int interceptEvent = a.getInt(R.styleable.ImageView_gInterceptEvent, 0x0001);
         a.recycle();
 
 
@@ -121,6 +125,7 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
             touchEffectDrawable.setEffect(EffectFactory.creator(touchEffect));
             touchEffectDrawable.setEnterDuration(touchDurationRate);
             touchEffectDrawable.setExitDuration(touchDurationRate);
+            touchEffectDrawable.setInterceptEvent(interceptEvent);
             // Check for IDE preview render to set Touch factory
             if (!this.isInEditMode()) {
                 float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
@@ -201,29 +206,6 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
         return (drawable != null && who == drawable) || super.verifyDrawable(who);
     }
 
-    @Override
-    public boolean performClick() {
-        final TouchEffectDrawable d = mTouchDrawable;
-
-        if (d != null) {
-            return d.performClick(this) && super.performClick();
-        } else
-            return super.performClick();
-    }
-
-    @Override
-    public void postPerformClick() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                performClick();
-            }
-        };
-
-        if (!this.post(runnable)) {
-            performClick();
-        }
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -247,6 +229,54 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
         final TouchEffectDrawable d = mTouchDrawable;
         if (d != null) {
             d.draw(canvas);
+        }
+    }
+
+    @Override
+    public boolean performClick() {
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performClick(this) && super.performClick();
+        } else
+            return super.performClick();
+    }
+
+    @Override
+    public boolean performLongClick() {
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performLongClick(this) && super.performLongClick();
+        } else
+            return super.performLongClick();
+    }
+
+    @Override
+    public void postPerformClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performClick();
+        }
+    }
+
+    @Override
+    public void postPerformLongClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performLongClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performLongClick();
         }
     }
 }

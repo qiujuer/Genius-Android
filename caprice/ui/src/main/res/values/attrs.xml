@@ -79,6 +79,8 @@
         <attr name="shadowDx" format="dimension" />
         <attr name="shadowColor" format="color" />
         <attr name="shadowAlpha" format="integer" />
+        <attr name="gTouchDurationRate" />
+        <attr name="gInterceptEvent" />
     </declare-styleable>
 
     <!-- Button -->
@@ -195,5 +197,6 @@
         <attr name="gTouchCornerRadiusBR" />
         <attr name="gTouchDurationRate" />
         <attr name="android:enabled" />
+        <attr name="gInterceptEvent" />
     </declare-styleable>
 </resources>

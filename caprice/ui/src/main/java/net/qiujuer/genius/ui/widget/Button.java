@@ -55,8 +55,10 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchCornerRadiusBL Attributes}
  * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchCornerRadiusBR Attributes}
  * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchDurationRate Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gInterceptEvent Attributes}
  */
-public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker, TouchEffectDrawable.PerformLongClicker {
+public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker,
+        TouchEffectDrawable.PerformLongClicker {
     private TouchEffectDrawable mTouchDrawable;
 
     public Button(Context context) {

@@ -40,6 +40,13 @@ import net.qiujuer.genius.ui.drawable.shape.BorderShape;
 /**
  * TextView this is quickly setup
  * This supper custom font and custom border
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#TextView_gBorder Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#TextView_gBorderColor Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#TextView_gBorderSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#TextView_gFont Attributes}
  */
 @SuppressWarnings("WeakerAccess")
 public class TextView extends android.widget.TextView {

@@ -35,7 +35,18 @@ import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 import net.qiujuer.genius.ui.drawable.LoadingLineDrawable;
 
 /**
- * This is android loading view
+ * This is android loading view,
+ * You can use it to show progress bar.
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#Loading_gAutoRun Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gBackgroundColor Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gBackgroundLineSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gForegroundColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gForegroundLineSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gProgressFloat Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gProgressStyle Attributes}
  */
 @SuppressWarnings("WeakerAccess")
 public class Loading extends View {
