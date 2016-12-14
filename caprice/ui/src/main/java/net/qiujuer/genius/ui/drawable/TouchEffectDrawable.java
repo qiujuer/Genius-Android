@@ -244,7 +244,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     @Override
     public void draw(Canvas canvas) {
         // In this, we check the animation state before call draw
-        if (isRunning())
+        if (isRealRunning)
             super.draw(canvas);
     }
 
@@ -272,8 +272,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             onDraw(state.mEffect, canvas, paint);
             // Restore
             canvas.restoreToCount(count);
-        } else {
-            canvas.drawRect(r, paint);
         }
     }
 
