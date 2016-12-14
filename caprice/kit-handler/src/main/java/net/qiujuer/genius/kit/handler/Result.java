@@ -20,7 +20,7 @@ package net.qiujuer.genius.kit.handler;
 import net.qiujuer.genius.kit.handler.runable.Action;
 
 /**
- * This is {@link Run#onBackgroundAsync(Action)} and {@link Run#onUiAsync(Action)} (Action)} result class
+ * This is {@link Run#onBackground(Action)} and {@link Run#onUiAsync(Action)} (Action)} result class
  * In this you can check done and cancel the asynchronous task
  */
 
