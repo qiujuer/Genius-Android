@@ -237,7 +237,8 @@
                     app:gTouchColor="#7000bcd4"
                     app:gTouchCornerRadius="@dimen/lay_12"
                     app:gTouchDurationRate="3"
-                    app:gTouchEffect="ripple" />
+                    app:gTouchEffect="ripple"
+                    app:gInterceptEvent="all"/>
             </LinearLayout>
 
 
