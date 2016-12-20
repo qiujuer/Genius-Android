@@ -13,34 +13,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/lay_32"
-            android:paddingLeft="@dimen/lay_12"
-            android:paddingRight="@dimen/lay_12"
-            android:paddingTop="@dimen/size_56">
+            android:paddingBottom="@dimen/len_32"
+            android:paddingLeft="@dimen/len_12"
+            android:paddingRight="@dimen/len_12"
+            android:paddingTop="@dimen/len_56">
 
             <net.qiujuer.genius.ui.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_16"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_16"
                 android:text="TextView"
                 android:textAllCaps="true"
                 android:textColor="@color/purple_500"
-                android:textSize="@dimen/size_16" />
+                android:textSize="@dimen/len_16" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="FontFile"
@@ -50,8 +50,8 @@
                 <net.qiujuer.genius.ui.widget.TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Border All"
@@ -62,8 +62,8 @@
                 <net.qiujuer.genius.ui.widget.TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Border TB"
@@ -77,36 +77,36 @@
             <net.qiujuer.genius.ui.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_16"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_16"
                 android:text="Button"
                 android:textAllCaps="true"
                 android:textColor="@color/purple_500"
-                android:textSize="@dimen/size_16" />
+                android:textSize="@dimen/len_16" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
 
                 android:text="Base"
                 android:textColor="@color/grey_500"
-                android:textSize="@dimen/size_14" />
+                android:textSize="@dimen/len_14" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.Button
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:text="Ease"
                     android:textColor="@color/white_alpha_224"
@@ -114,9 +114,9 @@
 
                 <net.qiujuer.genius.ui.widget.Button
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:text="Ripple"
                     android:textColor="@color/white_alpha_224"
@@ -126,15 +126,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.Button
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:text="Press"
                     android:textColor="@color/white_alpha_224"
@@ -142,9 +142,9 @@
 
                 <net.qiujuer.genius.ui.widget.Button
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:text="Auto"
                     android:textColor="@color/white_alpha_224"
@@ -155,87 +155,87 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
                 android:text="Radius"
                 android:textColor="@color/grey_500"
-                android:textSize="@dimen/size_14" />
+                android:textSize="@dimen/len_14" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.Button
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:background="@drawable/m_button_background"
                     android:text="All 12DP"
                     android:textColor="@color/white_alpha_224"
-                    app:gTouchCornerRadius="@dimen/lay_12"
+                    app:gTouchCornerRadius="@dimen/len_12"
                     app:gTouchEffect="ease" />
 
                 <net.qiujuer.genius.ui.widget.Button
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:background="@drawable/m_button_background"
                     android:text="TL BR 32DP"
                     android:textColor="@color/white_alpha_224"
-                    app:gTouchCornerRadiusBL="@dimen/lay_12"
-                    app:gTouchCornerRadiusBR="@dimen/lay_32"
-                    app:gTouchCornerRadiusTL="@dimen/lay_32"
-                    app:gTouchCornerRadiusTR="@dimen/lay_12"
+                    app:gTouchCornerRadiusBL="@dimen/len_12"
+                    app:gTouchCornerRadiusBR="@dimen/len_32"
+                    app:gTouchCornerRadiusTL="@dimen/len_32"
+                    app:gTouchCornerRadiusTR="@dimen/len_12"
                     app:gTouchEffect="ease" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
                 android:text="Trans"
                 android:textColor="@color/grey_500"
-                android:textSize="@dimen/size_14" />
+                android:textSize="@dimen/len_14" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.Button
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:background="@color/trans"
                     android:text="Cancel"
-                    app:gTouchCornerRadius="@dimen/lay_12"
+                    app:gTouchCornerRadius="@dimen/len_12"
                     app:gTouchDurationRate="0.7"
                     app:gTouchEffect="ripple" />
 
                 <net.qiujuer.genius.ui.widget.Button
                     android:id="@+id/btn"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:background="@null"
                     android:text="Submit"
                     android:textColor="@color/cyan_700"
                     app:gTouchColor="#7000bcd4"
-                    app:gTouchCornerRadius="@dimen/lay_12"
+                    app:gTouchCornerRadius="@dimen/len_12"
                     app:gTouchDurationRate="3"
                     app:gTouchEffect="ripple"
                     app:gInterceptEvent="all"/>
@@ -245,26 +245,26 @@
             <net.qiujuer.genius.ui.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_16"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_16"
                 android:text="SeekBar"
                 android:textAllCaps="true"
                 android:textColor="@color/purple_500"
-                android:textSize="@dimen/size_16" />
+                android:textSize="@dimen/len_16" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.SeekBar
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:enabled="false"
                     android:focusable="true"
@@ -272,9 +272,9 @@
 
                 <net.qiujuer.genius.ui.widget.SeekBar
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/size_52"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_height="@dimen/len_52"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     app:gValue="30" />
             </LinearLayout>
@@ -282,10 +282,10 @@
             <net.qiujuer.genius.ui.widget.SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 app:gIndicator="none"
                 app:gMax="10"
                 app:gMin="0"
@@ -295,10 +295,10 @@
             <net.qiujuer.genius.ui.widget.SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 app:gAllowTrackClickToDrag="true"
                 app:gIndicator="auto"
                 app:gIndicatorBackgroundColor="@color/m_seek_bar_indicator_bg"
@@ -322,27 +322,27 @@
             <net.qiujuer.genius.ui.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_16"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_16"
                 android:text="CheckBox"
                 android:textAllCaps="true"
                 android:textColor="@color/purple_500"
-                android:textSize="@dimen/size_16" />
+                android:textSize="@dimen/len_16" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.CheckBox
                     android:id="@+id/checkbox_none_a"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:background="@null"
                     android:text="UnChecked"
@@ -352,8 +352,8 @@
                     android:id="@+id/checkbox_none_b"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:background="@null"
                     android:checked="true"
@@ -365,16 +365,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.CheckBox
                     android:id="@+id/checkbox_custom_a"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:background="@null"
                     android:checked="true"
@@ -388,8 +388,8 @@
                     android:id="@+id/checkbox_custom_b"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_weight="1"
                     android:background="@null"
                     android:checked="false"
@@ -401,32 +401,32 @@
             <net.qiujuer.genius.ui.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_16"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_16"
                 android:text="EditView"
                 android:textAllCaps="true"
                 android:textColor="@color/purple_500"
-                android:textSize="@dimen/size_16" />
+                android:textSize="@dimen/len_16" />
 
 
             <net.qiujuer.genius.ui.widget.EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:hint="Default"
                 android:textColor="@color/grey_700" />
 
             <net.qiujuer.genius.ui.widget.EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:gravity="right"
                 android:hint="Right"
                 android:inputType="textPassword"
@@ -444,34 +444,34 @@
             <net.qiujuer.genius.ui.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/lay_4"
-                android:layout_marginRight="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_16"
+                android:layout_marginLeft="@dimen/len_4"
+                android:layout_marginRight="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_16"
                 android:text="Loading"
                 android:textAllCaps="true"
                 android:textColor="@color/purple_500"
-                android:textSize="@dimen/size_16" />
+                android:textSize="@dimen/len_16" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="vertical">
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     app:gForegroundLineSize="3dp"
                     app:gProgressStyle="line" />
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="wrap_content"
                     android:layout_height="8dp"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:layout_marginTop="@dimen/font_8"
                     app:gBackgroundColor="@color/yellow_500"
                     app:gForegroundColor="@color/deep_orange_500"
@@ -482,26 +482,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/lay_4"
-                android:layout_marginTop="@dimen/lay_4"
+                android:layout_marginBottom="@dimen/len_4"
+                android:layout_marginTop="@dimen/len_4"
                 android:orientation="horizontal">
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
-                    android:paddingBottom="@dimen/lay_4"
-                    android:paddingLeft="@dimen/lay_4"
-                    android:paddingRight="@dimen/lay_4"
-                    android:paddingTop="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
+                    android:paddingBottom="@dimen/len_4"
+                    android:paddingLeft="@dimen/len_4"
+                    android:paddingRight="@dimen/len_4"
+                    android:paddingTop="@dimen/len_4"
                     app:gBackgroundColor="@null" />
 
                 <net.qiujuer.genius.ui.widget.Loading
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     app:gBackgroundColor="@color/yellow_500"
                     app:gForegroundColor="@color/deep_orange_500" />
 
@@ -509,8 +509,8 @@
                     android:id="@+id/loading_progress"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     app:gAutoRun="false"
                     app:gBackgroundColor="@color/g_default_base_backgroundLight"
                     app:gBackgroundLineSize="1dp"
@@ -521,8 +521,8 @@
                     android:id="@+id/txt_loading"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="@dimen/lay_4"
-                    android:layout_marginRight="@dimen/lay_4"
+                    android:layout_marginLeft="@dimen/len_4"
+                    android:layout_marginRight="@dimen/len_4"
                     android:gravity="center"
                     android:padding="0dp"
                     android:text="32" />
@@ -535,17 +535,17 @@
         style="@style/ToolBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/lay_8" />
+        android:paddingBottom="@dimen/len_8" />
 
     <net.qiujuer.genius.ui.widget.FloatActionButton
         android:id="@+id/action_add"
-        android:layout_width="@dimen/size_56"
-        android:layout_height="@dimen/size_56"
+        android:layout_width="@dimen/len_56"
+        android:layout_height="@dimen/len_56"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/lay_16"
-        android:layout_marginRight="@dimen/lay_16"
-        android:padding="@dimen/lay_16"
+        android:layout_marginBottom="@dimen/len_16"
+        android:layout_marginRight="@dimen/len_16"
+        android:padding="@dimen/len_16"
         android:src="@drawable/m_ic_add"
         app:gBackgroundColor="@color/cyan_500"
         app:gTouchColor="@color/black_alpha_48"

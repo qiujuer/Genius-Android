@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2017 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Author qiujuer
  *
@@ -19,6 +19,7 @@
 #include <android/log.h>
 #include <android/bitmap.h>
 #include "stackblur.h"
+#include "clipblur.h"
 
 #define TAG "net.qiujuer.genius.graphics.Blur"
 #define LOG_D(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__)
@@ -94,5 +95,45 @@ Java_net_qiujuer_genius_graphics_Blur_nativeStackBlurBitmap(JNIEnv *env, jclass 
 
     // Unlocks everything
     AndroidBitmap_unlockPixels(env, bitmap);
+}
 
+JNIEXPORT void JNICALL
+Java_net_qiujuer_genius_graphics_Blur_nativeStackBlurBitmapClip(JNIEnv *env, jclass type,
+                                                                jobject bitmap, jint r,
+                                                                jint parts) {
+    AndroidBitmapInfo infoIn;
+    void *pixels;
+
+    // Get bitmap info
+    if (AndroidBitmap_getInfo(env, bitmap, &infoIn) != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOG_D("AndroidBitmap_getInfo failed!");
+        return;
+    }
+
+    // Check bitmap
+    if (infoIn.format != ANDROID_BITMAP_FORMAT_RGBA_8888 &&
+        infoIn.format != ANDROID_BITMAP_FORMAT_RGB_565) {
+        LOG_D("Only support ANDROID_BITMAP_FORMAT_RGBA_8888 and ANDROID_BITMAP_FORMAT_RGB_565");
+        return;
+    }
+
+    // Lock the bitmap
+    if (AndroidBitmap_lockPixels(env, bitmap, &pixels) != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOG_D("AndroidBitmap_lockPixels failed!");
+        return;
+    }
+
+    // Size
+    int h = infoIn.height;
+    int w = infoIn.width;
+
+    // Blur by default
+    if (infoIn.format == ANDROID_BITMAP_FORMAT_RGBA_8888) {
+        pixels = clip_blur_ARGB_8888((int *) pixels, w, h, r, parts);
+    } else if (infoIn.format == ANDROID_BITMAP_FORMAT_RGB_565) {
+        pixels = clip_blur_RGB_565((short *) pixels, w, h, r, parts);
+    }
+
+    // Unlocks everything
+    AndroidBitmap_unlockPixels(env, bitmap);
 }

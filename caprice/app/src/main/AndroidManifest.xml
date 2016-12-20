@@ -17,7 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".BlurActivity"
             android:label="@string/title_activity_blur"
@@ -30,6 +29,9 @@
             android:name=".SeekBarActivity"
             android:label="@string/title_activity_seek"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".BlurClipActivity"
+            android:theme="@style/AppTheme.FullScreen" />
     </application>
 
 </manifest>

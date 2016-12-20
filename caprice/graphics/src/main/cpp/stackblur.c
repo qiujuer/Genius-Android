@@ -1,10 +1,11 @@
 /*************************************************
-Copyright:  Copyright QIUJUER 2016.
+Copyright:  Copyright QIUJUER 2015-2017.
 Author:		QiuJuer
 CreateDate:		2015-04-28
-ChangeDate: 	2016-05-29
+ChangeDate: 	2016-12-19
 Description:Realize image blurred images blurred
 **************************************************/
+#include "stackblur.h"
 #include <malloc.h>
 
 #define ABS(a) ((a)<(0)?(-a):(a))
@@ -12,7 +13,7 @@ Description:Realize image blurred images blurred
 #define MIN(a, b) ((a)<(b)?(a):(b))
 
 /*************************************************
-Function:		StackBlur
+Function:		blur_ARGB_8888
 Description:    Using stack way blurred image pixels
 Calls:          malloc
 Table Accessed: NULL
@@ -28,26 +29,29 @@ int *blur_ARGB_8888(int *pix, int w, int h, int radius) {
     int wh = w * h;
     int div = radius + radius + 1;
 
-    short *r = (short *) malloc(wh * sizeof(short));
-    short *g = (short *) malloc(wh * sizeof(short));
-    short *b = (short *) malloc(wh * sizeof(short));
+    size_t sizeOfShort = sizeof(short);
+    size_t sizeOfInt = sizeof(int);
+
+    short *r = (short *) malloc(wh * sizeOfShort);
+    short *g = (short *) malloc(wh * sizeOfShort);
+    short *b = (short *) malloc(wh * sizeOfShort);
     int rsum, gsum, bsum, x, y, i, p, yp, yi, yw;
 
-    int *vmin = (int *) malloc(MAX(w, h) * sizeof(int));
+    int *vmin = (int *) malloc(MAX(w, h) * sizeOfInt);
 
     int divsum = (div + 1) >> 1;
     divsum *= divsum;
-    short *dv = (short *) malloc(256 * divsum * sizeof(short));
+    short *dv = (short *) malloc(256 * divsum * sizeOfShort);
     for (i = 0; i < 256 * divsum; i++) {
         dv[i] = (short) (i / divsum);
     }
 
     yw = yi = 0;
 
-    int(*stack)[3] = (int (*)[3]) malloc(div * 3 * sizeof(int));
+    int(*stack)[3] = (int (*)[3]) malloc(div * 3 * sizeOfInt);
     int stackpointer;
     int stackstart;
-    int *sir;
+    int *sir = NULL;
     int rbs;
     int r1 = radius + 1;
     int routsum, goutsum, boutsum;
@@ -70,8 +74,7 @@ int *blur_ARGB_8888(int *pix, int w, int h, int radius) {
                 rinsum += sir[0];
                 ginsum += sir[1];
                 binsum += sir[2];
-            }
-            else {
+            } else {
                 routsum += sir[0];
                 goutsum += sir[1];
                 boutsum += sir[2];
@@ -150,8 +153,7 @@ int *blur_ARGB_8888(int *pix, int w, int h, int radius) {
                 rinsum += sir[0];
                 ginsum += sir[1];
                 binsum += sir[2];
-            }
-            else {
+            } else {
                 routsum += sir[0];
                 goutsum += sir[1];
                 boutsum += sir[2];
@@ -219,25 +221,38 @@ int *blur_ARGB_8888(int *pix, int w, int h, int radius) {
     return (pix);
 }
 
-
+/*************************************************
+Function:		blur_RGB_565
+Description:    Using stack way blurred image pixels
+Calls:          malloc
+Table Accessed: NULL
+Table Updated:	NULL
+Input:          Collection of pixels, wide image, image is high, the blur radius
+Output:         After return to fuzzy collection of pixels
+Return:         After return to fuzzy collection of pixels
+Others:         NULL
+*************************************************/
 short *blur_RGB_565(short *pix, int w, int h, int radius) {
     int wm = w - 1;
     int hm = h - 1;
     int wh = w * h;
     int div = radius + radius + 1;
 
-    short *r = (short *) malloc(wh * sizeof(short));
-    short *g = (short *) malloc(wh * sizeof(short));
-    short *b = (short *) malloc(wh * sizeof(short));
+    size_t sizeOfShort = sizeof(short);
+    size_t sizeOfInt = sizeof(int);
+
+    short *r = (short *) malloc(wh * sizeOfShort);
+    short *g = (short *) malloc(wh * sizeOfShort);
+    short *b = (short *) malloc(wh * sizeOfShort);
 
     int rsum, gsum, bsum, x, y, p, i, yp, yi, yw;
 
-    int *vmin = (int *) malloc(MAX(w, h) * sizeof(int));
+    int *vmin = (int *) malloc(MAX(w, h) * sizeOfInt);
 
     int divsum = (div + 1) >> 1;
     divsum *= divsum;
 
-    short *dv = (short *) malloc(256 * divsum * sizeof(short));
+    short *dv = (short *) malloc(256 * divsum * sizeOfShort);
 
     for (i = 0; i < 256 * divsum; i++) {
         dv[i] = (short) (i / divsum);
@@ -245,7 +260,7 @@ short *blur_RGB_565(short *pix, int w, int h, int radius) {
 
     yw = yi = 0;
 
-    int(*stack)[3] = (int (*)[3]) malloc(div * 3 * sizeof(int));
+    int(*stack)[3] = (int (*)[3]) malloc(div * 3 * sizeOfInt);
     int stackpointer;
     int stackstart;
     int *sir;
@@ -271,8 +286,7 @@ short *blur_RGB_565(short *pix, int w, int h, int radius) {
                 rinsum += sir[0];
                 ginsum += sir[1];
                 binsum += sir[2];
-            }
-            else {
+            } else {
                 routsum += sir[0];
                 goutsum += sir[1];
                 boutsum += sir[2];
@@ -351,8 +365,7 @@ short *blur_RGB_565(short *pix, int w, int h, int radius) {
                 rinsum += sir[0];
                 ginsum += sir[1];
                 binsum += sir[2];
-            }
-            else {
+            } else {
                 routsum += sir[0];
                 goutsum += sir[1];
                 boutsum += sir[2];

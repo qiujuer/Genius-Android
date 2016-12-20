@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.action_blur) {
             Intent intent = new Intent(MainActivity.this, BlurActivity.class);
             startActivity(intent);
+        } else if (id == R.id.action_blur_clip) {
+            Intent intent = new Intent(MainActivity.this, BlurClipActivity.class);
+            startActivity(intent);
         } else if (id == R.id.action_kit) {
             Intent intent = new Intent(MainActivity.this, KitActivity.class);
             startActivity(intent);
