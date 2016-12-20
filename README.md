@@ -37,18 +37,20 @@
 ```groovy
 dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.0-beta4'
-  compile 'net.qiujuer.genius:res:2.0.0-beta4'
+  compile 'net.qiujuer.genius:ui:2.0.0-beta8'
+  compile 'net.qiujuer.genius:res:2.0.0-beta8'
   
   // blur module
-  compile 'net.qiujuer.genius:blur:2.0.0-beta4'
+  compile 'net.qiujuer.genius:blur:2.0.0'
+  // or use new
+  compile 'net.qiujuer.genius:graphics:2.0.0-beta8'
   
   // kit module
-  compile 'net.qiujuer.genius:kit:2.0.0-beta4'
+  compile 'net.qiujuer.genius:kit:2.0.0-beta8'
   // or
-  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta4'
-  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta4'
-  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta4'
+  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta8'
+  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta8'
+  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta8'
 }
 ```
 
@@ -67,7 +69,7 @@ dependencies {
 
 ## Feedback
 
-You in use if you have any question, please timely feedback to me, you can use the following contact information to communicate with me
+If you have any question, please timely feedback to me, you can use the following contact information to communicate with me
 
 * Project: [`Submit Bug or Idea`](https://github.com/qiujuer/Genius-Android/issues)
 * Email: [`qiujuer@live.cn`](mailto:qiujuer@live.cn)

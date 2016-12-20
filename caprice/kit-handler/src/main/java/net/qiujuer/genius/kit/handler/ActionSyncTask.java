@@ -86,11 +86,11 @@ final class ActionSyncTask implements Action, Task {
     /**
      * Wait for a period of time to run end
      *
-     * @param waitMillis wait milliseconds time
-     * @param waitNanos  wait nanoseconds time
-     * @param cancel     when wait end cancel the run
+     * @param waitMillis      wait milliseconds time
+     * @param waitNanos       wait nanoseconds time
+     * @param cancelOnTimeOut when wait end cancel the runner
      */
-    void waitRun(long waitMillis, int waitNanos, boolean cancel) {
+    void waitRun(long waitMillis, int waitNanos, boolean cancelOnTimeOut) {
         if (!mDone) {
             synchronized (this) {
                 if (!mDone) {
@@ -98,7 +98,7 @@ final class ActionSyncTask implements Action, Task {
                         this.wait(waitMillis, waitNanos);
                     } catch (InterruptedException ignored) {
                     } finally {
-                        if (!mDone && cancel)
+                        if (!mDone && cancelOnTimeOut)
                             mDone = true;
                     }
                 }

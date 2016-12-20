@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2016 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 05/28/2015
- * Changed 1/10/2016
- * Version 1.0.0
+ * Changed 05/29/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,13 +28,22 @@ import android.graphics.Bitmap;
  */
 final public class StackBlur extends StackNative {
 
-    private static Bitmap buildBitmap(Bitmap bitmap, boolean canReuseInBitmap) {
+    private static Bitmap buildBitmap(Bitmap original, boolean canReuseInBitmap) {
+        // First we should check the original
+        if (original == null)
+            throw new NullPointerException("Blur bitmap original isn't null");
+
+        Bitmap.Config config = original.getConfig();
+        if (config != Bitmap.Config.ARGB_8888 && config != Bitmap.Config.RGB_565) {
+            throw new RuntimeException("Blur bitmap only supported Bitmap.Config.ARGB_8888 and Bitmap.Config.RGB_565.");
+        }
+
         // If can reuse in bitmap return this or copy
         Bitmap rBitmap;
         if (canReuseInBitmap) {
-            rBitmap = bitmap;
+            rBitmap = original;
         } else {
-            rBitmap = bitmap.copy(bitmap.getConfig(), true);
+            rBitmap = original.copy(config, true);
         }
         return (rBitmap);
     }
@@ -159,17 +168,18 @@ final public class StackBlur extends StackNative {
         int wh = w * h;
         int div = radius + radius + 1;
 
-        int r[] = new int[wh];
-        int g[] = new int[wh];
-        int b[] = new int[wh];
+        short r[] = new short[wh];
+        short g[] = new short[wh];
+        short b[] = new short[wh];
         int rSum, gSum, bSum, x, y, i, p, yp, yi, yw;
         int vMin[] = new int[Math.max(w, h)];
 
         int divSum = (div + 1) >> 1;
         divSum *= divSum;
-        int dv[] = new int[256 * divSum];
+
+        short dv[] = new short[256 * divSum];
         for (i = 0; i < 256 * divSum; i++) {
-            dv[i] = (i / divSum);
+            dv[i] = (short) (i / divSum);
         }
 
         yw = yi = 0;
@@ -191,6 +201,7 @@ final public class StackBlur extends StackNative {
                 sir[0] = (p & 0xff0000) >> 16;
                 sir[1] = (p & 0x00ff00) >> 8;
                 sir[2] = (p & 0x0000ff);
+
                 rbs = r1 - Math.abs(i);
                 rSum += sir[0] * rbs;
                 gSum += sir[1] * rbs;

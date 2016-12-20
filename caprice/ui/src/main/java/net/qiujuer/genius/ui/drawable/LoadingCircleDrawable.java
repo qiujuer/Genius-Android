@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 10/15/2015
- * Changed 12/06/2015
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,43 +23,62 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 /**
- * A drawable to draw loading
+ * A drawable to draw loading form Circle Type
  */
 public class LoadingCircleDrawable extends LoadingDrawable {
     private static final int ANGLE_ADD = 5;
     private static final int MIN_ANGLE_SWEEP = 3;
     private static final int MAX_ANGLE_SWEEP = 255;
+    private static int DEFAULT_SIZE = 56;
 
-    private RectF mBackgroundOval = new RectF();
-    private RectF mForegroundOval = new RectF();
+    private int mMinSize = DEFAULT_SIZE;
+    private int mMaxSize = DEFAULT_SIZE;
+    private RectF mOval = new RectF();
 
-    private float mStartAngle;
-    private float mSweepAngle;
-    private int mAngleIncrement = 3;
+    private float mStartAngle = 0;
+    private float mSweepAngle = 0;
+    private int mAngleIncrement = -3;
 
     public LoadingCircleDrawable() {
         super();
+        mForegroundPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
-    public LoadingCircleDrawable(int minSize) {
-        super(minSize);
+    public LoadingCircleDrawable(int minSize, int maxSize) {
+        super();
+        mMinSize = minSize;
+        mMaxSize = maxSize;
+    }
+
+    @Override
+    public int getIntrinsicHeight() {
+        float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
+        int size = (int) (maxLine * 2 + 10);
+        return Math.min(mMaxSize, Math.max(size, mMinSize));
+    }
+
+    @Override
+    public int getIntrinsicWidth() {
+        float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
+        int size = (int) (maxLine * 2 + 10);
+        return Math.min(mMaxSize, Math.max(size, mMinSize));
     }
 
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
+        if (bounds.left == 0 && bounds.top == 0 && bounds.right == 0 && bounds.bottom == 0) {
+            return;
+        }
 
-        int centerX = bounds.centerX();
-        int centerY = bounds.centerY();
+        final int centerX = bounds.centerX();
+        final int centerY = bounds.centerY();
 
-        int center = Math.min(centerX, centerY);
-        int maxStrokeWidth = (int) Math.max(mForegroundPaint.getStrokeWidth(), mBackgroundPaint.getStrokeWidth());
+        final int radius = Math.min(bounds.height(), bounds.width()) >> 1;
+        final int maxStrokeRadius = ((int) Math.max(getForegroundLineSize(), getBackgroundLineSize()) >> 1) + 1;
+        final int areRadius = radius - maxStrokeRadius;
 
-        int areRadius = center - ((maxStrokeWidth) >> 1) - 1;
-        mBackgroundOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
-
-        areRadius = center - ((maxStrokeWidth) >> 1) - 1;
-        mForegroundOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
+        mOval.set(centerX - areRadius, centerY - areRadius, centerX + areRadius, centerY + areRadius);
     }
 
     @Override
@@ -71,7 +88,7 @@ public class LoadingCircleDrawable extends LoadingDrawable {
     }
 
     @Override
-    protected void refresh(long startTime, long curTime, long timeLong) {
+    protected void onRefresh() {
         final float angle = ANGLE_ADD;
         mStartAngle += angle;
 
@@ -93,11 +110,11 @@ public class LoadingCircleDrawable extends LoadingDrawable {
 
     @Override
     protected void drawBackground(Canvas canvas, Paint backgroundPaint) {
-        canvas.drawArc(mBackgroundOval, 0, 360, false, backgroundPaint);
+        canvas.drawArc(mOval, 0, 360, false, backgroundPaint);
     }
 
     @Override
     protected void drawForeground(Canvas canvas, Paint foregroundPaint) {
-        canvas.drawArc(mForegroundOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
+        canvas.drawArc(mOval, mStartAngle, -mSweepAngle, false, foregroundPaint);
     }
 }

@@ -1,10 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/15/2015
- * Changed 05/10/2016
- * Version 2.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +35,14 @@ import net.qiujuer.genius.ui.drawable.CircleCheckDrawable;
 /**
  * This is CheckBox widget
  * The widget extend view widget
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gBorderSize Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gIntervalSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gMarkColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gMarkSize Attributes}
  */
 public class CheckBox extends android.widget.CheckBox {
     private CircleCheckDrawable mMarkDrawable;
@@ -62,7 +67,6 @@ public class CheckBox extends android.widget.CheckBox {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs, defStyleAttr, defStyleRes);
     }
-
 
     @Override
     public void onInitializeAccessibilityEvent(AccessibilityEvent event) {

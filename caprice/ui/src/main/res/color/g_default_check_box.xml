@@ -22,10 +22,10 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/grey_400" android:state_checked="false" android:state_enabled="true" />
-    <item android:color="@color/grey_300" android:state_checked="false" android:state_enabled="false" />
+    <item android:color="@color/g_default_base_background" android:state_checked="false" android:state_enabled="true" />
+    <item android:color="@color/g_default_base_backgroundLight" android:state_checked="false" android:state_enabled="false" />
 
 
-    <item android:color="@color/cyan_500" android:state_checked="true" android:state_enabled="true" />
-    <item android:color="@color/cyan_300" android:state_checked="true" android:state_enabled="false" />
+    <item android:color="@color/g_default_base_primary" android:state_checked="true" android:state_enabled="true" />
+    <item android:color="@color/g_default_base_primaryLight" android:state_checked="true" android:state_enabled="false" />
 </selector>

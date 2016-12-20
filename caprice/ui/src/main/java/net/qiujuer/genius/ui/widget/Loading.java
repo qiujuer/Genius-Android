@@ -1,10 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/28/2015
- * Changed 05/10/2016
- * Version 2.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +19,7 @@ package net.qiujuer.genius.ui.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -31,14 +29,31 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.qiujuer.genius.ui.R;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.LoadingCircleDrawable;
 import net.qiujuer.genius.ui.drawable.LoadingDrawable;
+import net.qiujuer.genius.ui.drawable.LoadingLineDrawable;
 
 /**
- * This is android loading view
+ * This is android loading view,
+ * You can use it to show progress bar.
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#Loading_gAutoRun Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gBackgroundColor Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gBackgroundLineSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gForegroundColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gForegroundLineSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gProgressFloat Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Loading_gProgressStyle Attributes}
  */
+@SuppressWarnings("WeakerAccess")
 public class Loading extends View {
-    private LoadingDrawable mDrawable;
+    public static int STYLE_CIRCLE = 1;
+    public static int STYLE_LINE = 2;
+
+    private LoadingDrawable mLoadingDrawable;
     private boolean mAutoRun;
 
     public Loading(Context context) {
@@ -67,12 +82,13 @@ public class Loading extends View {
         final Resources resource = getResources();
 
         if (attrs == null) {
-            mDrawable = new LoadingCircleDrawable(resource.getDimensionPixelOffset(R.dimen.g_loading_minSize));
-            mDrawable.setCallback(this);
+            // default we init a circle style loading drawable
+            setProgressStyle(STYLE_CIRCLE);
             return;
         }
 
         final float density = resource.getDisplayMetrics().density;
+        // default size 2dp
         final int baseSize = (int) (density * 2);
 
         // Load attributes
@@ -82,17 +98,20 @@ public class Loading extends View {
         int bgLineSize = a.getDimensionPixelOffset(R.styleable.Loading_gBackgroundLineSize, baseSize);
         int fgLineSize = a.getDimensionPixelOffset(R.styleable.Loading_gForegroundLineSize, baseSize);
 
-        int bgColor = a.getColor(R.styleable.Loading_gBackgroundColor, resource.getColor(R.color.grey_300));
+        int bgColor = 0;// transparent color
+        ColorStateList colorStateList = a.getColorStateList(R.styleable.Loading_gBackgroundColor);
+        if (colorStateList != null)
+            bgColor = colorStateList.getDefaultColor();
         int fgColorId = a.getResourceId(R.styleable.Loading_gForegroundColor, R.array.g_default_loading_fg);
 
-        int lineStyle = a.getInt(R.styleable.Loading_gLineStyle, 1);
+        int style = a.getInt(R.styleable.Loading_gProgressStyle, 1);
         boolean autoRun = a.getBoolean(R.styleable.Loading_gAutoRun, true);
 
         float progress = a.getFloat(R.styleable.Loading_gProgressFloat, 0);
 
         a.recycle();
 
-        setLineStyle(lineStyle);
+        setProgressStyle(style);
         setAutoRun(autoRun);
         setProgress(progress);
 
@@ -121,75 +140,202 @@ public class Loading extends View {
         }
     }
 
+    /**
+     * Start the loading animation
+     */
     public void start() {
-        mDrawable.start();
+        mLoadingDrawable.start();
         mNeedRun = false;
     }
 
+    /**
+     * Stop the loading animation
+     */
     public void stop() {
-        mDrawable.stop();
+        mLoadingDrawable.stop();
         mNeedRun = false;
     }
 
+    /**
+     * Check the loading is Running state
+     *
+     * @return Loading is Running
+     */
     public boolean isRunning() {
-        return mDrawable.isRunning();
+        return mLoadingDrawable.isRunning();
     }
 
-    public void setBackgroundLineSize(float size) {
-        mDrawable.setBackgroundLineSize(size);
+    /**
+     * Set the Background line size,
+     * the unit is px, if you set dp plx use {@link net.qiujuer.genius.ui.Ui#dipToPx(Resources, float)}  }
+     *
+     * @param size Background line size
+     */
+    public void setBackgroundLineSize(int size) {
+        mLoadingDrawable.setBackgroundLineSize(size);
+        invalidate();
+        requestLayout();
     }
 
-    public void setForegroundLineSize(float size) {
-        mDrawable.setForegroundLineSize(size);
+    /**
+     * Set the Foreground line size,
+     * the unit is px, if you set dp plx use {@link net.qiujuer.genius.ui.Ui#dipToPx(Resources, float)}  }
+     *
+     * @param size Foreground line size
+     */
+    public void setForegroundLineSize(int size) {
+        mLoadingDrawable.setForegroundLineSize(size);
+        invalidate();
+        requestLayout();
     }
 
+    /**
+     * Get the background line size
+     *
+     * @return the size unit is px
+     */
     public float getBackgroundLineSize() {
-        return mDrawable.getBackgroundLineSize();
+        return mLoadingDrawable.getBackgroundLineSize();
     }
 
+    /**
+     * Get the foreground line size
+     *
+     * @return the size unit is px
+     */
     public float getForegroundLineSize() {
-        return mDrawable.getForegroundLineSize();
+        return mLoadingDrawable.getForegroundLineSize();
     }
 
+    /**
+     * Set the background color, eg: "#0xffffff"
+     * else you @see {@link #setBackgroundColorRes(int)}
+     *
+     * @param color color value
+     */
     public void setBackgroundColor(int color) {
-        mDrawable.setBackgroundColor(color);
+        mLoadingDrawable.setBackgroundColor(color);
+        invalidate();
     }
 
+    /**
+     * Set the background color by resource id
+     *
+     * @param colorRes Color resource id
+     */
+    public void setBackgroundColorRes(int colorRes) {
+        ColorStateList colorStateList = UiCompat.getColorStateList(getResources(), colorRes);
+        if (colorStateList == null)
+            setBackgroundColor(0);
+        else
+            setBackgroundColor(colorStateList.getDefaultColor());
+    }
+
+    /**
+     * Get background color value
+     *
+     * @return Color
+     */
     public int getBackgroundColor() {
-        return mDrawable.getBackgroundColor();
+        return mLoadingDrawable.getBackgroundColor();
     }
 
+    /**
+     * Set the Foreground color, eg: "#0xffffff"
+     * else you can ues {@link #setForegroundColor(int[])}
+     *
+     * @param color color value
+     */
     public void setForegroundColor(int color) {
         setForegroundColor(new int[]{color});
     }
 
+    /**
+     * Set the  Foreground color by color array
+     *
+     * @param colors Color array
+     */
     public void setForegroundColor(int[] colors) {
-        mDrawable.setForegroundColor(colors);
+        mLoadingDrawable.setForegroundColor(colors);
+        invalidate();
     }
 
+    /**
+     * Get the Foreground color array
+     *
+     * @return Color array
+     */
     public int[] getForegroundColor() {
-        return mDrawable.getForegroundColor();
+        return mLoadingDrawable.getForegroundColor();
     }
 
+    /**
+     * Get the loading progress value, default "0"
+     *
+     * @return Progress value
+     */
     public float getProgress() {
-        return mDrawable.getProgress();
+        return mLoadingDrawable.getProgress();
     }
 
+    /**
+     * Set the loading Progress, the default "0";
+     * If you set the value, the loading will stop animation
+     * The Progress between 0 to 1 float.
+     *
+     * @param progress Progress
+     */
     public void setProgress(float progress) {
-        mDrawable.setProgress(progress);
+        mLoadingDrawable.setProgress(progress);
+        invalidate();
     }
 
+    /**
+     * Set the run type, default is true
+     * If set "True", the loading will auto running after onAttachedToWindow()
+     * If set "False", you can call {@link #start()} to running animation
+     * <p>
+     * You can only set the method before onAttachedToWindow() method call.
+     *
+     * @param autoRun Auto run
+     */
     public void setAutoRun(boolean autoRun) {
         mAutoRun = autoRun;
     }
 
+    /**
+     * Get the loading run type
+     *
+     * @return Bool
+     */
     public boolean isAutoRun() {
         return mAutoRun;
     }
 
-    public void setLineStyle(int style) {
-        mDrawable = new LoadingCircleDrawable(getResources().getDimensionPixelOffset(R.dimen.g_loading_minSize));
-        mDrawable.setCallback(this);
+    /**
+     * Change the loading style
+     * You can set {@link #STYLE_CIRCLE} or {@link #STYLE_LINE} parameters
+     *
+     * @param style {@link #STYLE_CIRCLE} or {@link #STYLE_LINE}
+     */
+    public void setProgressStyle(int style) {
+        LoadingDrawable drawable = null;
+        if (style == STYLE_CIRCLE) {
+            Resources resources = getResources();
+            drawable = new LoadingCircleDrawable(resources.getDimensionPixelOffset(R.dimen.g_loading_minSize),
+                    resources.getDimensionPixelOffset(R.dimen.g_loading_maxSize));
+        } else if (style == STYLE_LINE) {
+            drawable = new LoadingLineDrawable();
+        }
+        if (drawable == null) {
+            throw new NullPointerException("LoadingDrawable is null, You can only set the STYLE_CIRCLE and STYLE_LINE parameters.");
+        } else {
+            drawable.setCallback(this);
+            mLoadingDrawable = drawable;
+
+            invalidate();
+            requestLayout();
+        }
     }
 
     @Override
@@ -199,8 +345,8 @@ public class Loading extends View {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        int iHeight = mDrawable.getIntrinsicHeight() + getPaddingTop() + getPaddingBottom();
-        int iWidth = mDrawable.getIntrinsicWidth() + getPaddingLeft() + getPaddingRight();
+        int iHeight = mLoadingDrawable.getIntrinsicHeight() + getPaddingTop() + getPaddingBottom();
+        int iWidth = mLoadingDrawable.getIntrinsicWidth() + getPaddingLeft() + getPaddingRight();
 
         int measuredWidth;
         int measuredHeight;
@@ -227,26 +373,37 @@ public class Loading extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (w == h) {
-            mDrawable.setBounds(0, 0, w, h);
-        } else if (w > h) {
-            int offset = (w - h) / 2;
-            mDrawable.setBounds(offset, 0, w - offset, h);
-        } else if (w < h) {
-            int offset = (h - w) / 2;
-            mDrawable.setBounds(0, offset, w, h - offset);
+        final int paddingLeft = getPaddingLeft();
+        final int paddingTop = getPaddingTop();
+        final int paddingRight = getPaddingRight();
+        final int paddingBottom = getPaddingBottom();
+
+        /*
+        int curW = w - paddingLeft - paddingRight;
+        int curH = h - paddingTop - paddingBottom;
+
+        if (curW == curH) {
+            mLoadingDrawable.setBounds(paddingLeft, paddingTop, curW + paddingLeft, curH + paddingTop);
+        } else if (curW > curH) {
+            final int left = paddingLeft + ((curW - curH) >> 1);
+            mLoadingDrawable.setBounds(left, paddingTop, curH + left, curH + paddingTop);
+        } else if (curW < curH) {
+            final int top = paddingTop + ((curH - curW) >> 1);
+            mLoadingDrawable.setBounds(paddingLeft, top, curW + paddingLeft, curW + top);
         }
+        */
+        mLoadingDrawable.setBounds(paddingLeft, paddingTop, w - paddingRight, h - paddingBottom);
     }
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
-        return who == mDrawable || super.verifyDrawable(who);
+        return who == mLoadingDrawable || super.verifyDrawable(who);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mDrawable.draw(canvas);
+        mLoadingDrawable.draw(canvas);
     }
 
     private boolean mNeedRun;
@@ -254,17 +411,17 @@ public class Loading extends View {
     @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
-        saveOrRecoveryRun(visibility);
+        changeRunStateByVisibility(visibility);
     }
 
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
-        saveOrRecoveryRun(visibility);
+        changeRunStateByVisibility(visibility);
     }
 
-    private void saveOrRecoveryRun(int visibility) {
-        if (mDrawable == null) {
+    private void changeRunStateByVisibility(int visibility) {
+        if (mLoadingDrawable == null) {
             return;
         }
         if (visibility == VISIBLE) {
@@ -272,9 +429,9 @@ public class Loading extends View {
                 start();
             }
         } else {
-            if (mDrawable.isRunning()) {
+            if (mLoadingDrawable.isRunning()) {
                 mNeedRun = true;
-                mDrawable.stop();
+                mLoadingDrawable.stop();
             }
         }
     }
@@ -282,9 +439,9 @@ public class Loading extends View {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (mAutoRun && mDrawable.getProgress() == 0) {
+        if (mAutoRun && mLoadingDrawable.getProgress() == 0) {
             if (getVisibility() == VISIBLE)
-                mDrawable.start();
+                mLoadingDrawable.start();
             else
                 mNeedRun = true;
         }
@@ -293,6 +450,6 @@ public class Loading extends View {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mDrawable.stop();
+        mLoadingDrawable.stop();
     }
 }

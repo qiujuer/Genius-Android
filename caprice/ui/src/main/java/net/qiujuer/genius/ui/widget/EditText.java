@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -45,11 +46,24 @@ import android.view.animation.Interpolator;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.shape.BorderShape;
 
 /**
  * EditText
  * This have a title from hint
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#EditText_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitle Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingBottom Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingLeft Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingRight Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingTop Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitleTextSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gLineColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gLineSize Attributes}
  */
 @SuppressWarnings("unused")
 public class EditText extends android.widget.EditText {
@@ -129,7 +143,7 @@ public class EditText extends android.widget.EditText {
 
         if (!Ui.isHaveAttribute(attrs, "textColorHint") || getHintTextColors() == null) {
             ColorStateList hintColor;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 hintColor = resources.getColorStateList(R.color.g_default_edit_view_hint, null);
             } else {
                 //noinspection deprecation
@@ -194,17 +208,24 @@ public class EditText extends android.widget.EditText {
             // disabled.getPaint().setAlpha(0xA0);
 
             Drawable[] drawable = new Drawable[]{pressed, focused, normal, disabled};
-            background = Ui.createStateListDrawable(drawable);
+            background = createStateListDrawable(drawable);
 
         }
 
         // Set Background
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            //noinspection deprecation
-            setBackgroundDrawable(background);
-        else
-            setBackground(background);
+        UiCompat.setBackground(this, background);
 
+    }
+
+    private static StateListDrawable createStateListDrawable(Drawable drawable[]) {
+        if (drawable == null || drawable.length < 4)
+            return null;
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, drawable[0]);
+        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[1]);
+        states.addState(new int[]{android.R.attr.state_enabled}, drawable[2]);
+        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[3]);
+        return states;
     }
 
     private void initHintTitleText() {
@@ -577,6 +598,8 @@ public class EditText extends android.widget.EditText {
 
     private ObjectAnimator getTitleAnimator() {
         if (mAnimator == null) {
+            if (mCurTitleProperty == null)
+                mCurTitleProperty = new TitleProperty();
             mAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, new TitleEvaluator(mCurTitleProperty), mCurTitleProperty);
             mAnimator.setDuration(ANIMATION_DURATION);
             mAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
@@ -610,7 +633,7 @@ public class EditText extends android.widget.EditText {
 
         private final TitleProperty mProperty;
 
-        public TitleEvaluator(TitleProperty property) {
+        TitleEvaluator(TitleProperty property) {
             mProperty = property;
         }
 

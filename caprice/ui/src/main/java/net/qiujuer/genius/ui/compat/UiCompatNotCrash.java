@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 07/23/2015
- * Changed 08/08/2015
- * Version 3.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.qiujuer.genius.ui.compat;
 
 import android.annotation.TargetApi;
@@ -38,7 +34,7 @@ import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
  */
 @TargetApi(21)
 class UiCompatNotCrash {
-    public static void setOutlineProvider(View marker, final BalloonMarkerDrawable balloonMarkerDrawable) {
+    static void setOutlineProvider(View marker, final BalloonMarkerDrawable balloonMarkerDrawable) {
         marker.setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
@@ -47,11 +43,11 @@ class UiCompatNotCrash {
         });
     }
 
-    public static void setBackground(View view, Drawable background) {
+    static void setBackground(View view, Drawable background) {
         view.setBackground(background);
     }
 
-    public static void setTextDirection(TextView number, int textDirection) {
+    static void setTextDirection(TextView number, int textDirection) {
         number.setTextDirection(textDirection);
     }
 }

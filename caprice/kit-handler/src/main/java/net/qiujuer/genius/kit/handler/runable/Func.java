@@ -18,8 +18,8 @@
 package net.qiujuer.genius.kit.handler.runable;
 
 /**
- * Run callback, the callback can support return same value
+ * Run callback, the callback can support return any value
  */
-public interface Func<T> {
-    T call();
+public interface Func<Out> {
+    Out call();
 }
