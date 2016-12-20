@@ -60,11 +60,11 @@ public class BlurClipActivity extends AppCompatActivity {
     }
 
     private void clipBlur() {
-        ((ImageView) findViewById(R.id.iv_show1)).setImageBitmap(Blur.onStackBlurClip(mSrc1, 120));
+        ((ImageView) findViewById(R.id.iv_show1)).setImageBitmap(Blur.onStackBlurClip(mSrc1, 80));
     }
 
     private void blur() {
-        ((ImageView) findViewById(R.id.iv_show1)).setImageBitmap(Blur.onStackBlur(mSrc2, 120));
+        ((ImageView) findViewById(R.id.iv_show1)).setImageBitmap(Blur.onStackBlur(mSrc2, 80));
     }
 
 
