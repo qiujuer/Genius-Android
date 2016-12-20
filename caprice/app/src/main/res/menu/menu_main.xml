@@ -9,6 +9,11 @@
         android:title="@string/action_blur"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_blur_clip"
+        android:orderInCategory="100"
+        android:title="@string/action_blur_clip"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_kit"
         android:orderInCategory="100"
         android:title="@string/action_kit"

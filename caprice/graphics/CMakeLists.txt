@@ -19,6 +19,7 @@ add_library( # Sets the name of the library.
              # Associated headers in the same location as their source
              # file are automatically included.
              src/main/cpp/stackblur.c
+             src/main/cpp/clipblur.c
              src/main/cpp/net_qiujuer_genius_grahpics_Blur.c
              src/main/cpp/load.c )
 

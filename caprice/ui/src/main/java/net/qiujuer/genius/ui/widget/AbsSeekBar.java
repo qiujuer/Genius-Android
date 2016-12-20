@@ -52,6 +52,29 @@ import java.util.Locale;
 
 /**
  * This abstract class use to SeekBar
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gAllowTrackClickToDrag Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicator Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorBackgroundColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorFormatter Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorSeparation Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorTextAppearance Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorTextPadding Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMax Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMin Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMirrorForRtl Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gRippleColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gScrubberColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gScrubberStroke Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gThumbColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gThumbSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTickSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTouchSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTrackStroke Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gValue Attributes}
  */
 @SuppressWarnings("WeakerAccess")
 public abstract class AbsSeekBar extends View {
@@ -254,7 +277,8 @@ public abstract class AbsSeekBar extends View {
         }
 
         // Enabled
-        setEnabled(Ui.isTrueFromAttribute(attrs, "enabled", isEnabled()));
+        setEnabled(Ui.getBoolFormAttribute(context, attrs, android.R.attr.enabled,
+                defStyleAttr, defStyleRes, isEnabled()));
     }
 
     public void setTrackStroke(int trackStroke) {

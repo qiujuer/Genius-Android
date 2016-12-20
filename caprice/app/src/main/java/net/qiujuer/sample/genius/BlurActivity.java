@@ -152,22 +152,28 @@ public class BlurActivity extends AppCompatActivity {
 
         // Is Compress
         float radius = 20;
-        Bitmap overlay = mBitmap;
+        Bitmap overlay = mBitmap.copy(mBitmap.getConfig(), true);
         if (mCompress) {
             radius = 3;
-            overlay = mCompressBitmap;
+            overlay = mCompressBitmap.copy(mCompressBitmap.getConfig(), true);
         }
 
 
         if (i == 1) {
             // Java
-            overlay = Blur.onStackBlurJava(overlay, (int) radius, false);
+            overlay = Blur.onStackBlurJava(overlay, (int) radius);
         } else if (i == 2) {
             // Pixels JNI Native
-            overlay = Blur.onStackBlurPixels(overlay, (int) radius, false);
+            int w = overlay.getWidth();
+            int h = overlay.getHeight();
+            int[] pix = new int[w * h];
+            overlay.getPixels(pix, 0, w, 0, 0, w, h);
+            // Jni Pixels Blur
+            pix = Blur.onStackBlurPixels(pix, w, h, (int) radius);
+            overlay.setPixels(pix, 0, w, 0, 0, w, h);
         } else if (i == 3) {
             // Bitmap JNI Native
-            overlay = Blur.onStackBlur(overlay, (int) radius, false);
+            overlay = Blur.onStackBlur(overlay, (int) radius);
         }
 
         // Show

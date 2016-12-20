@@ -112,7 +112,7 @@ final public class Run {
      *
      * @param action Action Interface, you can do something in this
      */
-    public static Result onBackgroundAsync(Action action) {
+    public static Result onBackground(Action action) {
         final HandlerPoster poster = getBackgroundPoster();
         if (Looper.myLooper() == poster.getLooper()) {
             action.call();
@@ -166,12 +166,12 @@ final public class Run {
      * thread for the main thread to complete
      * But the current thread just wait for the waitTime long.
      *
-     * @param action     Action Interface
-     * @param waitMillis wait for the main thread run milliseconds Time
-     * @param cancel     on the current thread cancel the runnable task
+     * @param action          Action Interface
+     * @param waitMillis      wait for the main thread run milliseconds Time
+     * @param cancelOnTimeOut on timeout the current thread cancel the runnable task
      */
-    public static void onUiSync(Action action, long waitMillis, boolean cancel) {
-        onUiSync(action, waitMillis, 0, cancel);
+    public static void onUiSync(Action action, long waitMillis, boolean cancelOnTimeOut) {
+        onUiSync(action, waitMillis, 0, cancelOnTimeOut);
     }
 
     /**
@@ -181,19 +181,19 @@ final public class Run {
      * thread for the main thread to complete
      * But the current thread just wait for the waitTime long.
      *
-     * @param action     Action Interface
-     * @param waitMillis wait for the main thread run milliseconds Time
-     * @param waitNanos  wait for the main thread run nanoseconds Time
-     * @param cancel     on the current thread cancel the runnable task
+     * @param action          Action Interface
+     * @param waitMillis      wait for the main thread run milliseconds Time
+     * @param waitNanos       wait for the main thread run nanoseconds Time
+     * @param cancelOnTimeOut on timeout the current thread cancel the runnable task
      */
-    public static void onUiSync(Action action, long waitMillis, int waitNanos, boolean cancel) {
+    public static void onUiSync(Action action, long waitMillis, int waitNanos, boolean cancelOnTimeOut) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             action.call();
             return;
         }
         ActionSyncTask poster = new ActionSyncTask(action);
         getUiPoster().sync(poster);
-        poster.waitRun(waitMillis, waitNanos, cancel);
+        poster.waitRun(waitMillis, waitNanos, cancelOnTimeOut);
     }
 
 
@@ -230,14 +230,14 @@ final public class Run {
      * thread for the main thread to complete
      * But the current thread just wait for the waitTime long.
      *
-     * @param func       Func Interface
-     * @param waitMillis wait for the main thread run milliseconds Time
-     * @param cancel     on the current thread cancel the runnable task
-     * @param <T>        you can set any type to return
+     * @param func            Func Interface
+     * @param waitMillis      wait for the main thread run milliseconds Time
+     * @param cancelOnTimeOut on timeout the current thread cancel the runnable task
+     * @param <T>             you can set any type to return
      * @return {@link T}
      */
-    public static <T> T onUiSync(Func<T> func, long waitMillis, boolean cancel) {
-        return onUiSync(func, waitMillis, 0, cancel);
+    public static <T> T onUiSync(Func<T> func, long waitMillis, boolean cancelOnTimeOut) {
+        return onUiSync(func, waitMillis, 0, cancelOnTimeOut);
     }
 
 
@@ -251,21 +251,21 @@ final public class Run {
      * thread for the main thread to complete
      * But the current thread just wait for the waitTime long.
      *
-     * @param func       Func Interface
-     * @param waitMillis wait for the main thread run milliseconds Time
-     * @param waitNanos  wait for the main thread run nanoseconds Time
-     * @param cancel     on the current thread cancel the runnable task
-     * @param <T>        you can set any type to return
+     * @param func            Func Interface
+     * @param waitMillis      wait for the main thread run milliseconds Time
+     * @param waitNanos       wait for the main thread run nanoseconds Time
+     * @param cancelOnTimeOut on timeout the current thread cancel the runnable task
+     * @param <T>             you can set any type to return
      * @return {@link T}
      */
-    public static <T> T onUiSync(Func<T> func, long waitMillis, int waitNanos, boolean cancel) {
+    public static <T> T onUiSync(Func<T> func, long waitMillis, int waitNanos, boolean cancelOnTimeOut) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             return func.call();
         }
 
         FuncSyncTask<T> poster = new FuncSyncTask<T>(func);
         getUiPoster().sync(poster);
-        return poster.waitRun(waitMillis, waitNanos, cancel);
+        return poster.waitRun(waitMillis, waitNanos, cancelOnTimeOut);
     }
 
 

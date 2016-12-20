@@ -93,12 +93,12 @@ final class FuncSyncTask<T> implements Func<T>, Task {
     /**
      * Wait for a period of time to run end
      *
-     * @param waitMillis wait milliseconds time
-     * @param waitNanos  wait nanoseconds time
-     * @param cancel     True if when wait end cancel the run
+     * @param waitMillis      wait milliseconds time
+     * @param waitNanos       wait nanoseconds time
+     * @param cancelOnTimeOut True if when wait end cancel the runner
      * @return T
      */
-    T waitRun(long waitMillis, int waitNanos, boolean cancel) {
+    T waitRun(long waitMillis, int waitNanos, boolean cancelOnTimeOut) {
         if (!mDone) {
             synchronized (this) {
                 if (!mDone) {
@@ -106,7 +106,7 @@ final class FuncSyncTask<T> implements Func<T>, Task {
                         this.wait(waitMillis, waitNanos);
                     } catch (InterruptedException ignored) {
                     } finally {
-                        if (!mDone && cancel)
+                        if (!mDone && cancelOnTimeOut)
                             mDone = true;
                     }
                 }

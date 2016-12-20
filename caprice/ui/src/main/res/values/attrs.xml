@@ -73,6 +73,14 @@
     <declare-styleable name="FloatActionButton">
         <attr name="gBackgroundColor" />
         <attr name="gTouchColor" />
+        <attr name="android:enabled" />
+        <attr name="shadowRadius" format="dimension" />
+        <attr name="shadowDy" format="dimension" />
+        <attr name="shadowDx" format="dimension" />
+        <attr name="shadowColor" format="color" />
+        <attr name="shadowAlpha" format="integer" />
+        <attr name="gTouchDurationRate" />
+        <attr name="gInterceptEvent" />
     </declare-styleable>
 
     <!-- Button -->
@@ -188,5 +196,7 @@
         <attr name="gTouchCornerRadiusBL" />
         <attr name="gTouchCornerRadiusBR" />
         <attr name="gTouchDurationRate" />
+        <attr name="android:enabled" />
+        <attr name="gInterceptEvent" />
     </declare-styleable>
 </resources>

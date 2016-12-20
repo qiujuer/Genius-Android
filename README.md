@@ -69,7 +69,7 @@ dependencies {
 
 ## Feedback
 
-You in use if you have any question, please timely feedback to me, you can use the following contact information to communicate with me
+If you have any question, please timely feedback to me, you can use the following contact information to communicate with me
 
 * Project: [`Submit Bug or Idea`](https://github.com/qiujuer/Genius-Android/issues)
 * Email: [`qiujuer@live.cn`](mailto:qiujuer@live.cn)

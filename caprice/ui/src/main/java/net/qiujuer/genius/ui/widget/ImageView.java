@@ -1,10 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 12/15/2015
- * Changed 05/10/2016
- * Version 2.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,34 +22,49 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
+import net.qiujuer.genius.ui.drawable.effect.Effect;
 import net.qiujuer.genius.ui.drawable.effect.EffectFactory;
 import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
 
 /**
  * This is touch effect ImageView
  * Include 'Auto' 'Ease' 'Press' 'Ripple' effect to touch
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchEffect Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchCornerRadius Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchCornerRadiusTL Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchCornerRadiusTR Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchCornerRadiusBL Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchCornerRadiusBR Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gTouchDurationRate Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_android_enabled Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#ImageView_gInterceptEvent Attributes}
  */
-public class ImageView extends android.widget.ImageView implements TouchEffectDrawable.PerformClicker {
+public class ImageView extends android.widget.ImageView implements TouchEffectDrawable.PerformClicker,
+        TouchEffectDrawable.PerformLongClicker {
     private TouchEffectDrawable mTouchDrawable;
-    private int mTouchColor;
 
     public ImageView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public ImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(attrs, R.attr.gImageViewStyle, R.style.Genius_Widget_ImageView);
+        this(context, attrs, R.attr.gImageViewStyle);
     }
 
     public ImageView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -98,88 +110,86 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
         int touchRadiusTR = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusTR, touchRadius);
         int touchRadiusBL = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusBL, touchRadius);
         int touchRadiusBR = a.getDimensionPixelOffset(R.styleable.ImageView_gTouchCornerRadiusBR, touchRadius);
-        float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
-                touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
-        ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
         float touchDurationRate = a.getFloat(R.styleable.ImageView_gTouchDurationRate, 1.0f);
-
+        boolean enabled = a.getBoolean(R.styleable.ImageView_android_enabled,
+                touchEffect != EffectFactory.TOUCH_EFFECT_NONE);
+        // Load intercept event type, the default is intercept click event
+        int interceptEvent = a.getInt(R.styleable.ImageView_gInterceptEvent, 0x0001);
         a.recycle();
 
-        // SetTouch
-        setTouchEffect(touchEffect);
-        setTouchColor(touchColor);
-        setTouchDuration(touchDurationRate);
 
-        // Check for IDE preview render
-        if (!this.isInEditMode()) {
-            // Touch factory
-            setTouchClipFactory(touchFactory);
-        }
-    }
-
-    /**
-     * Set the touch draw type
-     * This type include:
-     * {@link EffectFactory#TOUCH_EFFECT_NONE}
-     * {@link EffectFactory#TOUCH_EFFECT_AUTO}
-     * {@link EffectFactory#TOUCH_EFFECT_EASE}
-     * {@link EffectFactory#TOUCH_EFFECT_PRESS}
-     * {@link EffectFactory#TOUCH_EFFECT_RIPPLE}
-     *
-     * @param touchEffect Touch effect type
-     */
-    public void setTouchEffect(int touchEffect) {
-        if (touchEffect == 0)
-            mTouchDrawable = null;
-        else {
-            if (mTouchDrawable == null) {
-                mTouchDrawable = new TouchEffectDrawable();
-                mTouchDrawable.getPaint().setColor(mTouchColor);
-                mTouchDrawable.setCallback(this);
+        // Initial  TouchEffectDrawable
+        if (touchEffect != 0) {
+            TouchEffectDrawable touchEffectDrawable = new TouchEffectDrawable();
+            touchEffectDrawable.setColor(touchColor);
+            touchEffectDrawable.setEffect(EffectFactory.creator(touchEffect));
+            touchEffectDrawable.setEnterDuration(touchDurationRate);
+            touchEffectDrawable.setExitDuration(touchDurationRate);
+            touchEffectDrawable.setInterceptEvent(interceptEvent);
+            // Check for IDE preview render to set Touch factory
+            if (!this.isInEditMode()) {
+                float[] radius = new float[]{touchRadiusTL, touchRadiusTL, touchRadiusTR, touchRadiusTR,
+                        touchRadiusBR, touchRadiusBR, touchRadiusBL, touchRadiusBL};
+                ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
+                touchEffectDrawable.setClipFactory(touchFactory);
             }
-
-            mTouchDrawable.setEffect(EffectFactory.creator(touchEffect));
-
-            // We want set this LayerType type on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-            setLayerType(LAYER_TYPE_SOFTWARE, null);
+            setTouchDrawable(touchEffectDrawable);
         }
-    }
 
-    public void setTouchColor(int touchColor) {
-        if (mTouchDrawable != null && touchColor != -1 && touchColor != mTouchColor) {
-            mTouchColor = touchColor;
-            mTouchDrawable.setColor(touchColor);
-            invalidate();
-        }
-    }
-
-    public void setTouchClipFactory(TouchEffectDrawable.ClipFactory factory) {
-        if (mTouchDrawable != null) {
-            mTouchDrawable.setClipFactory(factory);
-        }
+        // Change enabled
+        setEnabled(enabled);
     }
 
     /**
-     * Set the touch animation duration.
-     * This setting about enter animation
-     * and exit animation.
-     * <p/>
-     * Default:
-     * EnterDuration: 280ms
-     * ExitDuration: 160ms
-     * FactorRate: 1.0
-     * <p/>
-     * This set will calculation: factor * duration
-     * This factor need > 0
+     * Get the TouchEffect drawable,
+     * you can set parameters in this
      *
-     * @param factor Touch duration rate
+     * @return See {@link TouchEffectDrawable}
      */
-    public void setTouchDuration(float factor) {
-        if (mTouchDrawable != null) {
-            mTouchDrawable.setEnterDuration(factor);
-            mTouchDrawable.setExitDuration(factor);
+    @SuppressWarnings("unused")
+    public TouchEffectDrawable getTouchDrawable() {
+        return mTouchDrawable;
+    }
+
+    /**
+     * In this, you can set TouchEffectDrawable,
+     * to init TouchEffectDrawable.
+     * <p>
+     * If you not need touch effect,
+     * you should set NULL.
+     * <p>
+     * But, if need it,
+     * you should call {@link TouchEffectDrawable#setEffect(Effect)}
+     *
+     * @param touchDrawable TouchEffectDrawable
+     */
+    public void setTouchDrawable(TouchEffectDrawable touchDrawable) {
+        if (mTouchDrawable != touchDrawable) {
+            if (mTouchDrawable != null) {
+                mTouchDrawable.setCallback(null);
+            }
+            if (touchDrawable != null) {
+                touchDrawable.setCallback(this);
+                // We must set layer type is View.LAYER_TYPE_SOFTWARE,
+                // to support Canvas.clipPath()
+                // on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                if (getLayerType() != View.LAYER_TYPE_SOFTWARE)
+                    setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
+            mTouchDrawable = touchDrawable;
         }
     }
+
+    @Override
+    public void setLayerType(int layerType, Paint paint) {
+        // In this, to support Canvas.clipPath(),
+        // must set layerType is View.LAYER_TYPE_SOFTWARE
+        // on your need touch draw
+        if (mTouchDrawable != null)
+            layerType = View.LAYER_TYPE_SOFTWARE;
+        super.setLayerType(layerType, paint);
+    }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -196,29 +206,6 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
         return (drawable != null && who == drawable) || super.verifyDrawable(who);
     }
 
-    @Override
-    public boolean performClick() {
-        final TouchEffectDrawable d = mTouchDrawable;
-
-        if (d != null) {
-            return d.performClick(this) && super.performClick();
-        } else
-            return super.performClick();
-    }
-
-    @Override
-    public void postPerformClick() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                performClick();
-            }
-        };
-
-        if (!this.post(runnable)) {
-            performClick();
-        }
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -242,6 +229,54 @@ public class ImageView extends android.widget.ImageView implements TouchEffectDr
         final TouchEffectDrawable d = mTouchDrawable;
         if (d != null) {
             d.draw(canvas);
+        }
+    }
+
+    @Override
+    public boolean performClick() {
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performClick(this) && super.performClick();
+        } else
+            return super.performClick();
+    }
+
+    @Override
+    public boolean performLongClick() {
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performLongClick(this) && super.performLongClick();
+        } else
+            return super.performLongClick();
+    }
+
+    @Override
+    public void postPerformClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performClick();
+        }
+    }
+
+    @Override
+    public void postPerformLongClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performLongClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performLongClick();
         }
     }
 }

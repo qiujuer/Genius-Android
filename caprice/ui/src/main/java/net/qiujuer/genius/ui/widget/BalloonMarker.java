@@ -49,7 +49,16 @@ import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
 
 /**
- * This is a BalloonMarker
+ * This is a BalloonMarker used to {@link SeekBar}
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#BalloonMarker_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#BalloonMarker_gMarkerBackgroundColor Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#BalloonMarker_gMarkerElevation Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#BalloonMarker_gMarkerSeparation Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#BalloonMarker_gMarkerTextAppearance Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#BalloonMarker_gMarkerTextPadding Attributes}
  */
 public class BalloonMarker extends ViewGroup implements BalloonMarkerDrawable.MarkerAnimationListener {
     private static final int ELEVATION_DP = 8;

@@ -35,6 +35,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.drawable.TouchEffectDrawable;
+import net.qiujuer.genius.ui.drawable.effect.Effect;
 import net.qiujuer.genius.ui.drawable.effect.EffectFactory;
 import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
 
@@ -42,19 +43,30 @@ import net.qiujuer.genius.ui.drawable.factory.ClipFilletFactory;
  * This is touch effect button
  * Include 'Auto' 'Ease' 'Press' 'Ripple' effect to touch
  * And supper custom font
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#Button_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchEffect Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchCornerRadius Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchCornerRadiusTL Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchCornerRadiusTR Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchCornerRadiusBL Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchCornerRadiusBR Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gTouchDurationRate Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#Button_gInterceptEvent Attributes}
  */
-@SuppressWarnings("WeakerAccess")
-public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker {
+public class Button extends android.widget.Button implements TouchEffectDrawable.PerformClicker,
+        TouchEffectDrawable.PerformLongClicker {
     private TouchEffectDrawable mTouchDrawable;
-    private int mTouchColor;
 
     public Button(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public Button(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(attrs, R.attr.gButtonStyle, R.style.Genius_Widget_Button);
+        this(context, attrs, R.attr.gButtonStyle);
     }
 
     public Button(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -106,48 +118,72 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         ClipFilletFactory touchFactory = new ClipFilletFactory(radius);
         float touchDurationRate = a.getFloat(R.styleable.Button_gTouchDurationRate, 1.0f);
 
+        // Load intercept event type, the default is intercept click event
+        int interceptEvent = a.getInt(R.styleable.Button_gInterceptEvent, 0x0001);
+
         a.recycle();
 
-        // set background on user not set background
-        if (!Ui.isHaveAttribute(attrs, "background")) {
-            // Set Background
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                //noinspection deprecation
-                Drawable drawable = getResources().getDrawable(R.drawable.g_button_background);
-                //noinspection deprecation
-                setBackgroundDrawable(drawable);
-            } else {
-                setBackgroundResource(R.drawable.g_button_background);
+        // Initial  TouchEffectDrawable
+        if (touchEffect != 0) {
+            TouchEffectDrawable touchEffectDrawable = new TouchEffectDrawable();
+            touchEffectDrawable.setColor(touchColor);
+            touchEffectDrawable.setEffect(EffectFactory.creator(touchEffect));
+            touchEffectDrawable.setEnterDuration(touchDurationRate);
+            touchEffectDrawable.setExitDuration(touchDurationRate);
+            touchEffectDrawable.setInterceptEvent(interceptEvent);
+            // Check for IDE preview render to set Touch factory
+            if (!this.isInEditMode()) {
+                touchEffectDrawable.setClipFactory(touchFactory);
             }
+            setTouchDrawable(touchEffectDrawable);
         }
 
-        // the lollipop new attrs
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !this.isInEditMode()) {
-            // outlineProvider
-            if (!Ui.isHaveAttribute(attrs, "outlineProvider")) {
-                setOutlineProvider(null);
-            }
-            // elevation
-            if (!Ui.isHaveAttribute(attrs, "elevation")) {
-                setElevation(0);
-            }
-        }
-
-        // SetTouch
-        setTouchEffect(touchEffect);
-        setTouchColor(touchColor);
-        setTouchDuration(touchDurationRate);
-
-        // Check for IDE preview render
+        // Check for IDE preview render to set Font
         if (!this.isInEditMode()) {
-            // Touch factory
-            setTouchClipFactory(touchFactory);
-
-            // Font
             if (fontFile != null && fontFile.length() > 0) {
                 Typeface typeface = Ui.getFont(getContext(), fontFile);
                 if (typeface != null) setTypeface(typeface);
             }
+        }
+    }
+
+    /**
+     * Get the TouchEffect drawable,
+     * you can set parameters in this
+     *
+     * @return See {@link TouchEffectDrawable}
+     */
+    @SuppressWarnings("unused")
+    public TouchEffectDrawable getTouchDrawable() {
+        return mTouchDrawable;
+    }
+
+    /**
+     * In this, you can set TouchEffectDrawable,
+     * to init TouchEffectDrawable.
+     * <p>
+     * If you not need touch effect,
+     * you should set NULL.
+     * <p>
+     * But, if need it,
+     * you should call {@link TouchEffectDrawable#setEffect(Effect)}
+     *
+     * @param touchDrawable TouchEffectDrawable
+     */
+    public void setTouchDrawable(TouchEffectDrawable touchDrawable) {
+        if (mTouchDrawable != touchDrawable) {
+            if (mTouchDrawable != null) {
+                mTouchDrawable.setCallback(null);
+            }
+            if (touchDrawable != null) {
+                touchDrawable.setCallback(this);
+                // We must set layer type is View.LAYER_TYPE_SOFTWARE,
+                // to support Canvas.clipPath()
+                // on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                if (getLayerType() != View.LAYER_TYPE_SOFTWARE)
+                    setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
+            mTouchDrawable = touchDrawable;
         }
     }
 
@@ -161,119 +197,22 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
         super.setLayerType(layerType, paint);
     }
 
-    /**
-     * Set the touch draw type
-     * This type include:
-     * TOUCH_EFFECT_NONE
-     * TOUCH_EFFECT_AUTO
-     * TOUCH_EFFECT_EASE
-     * TOUCH_EFFECT_PRESS
-     * TOUCH_EFFECT_RIPPLE
-     *
-     * @param touchEffect Touch effect type
-     */
-    public void setTouchEffect(int touchEffect) {
-        if (touchEffect == 0)
-            mTouchDrawable = null;
-        else {
-            if (mTouchDrawable == null) {
-                mTouchDrawable = new TouchEffectDrawable();
-                mTouchDrawable.getPaint().setColor(mTouchColor);
-                mTouchDrawable.setCallback(this);
-            }
-
-            mTouchDrawable.setEffect(EffectFactory.creator(touchEffect));
-
-            // We must set layer type is View.LAYER_TYPE_SOFTWARE,
-            // to support Canvas.clipPath()
-            // on Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-            if (getLayerType() != View.LAYER_TYPE_SOFTWARE)
-                setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-        }
-    }
-
-    public void setTouchColor(int touchColor) {
-        if (mTouchDrawable != null && touchColor != -1 && touchColor != mTouchColor) {
-            mTouchColor = touchColor;
-            mTouchDrawable.setColor(touchColor);
-            invalidate();
-        }
-    }
-
-    public void setTouchClipFactory(TouchEffectDrawable.ClipFactory factory) {
-        if (mTouchDrawable != null) {
-            mTouchDrawable.setClipFactory(factory);
-        }
-    }
-
-    /**
-     * Set the touch animation duration.
-     * This setting about enter animation
-     * and exit animation.
-     * <p/>
-     * Default:
-     * EnterDuration: 280ms
-     * ExitDuration: 160ms
-     * FactorRate: 1.0
-     * <p/>
-     * This set will calculation: factor * duration
-     * This factor need > 0
-     *
-     * @param factor Touch duration rate
-     */
-    public void setTouchDuration(float factor) {
-        if (mTouchDrawable != null) {
-            mTouchDrawable.setEnterDuration(factor);
-            mTouchDrawable.setExitDuration(factor);
-        }
-    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         TouchEffectDrawable drawable = mTouchDrawable;
         if (drawable != null) {
-            /*
-            Rect padding = new Rect();
-            if (drawable.getPadding(padding) && (padding.left > 0
-                    || padding.top > 0 || padding.right > 0 || padding.bottom > 0)) {
-                drawable.setBounds(padding.left, padding.top, getWidth() - padding.right, getHeight() - padding.bottom);
-            } else
-            */
             drawable.setBounds(0, 0, getWidth(), getHeight());
         }
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     protected boolean verifyDrawable(Drawable who) {
         Drawable drawable = mTouchDrawable;
         return (drawable != null && who == drawable) || super.verifyDrawable(who);
     }
 
-    @Override
-    public boolean performClick() {
-        final TouchEffectDrawable d = mTouchDrawable;
-
-        if (d != null) {
-            return d.performClick(this) && super.performClick();
-        } else
-            return super.performClick();
-    }
-
-    @Override
-    public void postPerformClick() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                performClick();
-            }
-        };
-
-        if (!this.post(runnable)) {
-            performClick();
-        }
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -301,7 +240,50 @@ public class Button extends android.widget.Button implements TouchEffectDrawable
     }
 
     @Override
+    public boolean performClick() {
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performClick(this) && super.performClick();
+        } else
+            return super.performClick();
+    }
+
+    @Override
     public boolean performLongClick() {
-        return super.performLongClick();
+        final TouchEffectDrawable d = mTouchDrawable;
+
+        if (d != null) {
+            return d.performLongClick(this) && super.performLongClick();
+        } else
+            return super.performLongClick();
+    }
+
+    @Override
+    public void postPerformClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performClick();
+        }
+    }
+
+    @Override
+    public void postPerformLongClick() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                performLongClick();
+            }
+        };
+
+        if (!this.post(runnable)) {
+            performLongClick();
+        }
     }
 }

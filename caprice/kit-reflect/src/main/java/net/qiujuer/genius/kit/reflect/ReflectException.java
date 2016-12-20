@@ -1,9 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 04/28/2016
- * Changed 05/03/2016
- * Version 2.0.0
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.qiujuer.genius.kit.reflect;
 
 /**
  * This is reflect exception
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ReflectException extends RuntimeException {
 
     private static final long serialVersionUID = 312038727504126519L;

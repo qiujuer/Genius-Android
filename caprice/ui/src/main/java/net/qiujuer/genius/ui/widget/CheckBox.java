@@ -35,6 +35,14 @@ import net.qiujuer.genius.ui.drawable.CircleCheckDrawable;
 /**
  * This is CheckBox widget
  * The widget extend view widget
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gBorderSize Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gIntervalSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gMarkColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#CheckBox_gMarkSize Attributes}
  */
 public class CheckBox extends android.widget.CheckBox {
     private CircleCheckDrawable mMarkDrawable;

@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,12 +35,13 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <ImageView
+            <net.qiujuer.genius.ui.widget.ImageView
                 android:id="@+id/image_blur_self"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
-                android:src="@mipmap/ic_blur" />
+                android:src="@mipmap/ic_blur"
+                app:gTouchColor="@color/amber_100" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,19 +123,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <CheckBox
+        <net.qiujuer.genius.ui.widget.CheckBox
             android:id="@+id/checkbox_blur_isCompress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dip" />
-
-
-        <TextView
-            android:id="@+id/text_blur_isCompress"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="Is Compress"
+            android:layout_margin="5dip"
+            android:text="  Is Compress"
             android:textSize="14sp" />
 
         <TextView

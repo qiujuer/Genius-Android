@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -36,20 +35,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(MainActivity.class.getName(), "OnClickListener");
+                Toast.makeText(v.getContext(), "OnClickListener.", Toast.LENGTH_SHORT).show();
             }
         });
 
         findViewById(R.id.btn).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.e(MainActivity.class.getName(), "OnLongClickListener");
+                Toast.makeText(v.getContext(), "OnLongClickListener.", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
-
-
-
     }
 
     @Override
@@ -66,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_blur) {
             Intent intent = new Intent(MainActivity.this, BlurActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.action_blur_clip) {
+            Intent intent = new Intent(MainActivity.this, BlurClipActivity.class);
             startActivity(intent);
         } else if (id == R.id.action_kit) {
             Intent intent = new Intent(MainActivity.this, KitActivity.class);

@@ -1,9 +1,7 @@
 /*
  * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 04/28/2016
- * Changed 04/28/2016
- * Version 2.0.0
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,71 +21,76 @@ import android.annotation.SuppressLint;
 import android.util.ArrayMap;
 
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class can use to reflect java class
  */
-@SuppressWarnings("unused")
-public final class Reflect {
+@SuppressWarnings({"unused", "WeakerAccess"})
+public final class Reflector {
 
 
     /**
-     * Create a Reflect by class name
+     * Create a Reflector by class name
      *
      * @param name class full name
-     * @return Reflect
+     * @return Reflector
      * @throws ReflectException ReflectException
      * @see #with(Class)
      */
-    public static Reflect with(String name) throws ReflectException {
+    public static Reflector with(String name) throws ReflectException {
         return with(getClassForName(name));
     }
 
     /**
-     * Create a Reflect by class name form ClassLoader
+     * Create a Reflector by class name form ClassLoader
      *
      * @param name        class full name
      * @param classLoader ClassLoader
-     * @return Reflect
+     * @return Reflector
      * @throws ReflectException ReflectException
      * @see #with(Class)
      */
-    public static Reflect with(String name, ClassLoader classLoader) throws ReflectException {
+    public static Reflector with(String name, ClassLoader classLoader) throws ReflectException {
         return with(getClassForName(name, classLoader));
     }
 
     /**
-     * Create a Reflect by class
+     * Create a Reflector by class
      *
      * @param clazz Class
-     * @return Reflect
+     * @return Reflector
      */
-    public static Reflect with(Class<?> clazz) {
-        return new Reflect(clazz);
+    public static Reflector with(Class<?> clazz) {
+        return new Reflector(clazz);
     }
 
     /**
-     * Create a Reflect by wrap an obj
+     * Create a Reflector by wrap an obj
      * <p>
      * Use this you can access instance fields
      * and methods with any
      * {@link Object}
      *
      * @param object The obj to be wrapped
-     * @return A wrapped obj, to be used for Reflect.
+     * @return A wrapped obj, to be used for Reflector.
      */
-    public static Reflect with(Object object) {
-        return new Reflect(object);
+    public static Reflector with(Object object) {
+        return new Reflector(object);
     }
 
 
@@ -130,12 +133,12 @@ public final class Reflect {
     private final boolean isClass;
 
 
-    private Reflect(Class<?> type) {
+    private Reflector(Class<?> type) {
         this.obj = type;
         this.isClass = true;
     }
 
-    private Reflect(Object obj) {
+    private Reflector(Object obj) {
         this.obj = obj;
         this.isClass = false;
     }
@@ -156,10 +159,10 @@ public final class Reflect {
      *
      * @param name  field name
      * @param value field value
-     * @return Reflect
+     * @return Reflector
      * @throws ReflectException
      */
-    public Reflect set(String name, Object value) throws ReflectException {
+    public Reflector set(String name, Object value) throws ReflectException {
         try {
             Field field = field0(name);
             field.setAccessible(true);
@@ -185,13 +188,13 @@ public final class Reflect {
 
 
     /**
-     * Get the target field value, and warp to {@link Reflect}
+     * Get the target field value, and warp to {@link Reflector}
      *
      * @param name target name
-     * @return Reflect
+     * @return Reflector
      * @throws ReflectException
      */
-    public Reflect field(String name) throws ReflectException {
+    public Reflector field(String name) throws ReflectException {
         try {
             Field field = field0(name);
             return with(field.get(obj));
@@ -224,16 +227,16 @@ public final class Reflect {
     }
 
     /**
-     * Get current {@link Reflect#obj} fields by create Map
+     * Get current {@link Reflector#obj} fields by create Map
      *
-     * @return a map to Reflect-fields
+     * @return a map to Reflector-fields
      */
-    public Map<String, Reflect> fields() {
-        Map<String, Reflect> result;
+    public Map<String, Reflector> fields() {
+        Map<String, Reflector> result;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             result = new ArrayMap<>();
         } else {
-            result = new LinkedHashMap<>();
+            result = new HashMap<>();
         }
         Class<?> type = type();
         do {
@@ -255,26 +258,26 @@ public final class Reflect {
     }
 
     /**
-     * Call current {@link Reflect#obj} method
+     * Call current {@link Reflector#obj} method
      *
      * @param name method name
-     * @return method return value is contained in {@link Reflect}
+     * @return method return value is contained in {@link Reflector}
      * @throws ReflectException
      */
-    public Reflect call(String name) throws ReflectException {
+    public Reflector call(String name) throws ReflectException {
         return call(name, new Object[0]);
     }
 
 
     /**
-     * Call current {@link Reflect#obj} method
+     * Call current {@link Reflector#obj} method
      *
      * @param name method name
      * @param args method parameters
-     * @return method return value is contained in {@link Reflect}
+     * @return method return value is contained in {@link Reflector}
      * @throws ReflectException
      */
-    public Reflect call(String name, Object... args) throws ReflectException {
+    public Reflector call(String name, Object... args) throws ReflectException {
         Class<?>[] types = getTypes(args);
 
         try {
@@ -345,7 +348,7 @@ public final class Reflect {
      * @return new none structural parameters class
      * @throws ReflectException
      */
-    public Reflect create() throws ReflectException {
+    public Reflector create() throws ReflectException {
         return create(new Object[0]);
     }
 
@@ -356,7 +359,7 @@ public final class Reflect {
      * @return new structural parameters class
      * @throws ReflectException
      */
-    public Reflect create(Object... args) throws ReflectException {
+    public Reflector create(Object... args) throws ReflectException {
         Class<?>[] types = getTypes(args);
 
         try {
@@ -375,7 +378,7 @@ public final class Reflect {
 
     /**
      * Create a dynamic proxy
-     * if invoke error try get value by Map when {@link Reflect#obj} instanceof Map
+     * if invoke error try get value by Map when {@link Reflector#obj} instanceof Map
      *
      * @param proxyType proxy type
      * @param <P>       proxy class
@@ -461,7 +464,7 @@ public final class Reflect {
         }
     }
 
-    private static Reflect with(Constructor<?> constructor, Object... args) throws ReflectException {
+    private static Reflector with(Constructor<?> constructor, Object... args) throws ReflectException {
         try {
             return with(accessible(constructor).newInstance(args));
         } catch (Exception e) {
@@ -469,7 +472,7 @@ public final class Reflect {
         }
     }
 
-    private static Reflect with(Method method, Object object, Object... args) throws ReflectException {
+    private static Reflector with(Method method, Object object, Object... args) throws ReflectException {
         try {
             accessible(method);
 
@@ -487,14 +490,14 @@ public final class Reflect {
 
     /**
      * Un wrap the obj
-     * if obj is {@link Reflect} type, we can call Reflect.get()
+     * if obj is {@link Reflector} type, we can call Reflector.get()
      *
      * @param object Object
      * @return real obj
      */
     private static Object unwrap(Object object) {
-        if (object instanceof Reflect) {
-            return ((Reflect) object).get();
+        if (object instanceof Reflector) {
+            return ((Reflector) object).get();
         }
 
         return object;
@@ -596,7 +599,7 @@ public final class Reflect {
 
 
     /**
-     * Get now {@link Reflect} obj class type
+     * Get now {@link Reflector} obj class type
      *
      * @return Class
      * @see Object#getClass()
@@ -622,8 +625,8 @@ public final class Reflect {
      */
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Reflect
-                && this.obj.equals(((Reflect) obj).get());
+        return obj instanceof Reflector
+                && this.obj.equals(((Reflector) obj).get());
     }
 
     /**
@@ -639,6 +642,156 @@ public final class Reflect {
      */
     public static class NULL {
         // none do
+    }
+
+    /**
+     * Get the underlying class for a type, or null if the type is a variable
+     * type.
+     *
+     * @param type the type
+     * @return the underlying class
+     */
+    public static Class<?> getClass(Type type) {
+        if (type instanceof Class) {
+            return (Class) type;
+        } else if (type instanceof ParameterizedType) {
+            return getClass(((ParameterizedType) type).getRawType());
+        } else if (type instanceof GenericArrayType) {
+            Type componentType = ((GenericArrayType) type).getGenericComponentType();
+            Class<?> componentClass = getClass(componentType);
+            if (componentClass != null) {
+                return Array.newInstance(componentClass, 0).getClass();
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the underlying class array for a type array, or null if the type is a variable
+     * type.
+     *
+     * @param types the type array
+     * @return a class array of the raw classes for actual the type arguments.
+     */
+    public static <T> Class<?>[] getClasses(Type[] types) {
+        if (types == null)
+            return null;
+        if (types.length == 0)
+            return new Class<?>[0];
+
+        Class<?>[] classes = new Class[types.length];
+        // Resolve types by chasing down type variables.
+        for (int i = 0; i < types.length; i++) {
+            classes[i] = getClass(types[i]);
+        }
+        return classes;
+    }
+
+
+    /**
+     * Get the actual type arguments a child class has used to extend a generic
+     * base class.
+     * <p>
+     * Child class must be the implementation class of base class.
+     * Base class must be a generic class.
+     *
+     * @param baseClass  the base class
+     * @param childClass the child class
+     * @return a array type of the raw classes for the actual type arguments.
+     */
+    public static <T> Type[] getActualTypeArguments(
+            final Class<T> baseClass, final Class<?> childClass) {
+
+        // Create map
+        Map<Type, Type> resolvedTypes;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            resolvedTypes = new ArrayMap<>();
+        } else {
+            resolvedTypes = new HashMap<>();
+        }
+
+        Type type = childClass;
+        // start walking up the inheritance hierarchy until we hit baseClass
+        while (!getClass(type).equals(baseClass)) {
+            if (type instanceof Class) {
+                // there is no useful information for us in raw types, so just keep going.
+                type = ((Class) type).getGenericSuperclass();
+            } else {
+                ParameterizedType parameterizedType = (ParameterizedType) type;
+                Class<?> rawType = (Class) parameterizedType.getRawType();
+
+                Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+                TypeVariable<?>[] typeParameters = rawType.getTypeParameters();
+                for (int i = 0; i < actualTypeArguments.length; i++) {
+                    resolvedTypes.put(typeParameters[i], actualTypeArguments[i]);
+                }
+
+                if (!rawType.equals(baseClass)) {
+                    type = rawType.getGenericSuperclass();
+                }
+            }
+        }
+
+        // finally, for each actual type argument provided to baseClass, determine (if possible)
+        // the raw class for that type argument.
+        Type[] actualTypeArguments;
+        if (type instanceof Class) {
+            actualTypeArguments = ((Class) type).getTypeParameters();
+        } else {
+            actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
+        }
+        // resolve types by chasing down type variables.
+        for (int i = 0; i < actualTypeArguments.length; i++) {
+            Type tempType = actualTypeArguments[i];
+
+            // First search really type
+            while (resolvedTypes.containsKey(tempType)) {
+                tempType = resolvedTypes.get(tempType);
+            }
+
+            // If the type instanceof ParameterizedType,
+            // we need replace types by getActualTypeArguments()
+            tempType = replaceTypeActualArgument(tempType, resolvedTypes);
+
+            actualTypeArguments[i] = tempType;
+        }
+        return actualTypeArguments;
+    }
+
+    /**
+     * Replace {@link ParameterizedType#getActualTypeArguments()} method return value.
+     * In this we use {@link ParameterizeTypeActualArgsDelegate} delegate {@link ParameterizedType};
+     * Let {@link ParameterizedType#getActualTypeArguments()} return really class type.
+     *
+     * @param inType        Type
+     * @param resolvedTypes a Map<Type, Type>, {@link #getActualTypeArguments(Class, Class)}
+     * @return {@link ParameterizeTypeActualArgsDelegate}
+     */
+    private static Type replaceTypeActualArgument(Type inType, final Map<Type, Type> resolvedTypes) {
+        Type outType = inType;
+
+        if (inType instanceof ParameterizedType) {
+            final ParameterizedType finalType = ((ParameterizedType) inType);
+            final Type[] actualArgs = ((ParameterizedType) inType).getActualTypeArguments();
+
+            for (int i = 0; i < actualArgs.length; i++) {
+                Type argType = actualArgs[i];
+                while (resolvedTypes.containsKey(argType)) {
+                    argType = resolvedTypes.get(argType);
+                }
+
+                // Do replace ActualArgument
+                argType = replaceTypeActualArgument(argType, resolvedTypes);
+
+                actualArgs[i] = argType;
+            }
+
+            outType = new ParameterizeTypeActualArgsDelegate(finalType, actualArgs);
+        }
+        return outType;
     }
 
 }

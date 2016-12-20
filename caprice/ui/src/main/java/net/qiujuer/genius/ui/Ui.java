@@ -30,7 +30,6 @@ import android.util.Log;
 import android.util.TypedValue;
 
 /**
- * Created by QiuJu
  * This is Genius UI Center
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -40,11 +39,11 @@ public class Ui {
     private static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
 
     public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48
-    public static final int KEY_SHADOW_COLOR = 0x4E000000; //0x1E000000;
-    public static final int FILL_SHADOW_COLOR = 0x6D000000; //0x3D000000;
+    public static final int KEY_SHADOW_COLOR = 0x1F000000; //0x1E000000;
+    public static final int FILL_SHADOW_COLOR = 0x3D000000; //0x3D000000;
     public static final float X_OFFSET = 0f;
-    public static final float Y_OFFSET = 1.75f;
-    public static final float SHADOW_RADIUS = 3.5f;
+    public static final float Y_OFFSET = 1.8f;
+    public static final float SHADOW_RADIUS = 3.75f;
     public static final int SHADOW_ELEVATION = 4;
 
 
@@ -143,6 +142,44 @@ public class Ui {
     }
 
     /**
+     * Retrieve styled attribute information in this Context's theme.  See
+     * {@link android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int)}
+     * for more information.
+     *
+     * @param context      Context
+     * @param attrs        The base set of attribute values.  May be null.
+     * @param attr         The desired attributes to be retrieved.
+     * @param defStyleAttr An attribute in the current theme that contains a
+     *                     reference to a style resource that supplies
+     *                     defaults values for the TypedArray.  Can be
+     *                     0 to not look for defaults.
+     * @param defStyleRes  A resource identifier of a style resource that
+     *                     supplies default values for the TypedArray,
+     *                     used only if defStyleAttr is 0 or can not be found
+     *                     in the theme.  Can be 0 to not look for defaults.
+     * @param defaultValue Value to return if the attribute is not defined or
+     *                     cannot be coerced to an integer.
+     * @return Returns a TypedArray holding an array of the attribute values.
+     * @see android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int)
+     */
+    @SuppressWarnings("ResourceType")
+    public static boolean getBoolFormAttribute(Context context,
+                                               AttributeSet attrs,
+                                               int attr,
+                                               int defStyleAttr,
+                                               int defStyleRes,
+                                               boolean defaultValue) {
+        int[] attrsArray = new int[]{attr};
+        TypedArray ta = context.obtainStyledAttributes(attrs, attrsArray, defStyleAttr, defStyleRes);
+        boolean ret = defaultValue;
+        if (ta.length() > 0) {
+            ret = ta.getBoolean(0, ret);
+        }
+        ta.recycle();
+        return ret;
+    }
+
+    /**
      * Get Background color if the attr is color value
      *
      * @param context Context
@@ -178,8 +215,9 @@ public class Ui {
      */
     public static int[] getColorsFromArrayRes(Resources resources, int resId) {
         try {
-            @SuppressLint("Recycle") TypedArray array = resources.obtainTypedArray(resId);
-            if (array != null && array.length() > 0) {
+            @SuppressLint("Recycle")
+            TypedArray array = resources.obtainTypedArray(resId);
+            if (array.length() > 0) {
                 final int len = array.length();
                 final int[] colors = new int[len];
                 for (int i = 0; i < len; i++) {

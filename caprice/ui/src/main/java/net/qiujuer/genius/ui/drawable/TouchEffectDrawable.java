@@ -48,6 +48,8 @@ import java.lang.ref.WeakReference;
  * This drawable is can use background or other draw call
  */
 public class TouchEffectDrawable extends StatePaintDrawable implements Animatable {
+    public static final int INTERCEPT_EVENT_CLICK = 0x0001;
+    public static final int INTERCEPT_EVENT_LONG_CLICK = 0x0010;
     // Time
     public static final int ANIM_ENTER_DURATION = 280;
     public static final int ANIM_EXIT_DURATION = 160;
@@ -65,10 +67,15 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     // Touch
     protected boolean isTouchReleased = false;
     private WeakReference<PerformClicker> mPerformClicker = null;
+    private WeakReference<PerformLongClicker> mPerformLongClicker = null;
 
     // Animation
     private boolean isRealRunning = false;
-    private float mAnimSpeed = 1;
+    private float mAnimSpeed = SPEED_NORMAL * 1.0f;
+    private int mAnimSpeedType = SPEED_NORMAL;
+
+    // Intercept
+    private int mInterceptEvent = 0x0001;
 
     public TouchEffectDrawable() {
         this(new TouchEffectState(null), null, null);
@@ -97,6 +104,21 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     public void setEffect(Effect s) {
         mState.mEffect = s;
         updateEffect();
+    }
+
+    /**
+     * Set the click intercept to widget,
+     * this value will be used {@link #mPerformClicker} and {@link #mPerformLongClicker}
+     * eg:
+     * 0x0000: not intercept
+     * 0x0001: intercept click
+     * 0x0010: intercept longClick
+     * 0x0011: intercept click and longClick
+     *
+     * @param interceptEvent intercept type (0x0000,0x0001,0x0010,0x0011)
+     */
+    public void setInterceptEvent(int interceptEvent) {
+        mInterceptEvent = interceptEvent;
     }
 
     /**
@@ -220,6 +242,13 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     @Override
+    public void draw(Canvas canvas) {
+        // In this, we check the animation state before call draw
+        if (isRealRunning)
+            super.draw(canvas);
+    }
+
+    @Override
     public void draw(Canvas canvas, Paint paint) {
         final Rect r = getBounds();
         final TouchEffectState state = mState;
@@ -243,8 +272,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             onDraw(state.mEffect, canvas, paint);
             // Restore
             canvas.restoreToCount(count);
-        } else {
-            canvas.drawRect(r, paint);
         }
     }
 
@@ -293,7 +320,8 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
                 mState.mPadding = new Rect();
             }
             try {
-                mState.mEffect = mState.mEffect.clone();
+                if (mState.mEffect != null)
+                    mState.mEffect = mState.mEffect.clone();
             } catch (CloneNotSupportedException e) {
                 return null;
             }
@@ -436,13 +464,23 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     /**
-     * This drawable call view perform by interface
+     * This drawable call view perform click by interface
      */
     public interface PerformClicker {
         void postPerformClick();
     }
 
+    /**
+     * This drawable call view perform longClick by interface
+     */
+    public interface PerformLongClicker {
+        void postPerformLongClick();
+    }
+
     public boolean performClick(PerformClicker clicker) {
+        if ((mInterceptEvent & INTERCEPT_EVENT_CLICK) != INTERCEPT_EVENT_CLICK)
+            return true;
+
         PerformClicker saveValue = getPerformClicker();
         if (saveValue == null) {
             savePerformClicker(clicker);
@@ -457,6 +495,24 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         }
     }
 
+    public boolean performLongClick(PerformLongClicker clicker) {
+        if ((mInterceptEvent & INTERCEPT_EVENT_LONG_CLICK) != INTERCEPT_EVENT_LONG_CLICK)
+            return true;
+
+        PerformLongClicker saveValue = getPerformLongClicker();
+        if (saveValue == null) {
+            savePerformLongClicker(clicker);
+            return false;
+        } else {
+            if (mEnterAnimate.isRunning())
+                return false;
+            else {
+                clearPerformLongClicker();
+                return true;
+            }
+        }
+    }
+
     protected void postPerformClick() {
         PerformClicker clicker = getPerformClicker();
         if (clicker != null) {
@@ -464,9 +520,24 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         }
     }
 
+    protected void postPerformLongClick() {
+        if (mAnimSpeedType != SPEED_SLOW)
+            return;
+        PerformLongClicker longClicker = getPerformLongClicker();
+        if (longClicker != null) {
+            longClicker.postPerformLongClick();
+        }
+    }
+
     private void savePerformClicker(PerformClicker clicker) {
         synchronized (this) {
             mPerformClicker = new WeakReference<PerformClicker>(clicker);
+        }
+    }
+
+    private void savePerformLongClicker(PerformLongClicker clicker) {
+        synchronized (this) {
+            mPerformLongClicker = new WeakReference<PerformLongClicker>(clicker);
         }
     }
 
@@ -479,11 +550,29 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         }
     }
 
+    private PerformLongClicker getPerformLongClicker() {
+        synchronized (this) {
+            if (mPerformLongClicker != null) {
+                return mPerformLongClicker.get();
+            }
+            return null;
+        }
+    }
+
     private void clearPerformClicker() {
         synchronized (this) {
             if (mPerformClicker != null) {
                 mPerformClicker.clear();
                 mPerformClicker = null;
+            }
+        }
+    }
+
+    private void clearPerformLongClicker() {
+        synchronized (this) {
+            if (mPerformLongClicker != null) {
+                mPerformLongClicker.clear();
+                mPerformLongClicker = null;
             }
         }
     }
@@ -518,12 +607,38 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         return mExitAnimate.mDuration;
     }
 
+    /**
+     * Set the touch animation duration.
+     * This setting about enter animation.
+     * <p/>
+     * Default:
+     * EnterDuration: 280ms
+     * FactorRate: 1.0
+     * <p/>
+     * This set will calculation: factor * duration
+     * This factor need > 0
+     *
+     * @param factor Touch duration rate
+     */
     public void setEnterDuration(float factor) {
         if (factor > 0) {
             mEnterAnimate.mDuration = (int) (factor * ANIM_ENTER_DURATION);
         }
     }
 
+    /**
+     * Set the touch animation duration.
+     * This setting about exit animation.
+     * <p/>
+     * Default:
+     * ExitDuration: 160ms
+     * FactorRate: 1.0
+     * <p/>
+     * This set will calculation: factor * duration
+     * This factor need > 0
+     *
+     * @param factor Touch duration rate
+     */
     public void setExitDuration(float factor) {
         if (factor > 0) {
             mExitAnimate.mDuration = (int) (factor * ANIM_EXIT_DURATION);
@@ -553,6 +668,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     private void startEnterAnim() {
         // onStart Anim we need clear old PerformClicker
         clearPerformClicker();
+        clearPerformLongClicker();
         // Start animation by delay
         // the delay time use to can cancel the animation 64ms
         mEnterAnimate.start(ANIM_DELAY_START_TIME);
@@ -563,7 +679,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         if (mEnterAnimate.isRunning())
             return;
 
-        // Post Click
+        // Post Click before exit animate running
         postPerformClick();
 
         // Start animation by not delay
@@ -580,6 +696,10 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     }
 
     private void changeSpeed(int speedType) {
+        if (mAnimSpeedType == speedType)
+            return;
+        // Change speed type and real speed
+        mAnimSpeedType = speedType;
         float speed;
         switch (speedType) {
             case SPEED_FAST:
@@ -592,7 +712,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
                 speed = 1f;
                 break;
         }
-
 
         if (mAnimSpeed != speed) {
             mAnimSpeed = speed;
@@ -729,7 +848,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
             long startTime = SystemClock.uptimeMillis() + delay;
 
             // Progress added unit
-            mInc = (FRAME_DURATION / (float) mDuration) * mAnimSpeed;
+            reckonIncremental();
             mProgress = 0;
             // notify run
             scheduleSelf(this, startTime);
@@ -751,7 +870,6 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
 
             // check time
             mProgress += mInc;
-
             if (mProgress < 1) {
                 final float interpolation = mInterpolator.getInterpolation(mProgress);
                 // Notify
@@ -761,6 +879,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
                 // Next
                 final long currentTime = SystemClock.uptimeMillis();
                 scheduleSelf(this, currentTime + FRAME_DURATION);
+
             } else {
                 mDone = true;
                 unscheduleSelf(this);
@@ -781,7 +900,7 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
         void init() {
             // init config
             mDuration = ANIM_ENTER_DURATION;
-            mInterpolator = new DecelerateInterpolator(2.6f);
+            mInterpolator = new DecelerateInterpolator(2.4f);
         }
 
         @Override
@@ -816,16 +935,23 @@ public class TouchEffectDrawable extends StatePaintDrawable implements Animatabl
     };
 
     protected void onEnterAnimateUpdate(float factor) {
-        mState.mEffect.animationEnter(factor);
+        if (mState.mEffect != null)
+            mState.mEffect.animationEnter(factor);
     }
 
     protected void onExitAnimateUpdate(float factor) {
-        mState.mEffect.animationExit(factor);
+        if (mState.mEffect != null)
+            mState.mEffect.animationExit(factor);
     }
 
     protected void onEnterAnimateEnd() {
-        // Is un touch auto startExitAnim()
-        if (isTouchReleased) startExitAnim();
+        if (isTouchReleased) {
+            // Is un touch auto startExitAnim
+            startExitAnim();
+        } else {
+            // try perform long click
+            postPerformLongClick();
+        }
     }
 
     protected void onExitAnimateEnd() {

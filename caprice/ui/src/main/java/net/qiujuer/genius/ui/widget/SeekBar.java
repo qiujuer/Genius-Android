@@ -23,6 +23,33 @@ import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+/**
+ * This is SeekBar,
+ * the bar have a {@link BalloonMarker} to show progress.
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gAllowTrackClickToDrag Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicator Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorBackgroundColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorFormatter Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorSeparation Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorTextAppearance Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorTextPadding Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMax Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMin Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMirrorForRtl Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gRippleColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gScrubberColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gScrubberStroke Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gThumbColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gThumbSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTickSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTouchSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTrackStroke Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gValue Attributes}
+ */
 public class SeekBar extends AbsSeekBar {
     private OnSeekBarChangeListener mOnSeekBarChangeListener;
 

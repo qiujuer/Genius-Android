@@ -6,11 +6,6 @@
         <item name="colorPrimaryDark">@color/cyan_700</item>
         <item name="colorAccent">@color/cyan_500</item>
         <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
 
         <!-- In this custom widget style -->
         <item name="gTextViewStyle">@style/Genius.Widget.TextView</item>
@@ -20,9 +15,19 @@
         <item name="gCheckBoxStyle">@style/Genius.Widget.CompoundButton.CheckBox</item>
         <item name="gEditTextStyle">@style/Genius.Widget.EditText</item>
         <item name="gLoadingStyle">@style/Genius.Widget.Loading</item>
-        
+        <item name="gImageViewStyle">@style/Genius.Widget.ImageView</item>
+
         <!-- Toolbar styles -->
         <item name="toolbarStyle">@style/ToolBarStyle</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.FullScreen" parent="AppTheme.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="ToolBarStyle" parent="Widget.AppCompat.Toolbar">
