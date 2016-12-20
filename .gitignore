@@ -1,17 +1,3 @@
-/caprice/.idea/
-/caprice/.gradle/
-/caprice/.DS_Store/
-/caprice/gradle/
-/caprice/build/
-/caprice/blur/build/
-/caprice/kit/build/
-/caprice/res/build/
-/caprice/ui/build/
-/caprice/sample/build/
-/caprice/local.properties
-/caprice/gradlew
-/caprice/gradlew.bat
-
 /steady/.idea/
 /steady/.gradle/
 /steady/.DS_Store/

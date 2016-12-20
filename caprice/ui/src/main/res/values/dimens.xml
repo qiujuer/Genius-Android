@@ -44,6 +44,7 @@
 
     <dimen name="g_loading_lineSize">2dp</dimen>
     <dimen name="g_loading_minSize">28dp</dimen>
+    <dimen name="g_loading_maxSize">40dp</dimen>
 
     <dimen name="g_button_background_corners_radius">4dp</dimen>
     <dimen name="g_button_touch_corners_radius">4dp</dimen>

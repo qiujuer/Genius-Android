@@ -30,6 +30,7 @@ import android.graphics.drawable.Drawable;
  * Subclasses should implement {@link #onColorChange(int)} if new color != current color call this }
  * </p>
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class StateColorDrawable extends Drawable {
     private ColorStateList mColorStateList;
     private int mColor;
@@ -95,10 +96,7 @@ public abstract class StateColorDrawable extends Drawable {
             tintStateList = ColorStateList.valueOf(Color.BLACK);
         mColorStateList = tintStateList;
         int[] state = getState();
-        if (state == null)
-            changeColor(tintStateList.getDefaultColor());
-        else
-            changeColor(tintStateList.getColorForState(state, tintStateList.getDefaultColor()));
+        changeColor(tintStateList.getColorForState(state, tintStateList.getDefaultColor()));
     }
 
     /**

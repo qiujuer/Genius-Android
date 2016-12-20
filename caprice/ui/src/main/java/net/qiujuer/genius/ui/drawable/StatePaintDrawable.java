@@ -198,6 +198,7 @@ public abstract class StatePaintDrawable extends StateColorDrawable {
         //tintFilter.setColor(color);
         //tintFilter.setMode(tintMode);
         try {
+            //noinspection unchecked
             Class<PorterDuffColorFilter> tClass = (Class<PorterDuffColorFilter>) tintFilter.getClass();
             Method method = tClass.getMethod("setColor", Integer.class);
             method.invoke(tintFilter, color);

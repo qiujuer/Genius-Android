@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2016 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
  * Created 05/28/2015
- * Changed 1/10/2015
- * Version 1.0.0
+ * Changed 05/29/2016
+ * Version 2.0.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import android.graphics.Bitmap;
  * This use jni blur bitmap and pixels
  * Blur arithmetic is StackBlur
  */
-public class StackNative {
+class StackNative {
 
     /**
      * Load genius jni file

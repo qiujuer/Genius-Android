@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 10/16/2015
- * Changed 10/23/2015
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,61 +29,56 @@ import android.os.SystemClock;
  * A drawable to draw loading
  * The loading draw a Circle
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class LoadingDrawable extends Drawable implements android.graphics.drawable.Animatable, net.qiujuer.genius.ui.drawable.Animatable {
-    protected static final int LINE_SIZE = 4;
-    protected static int MIN_SIZE = 56;
+    private static final int LINE_SIZE = 4;
 
     protected Paint mForegroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected Paint mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-    private long mStartTime;
     private boolean mRun;
 
     private int[] mForegroundColor = new int[]{0xcc000000, 0xfffe7865, 0xff842398};
     private int mForegroundColorIndex = 0;
 
-    private float mProgress;
+    protected float mProgress;
 
     public LoadingDrawable() {
-        mBackgroundPaint.setStyle(Paint.Style.STROKE);
-        mBackgroundPaint.setAntiAlias(true);
-        mBackgroundPaint.setDither(true);
-        mBackgroundPaint.setStrokeWidth(LINE_SIZE);
-        mBackgroundPaint.setColor(0x32000000);
+        final Paint bPaint = mBackgroundPaint;
+        bPaint.setStyle(Paint.Style.STROKE);
+        bPaint.setAntiAlias(true);
+        bPaint.setDither(true);
+        bPaint.setStrokeWidth(LINE_SIZE);
+        bPaint.setColor(0x32000000);
 
-        mForegroundPaint.setStyle(Paint.Style.STROKE);
-        mForegroundPaint.setAntiAlias(true);
-        mForegroundPaint.setDither(true);
-        mForegroundPaint.setStrokeWidth(LINE_SIZE);
-        mForegroundPaint.setColor(mForegroundColor[0]);
-        mForegroundPaint.setStrokeCap(Paint.Cap.ROUND);
-    }
-
-    public LoadingDrawable(int minSize) {
-        this();
-        MIN_SIZE = minSize;
+        final Paint fPaint = mForegroundPaint;
+        fPaint.setStyle(Paint.Style.STROKE);
+        fPaint.setAntiAlias(true);
+        fPaint.setDither(true);
+        fPaint.setStrokeWidth(LINE_SIZE);
+        fPaint.setColor(mForegroundColor[0]);
     }
 
     @Override
     public int getIntrinsicHeight() {
         float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
-        int size = (int) (maxLine * 2 + 10);
-        return Math.max(size, MIN_SIZE);
+        return (int) (maxLine * 2);
     }
 
     @Override
     public int getIntrinsicWidth() {
         float maxLine = Math.max(mBackgroundPaint.getStrokeWidth(), mForegroundPaint.getStrokeWidth());
-        int size = (int) (maxLine * 2 + 10);
-        return Math.max(size, MIN_SIZE);
+        return (int) (maxLine * 2);
     }
 
     public void setBackgroundLineSize(float size) {
         mBackgroundPaint.setStrokeWidth(size);
+        onBoundsChange(getBounds());
     }
 
     public void setForegroundLineSize(float size) {
         mForegroundPaint.setStrokeWidth(size);
+        onBoundsChange(getBounds());
     }
 
     public float getBackgroundLineSize() {
@@ -117,16 +110,19 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     }
 
     int getNextForegroundColor() {
-        if (mForegroundColor.length > 1) {
-            mForegroundColorIndex++;
-            if (mForegroundColorIndex >= mForegroundColor.length)
-                mForegroundColorIndex = 0;
+        final int[] colors = mForegroundColor;
+        final Paint fPaint = mForegroundPaint;
+        if (colors.length > 1) {
+            int index = mForegroundColorIndex + 1;
+            if (index >= colors.length)
+                index = 0;
 
-            mForegroundPaint.setColor(mForegroundColor[mForegroundColorIndex]);
+            fPaint.setColor(colors[index]);
+            mForegroundColorIndex = index;
         } else {
-            mForegroundPaint.setColor(mForegroundColor[0]);
+            fPaint.setColor(colors[0]);
         }
-        return mForegroundPaint.getColor();
+        return fPaint.getColor();
     }
 
     /**
@@ -161,10 +157,8 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
         @Override
         public void run() {
             if (mRun) {
-                long curTime = SystemClock.uptimeMillis();
-                refresh(mStartTime, curTime, ANIMATION_DURATION);
+                onRefresh();
                 invalidateSelf();
-                scheduleSelf(this, curTime + FRAME_DURATION);
             } else {
                 unscheduleSelf(this);
             }
@@ -178,8 +172,7 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     public void start() {
         if (!mRun) {
             mRun = true;
-            mStartTime = SystemClock.uptimeMillis();
-            scheduleSelf(mAnim, mStartTime + FRAME_DURATION);
+            scheduleSelf(mAnim, SystemClock.uptimeMillis() + FRAME_DURATION);
         }
     }
 
@@ -193,28 +186,43 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
 
     @Override
     public void draw(Canvas canvas) {
-        if (mBackgroundPaint.getColor() != 0 && mBackgroundPaint.getStrokeWidth() > 0)
-            drawBackground(canvas, mBackgroundPaint);
+        int count = canvas.save();
 
-        if ((mRun || mProgress > 0) && mBackgroundPaint.getColor() != 0 && mBackgroundPaint.getStrokeWidth() > 0)
-            drawForeground(canvas, mForegroundPaint);
+        final Paint bPaint = mBackgroundPaint;
+        if (bPaint.getColor() != 0 && bPaint.getStrokeWidth() > 0)
+            drawBackground(canvas, bPaint);
+
+        final Paint fPaint = mForegroundPaint;
+        if (mRun) {
+            if (fPaint.getColor() != 0 && fPaint.getStrokeWidth() > 0)
+                drawForeground(canvas, fPaint);
+            // invalidate next call in this
+            scheduleSelf(mAnim, SystemClock.uptimeMillis() + FRAME_DURATION);
+        } else if (mProgress > 0) {
+            if (fPaint.getColor() != 0 && fPaint.getStrokeWidth() > 0)
+                drawForeground(canvas, fPaint);
+        }
+
+        canvas.restoreToCount(count);
     }
 
     @Override
     public void setAlpha(int alpha) {
-
+        mForegroundPaint.setAlpha(alpha);
     }
 
     @Override
     public void setColorFilter(ColorFilter cf) {
         boolean needRefresh = false;
-        if (mBackgroundPaint.getColorFilter() != cf) {
-            mBackgroundPaint.setColorFilter(cf);
+        final Paint bPaint = mBackgroundPaint;
+        if (bPaint.getColorFilter() != cf) {
+            bPaint.setColorFilter(cf);
             needRefresh = true;
         }
 
-        if (mForegroundPaint.getColorFilter() != cf) {
-            mForegroundPaint.setColorFilter(cf);
+        final Paint fPaint = mForegroundPaint;
+        if (fPaint.getColorFilter() != cf) {
+            fPaint.setColorFilter(cf);
             needRefresh = true;
         }
 
@@ -224,8 +232,10 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
 
     @Override
     public int getOpacity() {
-        if (mBackgroundPaint.getXfermode() == null && mForegroundPaint.getXfermode() == null) {
-            final int alpha = Color.alpha(mForegroundPaint.getColor());
+        final Paint bPaint = mBackgroundPaint;
+        final Paint fPaint = mForegroundPaint;
+        if (bPaint.getXfermode() == null && fPaint.getXfermode() == null) {
+            final int alpha = Color.alpha(fPaint.getColor());
             if (alpha == 0) {
                 return PixelFormat.TRANSPARENT;
             }
@@ -238,7 +248,7 @@ public abstract class LoadingDrawable extends Drawable implements android.graphi
     }
 
 
-    protected abstract void refresh(long startTime, long curTime, long timeLong);
+    protected abstract void onRefresh();
 
     protected abstract void drawBackground(Canvas canvas, Paint backgroundPaint);
 
