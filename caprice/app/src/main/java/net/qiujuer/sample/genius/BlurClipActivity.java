@@ -10,72 +10,86 @@ import android.view.View;
 import android.widget.ImageView;
 
 import net.qiujuer.genius.graphics.Blur;
+import net.qiujuer.genius.kit.handler.Run;
+import net.qiujuer.genius.kit.handler.runable.Action;
+import net.qiujuer.genius.ui.widget.Button;
+import net.qiujuer.genius.ui.widget.Loading;
 
 public class BlurClipActivity extends AppCompatActivity {
-    private Bitmap mSrc1;
-    private Bitmap mSrc2;
+    private Bitmap mSrc;
+    private ImageView mView;
+    private Loading mLoading;
+    private Button mButton;
+    private boolean isBlurring;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blur_clip);
 
+        mButton = (Button) findViewById(R.id.btn_todo1);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blurStart();
+            }
+        });
+        mView = (ImageView) findViewById(R.id.iv_show);
+        mLoading = (Loading) findViewById(R.id.loading);
+        load();
+    }
+
+
+    private void load() {
         try {
             // Find Bitmap
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.walkthrough);
-            mSrc1 = bitmap.copy(bitmap.getConfig(), true);
-            mSrc2 = bitmap.copy(bitmap.getConfig(), true);
-            bitmap.recycle();
+            mSrc = BitmapFactory.decodeResource(getResources(), R.mipmap.wallpaper);
+            mView.setImageBitmap(mSrc);
         } catch (OutOfMemoryError error) {
             error.printStackTrace();
             finish();
         }
+    }
 
-        findViewById(R.id.btn_todo1).setOnClickListener(new View.OnClickListener() {
+
+    private void blurStart() {
+        if (isBlurring)
+            return;
+        isBlurring = true;
+        mLoading.start();
+        mButton.setVisibility(View.GONE);
+        Run.onBackground(new Action() {
             @Override
-            public void onClick(View v) {
-                clipBlur();
+            public void call() {
+                Blur.onStackBlurClip(mSrc, 50);
+                blurEnd();
             }
         });
-        findViewById(R.id.btn_todo2).setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void blurEnd() {
+        Run.onUiAsync(new Action() {
             @Override
-            public void onClick(View v) {
-                blur();
-            }
-        });
-        findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clear();
+            public void call() {
+                mView.postInvalidate();
+                mLoading.stop();
+                mButton.setVisibility(View.VISIBLE);
+                isBlurring = false;
             }
         });
     }
 
     private void clear() {
-        Drawable drawable = ((ImageView) findViewById(R.id.iv_show1)).getDrawable();
+        Drawable drawable = mView.getDrawable();
         if (drawable != null && drawable instanceof BitmapDrawable) {
-            ((ImageView) findViewById(R.id.iv_show1)).setImageDrawable(null);
+            ((ImageView) findViewById(R.id.iv_show)).setImageDrawable(null);
             ((BitmapDrawable) drawable).getBitmap().recycle();
         }
     }
 
-    private void clipBlur() {
-        ((ImageView) findViewById(R.id.iv_show1)).setImageBitmap(Blur.onStackBlurClip(mSrc1, 80));
-    }
-
-    private void blur() {
-        ((ImageView) findViewById(R.id.iv_show1)).setImageBitmap(Blur.onStackBlur(mSrc2, 80));
-    }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mSrc1 != null && !mSrc1.isRecycled())
-            mSrc1.recycle();
-        if (mSrc2 != null && !mSrc2.isRecycled())
-            mSrc2.recycle();
-
-        System.gc();
+        clear();
     }
 }
