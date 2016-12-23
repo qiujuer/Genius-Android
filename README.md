@@ -10,11 +10,12 @@
 **Genius-Android:** by `Material Design` style and some commonly used packages.  Starting in 2015, The divided into two branches: `STEADY` and `CAPRICE`.
 * `STEADY` [END](https://github.com/qiujuer/Genius-Android/tree/steady)
 
-* `CAPRICE` a new branch in the branch, containing `Ui` and `Kit` libraries
-	> * **Ui Lib:** research and development in `Color-Drive` and `Material Design` style
-	> * **Kit Lib:** Include `command`、`net`、`util`
-	> * **Blur Lib:** Include `blur`
-    > * **Resource Lib** Include `Material Design` Color and Lay Size
+* `CAPRICE` is new branch, containing `Ui`, `Graphics`, `Kit` libraries 
+  > * **Resource Lib:** Include `Material Design` Color and Dimen
+	> * **Ui Lib:** Is `Material Design` style widget, support to api-15 (4.0.3) 
+	> * **Kit Lib:** Include `command`、`handler`、`reflect` 
+	> * **Graphics Lib:** Include `blur` 
+
 
 **`Note:` `STEADY` with `CAPRICE` libraries are not compatible, is completely independent branch!**
 
@@ -32,30 +33,26 @@
 
 ## Add Library To Your Project
 
-`Ui` `Blur` `Resource` `Kit`
+`Ui` `Resource` `Graphics` `Kit`
 
 ```groovy
 dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.0-beta8'
-  compile 'net.qiujuer.genius:res:2.0.0-beta8'
+  compile 'net.qiujuer.genius:ui:2.0.0'
+  compile 'net.qiujuer.genius:res:2.0.0'
   
-  // blur module
-  compile 'net.qiujuer.genius:blur:2.0.0'
-  // or use new
-  compile 'net.qiujuer.genius:graphics:2.0.0-beta8'
+  // use to bitmap blur and more
+  compile 'net.qiujuer.genius:graphics:2.0.0'
   
-  // kit module
-  compile 'net.qiujuer.genius:kit:2.0.0-beta8'
-  // or
-  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta8'
-  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta8'
-  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta8'
+  // ping/telnet/tracert/dns and run cmd
+  compile 'net.qiujuer.genius:kit-cmd:2.0.0'
+  // shuttle between ui-thread and child-thread
+  compile 'net.qiujuer.genius:kit-handler:2.0.0'
+  // calss reflect
+  compile 'net.qiujuer.genius:kit-reflect:2.0.0'
 }
 ```
 
-
-*  **Note: Kit module included kit-cmd, kit-handler, kit-reflect modules.**
 *  **Note: Each module is independent and can be used independently to dependency.**
 
 
@@ -69,7 +66,7 @@ dependencies {
 
 ## Feedback
 
-If you have any question, please timely feedback to me, you can use the following contact information to communicate with me
+If you submit question, please:
 
 * Project: [`Submit Bug or Idea`](https://github.com/qiujuer/Genius-Android/issues)
 * Email: [`qiujuer@live.cn`](mailto:qiujuer@live.cn)
@@ -81,8 +78,7 @@ If you have any question, please timely feedback to me, you can use the followin
 
 ## Giving developers
 
-Are interested in and write a `free`, have joy, also there is sweat, I hope you like my work, but also can support it.
-Of course, rich holds a money (AliPay: `qiujuer@live.cn`); No money holds personal field, thank you.
+Used AliPay sponsor me: `qiujuer@live.cn`
 
 
 
