@@ -21,17 +21,27 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':graphics')
-    compile project(':res')
-    compile project(':ui')
-    compile project(':kit-cmd')
-    compile project(':kit-reflect')
-    compile project(':kit-handler')
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:25.1.0'
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+
+    //compile project(':ui')
+    //compile project(':res')
+    //compile project(':graphics')
+    //compile project(':kit-cmd')
+    //compile project(':kit-reflect')
+    //compile project(':kit-handler')
+
+    compile 'net.qiujuer.genius:ui:2.0.0'
+    compile 'net.qiujuer.genius:res:2.0.0'
+    compile 'net.qiujuer.genius:graphics:2.0.0'
+    compile 'net.qiujuer.genius:kit-cmd:2.0.0'
+    compile 'net.qiujuer.genius:kit-reflect:2.0.0'
+    compile 'net.qiujuer.genius:kit-handler:2.0.0'
 }
