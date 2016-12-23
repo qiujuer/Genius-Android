@@ -1,1 +1,1 @@
-include ':app', ':blur', ':res', ':ui', ':kit-cmd', ':kit-reflect', ':kit-handler', ':kit', ':graphics'
+include ':app', ':res', ':ui', ':kit-cmd', ':kit-reflect', ':kit-handler', ':graphics'

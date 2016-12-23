@@ -7,14 +7,14 @@
 
 ![branchs](https://raw.githubusercontent.com/qiujuer/Genius-Android/master/caprice/release/branchs.png)
 
-**Genius-Android** ：由 `Material Design` 控件和一些常用类库组合而成。从2015年开始，划分为两个分支：`STEADY` 和 `CAPRICE`。
+**Genius-Android** ：是 `Material Design` 控件和一些常用类库组合而成。从2015年开始，划分为两个分支：`STEADY` 和 `CAPRICE`。
 * `STEADY` [END](https://github.com/qiujuer/Genius-Android/tree/steady)
 
 * `CAPRICE` 一个新的分支，在该分支中包含 `Ui` 与 `Kit` 库
-	> * **Ui Lib** 主打颜色驱动`Material Design`风格进行研发
-	> * **Kit Lib** 包含：`command`、`net`、`util` 等包
-	> * **Blur Lib** 包含：`StackBlr` 对图片进行模糊
-    > * **Resource Lib** 包含：`Material Design` 的颜色与布局大小
+  > * **Resource Lib** 包含：`Material Design` 的颜色与布局大小
+	> * **Ui Lib** 包含`Material Design`风格的主要控件，最低适配API-15 (4.0.3)
+	> * **Kit Lib** 包含：`command`、`handler`、`reflect`  等包
+	> * **Graphics Lib** 包含：`StackBlr` 图片模糊处理
 
 **`请注意：` `STEADY` 与 `CAPRICE` 库并不兼容，是完全独立的两个分支！**
 
@@ -33,30 +33,27 @@
 
 ## 添加项目
 
-`Ui` `Blur` `Resource` `Kit`
+`Ui` `Resource` `Graphics` `Kit`
 
 ```groovy
 dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.0-beta8'
-  compile 'net.qiujuer.genius:res:2.0.0-beta8'
+  compile 'net.qiujuer.genius:ui:2.0.0'
+  compile 'net.qiujuer.genius:res:2.0.0'
   
-  // blur module
-  compile 'net.qiujuer.genius:blur:2.0.0'
-  // or use new
-  compile 'net.qiujuer.genius:graphics:2.0.0-beta8'
+  // use to bitmap blur and more
+  compile 'net.qiujuer.genius:graphics:2.0.0'
   
-  // kit module
-  compile 'net.qiujuer.genius:kit:2.0.0-beta8'
-  // or
-  compile 'net.qiujuer.genius:kit-cmd:2.0.0-beta8'
-  compile 'net.qiujuer.genius:kit-handler:2.0.0-beta8'
-  compile 'net.qiujuer.genius:kit-reflect:2.0.0-beta8'
+  // ping/telnet/tracert/dns and run cmd
+  compile 'net.qiujuer.genius:kit-cmd:2.0.0'
+  // shuttle between ui-thread and child-thread
+  compile 'net.qiujuer.genius:kit-handler:2.0.0'
+  // calss reflect
+  compile 'net.qiujuer.genius:kit-reflect:2.0.0'
 }
 ```
 
 
-*  **提示：Kit 包含了 kit-cmd、kit-handler、kit-reflect。**
 *  **提示：每个模块都是独立的，可单独依赖使用。**
 
 
@@ -70,7 +67,7 @@ dependencies {
 
 ## 反馈
 
-在使用中有任何问题，欢迎能及时反馈给我，可以用以下联系方式跟我交流
+你可以通过如下方式反馈给我:
 
 * 项目：[`提交Bug或想法`](https://github.com/qiujuer/Genius-Android/issues)
 * 邮件：[`qiujuer@live.cn`](mailto:qiujuer@live.cn)
@@ -83,8 +80,7 @@ dependencies {
 
 ## 捐助我
 
-有兴趣的情况下、写一个`免费`的东西，有欣喜，也还有汗水，希望你喜欢我的作品，同时也能支持一下。
-当然，有钱捧个钱场（支付宝: `qiujuer@live.cn` ），没钱捧个人场，谢谢！
+你可以通过支付宝赞助我：`qiujuer@live.cn`
 
 
 
