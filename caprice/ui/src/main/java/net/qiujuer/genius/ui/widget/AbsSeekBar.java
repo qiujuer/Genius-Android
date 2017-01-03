@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 08/04/2015
- * Changed 12/15/2015
- * Version 3.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +41,7 @@ import android.view.ViewParent;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.AlmostRippleDrawable;
 import net.qiujuer.genius.ui.drawable.BalloonMarkerDrawable;
 import net.qiujuer.genius.ui.drawable.SeekBarDrawable;
@@ -54,7 +52,31 @@ import java.util.Locale;
 
 /**
  * This abstract class use to SeekBar
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gAllowTrackClickToDrag Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicator Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorBackgroundColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorFormatter Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorSeparation Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorTextAppearance Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gIndicatorTextPadding Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMax Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMin Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gMirrorForRtl Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gRippleColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gScrubberColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gScrubberStroke Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gThumbColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gThumbSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTickSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTouchSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gTrackStroke Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#AbsSeekBar_gValue Attributes}
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class AbsSeekBar extends View {
     //We want to always use a formatter so the indicator numbers are "translated" to specific locales.
     private static final String DEFAULT_FORMATTER = "%d";
@@ -135,12 +157,12 @@ public abstract class AbsSeekBar extends View {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
 
-        mRipple = new AlmostRippleDrawable(resources.getColorStateList(R.color.g_default_seek_bar_ripple));
+        mRipple = new AlmostRippleDrawable(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_ripple));
         mRipple.setCallback(this);
 
-        mSeekBarDrawable = new SeekBarDrawable(resources.getColorStateList(R.color.g_default_seek_bar_track),
-                resources.getColorStateList(R.color.g_default_seek_bar_scrubber),
-                resources.getColorStateList(R.color.g_default_seek_bar_thumb));
+        mSeekBarDrawable = new SeekBarDrawable(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_track),
+                UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_scrubber),
+                UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_thumb));
         mSeekBarDrawable.setCallback(this);
 
         // Init
@@ -154,7 +176,7 @@ public abstract class AbsSeekBar extends View {
             if (notEdit) {
                 mIndicator = new PopupIndicator(context);
                 mIndicator.setListener(mFloaterListener);
-                mIndicator.setIndicatorColor(resources.getColorStateList(R.color.g_default_seek_bar_indicator));
+                mIndicator.setIndicatorColor(UiCompat.getColorStateList(resources, R.color.g_default_seek_bar_indicator));
                 mIndicator.setIndicatorClosedSize(mSeekBarDrawable.getThumbRadius() * 2);
             }
 
@@ -255,7 +277,8 @@ public abstract class AbsSeekBar extends View {
         }
 
         // Enabled
-        setEnabled(attrs.getAttributeBooleanValue(Ui.androidStyleNameSpace, "enabled", isEnabled()));
+        setEnabled(Ui.getBoolFormAttribute(context, attrs, android.R.attr.enabled,
+                defStyleAttr, defStyleRes, isEnabled()));
     }
 
     public void setTrackStroke(int trackStroke) {
@@ -540,7 +563,7 @@ public abstract class AbsSeekBar extends View {
         if (!isEnabled()) {
             return false;
         }
-        int actionMasked = Ui.getActionMasked(event);
+        int actionMasked = event.getActionMasked();
         switch (actionMasked) {
             case MotionEvent.ACTION_DOWN:
                 mDownX = event.getX();
@@ -966,9 +989,9 @@ public abstract class AbsSeekBar extends View {
 
     /**
      * Interface to transform the current internal value of this AbsSeekBar to anther one for the visualization.
-     * <p>
+     * <p/>
      * This will be used on the floating bubble to display a different value if needed.
-     * <p>
+     * <p/>
      * Using this in conjunction with {@link #setIndicatorFormatter(String)} you will be able to manipulate the
      * value seen by the user
      *

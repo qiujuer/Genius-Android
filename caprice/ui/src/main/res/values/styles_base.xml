@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Genius.Widget.Button.Base" parent="android:Widget.Button">
+        <item name="gFont">@string/g_font_file</item>
+        <item name="gTouchColor">@color/g_default_base_ripple</item>
+        <item name="gTouchEffect">auto</item>
+        <item name="gTouchCornerRadius">@dimen/g_button_touch_corners_radius</item>
+        <item name="android:background">@drawable/g_button_background</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+</resources>

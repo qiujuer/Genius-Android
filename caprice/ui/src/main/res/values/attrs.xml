@@ -46,6 +46,12 @@
         <enum name="press" value="3" />
         <enum name="ripple" value="4" />
     </attr>
+    <attr name="gInterceptEvent">
+        <flag name="all" value="0x0011" />
+        <flag name="none" value="0x0000" />
+        <flag name="click" value="0x0001" />
+        <flag name="longClick" value="0x0010" />
+    </attr>
 
     <!-- TextView -->
     <attr name="gTextViewStyle" format="reference" />
@@ -67,6 +73,14 @@
     <declare-styleable name="FloatActionButton">
         <attr name="gBackgroundColor" />
         <attr name="gTouchColor" />
+        <attr name="android:enabled" />
+        <attr name="shadowRadius" format="dimension" />
+        <attr name="shadowDy" format="dimension" />
+        <attr name="shadowDx" format="dimension" />
+        <attr name="shadowColor" format="color" />
+        <attr name="shadowAlpha" format="integer" />
+        <attr name="gTouchDurationRate" />
+        <attr name="gInterceptEvent" />
     </declare-styleable>
 
     <!-- Button -->
@@ -81,6 +95,7 @@
         <attr name="gTouchCornerRadiusBL" />
         <attr name="gTouchCornerRadiusBR" />
         <attr name="gTouchDurationRate" />
+        <attr name="gInterceptEvent" />
     </declare-styleable>
 
     <!-- BalloonMarker -->
@@ -162,7 +177,7 @@
         <attr name="gForegroundLineSize" format="dimension" />
         <attr name="gBackgroundColor" />
         <attr name="gForegroundColor" format="reference|color" />
-        <attr name="gLineStyle">
+        <attr name="gProgressStyle">
             <enum name="circle" value="1" />
             <enum name="line" value="2" />
         </attr>
@@ -181,5 +196,7 @@
         <attr name="gTouchCornerRadiusBL" />
         <attr name="gTouchCornerRadiusBR" />
         <attr name="gTouchDurationRate" />
+        <attr name="android:enabled" />
+        <attr name="gInterceptEvent" />
     </declare-styleable>
 </resources>

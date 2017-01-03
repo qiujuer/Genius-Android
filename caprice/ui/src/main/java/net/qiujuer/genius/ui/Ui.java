@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2016 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 09/23/2014
- * Changed 1/8/2016
- * Version 1.4.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,39 +17,33 @@
  */
 package net.qiujuer.genius.ui;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.PaintDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.MotionEvent;
 
 /**
- * Created by QiuJu
  * This is Genius UI Center
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Ui {
     public static boolean SUPPER_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
-    public static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
+    private static final String androidStyleNameSpace = "http://schemas.android.com/apk/res/android";
 
     public static final int TOUCH_PRESS_COLOR = 0x30000000; //black_alpha_48
-    public static final int KEY_SHADOW_COLOR = 0x4E000000; //0x1E000000;
-    public static final int FILL_SHADOW_COLOR = 0x6D000000; //0x3D000000;
+    public static final int KEY_SHADOW_COLOR = 0x1F000000; //0x1E000000;
+    public static final int FILL_SHADOW_COLOR = 0x3D000000; //0x3D000000;
     public static final float X_OFFSET = 0f;
-    public static final float Y_OFFSET = 1.75f;
-    public static final float SHADOW_RADIUS = 3.5f;
+    public static final float Y_OFFSET = 1.8f;
+    public static final float SHADOW_RADIUS = 3.75f;
     public static final int SHADOW_ELEVATION = 4;
 
 
@@ -70,60 +61,6 @@ public class Ui {
     }
 
     /**
-     * Returns a suitable drawable for ActionBar with theme colors.
-     *
-     * @param theme selected theme
-     * @param dark  boolean for choosing dark colors or primary colors
-     * @return drawable to be used in ActionBar
-     */
-    public static Drawable getActionBarDrawable(Activity activity, int theme, boolean dark) {
-        return getActionBarDrawable(activity, theme, dark, 0);
-    }
-
-    /**
-     * Returns a suitable drawable for ActionBar with theme colors.
-     *
-     * @param theme        selected theme
-     * @param dark         boolean for choosing dark colors or primary colors
-     * @param borderBottom bottom border width
-     * @return drawable to be used in ActionBar
-     */
-    public static Drawable getActionBarDrawable(Activity activity, int theme, boolean dark, float borderBottom) {
-        int[] colors = activity.getResources().getIntArray(theme);
-
-        int color1 = colors[2];
-        int color2 = colors[1];
-
-        if (dark) {
-            color1 = colors[1];
-            color2 = colors[0];
-        }
-
-        borderBottom = dipToPx(activity, borderBottom);
-
-        PaintDrawable front = new PaintDrawable(color1);
-        PaintDrawable bottom = new PaintDrawable(color2);
-        Drawable[] d = {bottom, front};
-        LayerDrawable drawable = new LayerDrawable(d);
-        drawable.setLayerInset(1, 0, 0, 0, (int) borderBottom);
-        return drawable;
-    }
-
-
-    /**
-     * Change Dip to PX
-     *
-     * @param context Context
-     * @param dp      Dip
-     * @return PX
-     */
-    public static float dipToPx(Context context, float dp) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
-    }
-
-
-    /**
      * Change Dip to PX
      *
      * @param resources Resources
@@ -133,19 +70,6 @@ public class Ui {
     public static float dipToPx(Resources resources, float dp) {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
-    }
-
-
-    /**
-     * Change SP to PX
-     *
-     * @param context Context
-     * @param sp      SP
-     * @return PX
-     */
-    public static float spToPx(Context context, float sp) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
     }
 
     /**
@@ -206,13 +130,53 @@ public class Ui {
 
     /**
      * Get the attribute have enabled value
+     * Form android styles namespace
      *
-     * @param context Context
-     * @param attrs   AttributeSet
-     * @return IsEnabled
+     * @param attrs        AttributeSet
+     * @param attribute    The attribute to retrieve
+     * @param defaultValue What to return if the attribute isn't found
+     * @return Resulting value
      */
-    public static boolean isEnableAttr(Context context, AttributeSet attrs) {
-        return attrs.getAttributeBooleanValue(Ui.androidStyleNameSpace, "enabled", true);
+    public static boolean isTrueFromAttribute(AttributeSet attrs, String attribute, boolean defaultValue) {
+        return attrs.getAttributeBooleanValue(Ui.androidStyleNameSpace, attribute, defaultValue);
+    }
+
+    /**
+     * Retrieve styled attribute information in this Context's theme.  See
+     * {@link android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int)}
+     * for more information.
+     *
+     * @param context      Context
+     * @param attrs        The base set of attribute values.  May be null.
+     * @param attr         The desired attributes to be retrieved.
+     * @param defStyleAttr An attribute in the current theme that contains a
+     *                     reference to a style resource that supplies
+     *                     defaults values for the TypedArray.  Can be
+     *                     0 to not look for defaults.
+     * @param defStyleRes  A resource identifier of a style resource that
+     *                     supplies default values for the TypedArray,
+     *                     used only if defStyleAttr is 0 or can not be found
+     *                     in the theme.  Can be 0 to not look for defaults.
+     * @param defaultValue Value to return if the attribute is not defined or
+     *                     cannot be coerced to an integer.
+     * @return Returns a TypedArray holding an array of the attribute values.
+     * @see android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int)
+     */
+    @SuppressWarnings("ResourceType")
+    public static boolean getBoolFormAttribute(Context context,
+                                               AttributeSet attrs,
+                                               int attr,
+                                               int defStyleAttr,
+                                               int defStyleRes,
+                                               boolean defaultValue) {
+        int[] attrsArray = new int[]{attr};
+        TypedArray ta = context.obtainStyledAttributes(attrs, attrsArray, defStyleAttr, defStyleRes);
+        boolean ret = defaultValue;
+        if (ta.length() > 0) {
+            ret = ta.getBoolean(0, ret);
+        }
+        ta.recycle();
+        return ret;
     }
 
     /**
@@ -225,8 +189,7 @@ public class Ui {
     public static int getBackgroundColor(Context context, AttributeSet attrs) {
         int color = Color.TRANSPARENT;
 
-        String attributeValue = attrs.getAttributeValue(Ui.androidStyleNameSpace, "background");
-        if (attributeValue != null) {
+        if (isHaveAttribute(attrs, "background")) {
             int styleId = attrs.getStyleAttribute();
             int[] attributesArray = new int[]{android.R.attr.background};
 
@@ -239,54 +202,44 @@ public class Ui {
                 e.printStackTrace();
             }
         }
+
         return color;
     }
 
     /**
-     * MotionEventCompat getActionMasked
+     * Get color array values form array resource
      *
-     * @param event MotionEvent
-     * @return ActionMasked
+     * @param resources Resources
+     * @param resId     Resources id
+     * @return color array
      */
-    public static int getActionMasked(MotionEvent event) {
-        return event.getAction() & 255;
+    public static int[] getColorsFromArrayRes(Resources resources, int resId) {
+        try {
+            @SuppressLint("Recycle")
+            TypedArray array = resources.obtainTypedArray(resId);
+            if (array.length() > 0) {
+                final int len = array.length();
+                final int[] colors = new int[len];
+                for (int i = 0; i < len; i++) {
+                    colors[i] = array.getColor(i, 0);
+                }
+                return colors;
+            }
+        } catch (Resources.NotFoundException ignored) {
+        }
+        return null;
     }
-
 
     /**
-     * =============================================================================================
-     * Init State List Drawable and Color
-     * =============================================================================================
+     * Check the AttributeSet values have a attribute String, on user set the attribute resource.
+     * Form android styles namespace
+     *
+     * @param attrs     AttributeSet
+     * @param attribute The attribute to retrieve
+     * @return If have the attribute return True
      */
-
-    public static StateListDrawable createStateListDrawable(Drawable drawable[]) {
-        if (drawable == null || drawable.length < 4)
-            return null;
-        StateListDrawable states = new StateListDrawable();
-        states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, drawable[0]);
-        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[1]);
-        states.addState(new int[]{android.R.attr.state_enabled}, drawable[2]);
-        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[3]);
-        return states;
+    public static boolean isHaveAttribute(AttributeSet attrs, String attribute) {
+        return attrs.getAttributeValue(Ui.androidStyleNameSpace, attribute) != null;
     }
-
-    public static ColorStateList createColorStateList(int normal, int unable) {
-        int[] colors = new int[]{normal, unable};
-        int[][] states = new int[2][];
-        states[0] = new int[]{android.R.attr.state_enabled};
-        states[1] = new int[]{-android.R.attr.state_enabled};
-        return new ColorStateList(states, colors);
-    }
-
-    public static ColorStateList createColorStateList(int normal, int pressed, int unable) {
-        int[] colors = new int[]{pressed, pressed, normal, unable};
-        int[][] states = new int[4][];
-        states[0] = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
-        states[1] = new int[]{android.R.attr.state_focused, android.R.attr.state_enabled};
-        states[2] = new int[]{android.R.attr.state_enabled};
-        states[3] = new int[]{-android.R.attr.state_enabled};
-        return new ColorStateList(states, colors);
-    }
-
 
 }

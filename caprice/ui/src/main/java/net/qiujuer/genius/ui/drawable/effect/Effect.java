@@ -30,6 +30,7 @@ import net.qiujuer.genius.ui.Ui;
  * Created by Qiujuer on 2015/3/27.
  * This is TouchEffectDrawable draw Effect
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class Effect {
     private float mWidth;
     private float mHeight;
@@ -76,6 +77,10 @@ public abstract class Effect {
             mHeight = height;
             onResize(width, height);
         }
+    }
+
+    public void touchCancel(float x, float y) {
+
     }
 
     public void touchDown(float x, float y) {

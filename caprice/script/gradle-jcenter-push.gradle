@@ -136,7 +136,8 @@ bintray {
         version {
             desc = POM_DESCRIPTION
             gpg {
-                sign = true //Determines whether to GPG sign the files. The default is false
+                sign = !(getRepositoryGPGPassword() == null || getRepositoryGPGPassword() == "");
+                // true //Determines whether to GPG sign the files. The default is false
                 passphrase = getRepositoryGPGPassword();
                 //Optional. The passphrase for GPG signing'
             }

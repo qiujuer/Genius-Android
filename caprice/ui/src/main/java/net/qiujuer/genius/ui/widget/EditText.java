@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2015 Qiujuer <qiujuer@live.cn>
+ * Copyright (C) 2014-2016 Qiujuer <qiujuer@live.cn>
  * WebSite http://www.qiujuer.net
- * Created 08/12/2015
- * Changed 12/15/2015
- * Version 3.0.0
- * Author Qiujuer
+ * Author qiujuer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +19,7 @@ package net.qiujuer.genius.ui.widget;
 
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -35,6 +33,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -47,12 +46,26 @@ import android.view.animation.Interpolator;
 
 import net.qiujuer.genius.ui.R;
 import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.shape.BorderShape;
 
 /**
  * EditText
  * This have a title from hint
+ * <p>
+ * <p><strong>XML attributes</strong></p>
+ * <p>
+ * See {@link net.qiujuer.genius.ui.R.styleable#EditText_gFont Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitle Attributes},
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingBottom Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingLeft Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingRight Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitlePaddingTop Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gHintTitleTextSize Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gLineColor Attributes}
+ * {@link net.qiujuer.genius.ui.R.styleable#EditText_gLineSize Attributes}
  */
+@SuppressWarnings("unused")
 public class EditText extends android.widget.EditText {
     private TextPaint mTitlePaint;
     private TextWatcher mTextWatcher;
@@ -119,11 +132,23 @@ public class EditText extends android.widget.EditText {
         a.recycle();
 
         // Init color
-        if (lineColor == null)
-            lineColor = resources.getColorStateList(R.color.g_default_edit_view_line);
+        if (lineColor == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                lineColor = resources.getColorStateList(R.color.g_default_edit_view_line, null);
+            } else {
+                //noinspection deprecation
+                lineColor = resources.getColorStateList(R.color.g_default_edit_view_line);
+            }
+        }
 
-        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "textColorHint") == null || getHintTextColors() == null) {
-            ColorStateList hintColor = resources.getColorStateList(R.color.g_default_edit_view_hint);
+        if (!Ui.isHaveAttribute(attrs, "textColorHint") || getHintTextColors() == null) {
+            ColorStateList hintColor;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                hintColor = resources.getColorStateList(R.color.g_default_edit_view_hint, null);
+            } else {
+                //noinspection deprecation
+                hintColor = resources.getColorStateList(R.color.g_default_edit_view_hint);
+            }
             setHintTextColor(hintColor);
         }
 
@@ -144,7 +169,7 @@ public class EditText extends android.widget.EditText {
         }
 
         // Init background and title
-        if (attrs.getAttributeValue(Ui.androidStyleNameSpace, "background") == null || getBackground() == null) {
+        if (!Ui.isHaveAttribute(attrs, "background")) {
             initBackground();
         }
 
@@ -183,23 +208,28 @@ public class EditText extends android.widget.EditText {
             // disabled.getPaint().setAlpha(0xA0);
 
             Drawable[] drawable = new Drawable[]{pressed, focused, normal, disabled};
-            background = Ui.createStateListDrawable(drawable);
+            background = createStateListDrawable(drawable);
 
         }
 
         // Set Background
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            //noinspection deprecation
-            setBackgroundDrawable(background);
-        else
-            setBackground(background);
+        UiCompat.setBackground(this, background);
 
+    }
+
+    private static StateListDrawable createStateListDrawable(Drawable drawable[]) {
+        if (drawable == null || drawable.length < 4)
+            return null;
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, drawable[0]);
+        states.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_enabled}, drawable[1]);
+        states.addState(new int[]{android.R.attr.state_enabled}, drawable[2]);
+        states.addState(new int[]{-android.R.attr.state_enabled}, drawable[3]);
+        return states;
     }
 
     private void initHintTitleText() {
         if (isShowTitle()) {
-            mCurTitleProperty = new TitleProperty();
-
             // Set up a default TextPaint object
             if (mTitlePaint == null) {
                 mTitlePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -362,7 +392,7 @@ public class EditText extends android.widget.EditText {
                 int color = getCurrentHintTextColor();
                 int alpha = Ui.modulateAlpha(Color.alpha(color), mCurTitleProperty.mAlpha);
 
-                if (color != 0 && alpha != 0) {
+                if (color != 0 && alpha != 0 && mCurTitleProperty.mTextSize > 0) {
                     mTitlePaint.setTextSize(mCurTitleProperty.mTextSize);
                     mTitlePaint.setColor(color);
                     mTitlePaint.setAlpha(alpha);
@@ -466,6 +496,31 @@ public class EditText extends android.widget.EditText {
             return 0;
     }
 
+    private TitleProperty getStartProperty(boolean show) {
+        TitleProperty property = new TitleProperty();
+        if (mCurTitleProperty != null) {
+            property.copy(mCurTitleProperty);
+        } else {
+            if (show) {
+                copyTextProperty(property);
+            } else {
+                copyHintProperty(property);
+            }
+        }
+        return property;
+    }
+
+    private TitleProperty getEndProperty(boolean show) {
+        TitleProperty property = new TitleProperty();
+        if (show) {
+            copyHintProperty(property);
+        } else {
+            copyTextProperty(property);
+        }
+        return property;
+    }
+
+    @SuppressLint("RtlHardcoded")
     private TitleProperty copyTextProperty(TitleProperty property) {
         int gravity = getGravity();
         switch (gravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
@@ -496,6 +551,7 @@ public class EditText extends android.widget.EditText {
         return property;
     }
 
+    @SuppressLint("RtlHardcoded")
     private TitleProperty copyHintProperty(TitleProperty property) {
         property.mTop = getPaddingTop() + mHintTitlePadding.top;
         property.mAlpha = 255;
@@ -527,15 +583,8 @@ public class EditText extends android.widget.EditText {
     }
 
     private void animateShowTitle(boolean show) {
-        TitleProperty pStart = new TitleProperty();
-        TitleProperty pEnd = new TitleProperty();
-        if (show) {
-            copyHintProperty(pEnd);
-            copyTextProperty(pStart);
-        } else {
-            copyTextProperty(pEnd);
-            copyHintProperty(pStart);
-        }
+        TitleProperty pStart = getStartProperty(show);
+        TitleProperty pEnd = getEndProperty(show);
 
         ObjectAnimator animator = getTitleAnimator();
         animator.setObjectValues(pStart, pEnd);
@@ -549,11 +598,14 @@ public class EditText extends android.widget.EditText {
 
     private ObjectAnimator getTitleAnimator() {
         if (mAnimator == null) {
+            if (mCurTitleProperty == null)
+                mCurTitleProperty = new TitleProperty();
             mAnimator = ObjectAnimator.ofObject(this, TITLE_PROPERTY, new TitleEvaluator(mCurTitleProperty), mCurTitleProperty);
             mAnimator.setDuration(ANIMATION_DURATION);
             mAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        } else {
+            mAnimator.cancel();
         }
-        mAnimator.cancel();
         return mAnimator;
     }
 
@@ -581,7 +633,7 @@ public class EditText extends android.widget.EditText {
 
         private final TitleProperty mProperty;
 
-        public TitleEvaluator(TitleProperty property) {
+        TitleEvaluator(TitleProperty property) {
             mProperty = property;
         }
 
