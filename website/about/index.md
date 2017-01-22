@@ -7,20 +7,19 @@ root: ../
 
 ### Feedback
 
-You in use if you have any question, please timely feedback to me, you can use the following contact information to communicate with me
+If you submit question, please:
 
 * Project: [`Submit Bug or Idea`](https://github.com/qiujuer/Genius-Android/issues)
 * Email: [`qiujuer@live.cn`](mailto:qiujuer@live.cn)
 * QQ: `756069544`
 * QQ Group: [`387403637`](http://shang.qq.com/wpa/qunwpa?idkey=3f1ed8e41ed84b07775ca593032c5d956fbd8c3320ce94817bace00549d58a8f)
-* Weibo: [`@qiujuer`](http://weibo.com/qiujuer)
-* Websit:[`www.qiujuer.net`](http://www.qiujuer.net)
+* WeiBo: [`@qiujuer`](http://weibo.com/qiujuer)
+* WebSit:[`www.qiujuer.net`](http://www.qiujuer.net)
 
 
-### Giving developers
+## Giving developers
 
-Are interested in and write a `free`, have joy, also there is sweat, I hope you like my work, but also can support it.
-Of course, rich holds a money (AliPay: `qiujuer@live.cn`); No money holds personal field, thank you.
+Used AliPay sponsor me: `qiujuer@live.cn`
 
 
 ### About me
@@ -36,7 +35,7 @@ Of course, rich holds a money (AliPay: `qiujuer@live.cn`); No money holds person
 License
 --------
 
-    Copyright 2014-2015 Qiujuer.
+    Copyright 2014-2017 Qiujuer.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
