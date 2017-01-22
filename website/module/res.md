@@ -1659,24 +1659,19 @@ The module included `colors.xml` and `dimens.xml` resource.
 
 #### dimens.xml
 
-The include `font/lay/size` values. font unit:`sp`, other:`dp`.
+The include `font_*/len_*` values. font unit:`sp`, other:`dp`.
 
 You can use such as:
 
-* android:textSize="@dimen/font_16" 
-* android:padding="@dimen/lay_12"
-* android:layout_height="@dimen/size_36"
+* android:textSize="@dimen/font_12" 
+* android:padding="@dimen/len_12"
 
 
 ##### font
-font_4, font_6, font_8, font_10, font_12, font_14, font_16, font_18, font_20, font_24, 
-font_34, font_45, font_56, font_112
+font_4, font_6, font_8, font_10, font_12, font_14, font_16, font_18, font_20, font_22, 
+font_24, font_28, font_32, font_34, font_38, font_44, font_56, font_112
  
-##### lay
-lay_2, lay_4, lay_8, lay_12, lay_14, lay_16, lay_20, lay_24, lay_28, lay_32, lay_36, lay_40, lay_44,
-lay_48, lay_52, lay_56, lay_60, lay_64, lay_68, lay_72, lay_76, lay_80, lay_84, lay_88, lay_92, lay_96
-
-##### size
-size_6, size_8, size_10, size_12, size_14, size_16, size_20, size_24, size_28, size_32, size_36, size_40, size_44,
-size_48, size_52, size_56, size_60, size_64, size_68, size_72, size_76, size_80, size_84, size_88, size_92, size_96,
-size_100, size_116, size_128, size_156, size_172, size_224, size_256
+##### len
+len_2, len_4, len_6, len_8, len_10, len_12, len_14, len_16, len_20, len_24, len_28, len_32, len_36, len_40, 
+len_44, len_52, len_56, len_60, len_64, len_68, len_72, len_76, len_80, len_84, len_88, len_92, len_96,
+len_100, len_116, len_128, len_156, len_172, len_224, len_256
