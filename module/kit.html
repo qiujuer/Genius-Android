@@ -93,15 +93,18 @@
 
 <h3 id="permission">Permission</h3>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- Internet permission --&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- Internet permission --&gt;</span>
 <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span> <span class="nt">/&gt;</span>
 <span class="c">&lt;!-- Log file permission --&gt;</span>
 <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.WRITE_EXTERNAL_STORAGE"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.READ_EXTERNAL_STORAGE"</span> <span class="nt">/&gt;</span></code></pre></figure>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.READ_EXTERNAL_STORAGE"</span> <span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <h3 id="uikit">UiKit</h3>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// "Runnable" implementation method "run()"
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="c1">// "Runnable" implementation method "run()"
 </span>
 <span class="c1">// "run()" run in the main thread, the can interface
 </span>
@@ -119,11 +122,13 @@
 </span>
 <span class="c1">// @param cancel   on the child thread cancel the runnable task
 </span>
-<span class="n">UiKit</span><span class="o">.</span><span class="na">runOnMainThreadSync</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">runnable</span><span class="o">,</span> <span class="kt">int</span> <span class="n">waitTime</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">cancel</span><span class="o">)</span></code></pre></figure>
+<span class="n">UiKit</span><span class="o">.</span><span class="na">runOnMainThreadSync</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">runnable</span><span class="o">,</span> <span class="kt">int</span> <span class="n">waitTime</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">cancel</span><span class="o">)</span></code></pre>
+</figure>
 
 <h3 id="command">Command</h3>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Execute the command, the background service automatic control
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="c1">// Execute the command, the background service automatic control
 </span>
 <span class="c1">// The same way call way and the ProcessBuilder mass participation
 </span>
@@ -146,13 +151,13 @@
 <span class="n">Command</span> <span class="n">command</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Command</span><span class="o">(</span><span class="s">"..."</span><span class="o">);</span>
 <span class="n">Command</span><span class="o">.</span><span class="na">command</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="k">new</span> <span class="n">Command</span><span class="o">.</span><span class="na">CommandListener</span><span class="o">()</span> <span class="o">{</span>
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onCompleted</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">}</span>
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onCancel</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCancel</span><span class="o">()</span> <span class="o">{</span>
     <span class="o">}</span>
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onError</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">}</span>
 <span class="o">});</span>
 
@@ -168,11 +173,13 @@
 </span>
 <span class="c1">// Using 'Genius.dispose()' method is run this destroy
 </span>
-<span class="n">Command</span><span class="o">.</span><span class="na">dispose</span><span class="o">();</span></code></pre></figure>
+<span class="n">Command</span><span class="o">.</span><span class="na">dispose</span><span class="o">();</span></code></pre>
+</figure>
 
 <h3 id="nettool">NetTool</h3>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Ping
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="c1">// Ping
 </span>
 <span class="c1">// Introduced to the domain name or IP
 </span>
@@ -188,11 +195,13 @@
 <span class="k">else</span> <span class="o">{}</span>
 <span class="o">...</span>
 <span class="n">Others</span> <span class="n">similarly</span>
-<span class="o">...</span></code></pre></figure>
+<span class="o">...</span></code></pre>
+</figure>
 
 <h3 id="utils">Utils</h3>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// ===================FixedList===================
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="c1">// ===================FixedList===================
 </span>
 <span class="c1">// Fixed length queue
 </span>
@@ -253,7 +262,7 @@
 </span>
 <span class="n">Log</span><span class="o">.</span><span class="na">LogCallbackListener</span> <span class="n">listener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LogCallbackListener</span><span class="o">()</span> <span class="o">{</span>
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onLogArrived</span><span class="o">(</span><span class="n">Log</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLogArrived</span><span class="o">(</span><span class="n">Log</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
         <span class="o">...</span>
     <span class="o">}</span>
 <span class="o">};</span>
@@ -312,7 +321,8 @@
 <span class="n">Tools</span><span class="o">.</span><span class="na">getAndroidId</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">);</span>
 <span class="c1">// SN Id
 </span>
-<span class="n">Tools</span><span class="o">.</span><span class="na">getSerialNumber</span><span class="o">();</span></code></pre></figure>
+<span class="n">Tools</span><span class="o">.</span><span class="na">getSerialNumber</span><span class="o">();</span></code></pre>
+</figure>
 
                         </div>
                     </section>

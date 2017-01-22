@@ -91,23 +91,76 @@
 
 <p><img src="../assets/images/blur.gif" alt="Img" /></p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// "bitmap" is to be processed images
+<p><strong>First you need:</strong></p>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="c1">// import
 </span>
-<span class="c1">// "radius" is picture is fuzzy radius
+<span class="kn">import</span> <span class="nn">net.qiujuer.genius.graphics.Blur</span><span class="o">;</span>
+<span class="c1">// source
 </span>
-<span class="c1">// "canReuseInBitmap" Whether directly using the "bitmap" fuzzy,
+<span class="n">Bitmap</span> <span class="n">overlay</span> <span class="o">=</span> <span class="n">mBitmap</span><span class="o">.</span><span class="na">copy</span><span class="o">(</span><span class="n">mBitmap</span><span class="o">.</span><span class="na">getConfig</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span></code></pre>
+</figure>
+
+<p><strong>You have three ways to process the picture</strong></p>
+<ul>
+  <li>1.Java</li>
+</ul>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="n">overlay</span> <span class="o">=</span> <span class="n">Blur</span><span class="o">.</span><span class="na">onStackBlurJava</span><span class="o">(</span><span class="n">overlay</span><span class="o">,</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">radius</span><span class="o">);</span></code></pre>
+</figure>
+
+<ul>
+  <li>2.Pixels JNI Native</li>
+</ul>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">w</span> <span class="o">=</span> <span class="n">overlay</span><span class="o">.</span><span class="na">getWidth</span><span class="o">();</span>
+<span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="n">overlay</span><span class="o">.</span><span class="na">getHeight</span><span class="o">();</span>
+<span class="kt">int</span><span class="o">[]</span> <span class="n">pix</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">w</span> <span class="o">*</span> <span class="n">h</span><span class="o">];</span>
+<span class="n">overlay</span><span class="o">.</span><span class="na">getPixels</span><span class="o">(</span><span class="n">pix</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="n">h</span><span class="o">);</span></code></pre>
+</figure>
+
+<ul>
+  <li>3.Jni Blur <strong>(Strongly recommend)</strong></li>
+</ul>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="n">pix</span> <span class="o">=</span> <span class="n">Blur</span><span class="o">.</span><span class="na">onStackBlurPixels</span><span class="o">(</span><span class="n">pix</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="n">h</span><span class="o">,</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">radius</span><span class="o">);</span>
+<span class="n">overlay</span><span class="o">.</span><span class="na">setPixels</span><span class="o">(</span><span class="n">pix</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="n">h</span><span class="o">);</span>
+<span class="c1">// Bitmap JNI Native
 </span>
-<span class="c1">// "false" will copy the "bitmap" to doing fuzzy
+<span class="n">overlay</span> <span class="o">=</span> <span class="n">Blur</span><span class="o">.</span><span class="na">onStackBlur</span><span class="o">(</span><span class="n">overlay</span><span class="o">,</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">radius</span><span class="o">);</span></code></pre>
+</figure>
+
+<h4 id="big-picture">Big Picture</h4>
+
+<p><strong>If you want to blur a big picture, I suggest you use this:</strong></p>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="c1">// used:
 </span>
-<span class="c1">// Java blur
+<span class="n">Blur</span><span class="o">.</span><span class="na">onStackBlurClip</span><span class="o">(</span><span class="n">mSrc</span><span class="o">,</span> <span class="mi">50</span><span class="o">);</span>
+<span class="c1">// code:
 </span>
-<span class="n">StackBlur</span><span class="o">.</span><span class="na">blur</span><span class="o">(</span><span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">canReuseInBitmap</span><span class="o">);</span>
-<span class="c1">// Jni blur, To the Jni is a kind of Bitmap images
-</span>
-<span class="n">StackBlur</span><span class="o">.</span><span class="na">blurNatively</span><span class="o">(</span><span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">canReuseInBitmap</span><span class="o">);</span>
-<span class="c1">// Jni blur, To the Jni is image collection "pixel"
-</span>
-<span class="n">StackBlur</span><span class="o">.</span><span class="na">blurNativelyPixels</span><span class="o">(</span><span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">canReuseInBitmap</span><span class="o">);</span></code></pre></figure>
+<span class="n">Bitmap</span> <span class="nf">onStackBlurClip</span><span class="o">(</span><span class="n">Bitmap</span> <span class="n">original</span><span class="o">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="o">);</span></code></pre>
+</figure>
+
+<p><strong>This method will split up a big picture and blur it one by one.</strong></p>
+
+<h4 id="note">Note:</h4>
+
+<ul>
+  <li>Big Picture: <strong>Blur.onStackBlurClip(Bitmap original, int radius);</strong></li>
+  <li>Radius must be between 1 and 255</li>
+</ul>
+
+<h4 id="sample">Sample:</h4>
+<ul>
+  <li><a href="https://github.com/qiujuer/Genius-Android/blob/master/caprice/app/src/main/java/net/qiujuer/sample/genius/BlurActivity.java">BlurActivity</a></li>
+  <li><a href="https://github.com/qiujuer/Genius-Android/blob/master/caprice/app/src/main/java/net/qiujuer/sample/genius/BlurClipActivity.java">BlurClipActivity</a></li>
+</ul>
 
                         </div>
                     </section>

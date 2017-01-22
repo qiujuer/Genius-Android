@@ -92,36 +92,42 @@
 <p><code>CAPRICE</code> branch use guide. This library include modules:</p>
 
 <ul>
-  <li><code>Ui</code> Research and development in <strong>Color-Drive</strong> and <strong>Material Design</strong> style.</li>
-  <li><code>Resource</code> Include Material Design <strong>Color</strong> and Lay <strong>Size</strong>.</li>
-  <li><code>Blur</code>Include <strong>blur</strong> image by <strong>java</strong> and <strong>jni</strong> method.</li>
-  <li><code>Kit</code> Include <strong>kit-cmd</strong>、<strong>kit-handler</strong> and <strong>kit-reflect</strong> class.</li>
+  <li><strong>Resource Lib:</strong> Include <code>Material Design</code> Color and Dimen</li>
+  <li><strong>Ui Lib:</strong> Is <code>Material Design</code> style widget, support to api-15 (4.0.3)</li>
+  <li><strong>Kit Lib:</strong> Include <code>command</code>、<code>handler</code>、<code>reflect</code></li>
+  <li><strong>Graphics Lib:</strong> Include <code>blur</code></li>
 </ul>
 
 <h4 id="gradle">Gradle:</h4>
 
-<p><code>Ui</code> <code>Resource</code> <code>Blur</code> <code>Kit</code></p>
+<p><code>Ui</code> <code>Resource</code> <code>Graphics</code> <code>Kit</code></p>
 
-<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle">def genius_version = "2.0.0-beta2"
+<figure class="highlight">
+  <pre><code class="language-gradle" data-lang="gradle"><span class="kt">def</span> <span class="n">genius_version</span> <span class="o">=</span> <span class="s2">"2.0.0"</span>
 
-dependencies {
-  // ui module
-  compile "net.qiujuer.genius:ui:${genius_version}"
-  compile "net.qiujuer.genius:res:${genius_version}"
+<span class="k">dependencies</span> <span class="o">{</span>
+  <span class="c1">// ui module
+</span>
+  <span class="n">compile</span> <span class="s2">"net.qiujuer.genius:ui:${genius_version}"</span>
+  <span class="n">compile</span> <span class="s2">"net.qiujuer.genius:res:${genius_version}"</span>
 
-  // blur module
-  compile "net.qiujuer.genius:blur:${genius_version}"
+  <span class="c1">// use to bitmap blur and more
+</span>
+  <span class="n">compile</span> <span class="s1">'net.qiujuer.genius:graphics:2.0.0'</span>
 
-  // kit module
-  compile "net.qiujuer.genius:kit:${genius_version}"
-  // or
-  compile "net.qiujuer.genius:kit-cmd:${genius_version}"
-  compile "net.qiujuer.genius:kit-handler:${genius_version}"
-  compile "net.qiujuer.genius:kit-reflect:${genius_version}"
-}</code></pre></figure>
+  <span class="c1">// ping/telnet/tracert/dns and run cmd
+</span>
+  <span class="n">compile</span> <span class="s1">'net.qiujuer.genius:kit-cmd:2.0.0'</span>
+  <span class="c1">// shuttle between ui-thread and child-thread
+</span>
+  <span class="n">compile</span> <span class="s1">'net.qiujuer.genius:kit-handler:2.0.0'</span>
+  <span class="c1">// calss reflect
+</span>
+  <span class="n">compile</span> <span class="s1">'net.qiujuer.genius:kit-reflect:2.0.0'</span>
+<span class="o">}</span></code></pre>
+</figure>
 
 <ul>
-  <li><strong>Note: Kit module included kit-cmd, kit-handler, kit-reflect modules.</strong></li>
   <li><strong>Note: Each module is independent and can be used independently to dependency.</strong></li>
 </ul>
 
@@ -129,63 +135,67 @@ dependencies {
 
 <p><code>Ui</code></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>ui<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
+</figure>
 
 <p><code>Res</code></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>res<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
+</figure>
 
 <p><code>Blur</code></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>blur<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>graphics<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
-
-<p><code>Kit</code></p>
-
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>kit<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
+</figure>
 
 <p><code>Kit Cmd</code></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>kit-cmd<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
+</figure>
 
 <p><code>Kit Handler</code></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>kit-handler<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
+</figure>
 
 <p><code>Kit Reflect</code></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.qiujuer.genius<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>kit-reflect<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>{insert genius_version}<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
+</figure>
 
 <h3 id="developer">Developer</h3>
 
-<p><a href="https://github.com/qiujuer/Genius-Android/archive/master.zip">Download</a> the project, the project can be imported into <code>Android Studio</code>, Android Studio &gt;= 2.0, SDK:23.</p>
+<p><a href="https://github.com/qiujuer/Genius-Android/archive/master.zip">Download</a> the project, the project can be imported into <code>Android Studio</code>, Android Studio &gt;= 2.3, Gradle:3.3, SDK:25.</p>
 
 <p>Project which contains a library and a test project, the library can be imported into your own project use.</p>
 

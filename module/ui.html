@@ -112,10 +112,12 @@
 
 <h3 id="first">First</h3>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml">// First of all specified in the root container:
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml">// First of all specified in the root container:
 <span class="nt">&lt;YourLayout</span>
     <span class="err">...</span>
-    <span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span><span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span><span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <h3 id="widget">Widget</h3>
 
@@ -123,13 +125,15 @@
 
 <p><img src="../assets/images/textview.png" alt="Img" /></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.TextView</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.TextView</span>
     <span class="err">...</span>
     <span class="na">android:text=</span><span class="s">"Border TB"</span>
     <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
     <span class="na">app:gBorder=</span><span class="s">"top|bottom"</span>
     <span class="na">app:gBorderColor=</span><span class="s">"@color/teal_500"</span>
-    <span class="na">app:gBorderSize=</span><span class="s">"1dp"</span> <span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">app:gBorderSize=</span><span class="s">"1dp"</span> <span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gFont</code>: Set text font file name, the path’s <strong>“assets\fonts\roboto.ttf”</strong>.</li>
@@ -147,7 +151,8 @@
 
 <p><img src="../assets/images/button.gif" alt="Img" /></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.Button</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.Button</span>
     <span class="err">...</span>
     <span class="na">android:background=</span><span class="s">"@drawable/g_button_background"</span>
     <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
@@ -158,7 +163,8 @@
     <span class="na">app:gTouchCornerRadiusTR=</span><span class="s">"@dimen/lay_16"</span>
     <span class="na">app:gTouchCornerRadiusBL=</span><span class="s">"@dimen/lay_16"</span>
     <span class="na">app:gTouchCornerRadiusBR=</span><span class="s">"@dimen/lay_16"</span>
-    <span class="na">app:gTouchDurationRate=</span><span class="s">"0.7"</span> <span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">app:gTouchDurationRate=</span><span class="s">"0.7"</span> <span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gFont</code>: See textview xml.</li>
@@ -198,11 +204,13 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
 
 <p><img src="../assets/images/fab.gif" alt="Img" /></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.FloatActionButton</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.FloatActionButton</span>
     <span class="err">...</span> 
     <span class="na">android:id=</span><span class="s">"@+id/action_add"</span>    
     <span class="na">app:gBackgroundColor=</span><span class="s">"@color/cyan_500"</span>
-    <span class="na">app:gTouchColor=</span><span class="s">"@color/black_alpha_64"</span><span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">app:gTouchColor=</span><span class="s">"@color/black_alpha_64"</span><span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gBackgroundColor</code>: If you want change bg color, you need use it. you can set: <code>@color/cyan_500</code> or <code>#aa000000</code>.</li>
@@ -211,7 +219,8 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
 
 <p>You can add create drawable in the src by java:</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">initFloatActionButton</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">initFloatActionButton</span><span class="o">()</span> <span class="o">{</span>
     <span class="kd">final</span> <span class="kt">float</span> <span class="n">density</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getDisplayMetrics</span><span class="o">().</span><span class="na">density</span><span class="o">;</span>
     <span class="n">FloatActionButton</span> <span class="n">addButton</span> <span class="o">=</span> <span class="o">(</span><span class="n">FloatActionButton</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">action_add</span><span class="o">);</span>
     <span class="n">AddLineShape</span> <span class="n">lineShape</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AddLineShape</span><span class="o">();</span>
@@ -226,7 +235,8 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
     <span class="n">drawable</span><span class="o">.</span><span class="na">setIntrinsicWidth</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
     <span class="n">drawable</span><span class="o">.</span><span class="na">setIntrinsicHeight</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
     <span class="n">addButton</span><span class="o">.</span><span class="na">setImageDrawable</span><span class="o">(</span><span class="n">drawable</span><span class="o">);</span>
-<span class="o">}</span></code></pre></figure>
+<span class="o">}</span></code></pre>
+</figure>
 
 <p>The <strong>AddLineShape</strong> in <a href="https://github.com/qiujuer/Genius-Android/blob/master/caprice/sample/src/main/java/net/qiujuer/sample/genius/drawable/AddLineShape.java">this</a>.</p>
 
@@ -234,14 +244,16 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
 
 <p><img src="../assets/images/checkbox.gif" alt="Img" /></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.CheckBox</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.CheckBox</span>
     <span class="err">...</span>
     <span class="na">android:background=</span><span class="s">"@null"</span>
     <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
     <span class="na">app:gBorderSize=</span><span class="s">"1dp"</span>
     <span class="na">app:gIntervalSize=</span><span class="s">"2dp"</span>
     <span class="na">app:gMarkSize=</span><span class="s">"22dp"</span>
-    <span class="na">app:gMarkColor=</span><span class="s">"@color/m_check_box"</span> <span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">app:gMarkColor=</span><span class="s">"@color/m_check_box"</span> <span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gFont</code>: See textview xml.</li>
@@ -257,18 +269,21 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
   </li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"@color/grey_400"</span> <span class="na">android:state_checked=</span><span class="s">"false"</span> <span class="na">android:state_enabled=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"@color/grey_300"</span> <span class="na">android:state_checked=</span><span class="s">"false"</span> <span class="na">android:state_enabled=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"@color/cyan_500"</span> <span class="na">android:state_checked=</span><span class="s">"true"</span> <span class="na">android:state_enabled=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"@color/cyan_300"</span> <span class="na">android:state_checked=</span><span class="s">"true"</span> <span class="na">android:state_enabled=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;/selector&gt;</span></code></pre></figure>
+<span class="nt">&lt;/selector&gt;</span></code></pre>
+</figure>
 
 <h4 id="edittext">EditText</h4>
 
 <p><img src="../assets/images/edittext.gif" alt="Img" /></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.EditText</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;net.qiujuer.genius.ui.widget.EditText</span>
     <span class="err">...</span>
     <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
     <span class="na">app:gHintTitle=</span><span class="s">"slide"</span>
@@ -278,7 +293,8 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
     <span class="na">app:gHintTitlePaddingTop=</span><span class="s">"0dp"</span>
     <span class="na">app:gHintTitleTextSize=</span><span class="s">"14sp"</span>
     <span class="na">app:gLineColor=</span><span class="s">"@color/m_edit_view_line"</span>
-    <span class="na">app:gLineSize=</span><span class="s">"2dp"</span> <span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">app:gLineSize=</span><span class="s">"2dp"</span> <span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gFont</code>: See textview xml.</li>
@@ -299,7 +315,8 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
 
 <h4 id="imageview">ImageView</h4>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.ImageView</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.ImageView</span>
     <span class="err">...</span>
     <span class="na">app:gTouchColor=</span><span class="s">"@color/black_alpha_224"</span>
     <span class="na">app:gTouchEffect=</span><span class="s">"auto"</span>
@@ -308,7 +325,8 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
     <span class="na">app:gTouchCornerRadiusTR=</span><span class="s">"@dimen/lay_16"</span>
     <span class="na">app:gTouchCornerRadiusBL=</span><span class="s">"@dimen/lay_16"</span>
     <span class="na">app:gTouchCornerRadiusBR=</span><span class="s">"@dimen/lay_16"</span>
-    <span class="na">app:gTouchDurationRate=</span><span class="s">"0.7"</span> <span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">app:gTouchDurationRate=</span><span class="s">"0.7"</span> <span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gTouchColor</code>: Set the touch press color, you can set: <code>@color/black_alpha_64</code> or <code>#80000000</code>.</li>
@@ -325,7 +343,8 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
 
 <p><img src="../assets/images/seekbar.gif" alt="Img" /></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.SeekBar</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.SeekBar</span>
     <span class="err">...</span>
     <span class="na">app:gFont=</span><span class="s">"roboto.ttf"</span>
     <span class="na">app:gMax=</span><span class="s">"10"</span>
@@ -350,7 +369,8 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
     <span class="na">app:gTrackStroke=</span><span class="s">"2dp"</span>
     
     <span class="na">app:gMirrorForRtl=</span><span class="s">"true"</span>
-    <span class="na">app:gAllowTrackClickToDrag=</span><span class="s">"true"</span><span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">app:gAllowTrackClickToDrag=</span><span class="s">"true"</span><span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gFont</code>:  See textview xml.</li>
@@ -371,9 +391,11 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
   <li><code>gIndicatorTextAppearance</code>: If you need custom textview style, you can set it. This’s style xml.</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"Genius.Widget.BalloonMarker.TextAppearance"</span> <span class="na">parent=</span><span class="s">"android:TextAppearance.Small"</span><span class="nt">&gt;</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"Genius.Widget.BalloonMarker.TextAppearance"</span> <span class="na">parent=</span><span class="s">"android:TextAppearance.Small"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:textColor"</span><span class="nt">&gt;</span>?android:attr/textColorPrimaryInverse<span class="nt">&lt;/item&gt;</span>
-<span class="nt">&lt;/style&gt;</span></code></pre></figure>
+<span class="nt">&lt;/style&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gThumbColor</code>: Set seekbar thumb color.</li>
@@ -397,14 +419,16 @@ If need <strong>fast</strong> you can set <code>0.0~1.0</code>; if you need <str
 
 <p><img src="../assets/images/loading.gif" alt="Img" /></p>
 
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.Loading</span>
+<figure class="highlight">
+  <pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;net.qiujuer.genius.ui.widget.Loading</span>
     <span class="err">...</span>    
     <span class="na">app:gBackgroundLineSize=</span><span class="s">"1dp"</span>
     <span class="na">app:gForegroundLineSize=</span><span class="s">"3dp"</span>
     <span class="na">app:gBackgroundColor=</span><span class="s">"@color/yellow_500"</span>
     <span class="na">app:gForegroundColor=</span><span class="s">"@color/deep_orange_500"</span>
     <span class="na">app:gProgressFloat=</span><span class="s">"0.65"</span>
-    <span class="na">app:gAutoRun=</span><span class="s">"false"</span><span class="nt">/&gt;</span></code></pre></figure>
+    <span class="na">app:gAutoRun=</span><span class="s">"false"</span><span class="nt">/&gt;</span></code></pre>
+</figure>
 
 <ul>
   <li><code>gBackgroundLineSize</code>:  The loading line background size.</li>
@@ -423,42 +447,45 @@ You can do:</p>
 <h4 id="one">One</h4>
 <p>Cretate new custom control, in this extends <strong>FrameLayout</strong></p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">android.content.Context</span><span class="o">;</span>
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">android.content.Context</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">android.util.AttributeSet</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">android.widget.FrameLayout</span><span class="o">;</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleAttr</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleAttr</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">,</span> <span class="n">defStyleAttr</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleAttr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleRes</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleAttr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">defStyleRes</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">,</span> <span class="n">defStyleAttr</span><span class="o">,</span> <span class="n">defStyleRes</span><span class="o">);</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></figure>
+<span class="o">}</span></code></pre>
+</figure>
 
 <h4 id="two">Two</h4>
 
 <p>Implements <strong>TouchEffectDrawable.PerformClicker</strong>, in this you can delay response button click.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="kd">implements</span> <span class="n">TouchEffectDrawable</span><span class="o">.</span><span class="na">PerformClicker</span> <span class="o">{</span>
     <span class="n">TouchEffectDrawable</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
     <span class="o">...</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">perform</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">perform</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">Runnable</span> <span class="n">runnable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
                 <span class="n">performClick</span><span class="o">();</span>
             <span class="o">}</span>
         <span class="o">};</span>
@@ -469,7 +496,7 @@ You can do:</p>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">performClick</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">performClick</span><span class="o">()</span> <span class="o">{</span>
         <span class="kd">final</span> <span class="n">TouchEffectDrawable</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
 
         <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
@@ -477,20 +504,22 @@ You can do:</p>
         <span class="o">}</span> <span class="k">else</span>
             <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">performClick</span><span class="o">();</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></figure>
+<span class="o">}</span></code></pre>
+</figure>
 
 <h4 id="three">Three</h4>
 
 <p>Now you can init the drawable size and call draw.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="kd">implements</span> <span class="n">TouchEffectDrawable</span><span class="o">.</span><span class="na">PerformClicker</span> <span class="o">{</span>
     <span class="n">TouchEffectDrawable</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
     <span class="o">...</span>
 
     
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onSizeChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">w</span><span class="o">,</span> <span class="kt">int</span> <span class="n">h</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldw</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldh</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onSizeChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">w</span><span class="o">,</span> <span class="kt">int</span> <span class="n">h</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldw</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldh</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">.</span><span class="na">onSizeChanged</span><span class="o">(</span><span class="n">w</span><span class="o">,</span> <span class="n">h</span><span class="o">,</span> <span class="n">oldw</span><span class="o">,</span> <span class="n">oldh</span><span class="o">);</span>
         <span class="n">TouchEffectDrawable</span> <span class="n">drawable</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">drawable</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
@@ -499,13 +528,13 @@ You can do:</p>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">boolean</span> <span class="n">verifyDrawable</span><span class="o">(</span><span class="n">Drawable</span> <span class="n">who</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">verifyDrawable</span><span class="o">(</span><span class="n">Drawable</span> <span class="n">who</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">Drawable</span> <span class="n">drawable</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
         <span class="k">return</span> <span class="o">(</span><span class="n">drawable</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">who</span> <span class="o">==</span> <span class="n">drawable</span><span class="o">)</span> <span class="o">||</span> <span class="kd">super</span><span class="o">.</span><span class="na">verifyDrawable</span><span class="o">(</span><span class="n">who</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="n">onDraw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">onDraw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">.</span><span class="na">onDraw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
 
         <span class="c1">// draw the effect on the image
@@ -517,7 +546,7 @@ You can do:</p>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">onTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">final</span> <span class="n">TouchEffectDrawable</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">isEnabled</span><span class="o">())</span> <span class="o">{</span>
             <span class="n">d</span><span class="o">.</span><span class="na">onTouch</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
@@ -527,22 +556,24 @@ You can do:</p>
 
         <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">onTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></figure>
+<span class="o">}</span></code></pre>
+</figure>
 
 <p>If you set the drawable to the view background, you don’t need <strong>onSizeChanged</strong>, <strong>verifyDrawable</strong> and <strong>onDraw</strong>.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="kd">implements</span> <span class="n">TouchEffectDrawable</span><span class="o">.</span><span class="na">PerformClicker</span> <span class="o">{</span>
     <span class="n">TouchEffectDrawable</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
     <span class="o">...</span>
 
-    <span class="kd">private</span> <span class="kt">void</span> <span class="n">init</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
         <span class="o">...</span>
         <span class="n">setBackgrdound</span><span class="o">(</span><span class="n">mTouchDrawable</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">onTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">final</span> <span class="n">TouchEffectDrawable</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">isEnabled</span><span class="o">())</span> <span class="o">{</span>
             <span class="n">d</span><span class="o">.</span><span class="na">onTouch</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
@@ -552,23 +583,25 @@ You can do:</p>
 
         <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">onTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></figure>
+<span class="o">}</span></code></pre>
+</figure>
 
 <h4 id="end">End</h4>
 
 <p>Okey, in the end, you can init the TouchEffectDrawable, and call in your Constructor.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">net.qiujuer.genius.ui.drawable.TouchEffectDrawable</span><span class="o">;</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomControl</span> <span class="kd">extends</span> <span class="n">FrameLayout</span> <span class="kd">implements</span> <span class="n">TouchEffectDrawable</span><span class="o">.</span><span class="na">PerformClicker</span> <span class="o">{</span>
     <span class="n">TouchEffectDrawable</span> <span class="n">mTouchDrawable</span><span class="o">;</span>
     <span class="o">...</span>
     
-    <span class="kd">public</span> <span class="n">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">CustomControl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
         <span class="n">init</span><span class="o">();</span>
     <span class="o">}</span>
     
-    <span class="kd">private</span> <span class="kt">void</span> <span class="n">init</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">mTouchDrawable</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">mTouchDrawable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TouchEffectDrawable</span><span class="o">();</span>
             <span class="n">mTouchDrawable</span><span class="o">.</span><span class="na">setCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
@@ -608,7 +641,8 @@ You can do:</p>
         <span class="c1">//setBackground(mTouchDrawable);
 </span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></figure>
+<span class="o">}</span></code></pre>
+</figure>
 
 <p><a href="https://github.com/qiujuer/Genius-Android/blob/master/caprice/release/CustomControl.java">Custom View Source</a></p>
 
