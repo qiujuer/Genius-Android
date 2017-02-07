@@ -28,14 +28,14 @@ dependencies {
   compile "net.qiujuer.genius:res:${genius_version}"
 
   // use to bitmap blur and more
-  compile 'net.qiujuer.genius:graphics:2.0.0'
+  compile 'net.qiujuer.genius:graphics:${genius_version}'
 
   // ping/telnet/tracert/dns and run cmd
-  compile 'net.qiujuer.genius:kit-cmd:2.0.0'
+  compile 'net.qiujuer.genius:kit-cmd:${genius_version}'
   // shuttle between ui-thread and child-thread
-  compile 'net.qiujuer.genius:kit-handler:2.0.0'
+  compile 'net.qiujuer.genius:kit-handler:${genius_version}'
   // calss reflect
-  compile 'net.qiujuer.genius:kit-reflect:2.0.0'
+  compile 'net.qiujuer.genius:kit-reflect:${genius_version}'
 }
 {% endhighlight %}
 
