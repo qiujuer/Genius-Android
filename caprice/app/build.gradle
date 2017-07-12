@@ -36,10 +36,10 @@ dependencies {
     //compile project(':kit-reflect')
     //compile project(':kit-handler')
 
-    compile 'net.qiujuer.genius:ui:2.0.0'
-    compile 'net.qiujuer.genius:res:2.0.0'
-    compile 'net.qiujuer.genius:graphics:2.0.0'
-    compile 'net.qiujuer.genius:kit-cmd:2.0.0'
-    compile 'net.qiujuer.genius:kit-reflect:2.0.0'
-    compile 'net.qiujuer.genius:kit-handler:2.0.0'
+    compile 'net.qiujuer.genius:ui:2.0.1'
+    compile 'net.qiujuer.genius:res:2.0.1'
+    compile 'net.qiujuer.genius:graphics:2.0.1'
+    compile 'net.qiujuer.genius:kit-cmd:2.0.1'
+    compile 'net.qiujuer.genius:kit-reflect:2.0.1'
+    compile 'net.qiujuer.genius:kit-handler:2.0.1'
 }
