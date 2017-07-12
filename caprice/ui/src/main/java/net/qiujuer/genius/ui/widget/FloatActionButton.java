@@ -119,7 +119,7 @@ public class FloatActionButton extends ImageView implements TouchEffectDrawable.
         float shadowDy = a.getDimension(R.styleable.FloatActionButton_shadowDy, density * Ui.Y_OFFSET);
         float shadowR = a.getDimension(R.styleable.FloatActionButton_shadowRadius, (density * Ui.SHADOW_RADIUS));
         int shadowAlpha = a.getInt(R.styleable.FloatActionButton_shadowAlpha, 0x20);
-        float touchDurationRate = a.getFloat(R.styleable.ImageView_gTouchDurationRate, 1.0f);
+        float touchDurationRate = a.getFloat(R.styleable.FloatActionButton_gTouchDurationRate, 1.0f);
         // Load intercept event type, the default is intercept click event
         int interceptEvent = a.getInt(R.styleable.FloatActionButton_gInterceptEvent, 0x0001);
         a.recycle();
