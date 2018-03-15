@@ -38,18 +38,18 @@
 ```groovy
 dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.0'
-  compile 'net.qiujuer.genius:res:2.0.0'
+  compile 'net.qiujuer.genius:ui:2.0.1'
+  compile 'net.qiujuer.genius:res:2.0.1'
   
   // use to bitmap blur and more
-  compile 'net.qiujuer.genius:graphics:2.0.0'
+  compile 'net.qiujuer.genius:graphics:2.0.1'
   
   // ping/telnet/tracert/dns and run cmd
-  compile 'net.qiujuer.genius:kit-cmd:2.0.0'
+  compile 'net.qiujuer.genius:kit-cmd:2.0.1'
   // shuttle between ui-thread and child-thread
-  compile 'net.qiujuer.genius:kit-handler:2.0.0'
+  compile 'net.qiujuer.genius:kit-handler:2.0.1'
   // calss reflect
-  compile 'net.qiujuer.genius:kit-reflect:2.0.0'
+  compile 'net.qiujuer.genius:kit-reflect:2.0.1'
 }
 ```
 
@@ -75,6 +75,11 @@ dependencies {
 * QQ群：[`387403637`](http://shang.qq.com/wpa/qunwpa?idkey=3f1ed8e41ed84b07775ca593032c5d956fbd8c3320ce94817bace00549d58a8f)
 * Weibo： [`@qiujuer`](http://weibo.com/qiujuer)
 * 网站：[`www.qiujuer.net`](http://www.qiujuer.net)
+
+**公共群**
+为了方便所有同学能一起相互交流，大家可以添加群：**680054214**
+
+![Android](https://user-images.githubusercontent.com/5687320/37447025-e5537666-285a-11e8-9a3d-9e345cc32bf1.jpg)
 
 
 
