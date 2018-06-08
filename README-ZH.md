@@ -38,18 +38,18 @@
 ```groovy
 dependencies {
   // ui module
-  compile 'net.qiujuer.genius:ui:2.0.1'
-  compile 'net.qiujuer.genius:res:2.0.1'
+  api 'net.qiujuer.genius:ui:2.0.1'
+  api 'net.qiujuer.genius:res:2.0.1'
   
   // use to bitmap blur and more
-  compile 'net.qiujuer.genius:graphics:2.0.1'
+  api 'net.qiujuer.genius:graphics:2.0.1'
   
   // ping/telnet/tracert/dns and run cmd
-  compile 'net.qiujuer.genius:kit-cmd:2.0.1'
+  api 'net.qiujuer.genius:kit-cmd:2.0.1'
   // shuttle between ui-thread and child-thread
-  compile 'net.qiujuer.genius:kit-handler:2.0.1'
+  api 'net.qiujuer.genius:kit-handler:2.0.1'
   // calss reflect
-  compile 'net.qiujuer.genius:kit-reflect:2.0.1'
+  api 'net.qiujuer.genius:kit-reflect:2.0.1'
 }
 ```
 
