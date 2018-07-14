@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
-    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "net.qiujuer.sample.genius"
@@ -21,25 +20,25 @@ android {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testImplementation 'junit:junit:4.12'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    api 'com.android.support:appcompat-v7:27.1.1'
 
-    //compile project(':ui')
-    //compile project(':res')
-    //compile project(':graphics')
-    //compile project(':kit-cmd')
-    //compile project(':kit-reflect')
-    //compile project(':kit-handler')
+    //api project(':ui')
+    //api project(':res')
+    //api project(':graphics')
+    //api project(':kit-cmd')
+    //api project(':kit-reflect')
+    //api project(':kit-handler')
 
-    compile 'net.qiujuer.genius:ui:2.0.1'
-    compile 'net.qiujuer.genius:res:2.0.1'
-    compile 'net.qiujuer.genius:graphics:2.0.1'
-    compile 'net.qiujuer.genius:kit-cmd:2.0.1'
-    compile 'net.qiujuer.genius:kit-reflect:2.0.1'
-    compile 'net.qiujuer.genius:kit-handler:2.0.1'
+    api 'net.qiujuer.genius:ui:2.0.1'
+    api 'net.qiujuer.genius:res:2.0.1'
+    api 'net.qiujuer.genius:graphics:2.0.1'
+    api 'net.qiujuer.genius:kit-cmd:2.0.1'
+    api 'net.qiujuer.genius:kit-reflect:2.0.1'
+    api 'net.qiujuer.genius:kit-handler:2.0.1'
 }
