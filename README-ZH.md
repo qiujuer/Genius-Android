@@ -1,4 +1,7 @@
-﻿[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
+﻿![License](https://img.shields.io/github/license/qiujuer/Genius-Android.svg)
+![License](https://img.shields.io/github/stars/qiujuer/Genius-Android.svg)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Genius--Android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1463)
+[![Download](https://api.bintray.com/packages/qiujuer/maven/net.qiujuer.genius%3Aui/images/download.svg)](https://bintray.com/qiujuer/maven/net.qiujuer.genius%3Aui/_latestVersion)
 
 [`GitHub`](https://github.com/qiujuer/Genius-Android) [`OSChina`](http://git.oschina.net/qiujuer/Genius-Android) [`中文`](README-ZH.md) [`English`](README.md)
 
@@ -38,18 +41,18 @@
 ```groovy
 dependencies {
   // ui module
-  api 'net.qiujuer.genius:ui:2.0.1'
-  api 'net.qiujuer.genius:res:2.0.1'
+  api 'net.qiujuer.genius:ui:2.1.0'
+  api 'net.qiujuer.genius:res:2.1.0'
   
   // use to bitmap blur and more
-  api 'net.qiujuer.genius:graphics:2.0.1'
+  api 'net.qiujuer.genius:graphics:2.1.0'
   
   // ping/telnet/tracert/dns and run cmd
-  api 'net.qiujuer.genius:kit-cmd:2.0.1'
+  api 'net.qiujuer.genius:kit-cmd:2.1.0'
   // shuttle between ui-thread and child-thread
-  api 'net.qiujuer.genius:kit-handler:2.0.1'
+  api 'net.qiujuer.genius:kit-handler:2.1.0'
   // calss reflect
-  api 'net.qiujuer.genius:kit-reflect:2.0.1'
+  api 'net.qiujuer.genius:kit-reflect:2.1.0'
 }
 ```
 
