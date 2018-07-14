@@ -327,6 +327,15 @@ public class Loading extends View {
         } else if (style == STYLE_LINE) {
             drawable = new LoadingLineDrawable();
         }
+        setLoadingDrawable(drawable);
+    }
+
+    /**
+     * In this we set LoadingDrawable really
+     *
+     * @param drawable {@link LoadingDrawable}
+     */
+    protected void setLoadingDrawable(LoadingDrawable drawable) {
         if (drawable == null) {
             throw new NullPointerException("LoadingDrawable is null, You can only set the STYLE_CIRCLE and STYLE_LINE parameters.");
         } else {
@@ -377,21 +386,6 @@ public class Loading extends View {
         final int paddingTop = getPaddingTop();
         final int paddingRight = getPaddingRight();
         final int paddingBottom = getPaddingBottom();
-
-        /*
-        int curW = w - paddingLeft - paddingRight;
-        int curH = h - paddingTop - paddingBottom;
-
-        if (curW == curH) {
-            mLoadingDrawable.setBounds(paddingLeft, paddingTop, curW + paddingLeft, curH + paddingTop);
-        } else if (curW > curH) {
-            final int left = paddingLeft + ((curW - curH) >> 1);
-            mLoadingDrawable.setBounds(left, paddingTop, curH + left, curH + paddingTop);
-        } else if (curW < curH) {
-            final int top = paddingTop + ((curH - curW) >> 1);
-            mLoadingDrawable.setBounds(paddingLeft, top, curW + paddingLeft, curW + top);
-        }
-        */
         mLoadingDrawable.setBounds(paddingLeft, paddingTop, w - paddingRight, h - paddingBottom);
     }
 
