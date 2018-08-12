@@ -23,6 +23,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -102,7 +103,43 @@ public class Loading extends View {
         ColorStateList colorStateList = a.getColorStateList(R.styleable.Loading_gBackgroundColor);
         if (colorStateList != null)
             bgColor = colorStateList.getDefaultColor();
-        int fgColorId = a.getResourceId(R.styleable.Loading_gForegroundColor, R.array.g_default_loading_fg);
+
+        int fgColor = Color.BLACK;
+        int[] fgColorArray = null;
+        try {
+            fgColor = a.getColor(R.styleable.Loading_gForegroundColor, 0);
+        } catch (Exception ignored) {
+            int fgColorId = a.getResourceId(R.styleable.Loading_gForegroundColor, R.array.g_default_loading_fg);
+            // Check for IDE preview render
+            if (!isInEditMode()) {
+                TypedArray taColor = resource.obtainTypedArray(fgColorId);
+                int length = taColor.length();
+                if (length > 0) {
+                    fgColorArray = new int[length];
+                    for (int i = 0; i < length; i++) {
+                        fgColorArray[i] = taColor.getColor(i, Color.BLACK);
+                    }
+                } else {
+                    String type = resource.getResourceTypeName(fgColorId);
+                    try {
+                        switch (type) {
+                            case "color":
+                                fgColor = resource.getColor(fgColorId);
+                                break;
+                            case "array":
+                                fgColorArray = resource.getIntArray(fgColorId);
+                                break;
+                            default:
+                                fgColorArray = resource.getIntArray(R.array.g_default_loading_fg);
+                                break;
+                        }
+                    } catch (Exception e) {
+                        fgColorArray = resource.getIntArray(R.array.g_default_loading_fg);
+                    }
+                }
+                taColor.recycle();
+            }
+        }
 
         int style = a.getInt(R.styleable.Loading_gProgressStyle, 1);
         boolean autoRun = a.getBoolean(R.styleable.Loading_gAutoRun, true);
@@ -119,24 +156,10 @@ public class Loading extends View {
         setForegroundLineSize(fgLineSize);
         setBackgroundColor(bgColor);
 
-        // Check for IDE preview render
-        if (!isInEditMode()) {
-            String type = resource.getResourceTypeName(fgColorId);
-            try {
-                switch (type) {
-                    case "color":
-                        setForegroundColor(resource.getColor(fgColorId));
-                        break;
-                    case "array":
-                        setForegroundColor(resource.getIntArray(fgColorId));
-                        break;
-                    default:
-                        setForegroundColor(resource.getIntArray(R.array.g_default_loading_fg));
-                        break;
-                }
-            } catch (Exception e) {
-                setForegroundColor(resource.getIntArray(R.array.g_default_loading_fg));
-            }
+        if (fgColorArray == null) {
+            setForegroundColor(fgColor);
+        } else {
+            setForegroundColor(fgColorArray);
         }
     }
 
