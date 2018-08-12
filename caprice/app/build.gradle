@@ -28,17 +28,17 @@ dependencies {
 
     api 'com.android.support:appcompat-v7:27.1.1'
 
-    //api project(':ui')
-    //api project(':res')
-    //api project(':graphics')
-    //api project(':kit-cmd')
-    //api project(':kit-reflect')
-    //api project(':kit-handler')
+    api project(':ui')
+    api project(':res')
+    api project(':graphics')
+    api project(':kit-cmd')
+    api project(':kit-reflect')
+    api project(':kit-handler')
 
-    api 'net.qiujuer.genius:ui:2.0.1'
-    api 'net.qiujuer.genius:res:2.0.1'
-    api 'net.qiujuer.genius:graphics:2.0.1'
-    api 'net.qiujuer.genius:kit-cmd:2.0.1'
-    api 'net.qiujuer.genius:kit-reflect:2.0.1'
-    api 'net.qiujuer.genius:kit-handler:2.0.1'
+    //api 'net.qiujuer.genius:ui:2.0.1'
+    //api 'net.qiujuer.genius:res:2.0.1'
+    //api 'net.qiujuer.genius:graphics:2.0.1'
+    //api 'net.qiujuer.genius:kit-cmd:2.0.1'
+    //api 'net.qiujuer.genius:kit-reflect:2.0.1'
+    //api 'net.qiujuer.genius:kit-handler:2.0.1'
 }
