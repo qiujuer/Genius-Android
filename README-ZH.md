@@ -41,18 +41,18 @@
 ```groovy
 dependencies {
   // ui module
-  api 'net.qiujuer.genius:ui:2.1.0'
-  api 'net.qiujuer.genius:res:2.1.0'
+  api 'net.qiujuer.genius:ui:2.1.1'
+  api 'net.qiujuer.genius:res:2.1.1'
   
   // use to bitmap blur and more
-  api 'net.qiujuer.genius:graphics:2.1.0'
+  api 'net.qiujuer.genius:graphics:2.1.1'
   
   // ping/telnet/tracert/dns and run cmd
-  api 'net.qiujuer.genius:kit-cmd:2.1.0'
+  api 'net.qiujuer.genius:kit-cmd:2.1.1'
   // shuttle between ui-thread and child-thread
-  api 'net.qiujuer.genius:kit-handler:2.1.0'
+  api 'net.qiujuer.genius:kit-handler:2.1.1'
   // calss reflect
-  api 'net.qiujuer.genius:kit-reflect:2.1.0'
+  api 'net.qiujuer.genius:kit-reflect:2.1.1'
 }
 ```
 
