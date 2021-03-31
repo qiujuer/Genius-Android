@@ -37,8 +37,4 @@ android {
     }
 }
 
-dependencies {
-    testImplementation 'junit:junit:4.12'
-}
-
 apply from: '../script/gradle-jcenter-push.gradle'
