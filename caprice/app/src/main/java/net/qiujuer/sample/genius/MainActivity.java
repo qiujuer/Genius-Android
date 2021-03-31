@@ -3,8 +3,8 @@ package net.qiujuer.sample.genius;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initToolbar() {
         // ToolBar
         RipAnimDrawable ripAnim = new RipAnimDrawable();
-        ripAnim.setColor(getResources().getColor(R.color.cyan_600));
+        ripAnim.setColor(getResources().getColor(R.color.purple_500));
         ripAnim.setFluCount(0, 0, 0, 36);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.title);

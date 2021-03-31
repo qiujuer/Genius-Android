@@ -19,14 +19,16 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-    api project(':ui')
-    api project(':res')
-    api project(':graphics')
-    api project(':kit-cmd')
-    api project(':kit-reflect')
-    api project(':kit-handler')
+    implementation project(':ui')
+    implementation project(':res')
+    implementation project(':graphics')
+    implementation project(':kit-cmd')
+    implementation project(':kit-reflect')
+    implementation project(':kit-handler')
 
     //api 'net.qiujuer.genius:ui:2.0.1'
     //api 'net.qiujuer.genius:res:2.0.1'

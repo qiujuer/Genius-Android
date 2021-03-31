@@ -1,8 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.qiujuer.genius.kit.handler">
-
-    <application
-        android:allowBackup="true"
-        android:supportsRtl="true" />
-
-</manifest>
+<manifest package="net.qiujuer.genius.kit.handler" />
