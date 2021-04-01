@@ -1,6 +1,5 @@
 buildscript {
     repositories {
-        jcenter()
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -20,7 +19,6 @@ allprojects {
     group = POM_GROUP_ID
 
     repositories {
-        jcenter()
         google()
         mavenCentral()
         gradlePluginPortal()
