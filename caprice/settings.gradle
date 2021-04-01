@@ -1,1 +1,2 @@
 include ':app', ':res', ':ui', ':kit-cmd', ':kit-reflect', ':kit-handler', ':graphics'
+rootProject.name = "GeniusUi"

@@ -9,7 +9,6 @@ android {
         targetSdkVersion ANDROID_BUILD_TARGET_SDK_VERSION as int
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,20 +19,16 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-    api 'com.android.support:appcompat-v7:27.1.1'
-
-    api project(':ui')
-    api project(':res')
-    api project(':graphics')
-    api project(':kit-cmd')
-    api project(':kit-reflect')
-    api project(':kit-handler')
+    implementation project(':ui')
+    implementation project(':res')
+    implementation project(':graphics')
+    implementation project(':kit-cmd')
+    implementation project(':kit-reflect')
+    implementation project(':kit-handler')
 
     //api 'net.qiujuer.genius:ui:2.0.1'
     //api 'net.qiujuer.genius:res:2.0.1'

@@ -41,18 +41,18 @@
 ```groovy
 dependencies {
   // ui module
-  api 'net.qiujuer.genius:ui:2.1.1'
-  api 'net.qiujuer.genius:res:2.1.1'
+  api 'net.qiujuer.genius:ui:2.2.0'
+  api 'net.qiujuer.genius:res:2.2.0'
   
   // use to bitmap blur and more
-  api 'net.qiujuer.genius:graphics:2.1.1'
+  api 'net.qiujuer.genius:graphics:2.2.0'
   
   // ping/telnet/tracert/dns and run cmd
-  api 'net.qiujuer.genius:kit-cmd:2.1.1'
+  api 'net.qiujuer.genius:kit-cmd:2.2.0'
   // shuttle between ui-thread and child-thread
-  api 'net.qiujuer.genius:kit-handler:2.1.1'
+  api 'net.qiujuer.genius:kit-handler:2.2.0'
   // calss reflect
-  api 'net.qiujuer.genius:kit-reflect:2.1.1'
+  api 'net.qiujuer.genius:kit-reflect:2.2.0'
 }
 ```
 
@@ -79,17 +79,6 @@ dependencies {
 * Weibo： [`@qiujuer`](http://weibo.com/qiujuer)
 * 网站：[`www.qiujuer.net`](http://www.qiujuer.net)
 
-**公共群**
-为了方便所有同学能一起相互交流，大家可以添加群：**680054214**
-
-![Android](https://user-images.githubusercontent.com/5687320/37447025-e5537666-285a-11e8-9a3d-9e345cc32bf1.jpg)
-
-
-
-## 捐助我
-
-你可以通过支付宝赞助我：`qiujuer@live.cn`
-
 
 
 ## 关于我
@@ -106,7 +95,7 @@ dependencies {
 License
 --------
 
-    Copyright 2014-2017 Qiujuer.
+    Copyright 2014-2021 Qiujuer.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

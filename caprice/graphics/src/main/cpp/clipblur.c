@@ -8,6 +8,7 @@ Description:Call iamge bluring by clip parts
 #include "stackblur.h"
 #include "clipblur.h"
 #include <string.h>
+#include <stdlib.h>
 
 int *clip_blur_ARGB_8888(int *pix, const int w, const int h,
                          const int radius, const int parts) {
